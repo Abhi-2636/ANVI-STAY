@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>
+    Anvi Stay - We Listen, We Care, You Stay | Student Housing near LPU
+  </title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Admin Login Styles -->
+  <link rel="stylesheet" href="css/admin-login.css" />
+</head>
+
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader"
+    class="fixed inset-0 bg-white flex flex-col items-center justify-center z-[9999] transition-opacity duration-500">
+    <h2 class="text-3xl font-black text-[#C8A24A] tracking-tighter">
+      ANVI STAY
+    </h2>
+    <p class="text-slate-400 text-xs font-bold mt-2">
+      WE LISTEN • WE CARE • YOU STAY
+    </p>
+  </div>
+
+  <!-- Header Navigation (loaded from pages/header.html) -->
+  <div id="include-header"></div>
+
+  <!-- Page Views (loaded from pages/*.html) -->
+  <div id="include-landing"></div>
+  <div id="include-about"></div>
+  <div id="include-terms"></div>
+  <div id="include-privacy"></div>
+  <div id="include-tos"></div>
+  <div id="include-tenant"></div>
+  <div id="include-admin-login"></div>
+  <div id="include-landlord"></div>
+
+  <!-- Overlays - Drawer, Contact Modal, Room Detail -->
+  <div id="include-overlays"></div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[99999] hidden">
+    <div id="toast-inner" class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold"></div>
+  </div>
+
+  <!-- HTML Include Loader -->
+  <script>
+    // Load all HTML partials then initialize the app
+    const includes = [
+      { id: 'include-header', src: 'pages/header.html' },
+      { id: 'include-landing', src: 'pages/landing.html' },
+      { id: 'include-about', src: 'pages/about.html' },
+      { id: 'include-terms', src: 'pages/terms.html' },
+      { id: 'include-privacy', src: 'pages/privacy.html' },
+      { id: 'include-tos', src: 'pages/tos.html' },
+      { id: 'include-tenant', src: 'pages/tenant.html' },
+      { id: 'include-admin-login', src: 'pages/admin-login.html' },
+      { id: 'include-landlord', src: 'pages/landlord.html' },
+      { id: 'include-overlays', src: 'pages/overlays.html' },
+    ];
+
+    async function loadIncludes() {
+      const promises = includes.map(async ({ id, src }) => {
+        try {
+          const resp = await fetch(src);
+          if (!resp.ok) throw new Error(`Failed to load ${src}: ${resp.status}`);
+          const html = await resp.text();
+          const el = document.getElementById(id);
+          if (el) {
+            el.outerHTML = html;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      await Promise.all(promises);
+
+      // After all HTML is loaded, load the main app script
+      const appScript = document.createElement('script');
+      appScript.type = 'module';
+      appScript.src = 'js/app.js';
+      document.body.appendChild(appScript);
+    }
+
+    loadIncludes();
+  </script>
+
+  <!-- Preloader safety: always hide -->
+  <script>
+    function forceHidePreloader() {
+      const pr = document.getElementById("preloader");
+      if (pr) {
+        pr.style.opacity = "0";
+        setTimeout(() => {
+          try {
+            pr.remove();
+          } catch (e) { }
+        }, 600);
+      }
+    }
+    window.addEventListener("load", () => {
+      setTimeout(forceHidePreloader, 800);
+    });
+    setTimeout(forceHidePreloader, 3500);
+    window.addEventListener("error", forceHidePreloader);
+    window.addEventListener("unhandledrejection", forceHidePreloader);
+  </script>
+
+</body>
+
+</html>

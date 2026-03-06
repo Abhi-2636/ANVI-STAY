@@ -1,0 +1,975 @@
+<!-- ═══ SLIDE-OVER DRAWER (Room Editor) ═══ -->
+<div class="admin-drawer-backdrop" id="drawer-backdrop" onclick="closeLModal()"></div>
+<div class="admin-drawer" id="l-modal">
+  <div class="drawer-header">
+    <div class="flex items-center gap-4">
+      <div id="lm-room-id" class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-black"
+        style="background: var(--gold); color: var(--navy)">
+        00
+      </div>
+      <div>
+        <div class="flex items-center gap-3">
+          <span id="lm-room-title" class="text-lg font-black">Room 00</span>
+          <span id="lm-room-status-badge"
+            class="text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded-lg bg-white/20"></span>
+        </div>
+        <p class="text-white/50 text-xs font-semibold mt-0.5" id="lm-room-subtitle"></p>
+      </div>
+    </div>
+    <button onclick="closeLModal()"
+      class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/70 hover:bg-white/20 hover:text-white transition">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="drawer-body">
+    <!-- Section: Tenant Info -->
+    <div class="drawer-section">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-user mr-2 text-slate-400"></i>Tenant
+          Information</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <!-- Photo Upload -->
+        <div class="flex items-center gap-4 mb-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+          <div
+            class="w-20 h-24 bg-white rounded-lg border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden flex-shrink-0"
+            id="lm-photo-preview">
+            <i class="fas fa-camera text-slate-300 text-xl"></i>
+          </div>
+          <div class="flex-1">
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-2">Passport Size Photo
+              (JPEG)</label>
+            <input type="file" id="lm-photo-upload" accept="image/jpeg,image/jpg" onchange="
+                    handlePhotoUpload(
+                      event,
+                      'lm-photo-preview',
+                      'lm-photo-data',
+                    )
+                  "
+              class="text-xs font-bold text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-[#C8A24A] file:text-white file:cursor-pointer cursor-pointer w-full" />
+            <input type="hidden" id="lm-photo-data" />
+            <p class="text-[9px] text-slate-400 mt-1">
+              JPEG only • Passport size recommended
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Status</label>
+            <select id="lm-status"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]">
+              <option>Available</option>
+              <option>Booked</option>
+              <option>Occupied</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Full Name</label>
+            <input type="text" id="lm-name"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="Tenant name" />
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Phone</label>
+            <input type="tel" id="lm-phone"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="+91 XXXXX" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Nationality</label>
+            <select id="lm-nationality" onchange="toggleForeignerFields('lm')"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]">
+              <option value="Indian">🇮🇳 Indian</option>
+              <option value="Foreign">🌍 Foreign</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">College ID No</label>
+            <input type="text" id="lm-college-id"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="e.g. 12345678" />
+          </div>
+        </div>
+
+        <!-- Indian: Aadhaar -->
+        <div id="lm-indian-fields" class="mb-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Aadhaar No</label>
+              <input type="text" id="lm-aadhaar-no"
+                class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+                placeholder="XXXX XXXX XXXX" maxlength="14" />
+            </div>
+            <div>
+              <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Check-In</label>
+              <input type="date" id="lm-checkin"
+                class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Foreign: Passport & Visa (shown only when Foreign selected) -->
+        <div id="lm-foreign-fields" class="hidden mb-3">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fas fa-globe text-amber-600 text-sm"></i>
+              <p class="text-[10px] font-black uppercase tracking-widest text-amber-600">
+                Foreign Student — Required
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <div>
+                <label class="text-[10px] font-bold text-amber-700 uppercase block mb-1">Passport No *</label>
+                <input type="text" id="lm-passport-no"
+                  class="w-full px-3 py-2 border border-amber-300 rounded-lg text-sm font-bold outline-none focus:border-amber-500 bg-white"
+                  placeholder="e.g. A12345678" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-amber-700 uppercase block mb-1">Visa No *</label>
+                <input type="text" id="lm-visa-no"
+                  class="w-full px-3 py-2 border border-amber-300 rounded-lg text-sm font-bold outline-none focus:border-amber-500 bg-white"
+                  placeholder="e.g. V98765432" />
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Aadhaar No
+                  <span class="text-slate-300">(if any)</span></label>
+                <input type="text" id="lm-aadhaar-no-foreign"
+                  class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+                  placeholder="XXXX XXXX XXXX" maxlength="14" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Check-In</label>
+                <input type="date" id="lm-checkin-foreign"
+                  class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+              </div>
+            </div>
+            <p class="text-[9px] font-bold text-rose-500 mt-3 flex items-center gap-1">
+              <i class="fas fa-exclamation-triangle"></i> Photo is mandatory
+              for foreign students
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Portal Password</label>
+            <input type="text" id="lm-student-password"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="Set password" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Agreement End</label>
+            <input type="date" id="lm-agreement-end"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: 2nd Tenant -->
+    <!-- Section: Emergency Contact (Guardian) -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-phone-alt mr-2 text-rose-400"></i>Emergency Contact (Guardian)</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Guardian Name</label>
+            <input type="text" id="lm-guardian-name"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="Father/Mother name" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Guardian Phone</label>
+            <input type="text" id="lm-guardian-phone"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="+91 XXXXX XXXXX" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Relation</label>
+            <select id="lm-guardian-relation"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]">
+              <option value="">Select</option>
+              <option>Father</option>
+              <option>Mother</option>
+              <option>Brother</option>
+              <option>Sister</option>
+              <option>Uncle</option>
+              <option>Guardian</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="flex items-end gap-2">
+            <button type="button" onclick="callGuardian()"
+              class="flex-1 px-3 py-2 bg-emerald-500 text-white rounded-lg text-xs font-black hover:bg-emerald-600 transition">
+              <i class="fas fa-phone mr-1"></i> Call
+            </button>
+            <button type="button" onclick="whatsappGuardian()"
+              class="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg text-xs font-black hover:bg-green-700 transition">
+              <i class="fab fa-whatsapp mr-1"></i> WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: 2nd Tenant -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-user-plus mr-2 text-indigo-400"></i>2nd Tenant
+          (Roommate)</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <!-- 2nd Tenant Photo Upload -->
+        <div class="flex items-center gap-4 mb-4 p-4 bg-indigo-50/50 rounded-xl border border-indigo-100">
+          <div
+            class="w-20 h-24 bg-white rounded-lg border-2 border-dashed border-indigo-300 flex items-center justify-center overflow-hidden flex-shrink-0"
+            id="lm-t2-photo-preview">
+            <i class="fas fa-camera text-indigo-300 text-xl"></i>
+          </div>
+          <div class="flex-1">
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-2">Passport Size Photo
+              (JPEG)</label>
+            <input type="file" id="lm-t2-photo-upload" accept="image/jpeg,image/jpg" onchange="
+                    handlePhotoUpload(
+                      event,
+                      'lm-t2-photo-preview',
+                      'lm-t2-photo-data',
+                    )
+                  "
+              class="text-xs font-bold text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-indigo-500 file:text-white file:cursor-pointer cursor-pointer w-full" />
+            <input type="hidden" id="lm-t2-photo-data" />
+            <p class="text-[9px] text-slate-400 mt-1">
+              JPEG only • Passport size recommended
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">Full Name</label>
+            <input type="text" id="lm-t2-name"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-indigo-400"
+              placeholder="2nd tenant name" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">Phone</label>
+            <input type="tel" id="lm-t2-phone"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-indigo-400"
+              placeholder="+91 XXXXX" />
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">Nationality</label>
+            <select id="lm-t2-nationality" onchange="toggleForeignerFields('lm-t2')"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-indigo-400">
+              <option value="Indian">🇮🇳 Indian</option>
+              <option value="Foreign">🌍 Foreign</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">College ID No</label>
+            <input type="text" id="lm-t2-college-id"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-indigo-400"
+              placeholder="e.g. 12345678" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">Aadhaar No</label>
+            <input type="text" id="lm-t2-aadhaar-no"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-indigo-400"
+              placeholder="XXXX XXXX XXXX" maxlength="14" />
+          </div>
+        </div>
+
+        <!-- 2nd Tenant Foreign Fields -->
+        <div id="lm-t2-foreign-fields" class="hidden mb-3">
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fas fa-globe text-amber-600 text-sm"></i>
+              <p class="text-[10px] font-black uppercase tracking-widest text-amber-600">
+                Foreign Student — Required
+              </p>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[10px] font-bold text-amber-700 uppercase block mb-1">Passport No *</label>
+                <input type="text" id="lm-t2-passport-no"
+                  class="w-full px-3 py-2 border border-amber-300 rounded-lg text-sm font-bold outline-none focus:border-amber-500 bg-white"
+                  placeholder="e.g. A12345678" />
+              </div>
+              <div>
+                <label class="text-[10px] font-bold text-amber-700 uppercase block mb-1">Visa No *</label>
+                <input type="text" id="lm-t2-visa-no"
+                  class="w-full px-3 py-2 border border-amber-300 rounded-lg text-sm font-bold outline-none focus:border-amber-500 bg-white"
+                  placeholder="e.g. V98765432" />
+              </div>
+            </div>
+            <p class="text-[9px] font-bold text-rose-500 mt-3 flex items-center gap-1">
+              <i class="fas fa-exclamation-triangle"></i> Photo is mandatory
+              for foreign students
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Financials -->
+    <div class="drawer-section">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-indian-rupee-sign mr-2 text-emerald-500"></i>Financials</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="grid grid-cols-3 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Rent ₹</label>
+            <input type="number" id="lm-rent"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Maint ₹</label>
+            <input type="number" id="lm-maint" value="300"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Security ₹</label>
+            <input type="number" id="lm-security" oninput="if(typeof calcCheckout === 'function') calcCheckout()"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl cursor-pointer">
+            <input type="checkbox" id="lm-rent-paid" class="w-4 h-4 accent-emerald-500" />
+            <span class="text-xs font-bold text-slate-600">Rent Paid</span>
+          </label>
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl cursor-pointer">
+            <input type="checkbox" id="lm-elec-paid" class="w-4 h-4 accent-emerald-500" />
+            <span class="text-xs font-bold text-slate-600">Elec Paid</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Electricity Meters -->
+    <div class="drawer-section">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-bolt mr-2 text-amber-500"></i>Electricity
+          Meters</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">
+          Main Meter
+        </p>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Previous</label>
+            <input type="number" id="lm-e-last"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-lg font-black outline-none focus:border-[#C8A24A] text-center" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Current</label>
+            <input type="number" id="lm-e-curr"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-lg font-black outline-none focus:border-[#C8A24A] text-center" />
+          </div>
+        </div>
+        <p class="text-[10px] font-bold text-blue-500 uppercase mb-2">
+          Backup / Inverter
+        </p>
+        <div class="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Previous</label>
+            <input type="number" id="lm-i-last"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-lg font-black outline-none focus:border-[#C8A24A] text-center" />
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Current</label>
+            <input type="number" id="lm-i-curr"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-lg font-black outline-none focus:border-[#C8A24A] text-center" />
+          </div>
+        </div>
+        <div class="flex items-center justify-between bg-slate-50 p-4 rounded-xl">
+          <div class="flex items-center gap-3">
+            <span class="text-xs font-bold text-slate-500">Rate ₹/unit</span>
+            <input type="number" id="lm-e-rate" value="13"
+              class="w-16 px-2 py-1 border border-slate-200 rounded-lg font-black text-center text-sm" />
+          </div>
+          <div class="text-right">
+            <p class="text-[9px] font-bold text-slate-400 uppercase">
+              Total Bill
+            </p>
+            <p id="lm-total-bill" class="text-2xl font-black text-slate-900">
+              ₹0
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Documents -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-file-alt mr-2 text-blue-500"></i>Documents</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="space-y-3">
+          <div class="flex flex-col gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold text-slate-400 uppercase">Aadhaar Document</label>
+              <label class="flex items-center gap-1"><input type="checkbox" id="lm-aadhaar-v"
+                  class="accent-emerald-500" /><span class="text-[10px] font-bold">Verified</span></label>
+            </div>
+            <input type="file" accept="image/*,application/pdf"
+              onchange="window.handleDocumentUpload(event, 'lm-aadhaar')"
+              class="text-[10px] w-full text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-slate-100 file:text-slate-600 cursor-pointer" />
+            <input type="text" id="lm-aadhaar" placeholder="Or paste document URL..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+
+          <div class="flex flex-col gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold text-slate-400 uppercase">University ID</label>
+              <label class="flex items-center gap-1"><input type="checkbox" id="lm-uni-id-v"
+                  class="accent-emerald-500" /><span class="text-[10px] font-bold">Verified</span></label>
+            </div>
+            <input type="file" accept="image/*,application/pdf"
+              onchange="window.handleDocumentUpload(event, 'lm-uni-id')"
+              class="text-[10px] w-full text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-slate-100 file:text-slate-600 cursor-pointer" />
+            <input type="text" id="lm-uni-id" placeholder="Or paste document URL..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+
+          <div class="flex flex-col gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold text-slate-400 uppercase">Rental Agreement</label>
+              <label class="flex items-center gap-1"><input type="checkbox" id="lm-rental-signed"
+                  class="accent-emerald-500" /><span class="text-[10px] font-bold">Signed</span></label>
+            </div>
+            <input type="file" accept="image/*,application/pdf" onchange="
+                    window.handleDocumentUpload(event, 'lm-rental-agreement')
+                  "
+              class="text-[10px] w-full text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-slate-100 file:text-slate-600 cursor-pointer" />
+            <input type="text" id="lm-rental-agreement" placeholder="Or paste document URL..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+
+          <div class="flex flex-col gap-2 border-b border-slate-100 pb-3">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold text-slate-400 uppercase">Other Doc 1</label>
+              <label class="flex items-center gap-1"><input type="checkbox" id="lm-doc1-v"
+                  class="accent-emerald-500" /><span class="text-[10px] font-bold">Verified</span></label>
+            </div>
+            <input type="file" accept="image/*,application/pdf" onchange="window.handleDocumentUpload(event, 'lm-doc1')"
+              class="text-[10px] w-full text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-slate-100 file:text-slate-600 cursor-pointer" />
+            <input type="text" id="lm-doc1" placeholder="Or paste document URL..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <label class="text-[10px] font-bold text-slate-400 uppercase">Other Doc 2</label>
+              <label class="flex items-center gap-1"><input type="checkbox" id="lm-doc2-v"
+                  class="accent-emerald-500" /><span class="text-[10px] font-bold">Verified</span></label>
+            </div>
+            <input type="file" accept="image/*,application/pdf" onchange="window.handleDocumentUpload(event, 'lm-doc2')"
+              class="text-[10px] w-full text-slate-600 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-slate-100 file:text-slate-600 cursor-pointer" />
+            <input type="text" id="lm-doc2" placeholder="Or paste document URL..."
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Amenities -->
+    <!-- Section: Check-in Amenities -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-couch mr-2 text-purple-500"></i>Check-in Amenities</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <p class="text-[10px] font-bold text-slate-400 uppercase mb-3">Include amenities in rent</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="lm-amenities-grid"></div>
+      </div>
+    </div>
+
+    <!-- Section: Checkout Clearance -->
+    <div class="drawer-section closed" id="lm-checkout-section" style="display:none;">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-door-open mr-2 text-rose-500"></i>Checkout & Clearance</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="bg-rose-50 border border-rose-100 rounded-xl p-4 mb-3">
+          <h4 class="text-xs font-black text-rose-600 uppercase mb-3 text-center">Checkout Calculus</h4>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-600">Initial Security Deposit</span>
+            <span class="text-xs font-black text-slate-800" id="check-sec">₹0</span>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-600">Checkout Service Charge</span>
+            <span class="text-xs font-black text-rose-500">- ₹500</span>
+          </div>
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold text-slate-600">Missing Amenities Penalty</span>
+            <span class="text-xs font-black text-rose-500" id="check-damages">- ₹0</span>
+          </div>
+          <div class="h-px bg-rose-200 my-3"></div>
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-black text-slate-800">Final Security Refund</span>
+            <span class="text-sm font-black text-emerald-600" id="check-refund">₹0</span>
+          </div>
+        </div>
+
+        <p class="text-[10px] font-bold text-slate-400 uppercase mb-2">Verify items are returned safely:</p>
+        <div class="space-y-2 mb-4" id="checkout-amenities-list">
+          <!-- Auto-populated from tenant's assigned amenities -->
+        </div>
+
+        <button type="button" onclick="checkoutTenant()"
+          class="w-full bg-rose-500 text-white font-black uppercase text-xs tracking-wider py-3 rounded-xl hover:bg-rose-600 transition shadow-[0_4px_15px_rgba(244,63,94,0.3)]">
+          Clear Tenant & Process Move-out
+        </button>
+      </div>
+    </div>
+
+    <!-- Section: Student / Lead -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-graduation-cap mr-2 text-indigo-500"></i>Student
+          & Lead Info</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="grid grid-cols-2 gap-3 mb-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Lead Source</label>
+            <select id="lm-lead-source"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]">
+              <option value="">—</option>
+              <option value="instagram">Instagram</option>
+              <option value="google">Google</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="banner">Banner</option>
+              <option value="referral">Referral</option>
+              <option value="walk-in">Walk-in</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Course</label>
+            <input type="text" id="lm-student-course"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="B.Tech CSE" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[10px] font-bold text-slate-400 block mb-1">Year</label>
+            <input type="text" id="lm-student-year"
+              class="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-bold outline-none focus:border-[#C8A24A]"
+              placeholder="3rd Year" />
+          </div>
+          <label class="flex items-center gap-2 bg-slate-50 p-3 rounded-xl cursor-pointer mt-4">
+            <input type="checkbox" id="lm-directory-optin" class="w-4 h-4 accent-purple-500" />
+            <span class="text-xs font-bold text-slate-600">Directory Opt-in</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Tickets & Complaints -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-ticket mr-2 text-rose-500"></i>Tickets &
+          Complaints</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div class="mb-4">
+          <div class="flex gap-2 mb-3">
+            <input type="text" id="lm-ticket-in" placeholder="Add maintenance task..."
+              class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm font-bold outline-none focus:border-[#C8A24A]" />
+            <button onclick="addLMTicket()"
+              class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold uppercase">
+              Add
+            </button>
+          </div>
+          <div id="lm-ticket-list" class="space-y-2 max-h-[200px] overflow-y-auto scrollbar-hide"></div>
+        </div>
+        <div class="border-t border-slate-100 pt-4">
+          <p class="text-[10px] font-bold text-rose-500 uppercase mb-2">
+            Tenant Complaints
+          </p>
+          <div id="lm-complaint-list" class="space-y-2 max-h-[200px] overflow-y-auto scrollbar-hide">
+            <p class="text-slate-400 text-xs">No complaints yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Payment History -->
+    <div class="drawer-section closed">
+      <div class="drawer-section-head" onclick="toggleDrawerSection(this)">
+        <span><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>Payment History</span>
+        <i class="fas fa-chevron-down chevron"></i>
+      </div>
+      <div class="drawer-section-body">
+        <div id="lm-payment-history" class="space-y-2 max-h-[300px] overflow-y-auto scrollbar-hide">
+          <p class="text-slate-400 text-xs">No payment records yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-footer">
+    <button onclick="saveLMTenant()"
+      class="flex-1 bg-slate-900 text-white py-3 rounded-xl font-black text-sm shadow-lg hover:bg-black transition">
+      <i class="fas fa-save mr-2"></i>Save & Sync
+    </button>
+    <button onclick="runClearanceCheck()"
+      class="px-5 py-3 bg-white text-rose-500 border border-rose-200 rounded-xl font-bold text-xs uppercase hover:bg-rose-50 transition">
+      Move-out
+    </button>
+  </div>
+  <div class="flex gap-2 px-5 pb-5 flex-wrap">
+    <button
+      onclick="if(state.selectedRoom){const t=state.tenants[state.selectedRoom.bid+'-'+state.selectedRoom.rno];if(t)generateInvoicePDF({...t,buildingId:state.selectedRoom.bid,roomNo:state.selectedRoom.rno});}"
+      class="px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-[10px] font-black hover:bg-blue-100 transition">
+      <i class="fas fa-file-pdf mr-1"></i>Invoice
+    </button>
+    <button
+      onclick="if(state.selectedRoom)submitNoticePeriod(state.selectedRoom.bid,state.selectedRoom.rno,'submit',prompt('Reason for leaving?'))"
+      class="px-3 py-2 bg-amber-50 text-amber-600 rounded-lg text-[10px] font-black hover:bg-amber-100 transition">
+      <i class="fas fa-clock mr-1"></i>Notice Period
+    </button>
+    <button onclick="if(state.selectedRoom)openFeedbackModal(state.selectedRoom.bid,state.selectedRoom.rno)"
+      class="px-3 py-2 bg-purple-50 text-purple-600 rounded-lg text-[10px] font-black hover:bg-purple-100 transition">
+      <i class="fas fa-star mr-1"></i>Feedback
+    </button>
+  </div>
+</div>
+
+<!-- ADD PROPERTY MODAL -->
+<div id="add-property-modal"
+  class="fixed inset-0 bg-slate-900/70 z-[95] hidden flex items-end sm:items-center justify-center overflow-y-auto p-0 sm:p-4">
+  <div id="add-property-modal-content"
+    class="bg-white w-full sm:max-w-3xl sm:rounded-[2.5rem] rounded-t-[2rem] shadow-2xl relative overflow-hidden max-h-[95vh] sm:max-h-[90vh] overflow-y-auto scrollbar-hide">
+    <!-- Modal Header -->
+    <div class="green-gradient p-8 sm:p-10 text-white relative">
+      <button onclick="closeAddPropertyModal()"
+        class="absolute top-6 right-6 w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center text-white hover:bg-white/30 transition">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="flex items-center gap-4">
+        <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center">
+          <i class="fas fa-building text-2xl text-white"></i>
+        </div>
+        <div>
+          <h3 class="text-2xl font-black tracking-tight" id="apm-title">
+            Add New Property
+          </h3>
+          <p class="text-white/60 text-xs font-semibold mt-1">
+            Configure property details and floor layout
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-8 sm:p-10 space-y-8">
+      <!-- Section 1: Basic Info -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-info-circle text-[#C8A24A] mr-2"></i>Basic
+          Information
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Property Name *</label>
+            <input type="text" id="apm-name" class="input-field" placeholder="e.g. SP Bhargav 4" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Property ID *</label>
+            <input type="text" id="apm-id" class="input-field" placeholder="e.g. sp4 (unique, lowercase)" />
+            <p class="text-[10px] text-slate-400 mt-1">
+              Unique identifier, auto-lowercased
+            </p>
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Monthly Rent (₹)</label>
+            <input type="number" id="apm-rent" class="input-field" placeholder="e.g. 10000" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Room Type</label>
+            <select id="apm-type" class="input-field">
+              <option>Fully Furnished</option>
+              <option>Semi-Furnished</option>
+            </select>
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="text-xs font-bold text-slate-600 mb-1.5 block">Description</label>
+          <textarea id="apm-desc" class="input-field" rows="2"
+            placeholder="Brief description of the property..."></textarea>
+        </div>
+        <div class="mt-4">
+          <label class="text-xs font-bold text-slate-600 mb-1.5 block">Image URL</label>
+          <input type="url" id="apm-image" class="input-field" placeholder="https://images.unsplash.com/..." />
+        </div>
+      </div>
+
+      <!-- Section 2: Location -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-location-dot text-[#C8A24A] mr-2"></i>Location
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Address</label>
+            <input type="text" id="apm-loc-address" class="input-field" placeholder="e.g. Near Law Gate" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Landmark</label>
+            <input type="text" id="apm-loc-landmark" class="input-field" placeholder="e.g. Opposite XYZ Shop" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">City</label>
+            <input type="text" id="apm-loc-city" class="input-field" value="Phagwara" placeholder="Phagwara" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Pincode</label>
+            <input type="text" id="apm-loc-pincode" class="input-field" placeholder="144411" />
+          </div>
+        </div>
+        <div class="mt-4">
+          <label class="text-xs font-bold text-slate-600 mb-1.5 block">Google Maps Embed URL</label>
+          <input type="url" id="apm-loc-map" class="input-field" placeholder="https://maps.google.com/..." />
+        </div>
+      </div>
+
+      <!-- Section 3: Floor-Wise Room Layout -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-layer-group text-[#C8A24A] mr-2"></i>Floor-wise
+          Room Layout
+        </h4>
+        <p class="text-xs text-slate-400 mb-4">
+          Click "Add Floor" and specify room numbers for each floor. Use
+          comma-separated values (e.g. 101, 102, 103).
+        </p>
+
+        <div id="apm-floors-container" class="space-y-3">
+          <!-- Dynamic floor rows will be added here -->
+        </div>
+
+        <button onclick="addFloorRow()"
+          class="mt-4 flex items-center gap-2 border-2 border-dashed border-slate-200 hover:border-[#C8A24A] text-slate-400 hover:text-[#C8A24A] px-6 py-3 rounded-2xl text-xs font-bold transition w-full justify-center">
+          <i class="fas fa-plus"></i> Add Floor
+        </button>
+
+        <!-- Floor preview -->
+        <div id="apm-floor-preview" class="mt-5 hidden">
+          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">
+            Preview
+          </p>
+          <div id="apm-floor-preview-content" class="bg-slate-50 rounded-2xl p-5 border border-slate-100"></div>
+        </div>
+      </div>
+
+      <!-- Section 4: Room Facilities -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-bed text-[#C8A24A] mr-2"></i>Room Facilities
+        </h4>
+        <p class="text-xs text-slate-400 mb-3">
+          Select what's included in each room
+        </p>
+        <div class="flex flex-wrap gap-2" id="apm-facilities-grid">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Section 5: Property Amenities -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-star text-[#C8A24A] mr-2"></i>Property Amenities
+        </h4>
+        <p class="text-xs text-slate-400 mb-3">
+          Select amenities available at this property
+        </p>
+        <div class="flex flex-wrap gap-2" id="apm-amenities-grid">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Section 6: House Rules -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-gavel text-[#C8A24A] mr-2"></i>House Rules
+        </h4>
+        <div class="flex flex-wrap gap-2" id="apm-rules-grid">
+          <!-- Generated by JS -->
+        </div>
+      </div>
+
+      <!-- Section 7: Billing Defaults -->
+      <div>
+        <h4 class="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-5">
+          <i class="fas fa-indian-rupee-sign text-[#C8A24A] mr-2"></i>Billing Defaults
+        </h4>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Electricity Rate (₹/unit)</label>
+            <input type="number" id="apm-elec-rate" class="input-field" value="13" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Maintenance (₹/month)</label>
+            <input type="number" id="apm-maint-charge" class="input-field" value="300" />
+          </div>
+          <div>
+            <label class="text-xs font-bold text-slate-600 mb-1.5 block">Security Deposit (₹)</label>
+            <input type="number" id="apm-security-default" class="input-field" value="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Total Rooms Preview -->
+      <div class="bg-gradient-to-r from-[#1F3D2B] to-[#2a5038] rounded-2xl p-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+            <i class="fas fa-door-open text-white"></i>
+          </div>
+          <div>
+            <p class="text-white/60 text-[10px] font-black uppercase tracking-widest">
+              Total Rooms
+            </p>
+            <p class="text-white text-2xl font-black" id="apm-total-rooms">
+              0
+            </p>
+          </div>
+        </div>
+        <div>
+          <p class="text-white/60 text-[10px] font-black uppercase tracking-widest">
+            Floors
+          </p>
+          <p class="text-white text-2xl font-black" id="apm-total-floors">
+            0
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex gap-4">
+        <button onclick="closeAddPropertyModal()"
+          class="flex-1 py-5 rounded-2xl font-bold text-sm border-2 border-slate-200 text-slate-500 hover:bg-slate-50 transition">
+          Cancel
+        </button>
+        <button onclick="saveNewProperty()" id="apm-save-btn"
+          class="flex-1 py-5 rounded-2xl font-bold text-sm bg-[#C8A24A] text-white hover:bg-[#b8923a] transition shadow-xl flex items-center justify-center gap-2">
+          <i class="fas fa-check"></i>
+          <span id="apm-save-text">Save Property</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROPERTY DETAIL MODAL -->
+<div id="property-modal"
+  class="fixed inset-0 bg-slate-900/70 z-[90] hidden flex items-end sm:items-center justify-center overflow-y-auto p-0 sm:p-4">
+  <div id="property-modal-content"
+    class="bg-white w-full sm:max-w-2xl sm:rounded-[2.5rem] rounded-t-[2rem] shadow-2xl relative overflow-hidden max-h-[95vh] sm:max-h-[90vh] overflow-y-auto scrollbar-hide">
+    <!-- Modal Image Header -->
+    <div class="relative h-52 sm:h-64 overflow-hidden">
+      <img id="pm-image" src="" alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+      <button onclick="closePropertyModal()"
+        class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-slate-900 transition text-lg"
+        aria-label="Close">
+        &times;
+      </button>
+      <div class="absolute bottom-4 left-5 sm:bottom-6 sm:left-8 text-white">
+        <h3 id="pm-name" class="text-2xl sm:text-3xl font-black tracking-tighter leading-none mb-1"></h3>
+        <p class="flex items-center text-white/80 text-xs font-bold uppercase tracking-widest">
+          <i class="fas fa-location-dot mr-2 text-[#C8A24A]"></i> Law Gate,
+          Phagwara
+        </p>
+      </div>
+      <div id="pm-rooms-badge"
+        class="absolute top-4 left-5 sm:top-6 sm:left-8 bg-[#1F3D2B] text-white px-4 py-1.5 rounded-full text-[11px] font-black shadow-xl">
+      </div>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="p-5 sm:p-8">
+      <!-- Price & Quick Info -->
+      <div class="flex items-center justify-between mb-6 pb-5 border-b border-slate-100">
+        <div>
+          <p class="detail-label">Monthly Rent Starting</p>
+          <p id="pm-rent" class="text-4xl sm:text-5xl font-black text-[#C8A24A] tracking-tighter leading-none"></p>
+        </div>
+        <div class="text-right">
+          <p class="detail-label">Room Type</p>
+          <p id="pm-type" class="text-sm font-bold text-slate-700"></p>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="detail-section">
+        <p class="detail-label">About This Property</p>
+        <p id="pm-desc" class="text-slate-600 text-sm leading-relaxed"></p>
+      </div>
+
+      <!-- Room Facilities -->
+      <div class="detail-section">
+        <p class="detail-label">Room Facilities</p>
+        <div id="pm-facilities" class="flex flex-wrap gap-2 mt-1"></div>
+      </div>
+
+      <!-- Building Amenities -->
+      <div class="detail-section">
+        <p class="detail-label">Building Amenities</p>
+        <div id="pm-amenities" class="flex flex-wrap gap-2 mt-1"></div>
+      </div>
+
+      <!-- Rules -->
+      <div class="detail-section">
+        <p class="detail-label">House Rules</p>
+        <div id="pm-rules" class="space-y-2 mt-1"></div>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-3 mt-6 pt-2">
+        <a id="pm-whatsapp" href="" target="_blank" rel="noopener noreferrer"
+          class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-2xl font-bold text-center transition shadow-lg flex items-center justify-center gap-2">
+          <i class="fab fa-whatsapp text-xl"></i> Enquire on WhatsApp
+        </a>
+        <a href="tel:+919142272776"
+          class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-bold text-center transition flex items-center justify-center gap-2">
+          <i class="fas fa-phone text-sm"></i> Call Us
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Room Detail Modal -->
+<div id="room-detail-modal"
+  class="fixed inset-0 bg-slate-900/70 z-[95] hidden flex items-end sm:items-center justify-center overflow-y-auto p-0 sm:p-4">
+  <div id="room-detail-content"
+    class="bg-white w-full sm:max-w-2xl sm:rounded-[2.5rem] rounded-t-[2rem] shadow-2xl relative overflow-hidden max-h-[95vh] sm:max-h-[90vh] overflow-y-auto scrollbar-hide">
+  </div>
+</div>
