@@ -34,6 +34,25 @@ const adminSchema = new mongoose.Schema(
     lastLogin: {
       type: Date,
     },
+    // ── Two-Factor Authentication ──
+    twoFactorEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    twoFactorSecret: {
+      type: String,
+      select: false,
+      default: '',
+    },
+    // ── Password Reset ──
+    passwordResetToken: {
+      type: String,
+      select: false,
+    },
+    passwordResetExpires: {
+      type: Date,
+      select: false,
+    },
   },
   { timestamps: true }
 );

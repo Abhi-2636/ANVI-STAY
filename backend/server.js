@@ -2,16 +2,31 @@
  * server.js – Anvi Stay Backend API
  *
  * Entry point: loads env, connects to MongoDB, mounts routes, starts Express.
- * Includes: Helmet, Morgan, CORS lockdown, Rate Limiting, Swagger Docs, File Uploads
+ * Includes: Helmet, Morgan, CORS lockdown, Rate Limiting, Swagger Docs, File Uploads,
+ *           NoSQL Injection Sanitization, Env Validation
  */
 
 require('dotenv').config();
+
+// ══════════════════════════════════════
+// ── Env Variable Validation (fail fast) ──
+// ══════════════════════════════════════
+const REQUIRED_ENV = ['MONGO_URI', 'JWT_SECRET'];
+REQUIRED_ENV.forEach((key) => {
+    if (!process.env[key]) {
+        console.error(`[Server] ❌ FATAL: Missing required environment variable: ${key}`);
+        console.error('[Server] Please check your .env file and restart.');
+        process.exit(1);
+    }
+});
+console.log('[Server] ✅ Environment variables validated.');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+const mongoSanitize = require('express-mongo-sanitize');
 const connectDB = require('./config/db');
 
 // ── Connect to MongoDB ──
@@ -38,7 +53,13 @@ app.use(cors({
         if (allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
-            callback(null, true); // In dev, allow all; in prod, restrict
+            if (process.env.NODE_ENV === 'production') {
+                callback(new Error(`CORS: Origin "${origin}" not allowed`));
+            } else {
+                // In development, allow all origins with a warning
+                console.warn(`[CORS] Warning: Allowing unlisted origin in dev mode: ${origin}`);
+                callback(null, true);
+            }
         }
     },
     credentials: true,
@@ -60,6 +81,15 @@ app.use(morgan(morganFormat));
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// ── NoSQL Injection Sanitization ──
+// Replaces $ and . in request body/params/query to prevent injection
+app.use(mongoSanitize({
+    replaceWith: '_',
+    onSanitize: ({ req, key }) => {
+        console.warn(`[Security] Sanitized NoSQL injection attempt in ${key} from IP: ${req.ip}`);
+    },
+}));
 
 // ── Serve uploaded files statically ──
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -139,6 +169,7 @@ app.use('/api/uploads', require('./routes/uploadRoutes'));
 app.use('/api/audit', require('./routes/auditRoutes'));
 app.use('/api/email', require('./routes/emailRoutes'));
 app.use('/api/visitors', require('./routes/visitorRoutes'));
+app.use('/api/maintenance', require('./routes/maintenanceRoutes'));
 
 // ══════════════════════════════════════
 // ── Health Check ──

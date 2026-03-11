@@ -177,12 +177,44 @@ module.exports = function initializeCronJobs() {
 
             if (expiring.length > 0) {
                 console.log(`[CRON] Found ${expiring.length} agreements expiring within 7 days.`);
-                // In production, send notifications here
+
+                // Send WhatsApp notification for each expiring agreement
+                for (const agreement of expiring) {
+                    try {
+                        const room = await Room.findOne({
+                            buildingId: agreement.buildingId,
+                            roomNo: agreement.roomNo,
+                            status: 'Occupied',
+                        });
+
+                        if (room && room.phone) {
+                            const endDate = new Date(agreement.endDate);
+                            const daysLeft = Math.ceil((endDate - now) / (1000 * 60 * 60 * 24));
+                            const roomInfo = `${agreement.buildingId}-${agreement.roomNo}`;
+                            const message = `Agreement Expiry Alert`;
+
+                            await sendWhatsAppReminder(
+                                room.phone,
+                                room.name || 'Tenant',
+                                0, // amount not applicable here
+                                `Agreement for Room ${roomInfo} expires in ${daysLeft} day(s) on ${endDate.toLocaleDateString('en-IN')}. Please contact the owner to renew.`,
+                                roomInfo
+                            );
+
+                            // Mark as reminded to avoid re-sending
+                            agreement.renewalReminded = true;
+                            await agreement.save();
+                        }
+                    } catch (notifyErr) {
+                        console.error(`[CRON] Failed to notify for agreement ${agreement._id}:`, notifyErr.message);
+                    }
+                }
+
                 await logAction({
                     action: 'system_event',
                     performedBy: 'system',
                     performedByRole: 'system',
-                    description: `${expiring.length} agreements expiring within 7 days`,
+                    description: `${expiring.length} agreements expiring within 7 days – notifications sent`,
                     metadata: { count: expiring.length },
                 });
             }

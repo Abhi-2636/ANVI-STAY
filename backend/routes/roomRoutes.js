@@ -23,6 +23,7 @@ const {
     getDocumentExpiryAlerts,
     getRevenueReport,
     getFeedbackSummary,
+    getDashboardStats,
 } = require('../controllers/roomController');
 
 /**
@@ -101,6 +102,9 @@ router.post('/:buildingId/:roomNo/guest', registerGuest);
  *       200: { description: Paginated room list }
  */
 router.get('/', protect, getRooms);
+
+// ── Admin: Dashboard Stats ──
+router.get('/dashboard-stats', protect, getDashboardStats);
 
 /**
  * @swagger

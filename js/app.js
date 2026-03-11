@@ -834,10 +834,10 @@ function renderLandingUI() {
               ${roomBadge}
             </div>
             <div class="absolute top-4 right-4 flex gap-2">
-              <button onclick="openLightbox(${idx}, 0);event.stopPropagation()" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition shadow-lg" style="backdrop-filter:blur(6px)" title="View Gallery">
+              <button onclick="openLightbox(${idx}, 0);event.stopPropagation()" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition-colors shadow-lg" style="backdrop-filter:blur(6px)" title="View Gallery">
                 <i class="fas fa-images"></i>
               </button>
-              <button onclick="toggleCompare(${idx}, event)" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition shadow-lg" style="backdrop-filter:blur(6px)" title="Compare">
+              <button onclick="toggleCompare(${idx}, event)" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition-colors shadow-lg" style="backdrop-filter:blur(6px)" title="Compare">
                 <i class="fas fa-scale-balanced"></i>
               </button>
               ${availBadge}
@@ -866,12 +866,11 @@ function renderLandingUI() {
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                ${
-                  isFull
-                    ? `<span class="text-[9px] font-bold uppercase tracking-wider text-red-400">Fully Booked</span>`
-                    : `<span class="text-[9px] font-bold uppercase tracking-wider hidden sm:inline text-[#C8A24A]">Explore →</span>`
-                }
-                <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY!\n\nI'm interested in:\n\n🏠 PG: " + p.name + "\n🛏️ Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/mo\n\nPlease share availability and details. Thank you!")}" target="_blank" rel="noopener noreferrer" class="text-white w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition shadow-lg gold-hover-btn" style="background:linear-gradient(135deg,#1F3D2B,#2a5438)" onclick="event.stopPropagation()" aria-label="WhatsApp enquiry">
+                ${isFull
+          ? `<span class="text-[9px] font-bold uppercase tracking-wider text-red-400">Fully Booked</span>`
+          : `<span class="text-[9px] font-bold uppercase tracking-wider hidden sm:inline text-[#C8A24A]">Explore →</span>`
+        }
+                <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY!\n\nI'm interested in:\n\n🏠 PG: " + p.name + "\n🛏️ Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/mo\n\nPlease share availability and details. Thank you!")}" target="_blank" rel="noopener noreferrer" class="text-white w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-colors shadow-lg gold-hover-btn" style="background:linear-gradient(135deg,#1F3D2B,#2a5438)" onclick="event.stopPropagation()" aria-label="WhatsApp enquiry">
                   <i class="fab fa-whatsapp text-lg"></i>
                 </a>
               </div>
@@ -987,8 +986,8 @@ window.openRoomDetail = (idx) => {
           </h4>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
             ${amenities
-              .map(
-                (a) => `
+      .map(
+        (a) => `
               <div class="flex items-center gap-2.5 p-2.5 rounded-xl border" style="border-color:rgba(200,162,74,0.1);background:rgba(200,162,74,0.03)">
                 <div class="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
                   <i class="fas ${a.icon} text-[10px]" style="color:#C8A24A"></i>
@@ -996,8 +995,8 @@ window.openRoomDetail = (idx) => {
                 <span class="text-[10px] sm:text-xs font-bold text-slate-700">${a.label}</span>
               </div>
             `,
-              )
-              .join("")}
+      )
+      .join("")}
           </div>
 
           <!-- Nearby Places -->
@@ -1060,11 +1059,11 @@ window.openRoomDetail = (idx) => {
 
           <div class="flex flex-col sm:flex-row gap-3">
             <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY Team!\n\nI would like to book a room.\n\n🏠 PG Name: " + p.name + "\n🛏️ Room Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/month\n📍 Total Rooms: " + p.rooms + "\n\nPlease share:\n• Available rooms & floor preference\n• Move-in process & documents required\n• Security deposit details\n\nThank you!")}" target="_blank" rel="noopener noreferrer"
-              class="flex-1 text-center text-white px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider transition shadow-lg hover:shadow-xl" style="background:linear-gradient(135deg,#C8A24A,#b8922f)">
+              class="flex-1 text-center text-white px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider transition-colors shadow-lg hover:shadow-xl" style="background:linear-gradient(135deg,#C8A24A,#b8922f)">
               <i class="fab fa-whatsapp mr-2"></i>Book via WhatsApp
             </a>
             <button onclick="closeRoomDetail(); switchView('tenant')"
-              class="flex-1 text-center px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider transition border-2 hover:shadow-md" style="color:#1F3D2B; border-color:#1F3D2B" onmouseover="this.style.backgroundColor='#1F3D2B';this.style.color='white'" onmouseout="this.style.backgroundColor='transparent';this.style.color='#1F3D2B'">
+              class="flex-1 text-center px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wider transition-colors border-2 hover:shadow-md" style="color:#1F3D2B; border-color:#1F3D2B" onmouseover="this.style.backgroundColor='#1F3D2B';this.style.color='white'" onmouseout="this.style.backgroundColor='transparent';this.style.color='#1F3D2B'">
               <i class="fas fa-fingerprint mr-2"></i>Resident Login
             </button>
           </div>
@@ -1381,11 +1380,10 @@ window.fetchTenantDashboard = async () => {
             <!-- Photo -->
             <div class="flex-shrink-0 flex justify-center sm:justify-start">
               <div class="w-28 h-36 rounded-xl overflow-hidden shadow-lg border-2 border-slate-100 bg-slate-50 flex items-center justify-center">
-                ${
-                  t.photoUrl
-                    ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
-                    : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
-                }
+                ${t.photoUrl
+        ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
+        : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
+      }
               </div>
             </div>
 
@@ -1412,9 +1410,8 @@ window.fetchTenantDashboard = async () => {
                 </div>
                 <p class="text-base font-bold text-slate-800">${t.collegeIdNo || "N/A"}</p>
               </div>
-              ${
-                t.nationality === "Foreign"
-                  ? `
+              ${t.nationality === "Foreign"
+        ? `
               <div class="bg-amber-50 rounded-xl p-4 border border-amber-200">
                 <div class="flex items-center gap-2 mb-1.5">
                   <i class="fas fa-globe text-amber-600 text-[10px]"></i>
@@ -1424,7 +1421,7 @@ window.fetchTenantDashboard = async () => {
                 <p class="text-[9px] font-bold text-slate-500">Visa: <span class="text-slate-800 text-sm">${t.visaNo || "N/A"}</span></p>
               </div>
               `
-                  : `
+        : `
               <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
                 <div class="flex items-center gap-2 mb-1.5">
                   <i class="fas fa-fingerprint text-purple-500 text-[10px]"></i>
@@ -1433,13 +1430,12 @@ window.fetchTenantDashboard = async () => {
                 <p class="text-base font-bold text-slate-800">${t.aadhaarNo ? t.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
               </div>
               `
-              }
+      }
             </div>
           </div>
 
-          ${
-            t.secondTenant && t.secondTenant.name
-              ? `
+          ${t.secondTenant && t.secondTenant.name
+        ? `
           <!-- 2nd Tenant -->
           <div class="mt-6 pt-6 border-t border-slate-100">
             <div class="flex items-center gap-2 mb-4">
@@ -1452,11 +1448,10 @@ window.fetchTenantDashboard = async () => {
             <div class="flex flex-col sm:flex-row gap-5">
               <div class="flex-shrink-0 flex justify-center sm:justify-start">
                 <div class="w-20 h-26 rounded-lg overflow-hidden shadow border border-indigo-100 bg-indigo-50/50 flex items-center justify-center">
-                  ${
-                    t.secondTenant.photoUrl
-                      ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
-                      : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
-                  }
+                  ${t.secondTenant.photoUrl
+          ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
+          : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
+        }
                 </div>
               </div>
               <div class="flex-1 grid grid-cols-2 gap-3">
@@ -1472,27 +1467,26 @@ window.fetchTenantDashboard = async () => {
                   <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">College ID</p>
                   <p class="text-sm font-bold text-slate-800">${t.secondTenant.collegeIdNo || "N/A"}</p>
                 </div>
-                ${
-                  t.secondTenant.nationality === "Foreign"
-                    ? `
+                ${t.secondTenant.nationality === "Foreign"
+          ? `
                 <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
                   <p class="text-[8px] font-black uppercase tracking-widest text-amber-600 mb-0.5">Passport / Visa</p>
                   <p class="text-[10px] font-bold text-slate-800">${t.secondTenant.passportNo || "N/A"} / ${t.secondTenant.visaNo || "N/A"}</p>
                 </div>
                 `
-                    : `
+          : `
                 <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
                   <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Aadhaar</p>
                   <p class="text-sm font-bold text-slate-800">${t.secondTenant.aadhaarNo ? t.secondTenant.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
                 </div>
                 `
-                }
+        }
               </div>
             </div>
           </div>
           `
-              : ""
-          }
+        : ""
+      }
         </div>
 
         <!-- Payment Status Cards -->
@@ -1508,20 +1502,30 @@ window.fetchTenantDashboard = async () => {
             </div>
             <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Monthly Rent</p>
             <p class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-3">₹${Number(t.rentAmount || 0).toLocaleString("en-IN")}</p>
-            ${
-              !t.rentPaid
-                ? `
-              <div class="mt-4 pt-4 border-t border-rose-50">
-                <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY,\n\nI would like to pay my monthly rent.\n\n🏠 PG Name: " + (buildings.find((b) => b.id === bid)?.name || bid) + "\n🚪 Room No: " + rno + "\n👤 Tenant: " + (t.name || "N/A") + "\n💰 Rent Amount: ₹" + Number(t.rentAmount || 0).toLocaleString("en-IN") + "\n📅 Month: " + new Date().toLocaleString("en-IN", { month: "long", year: "numeric" }) + "\n\nPlease share the UPI/payment details. Thank you!")}" target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-rose-600 hover:text-rose-700 text-xs font-bold transition">
-                  <i class="fab fa-whatsapp"></i> Pay via WhatsApp <i class="fas fa-arrow-right text-[9px]"></i>
-                </a>
-              </div>
-            `
-                : `
+            ${!t.rentPaid
+        ? (() => {
+            const pendingRent = (t.pendingPayments || []).find(p => p.type === 'rent' && p.status === 'pending');
+            return pendingRent
+              ? `<div class="mt-4 pt-4 border-t border-amber-50">
+                  <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <i class="fas fa-hourglass-half text-amber-500 animate-pulse"></i>
+                    <div>
+                      <p class="text-xs font-bold text-amber-700">Payment Under Verification</p>
+                      <p class="text-[10px] text-amber-500 font-medium">UTR: ${pendingRent.utrNumber} • Submitted ${new Date(pendingRent.submittedAt).toLocaleDateString('en-IN')}</p>
+                    </div>
+                  </div>
+                </div>`
+              : `<div class="mt-4 pt-4 border-t border-rose-50">
+                  <button onclick="openUpiPaymentModal('rent', ${Number(t.rentAmount || 0)})"
+                    class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500 to-rose-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition hover:shadow-lg active:scale-95">
+                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right text-[9px]"></i>
+                  </button>
+                </div>`;
+          })()
+        : `
               <p class="text-emerald-500 text-xs font-semibold mt-2"><i class="fas fa-check mr-1"></i> Payment received</p>
             `
-            }
+      }
           </div>
 
           <!-- Electricity Card -->
@@ -1541,22 +1545,62 @@ window.fetchTenantDashboard = async () => {
               <span>•</span>
               <span>+₹${num(t.maintCharge, 300)} Maint.</span>
             </div>
-            ${
-              !t.elecPaid
-                ? `
-              <div class="mt-4 pt-4 border-t border-amber-50">
-                <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY,\n\nI would like to pay my electricity & maintenance bill.\n\n🏠 PG Name: " + (buildings.find((b) => b.id === bid)?.name || bid) + "\n🚪 Room No: " + rno + "\n👤 Tenant: " + (t.name || "N/A") + "\n\n⚡ Meter Reading (Previous → Current): " + num(t.elecLast) + " → " + num(t.elecCurrent) + "\n🔋 Inverter Reading: " + num(t.invLast) + " → " + num(t.invCurrent) + "\n📊 Total Units: " + units + "\n💲 Rate: ₹" + num(t.elecRate, 13) + "/unit\n🔧 Maintenance: ₹" + num(t.maintCharge, 300) + "\n💰 Total Bill: ₹" + bill.toLocaleString("en-IN") + "\n📅 Month: " + new Date().toLocaleString("en-IN", { month: "long", year: "numeric" }) + "\n\nPlease share the UPI/payment details. Thank you!")}" target="_blank" rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-amber-600 hover:text-amber-700 text-xs font-bold transition">
-                  <i class="fab fa-whatsapp"></i> Pay via WhatsApp <i class="fas fa-arrow-right text-[9px]"></i>
-                </a>
-              </div>
-            `
-                : `
+            ${!t.elecPaid
+        ? (() => {
+            const pendingElec = (t.pendingPayments || []).find(p => p.type === 'electricity' && p.status === 'pending');
+            return pendingElec
+              ? `<div class="mt-4 pt-4 border-t border-amber-50">
+                  <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
+                    <i class="fas fa-hourglass-half text-amber-500 animate-pulse"></i>
+                    <div>
+                      <p class="text-xs font-bold text-amber-700">Payment Under Verification</p>
+                      <p class="text-[10px] text-amber-500 font-medium">UTR: ${pendingElec.utrNumber} • Submitted ${new Date(pendingElec.submittedAt).toLocaleDateString('en-IN')}</p>
+                    </div>
+                  </div>
+                </div>`
+              : `<div class="mt-4 pt-4 border-t border-amber-50">
+                  <button onclick="openUpiPaymentModal('electricity', ${bill})"
+                    class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition hover:shadow-lg active:scale-95">
+                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right text-[9px]"></i>
+                  </button>
+                </div>`;
+          })()
+        : `
               <p class="text-emerald-500 text-xs font-semibold mt-2"><i class="fas fa-check mr-1"></i> Settled this month</p>
             `
-            }
+      }
           </div>
         </div>
+
+        <!-- Rejected Payments Alert -->
+        ${(() => {
+          const rejected = (t.pendingPayments || []).filter(p => p.status === 'rejected');
+          if (rejected.length === 0) return '';
+          return `
+          <div class="bg-rose-50 border border-rose-200 rounded-2xl p-5 mb-6 sm:mb-8">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 bg-rose-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-exclamation-triangle text-rose-500 text-sm"></i>
+              </div>
+              <div>
+                <p class="text-xs font-black uppercase tracking-widest text-rose-600">Payment Rejected</p>
+                <p class="text-[10px] text-rose-400 font-medium">Please resubmit with correct details</p>
+              </div>
+            </div>
+            <div class="space-y-2">
+              ${rejected.map(p => `
+                <div class="bg-white rounded-xl p-3 border border-rose-100 flex items-center justify-between">
+                  <div>
+                    <span class="text-[9px] font-black uppercase tracking-widest ${p.type === 'rent' ? 'text-rose-500' : 'text-amber-500'}">${p.type === 'rent' ? 'Rent' : 'Electricity'}</span>
+                    <p class="text-sm font-bold text-slate-700 mt-0.5">₹${Number(p.amount || 0).toLocaleString('en-IN')} • UTR: ${p.utrNumber}</p>
+                    <p class="text-[10px] text-slate-400">${new Date(p.submittedAt).toLocaleDateString('en-IN')}</p>
+                  </div>
+                  <span class="text-[9px] font-black uppercase bg-rose-100 text-rose-600 px-2 py-1 rounded-lg">Rejected</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>`;
+        })()}
 
         <!-- Meter Readings Detail -->
         <div class="bg-slate-50 rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8">
@@ -1610,13 +1654,13 @@ window.fetchTenantDashboard = async () => {
 
         <!-- Room Amenities -->
         ${(() => {
-          const enabledAmenities = (t.amenities || []).filter((a) => a.enabled);
-          if (enabledAmenities.length === 0) return "";
-          const iconMap = {};
-          MASTER_AMENITIES.forEach((a) => {
-            iconMap[a.name] = a.icon;
-          });
-          return `
+        const enabledAmenities = (t.amenities || []).filter((a) => a.enabled);
+        if (enabledAmenities.length === 0) return "";
+        const iconMap = {};
+        MASTER_AMENITIES.forEach((a) => {
+          iconMap[a.name] = a.icon;
+        });
+        return `
           <div class="bg-white rounded-2xl border border-emerald-100 p-5 sm:p-7 mb-6 sm:mb-8">
             <div class="flex items-center gap-2 mb-5">
               <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
@@ -1629,8 +1673,8 @@ window.fetchTenantDashboard = async () => {
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
               ${enabledAmenities
-                .map(
-                  (a) => `
+            .map(
+              (a) => `
                 <div class="flex items-center gap-3 bg-emerald-50/60 rounded-xl px-4 py-3 border border-emerald-100">
                   <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <i class="fas ${iconMap[a.name] || "fa-check"} text-emerald-600 text-xs"></i>
@@ -1638,11 +1682,11 @@ window.fetchTenantDashboard = async () => {
                   <span class="text-sm font-semibold text-slate-700">${a.name}</span>
                 </div>
               `,
-                )
-                .join("")}
+            )
+            .join("")}
             </div>
           </div>`;
-        })()}
+      })()}
 
         <!-- Action Buttons -->
 
@@ -1659,37 +1703,35 @@ window.fetchTenantDashboard = async () => {
           </div>
           <div class="flex gap-3">
             <input id="tenant-complaint-input" type="text" placeholder="Describe your issue..." class="flex-1 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-200">
-            <button onclick="submitTenantComplaint()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-sm transition active:scale-95">
+            <button onclick="submitTenantComplaint()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-sm transition-colors active:scale-95">
               <i class="fas fa-paper-plane"></i>
             </button>
           </div>
-          ${
-            (t.complaints || []).length
-              ? `
+          ${(t.complaints || []).length
+        ? `
             <div class="mt-4 space-y-2">
               <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Your Complaints</p>
               ${(t.complaints || [])
-                .slice()
-                .reverse()
-                .map(
-                  (c) => `
+          .slice()
+          .reverse()
+          .map(
+            (c) => `
                 <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
                   <p class="text-sm font-medium text-slate-700">${c.text}</p>
                   <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${c.status === "open" ? "bg-amber-100 text-amber-600" : "bg-emerald-100 text-emerald-600"}">${c.status}</span>
                 </div>
               `,
-                )
-                .join("")}
+          )
+          .join("")}
             </div>
           `
-              : ""
-          }
+        : ""
+      }
         </div>
 
         <!-- Payment History -->
-        ${
-          (t.paymentHistory || []).length
-            ? `
+        ${(t.paymentHistory || []).length
+        ? `
         <div class="bg-white rounded-2xl border border-slate-100 p-5 sm:p-7 mb-6 sm:mb-8">
           <div class="flex items-center gap-2 mb-5">
             <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
@@ -1702,11 +1744,11 @@ window.fetchTenantDashboard = async () => {
           </div>
           <div class="space-y-2">
             ${(t.paymentHistory || [])
-              .slice()
-              .reverse()
-              .slice(0, 10)
-              .map(
-                (p) => `
+          .slice()
+          .reverse()
+          .slice(0, 10)
+          .map(
+            (p) => `
               <div class="flex items-center justify-between bg-slate-50 p-3 sm:p-4 rounded-xl">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 ${p.type === "rent" ? "bg-emerald-100" : "bg-amber-100"} rounded-lg flex items-center justify-center">
@@ -1720,13 +1762,13 @@ window.fetchTenantDashboard = async () => {
                 <span class="font-black text-slate-800">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
               </div>
             `,
-              )
-              .join("")}
+          )
+          .join("")}
           </div>
         </div>
         `
-            : ""
-        }
+        : ""
+      }
 
         <!-- Emergency Contacts -->
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8 text-white">
@@ -1771,15 +1813,15 @@ window.fetchTenantDashboard = async () => {
         </div>
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY Support,\n\nI need assistance with the following:\n\n🏠 PG Name: " + (buildings.find((b) => b.id === bid)?.name || bid) + "\n🚪 Room No: " + rno + "\n👤 Tenant: " + (t.name || "N/A") + "\n📱 Phone: " + (t.phone || "N/A") + "\n\nPlease get back to me at the earliest. Thank you!")}" target="_blank" rel="noopener noreferrer"
-            class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-bold text-center transition shadow-lg flex items-center justify-center gap-3 active:scale-[0.98]">
+            class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-bold text-center transition-colors shadow-lg flex items-center justify-center gap-3 active:scale-[0.98]">
             <i class="fab fa-whatsapp text-xl"></i> Contact Support
           </a>
           <a href="tel:+919142272776"
-            class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-bold text-center transition flex items-center justify-center gap-3 active:scale-[0.98]">
+            class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-bold text-center transition-colors flex items-center justify-center gap-3 active:scale-[0.98]">
             <i class="fas fa-phone text-sm"></i> Call Us
           </a>
           <button onclick="tenantLogout()"
-            class="flex-1 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-700 py-4 rounded-2xl font-bold text-center transition flex items-center justify-center gap-3 active:scale-[0.98]">
+            class="flex-1 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-700 py-4 rounded-2xl font-bold text-center transition-colors flex items-center justify-center gap-3 active:scale-[0.98]">
             <i class="fas fa-arrow-right-from-bracket text-sm"></i> Logout
           </button>
         </div>
@@ -1798,6 +1840,703 @@ window.fetchTenantDashboard = async () => {
   } catch (err) {
     console.error("[Tenant Login]", err);
     showTenantError("Server unreachable. Make sure the backend is running.");
+  }
+};
+
+// ═══════════════════════════════════════
+// ═══ UPI PAYMENT SYSTEM ═══
+// ═══════════════════════════════════════
+
+// ── UPI Configuration ──
+const UPI_ID = "anvistay@okicici"; // Change this to your actual Google Pay Business UPI ID
+const UPI_QR_IMAGE = "upi-qr.png"; // Path to your QR code image
+
+// ── Open UPI Payment Modal (Tenant Side) ──
+window.openUpiPaymentModal = (paymentType, amount) => {
+  // Remove any existing modal
+  const existingModal = byId("upi-payment-modal");
+  if (existingModal) existingModal.remove();
+
+  const typeLabel = paymentType === "rent" ? "Monthly Rent" : "Electricity + Maintenance";
+  const typeColor = paymentType === "rent" ? "rose" : "amber";
+  const monthLabel = new Date().toLocaleString("en-IN", { month: "long", year: "numeric" });
+
+  const modalHTML = `
+    <div id="upi-payment-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);">
+      <div class="bg-white rounded-[2rem] shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto animate-slide-up" style="animation: slideUp 0.35s ease-out;">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-t-[2rem] p-6 text-white relative overflow-hidden">
+          <div class="absolute -right-6 -top-6 opacity-[0.06]">
+            <i class="fas fa-qrcode text-[8rem]"></i>
+          </div>
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
+                  <i class="fas fa-qrcode text-white"></i>
+                </div>
+                <div>
+                  <p class="text-[10px] font-bold uppercase tracking-widest text-white/50">Pay via UPI</p>
+                  <p class="text-sm font-black text-white">${typeLabel}</p>
+                </div>
+              </div>
+              <button onclick="closeUpiPaymentModal()" class="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center transition">
+                <i class="fas fa-times text-white/80 text-sm"></i>
+              </button>
+            </div>
+            <div class="bg-white/10 backdrop-blur rounded-xl p-3 flex items-center justify-between">
+              <span class="text-white/60 text-xs font-bold">${monthLabel}</span>
+              <span class="text-2xl font-black text-white">₹${Number(amount).toLocaleString("en-IN")}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 space-y-5">
+
+          <!-- Step 1: QR Code -->
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-6 h-6 bg-${typeColor}-100 text-${typeColor}-600 rounded-full flex items-center justify-center text-[10px] font-black">1</span>
+              <p class="text-xs font-black uppercase tracking-widest text-slate-500">Scan QR Code to Pay</p>
+            </div>
+            <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 flex flex-col items-center border border-slate-200">
+              <img src="${UPI_QR_IMAGE}" alt="UPI QR Code" class="w-48 h-48 object-contain rounded-xl mb-3 shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <div class="w-48 h-48 bg-white rounded-xl border-2 border-dashed border-slate-300 items-center justify-center text-slate-400 text-center p-4" style="display:none;">
+                <i class="fas fa-qrcode text-4xl mb-2"></i>
+                <p class="text-[10px] font-bold">QR Code</p>
+                <p class="text-[9px]">Use UPI ID below</p>
+              </div>
+              <p class="text-[10px] text-slate-400 font-medium mt-1">Open any UPI app to scan</p>
+            </div>
+          </div>
+
+          <!-- OR Divider -->
+          <div class="flex items-center gap-3">
+            <div class="flex-1 h-px bg-slate-200"></div>
+            <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">or pay using UPI ID</span>
+            <div class="flex-1 h-px bg-slate-200"></div>
+          </div>
+
+          <!-- UPI ID Copy -->
+          <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-2">UPI ID</p>
+            <div class="flex items-center justify-between bg-white rounded-lg p-3 border border-emerald-200">
+              <span class="text-sm font-black text-slate-800 select-all" id="upi-id-text">${UPI_ID}</span>
+              <button onclick="copyUpiId()" class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg text-[10px] font-bold transition active:scale-95 flex items-center gap-1.5">
+                <i class="fas fa-copy" id="upi-copy-icon"></i> <span id="upi-copy-text">Copy</span>
+              </button>
+            </div>
+            <div class="flex items-center gap-4 mt-3">
+              <div class="flex items-center gap-1.5">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/512px-Google_Pay_Logo.svg.png" class="h-4" alt="GPay" onerror="this.style.display='none'">
+              </div>
+              <div class="flex items-center gap-1.5">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/1280px-UPI-Logo-vector.svg.png" class="h-3.5" alt="UPI" onerror="this.style.display='none'">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: UTR Number -->
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="w-6 h-6 bg-${typeColor}-100 text-${typeColor}-600 rounded-full flex items-center justify-center text-[10px] font-black">2</span>
+              <p class="text-xs font-black uppercase tracking-widest text-slate-500">Enter UTR / Transaction ID</p>
+            </div>
+            <div class="relative">
+              <input type="text" id="upi-utr-input" placeholder="e.g. 412345678901" maxlength="25"
+                class="w-full px-4 py-3.5 rounded-xl bg-slate-50 border-2 border-slate-200 text-sm font-bold text-slate-800 focus:outline-none focus:border-${typeColor}-400 focus:ring-2 focus:ring-${typeColor}-100 transition placeholder:text-slate-300" />
+              <div class="absolute right-3 top-1/2 -translate-y-1/2">
+                <i class="fas fa-receipt text-slate-300"></i>
+              </div>
+            </div>
+            <p class="text-[9px] text-slate-400 font-medium mt-1.5 ml-1">
+              <i class="fas fa-info-circle mr-1"></i> Find the UTR/Reference number in your UPI app transaction history
+            </p>
+          </div>
+
+          <!-- Amount Info -->
+          <div class="bg-${typeColor}-50 border border-${typeColor}-200 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-[9px] font-black uppercase tracking-widest text-${typeColor}-500">Payment Amount</p>
+                <p class="text-2xl font-black text-${typeColor}-700 mt-1">₹${Number(amount).toLocaleString("en-IN")}</p>
+              </div>
+              <div class="w-12 h-12 bg-${typeColor}-100 rounded-xl flex items-center justify-center">
+                <i class="fas ${paymentType === 'rent' ? 'fa-home' : 'fa-bolt'} text-${typeColor}-500 text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error display -->
+          <div id="upi-submit-error" class="hidden text-rose-600 text-xs font-bold bg-rose-50 border border-rose-200 rounded-xl p-3 flex items-center gap-2">
+            <i class="fas fa-exclamation-circle"></i> <span></span>
+          </div>
+
+          <!-- Submit Button -->
+          <button id="upi-submit-btn" onclick="submitUpiPayment('${paymentType}', ${amount})"
+            class="w-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 text-white py-4 rounded-2xl font-bold text-sm shadow-xl hover:shadow-2xl active:scale-[0.98] transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
+            style="box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3)">
+            <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+            <i class="fas fa-paper-plane relative z-10"></i>
+            <span class="relative z-10">Submit Payment for Verification</span>
+          </button>
+
+          <!-- Info -->
+          <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 flex items-start gap-2.5">
+            <i class="fas fa-shield-halved text-blue-500 mt-0.5 text-sm"></i>
+            <div>
+              <p class="text-[10px] font-bold text-blue-700">Secure Payment Process</p>
+              <p class="text-[9px] text-blue-500 mt-0.5 leading-relaxed">After submitting, our admin team will verify your payment within 1-2 hours. Once approved, your invoice will be generated automatically.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML("beforeend", modalHTML);
+  document.body.style.overflow = "hidden";
+};
+
+// ── Close UPI Modal ──
+window.closeUpiPaymentModal = () => {
+  const modal = byId("upi-payment-modal");
+  if (modal) {
+    modal.style.opacity = "0";
+    setTimeout(() => {
+      modal.remove();
+      document.body.style.overflow = "";
+    }, 200);
+  }
+};
+
+// ── Copy UPI ID ──
+window.copyUpiId = () => {
+  const text = byId("upi-id-text")?.textContent;
+  if (text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const icon = byId("upi-copy-icon");
+      const txt = byId("upi-copy-text");
+      if (icon) icon.className = "fas fa-check";
+      if (txt) txt.textContent = "Copied!";
+      setTimeout(() => {
+        if (icon) icon.className = "fas fa-copy";
+        if (txt) txt.textContent = "Copy";
+      }, 2000);
+      toast("UPI ID copied to clipboard! ✅");
+    });
+  }
+};
+
+// ── Submit UPI Payment (Tenant) ──
+window.submitUpiPayment = async (paymentType, amount) => {
+  const utr = byId("upi-utr-input")?.value?.trim();
+  const errEl = byId("upi-submit-error");
+  const btn = byId("upi-submit-btn");
+
+  if (!utr || utr.length < 6) {
+    if (errEl) {
+      errEl.querySelector("span").textContent = "Please enter a valid UTR/Transaction Reference Number (minimum 6 characters).";
+      errEl.classList.remove("hidden");
+    }
+    return;
+  }
+
+  if (!state.tenantLogin) {
+    toast("Session expired. Please login again.");
+    return;
+  }
+
+  const { bid, rno, pass } = state.tenantLogin;
+
+  // Disable button and show loading
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/rooms/${bid}/${rno}/upi-verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        password: pass,
+        type: paymentType,
+        amount: amount,
+        utrNumber: utr,
+      }),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      closeUpiPaymentModal();
+      toast("✅ Payment submitted for verification! You'll be notified once approved.", 5000);
+      // Refresh dashboard to show pending status
+      fetchTenantDashboard();
+    } else {
+      if (errEl) {
+        errEl.querySelector("span").textContent = result.message || "Failed to submit payment. Please try again.";
+        errEl.classList.remove("hidden");
+      }
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
+      }
+    }
+  } catch (err) {
+    console.error("[submitUpiPayment]", err);
+    if (errEl) {
+      errEl.querySelector("span").textContent = "Server error. Please try again later.";
+      errEl.classList.remove("hidden");
+    }
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
+    }
+  }
+};
+
+// ═══════════════════════════════════════
+// ═══ ADMIN: UPI QUEUE ═══
+// ═══════════════════════════════════════
+
+window.renderPendingUpiPayments = async () => {
+  const container = byId("pending-upi-list");
+  if (!container) return;
+
+  container.innerHTML = `
+    <div class="flex items-center justify-center py-8">
+      <div class="flex items-center gap-3 text-slate-400">
+        <i class="fas fa-spinner fa-spin text-lg"></i>
+        <span class="text-sm font-bold">Loading pending payments...</span>
+      </div>
+    </div>
+  `;
+
+  try {
+    const res = await fetch(`${API_BASE}/rooms?limit=500`, {
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
+    const result = await res.json();
+
+    if (!result.success) {
+      container.innerHTML = '<p class="text-rose-500 text-sm p-4">Failed to load data.</p>';
+      return;
+    }
+
+    // Collect all pending payments across rooms
+    const pendingPayments = [];
+    result.data.forEach((room) => {
+      (room.pendingPayments || []).forEach((p) => {
+        pendingPayments.push({ ...p, room });
+      });
+    });
+
+    // Separate by status
+    const pending = pendingPayments.filter((p) => p.status === "pending");
+    const reviewed = pendingPayments.filter((p) => p.status !== "pending");
+
+    if (pending.length === 0 && reviewed.length === 0) {
+      container.innerHTML = `
+        <div class="text-center py-12">
+          <div class="w-16 h-16 bg-emerald-50 rounded-2xl mx-auto flex items-center justify-center mb-4">
+            <i class="fas fa-check-circle text-emerald-400 text-2xl"></i>
+          </div>
+          <p class="text-slate-500 text-sm font-bold">No pending UPI payments</p>
+          <p class="text-slate-400 text-xs mt-1">All payments have been processed</p>
+        </div>
+      `;
+      return;
+    }
+
+    // Stats cards
+    const approvedCount = reviewed.filter((p) => p.status === "approved").length;
+    const rejectedCount = reviewed.filter((p) => p.status === "rejected").length;
+    const totalPendingAmount = pending.reduce((s, p) => s + (p.amount || 0), 0);
+
+    let html = `
+      <!-- Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        <div class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100">
+          <p class="text-2xl font-black text-amber-600">${pending.length}</p>
+          <p class="text-[9px] font-bold uppercase tracking-wider text-amber-500">Pending</p>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+          <p class="text-2xl font-black text-blue-600">₹${totalPendingAmount.toLocaleString("en-IN")}</p>
+          <p class="text-[9px] font-bold uppercase tracking-wider text-blue-500">Pending Amount</p>
+        </div>
+        <div class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
+          <p class="text-2xl font-black text-emerald-600">${approvedCount}</p>
+          <p class="text-[9px] font-bold uppercase tracking-wider text-emerald-500">Approved</p>
+        </div>
+        <div class="bg-rose-50 rounded-xl p-4 text-center border border-rose-100">
+          <p class="text-2xl font-black text-rose-600">${rejectedCount}</p>
+          <p class="text-[9px] font-bold uppercase tracking-wider text-rose-500">Rejected</p>
+        </div>
+      </div>
+    `;
+
+    // Pending payments list
+    if (pending.length > 0) {
+      html += `
+        <div class="mb-6">
+          <h4 class="text-xs font-black uppercase tracking-widest text-amber-600 mb-3 flex items-center gap-2">
+            <i class="fas fa-clock"></i> Awaiting Verification (${pending.length})
+          </h4>
+          <div class="space-y-3">
+      `;
+
+      pending.forEach((p) => {
+        const bName = buildings.find((b) => b.id === p.room.buildingId)?.name || p.room.buildingId;
+        const pTypeColor = p.type === "rent" ? "rose" : "amber";
+        const pTypeIcon = p.type === "rent" ? "fa-home" : "fa-bolt";
+        const pTypeLabel = p.type === "rent" ? "Rent" : "Electricity";
+
+        html += `
+          <div class="bg-white rounded-2xl border-2 border-amber-200 p-5 shadow-sm hover:shadow-md transition relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-1 h-full bg-amber-400"></div>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 bg-${pTypeColor}-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <i class="fas ${pTypeIcon} text-${pTypeColor}-500 text-lg"></i>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 mb-1">
+                    <span class="text-[9px] font-black uppercase tracking-widest bg-${pTypeColor}-100 text-${pTypeColor}-600 px-2 py-0.5 rounded-full">${pTypeLabel}</span>
+                    <span class="text-[9px] font-black uppercase tracking-widest bg-amber-100 text-amber-600 px-2 py-0.5 rounded-full animate-pulse">PENDING</span>
+                  </div>
+                  <p class="text-base font-black text-slate-800">${p.room.name || "Tenant"}</p>
+                  <p class="text-xs text-slate-400 font-medium">${bName} · Room ${p.room.roomNo}</p>
+                  <div class="flex items-center gap-3 mt-2 text-xs">
+                    <span class="font-bold text-slate-600"><i class="fas fa-receipt text-slate-400 mr-1"></i> UTR: <span class="text-slate-800 select-all">${p.utrNumber}</span></span>
+                    <span class="text-slate-300">|</span>
+                    <span class="font-bold text-slate-600"><i class="fas fa-phone text-slate-400 mr-1"></i> ${p.room.phone || "N/A"}</span>
+                  </div>
+                  <p class="text-[10px] text-slate-400 mt-1"><i class="fas fa-clock mr-1"></i> Submitted ${new Date(p.submittedAt).toLocaleString("en-IN")}</p>
+                </div>
+              </div>
+              <div class="flex flex-col items-end gap-3">
+                <p class="text-2xl font-black text-slate-900">₹${Number(p.amount || 0).toLocaleString("en-IN")}</p>
+                <div class="flex gap-2">
+                  <button onclick="adminApproveUpiPayment('${p.room.buildingId}', ${p.room.roomNo}, ${p.id})"
+                    class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:shadow-lg transition active:scale-95 flex items-center gap-1.5">
+                    <i class="fas fa-check-circle"></i> Approve
+                  </button>
+                  <button onclick="adminRejectUpiPayment('${p.room.buildingId}', ${p.room.roomNo}, ${p.id})"
+                    class="bg-gradient-to-r from-rose-500 to-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:shadow-lg transition active:scale-95 flex items-center gap-1.5">
+                    <i class="fas fa-times-circle"></i> Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `</div></div>`;
+    }
+
+    // Recently reviewed payments
+    if (reviewed.length > 0) {
+      html += `
+        <div>
+          <h4 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-2">
+            <i class="fas fa-history"></i> Recently Reviewed (${reviewed.length})
+          </h4>
+          <div class="space-y-2">
+      `;
+
+      reviewed
+        .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))
+        .slice(0, 20)
+        .forEach((p) => {
+          const bName = buildings.find((b) => b.id === p.room.buildingId)?.name || p.room.buildingId;
+          const isApproved = p.status === "approved";
+
+          html += `
+            <div class="bg-slate-50 rounded-xl p-4 flex items-center justify-between border border-slate-100">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 ${isApproved ? "bg-emerald-100" : "bg-rose-100"} rounded-lg flex items-center justify-center">
+                  <i class="fas ${isApproved ? "fa-check text-emerald-500" : "fa-times text-rose-500"} text-xs"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-slate-700">${p.room.name || "Tenant"} · ${bName} Room ${p.room.roomNo}</p>
+                  <p class="text-[10px] text-slate-400">${p.type === "rent" ? "Rent" : "Electricity"} • UTR: ${p.utrNumber} • ${p.reviewedAt ? new Date(p.reviewedAt).toLocaleDateString("en-IN") : ""}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="text-sm font-black text-slate-700">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
+                <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${isApproved ? "bg-emerald-100 text-emerald-600" : "bg-rose-100 text-rose-600"}">${p.status}</span>
+              </div>
+            </div>
+          `;
+        });
+
+      html += `</div></div>`;
+    }
+
+    container.innerHTML = html;
+  } catch (err) {
+    console.error("[renderPendingUpiPayments]", err);
+    container.innerHTML = '<p class="text-rose-500 text-sm p-4">Error loading UPI payments. Check backend connection.</p>';
+  }
+};
+
+// ── Admin: Approve UPI Payment ──
+window.adminApproveUpiPayment = async (buildingId, roomNo, paymentId) => {
+  if (!confirm("✅ Approve this payment? This will mark the payment as received and generate an invoice.")) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify({ status: "approved" }),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      toast("✅ Payment approved! Invoice has been generated.", 4000);
+
+      // Generate & open invoice for the approved payment
+      const room = result.data;
+      const payment = (room.pendingPayments || []).find((p) => p.id === paymentId);
+      if (payment) {
+        generateUpiInvoice(room, payment);
+      }
+
+      // Refresh the UPI queue
+      renderPendingUpiPayments();
+
+      // Also refresh room list if visible
+      if (typeof loadRoomsForBuilding === "function") {
+        try { loadRoomsForBuilding(); } catch (e) { /* ok */ }
+      }
+    } else {
+      toast(result.message || "Failed to approve payment.", 4000);
+    }
+  } catch (err) {
+    console.error("[adminApproveUpiPayment]", err);
+    toast("Server error. Try again.", 4000);
+  }
+};
+
+// ── Admin: Reject UPI Payment ──
+window.adminRejectUpiPayment = async (buildingId, roomNo, paymentId) => {
+  if (!confirm("❌ Reject this payment? The tenant will need to resubmit.")) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${adminToken}`,
+      },
+      body: JSON.stringify({ status: "rejected" }),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      toast("Payment rejected. Tenant will be notified.", 4000);
+      renderPendingUpiPayments();
+    } else {
+      toast(result.message || "Failed to reject payment.", 4000);
+    }
+  } catch (err) {
+    console.error("[adminRejectUpiPayment]", err);
+    toast("Server error. Try again.", 4000);
+  }
+};
+
+// ── Generate Invoice After Approval ──
+window.generateUpiInvoice = (room, payment) => {
+  const bName = buildings.find((b) => b.id === room.buildingId)?.name || room.buildingId;
+  const now = new Date();
+  const invoiceNo = "INV-" + Date.now().toString(36).toUpperCase();
+  const monthLabel = now.toLocaleString("default", { month: "long", year: "numeric" });
+
+  const eu = Math.max(0, (room.elecCurrent || 0) - (room.elecLast || 0)) + Math.max(0, (room.invCurrent || 0) - (room.invLast || 0));
+  const eb = eu * (room.elecRate || 13);
+  const maintCharge = room.maintCharge || 300;
+
+  // Determine if this is rent or electricity invoice
+  const isRent = payment.type === "rent";
+  const invoiceAmount = payment.amount || 0;
+
+  const invoiceHTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Invoice ${invoiceNo}</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, sans-serif; }
+        body { padding: 40px; background: #fff; color: #1a1a1a; }
+        .invoice-container { max-width: 700px; margin: 0 auto; }
+        .hdr { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #1F3D2B; padding-bottom: 24px; margin-bottom: 32px; }
+        .logo { font-size: 32px; font-weight: 900; color: #1F3D2B; letter-spacing: -1px; }
+        .logo span { color: #C8A24A; }
+        .logo-sub { font-size: 11px; color: #999; margin-top: 4px; }
+        .meta { text-align: right; }
+        .meta h2 { font-size: 22px; color: #1F3D2B; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; }
+        .meta p { font-size: 12px; color: #666; line-height: 1.6; }
+        .invoice-no { font-size: 14px !important; font-weight: 800; color: #C8A24A !important; }
+        .section { margin-bottom: 28px; }
+        .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-weight: 800; margin-bottom: 12px; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .info-item { background: #f8f8f6; padding: 12px 16px; border-radius: 8px; }
+        .info-item label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; font-weight: 800; display: block; margin-bottom: 4px; }
+        .info-item span { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+        th, td { padding: 12px 16px; text-align: left; font-size: 13px; }
+        th { background: #f8f8f6; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; border-bottom: 2px solid #eee; }
+        td { border-bottom: 1px solid #f0f0f0; }
+        .amount-col { text-align: right; font-weight: 700; }
+        .total-row { background: #1F3D2B; color: white; }
+        .total-row td { border: none; padding: 16px; font-weight: 900; font-size: 16px; }
+        .payment-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; margin-top: 24px; }
+        .payment-box h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #16a34a; font-weight: 800; margin-bottom: 8px; }
+        .payment-box .detail { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+        .payment-box .detail span:first-child { color: #666; }
+        .payment-box .detail span:last-child { font-weight: 700; color: #1a1a1a; }
+        .status-badge { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 10px; color: #999; }
+        .footer p { margin-bottom: 4px; }
+        .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 80px; font-weight: 900; color: rgba(0,0,0,0.03); text-transform: uppercase; letter-spacing: 10px; pointer-events: none; }
+        @media print {
+          body { padding: 20px; }
+          .no-print { display: none; }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="watermark">PAID</div>
+      <div class="invoice-container">
+        <div class="hdr">
+          <div>
+            <div class="logo">ANVI<span>STAY</span></div>
+            <p class="logo-sub">Student Housing • Law Gate, Phagwara</p>
+            <p class="logo-sub">+91 91422 72776 • anvistay.official@gmail.com</p>
+          </div>
+          <div class="meta">
+            <h2>Invoice</h2>
+            <p class="invoice-no">${invoiceNo}</p>
+            <p>Date: ${now.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
+            <p>Period: ${monthLabel}</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Bill To</p>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Tenant Name</label>
+              <span>${room.name || "N/A"}</span>
+            </div>
+            <div class="info-item">
+              <label>Phone</label>
+              <span>${room.phone || "N/A"}</span>
+            </div>
+            <div class="info-item">
+              <label>Property</label>
+              <span>${bName}</span>
+            </div>
+            <div class="info-item">
+              <label>Room No.</label>
+              <span>${room.roomNo}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <p class="section-title">Invoice Details</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Description</th>
+                <th>Details</th>
+                <th class="amount-col">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${isRent ? `
+              <tr>
+                <td>Monthly Rent</td>
+                <td>${monthLabel}</td>
+                <td class="amount-col">₹${(room.rentAmount || 0).toLocaleString("en-IN")}</td>
+              </tr>
+              ` : `
+              <tr>
+                <td>Electricity Charges</td>
+                <td>${eu} units × ₹${room.elecRate || 13}/unit</td>
+                <td class="amount-col">₹${eb.toLocaleString("en-IN")}</td>
+              </tr>
+              <tr>
+                <td>Maintenance Charge</td>
+                <td>Monthly</td>
+                <td class="amount-col">₹${maintCharge.toLocaleString("en-IN")}</td>
+              </tr>
+              `}
+              <tr class="total-row">
+                <td colspan="2">TOTAL PAID</td>
+                <td class="amount-col">₹${invoiceAmount.toLocaleString("en-IN")}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="payment-box">
+          <h3>✅ Payment Verified</h3>
+          <div class="detail">
+            <span>Payment Method</span>
+            <span>UPI Transfer</span>
+          </div>
+          <div class="detail">
+            <span>UTR / Reference No.</span>
+            <span>${payment.utrNumber}</span>
+          </div>
+          <div class="detail">
+            <span>Payment Date</span>
+            <span>${new Date(payment.submittedAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
+          </div>
+          <div class="detail">
+            <span>Verified On</span>
+            <span>${now.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
+          </div>
+          <div class="detail">
+            <span>Status</span>
+            <span><span class="status-badge">PAID</span></span>
+          </div>
+        </div>
+
+        <div class="footer">
+          <p><strong>ANVI STAY</strong> • Law Gate, Phagwara – 144411</p>
+          <p>+91 91422 72776 • anvistay.official@gmail.com</p>
+          <p style="margin-top: 8px; font-style: italic;">This is a computer-generated invoice and does not require a signature.</p>
+        </div>
+
+        <div class="no-print" style="text-align: center; margin-top: 24px;">
+          <button onclick="window.print()" style="padding: 14px 40px; background: #1F3D2B; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 14px; letter-spacing: 0.5px;">
+            🖨️ Print / Save as PDF
+          </button>
+        </div>
+      </div>
+      <script>setTimeout(() => window.print(), 800)<\/script>
+    </body>
+    </html>
+  `;
+
+  // Open invoice in new tab
+  const win = window.open("", "_blank");
+  if (win) {
+    win.document.write(invoiceHTML);
+    win.document.close();
   }
 };
 
@@ -2008,7 +2747,11 @@ window.renderBillingTable = () => {
       const rate = t.elecRate || 13;
       const rent = isVacant ? 0 : parseFloat(t.rentAmount || t.rent) || 0;
       const otherDues = parseFloat(t.otherDues) || 0;
-      const maintenanceCharge = parseFloat(t.maintenanceCharge) || 0;
+      const maintenanceCharge = isVacant
+        ? 0
+        : t.maintenanceCharge !== undefined && t.maintenanceCharge !== ""
+          ? parseFloat(t.maintenanceCharge) || 0
+          : 300;
       const amountPaid = parseFloat(t.amountPaid) || 0;
       const delta = Math.max(0, eCurr - eLast) + Math.max(0, iCurr - iLast);
       const bill = delta * rate;
@@ -2042,7 +2785,7 @@ window.renderBillingTable = () => {
         </div>
       `;
 
-      const actionBtn = `<button onclick="sendBillingWA('${bid}', ${rNo}, '${t.name || ""}', ${totalDue}, 'reminder')" class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition flex items-center justify-center transform active:scale-95 shadow-sm border border-amber-100" title="Send Reminder"><i class="fab fa-whatsapp"></i></button>`;
+      const actionBtn = `<button onclick="sendBillingWA('${bid}', ${rNo}, '${t.name || ""}', ${totalDue}, 'reminder')" class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 hover:bg-amber-100 transition-colors flex items-center justify-center transform active:scale-95 shadow-sm border border-amber-100" title="Send Reminder"><i class="fab fa-whatsapp"></i></button>`;
 
       const tenantDisplay = isVacant
         ? `<span class="text-slate-400 italic">Vacant</span>`
@@ -2051,7 +2794,7 @@ window.renderBillingTable = () => {
 
       // Desktop table row - Simple and clean styling
       const tr = document.createElement("tr");
-      tr.className = `border-b border-slate-100 hover:bg-slate-50 transition ${rowOpac}`;
+      tr.className = `border-b border-slate-100 hover:bg-slate-50 transition-colors ${rowOpac}`;
       tr.dataset.bid = bid;
       tr.dataset.rno = rNo;
       tr.innerHTML = `
@@ -2072,7 +2815,7 @@ window.renderBillingTable = () => {
             
             <td class="text-slate-600 font-bold bg-white border-r border-slate-100">₹${rent.toLocaleString("en-IN")}</td>
             
-            <td class="bg-white border-r border-slate-100"><input type="number" class="w-16 px-2 py-1.5 border border-slate-200 rounded-lg text-xs font-bold outline-none text-center billing-maintenance focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition" value="${t.maintenanceCharge || 0}" oninput="calcBillingRow(this)" placeholder="0"></td>
+            <td class="bg-white border-r border-slate-100"><input type="number" class="w-16 px-2 py-1.5 border border-slate-200 rounded-lg text-xs font-bold outline-none text-center billing-maintenance focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition" value="${maintenanceCharge}" oninput="calcBillingRow(this)" placeholder="0"></td>
             
             <td class="bg-white border-r border-slate-100"><input type="number" class="w-16 px-2 py-1.5 border border-slate-200 rounded-lg text-xs font-bold outline-none text-center billing-other-dues focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition" value="${otherDues || ""}" oninput="calcBillingRow(this)" placeholder="0"></td>
             
@@ -2086,7 +2829,7 @@ window.renderBillingTable = () => {
             <td class="bg-white">
               <div class="flex items-center gap-1.5 justify-center py-2 px-1">
                 ${actionBtn}
-                <button onclick="generateSingleElecBill('${bid}', ${rNo})" class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition flex items-center justify-center transform active:scale-95 shadow-sm border border-blue-100" title="Generate Elec Bill">
+                <button onclick="generateSingleElecBill('${bid}', ${rNo})" class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors flex items-center justify-center transform active:scale-95 shadow-sm border border-blue-100" title="Generate Elec Bill">
                   <i class="fas fa-file-pdf"></i>
                 </button>
               </div>
@@ -2104,51 +2847,98 @@ window.renderBillingTable = () => {
       sumTotal += totalDue;
       sumBalance += balance;
 
-      // Mobile card view
+      // Mobile card view — Enhanced responsive design
       if (mobileCards) {
         const card = document.createElement("div");
-        card.className = "bg-slate-50 rounded-xl border border-slate-100 p-3";
+        card.className = `bg-slate-50 rounded-xl border border-slate-100 p-3${isVacant ? " vacant-card" : ""}`;
         card.dataset.bid = bid;
         card.dataset.rno = rNo;
         card.innerHTML = `
-              <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-2">
-                  <span class="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-black" style="background:var(--admin-accent);color:var(--navy);">${rNo}</span>
+              <div class="flex items-center justify-between mb-1">
+                <div class="flex items-center gap-3">
+                  <span class="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-black shadow-sm" style="background:${isVacant ? "#f1f5f9" : "var(--admin-accent)"};color:${isVacant ? "#94a3b8" : "var(--navy)"};">${rNo}</span>
                   <div>
-                    <p class="text-sm font-black text-slate-800">${t.name || "—"}</p>
-                    <p class="text-[10px] font-bold text-slate-400">Rent: ₹${rent.toLocaleString("en-IN")}</p>
+                    <p class="text-sm font-black text-slate-800">${isVacant ? '<span class="italic text-slate-400">Vacant</span>' : (t.name || "—")}</p>
+                    <p class="text-[10px] font-bold text-slate-400">${isVacant ? "No tenant assigned" : `Rent: ₹${rent.toLocaleString("en-IN")}`}</p>
                   </div>
                 </div>
-                <div class="text-right flex items-center gap-2">
-                  <div>
-                    <p class="text-lg font-black mobile-bill-total" style="color:var(--gold);">₹${totalDue.toLocaleString("en-IN")}</p>
-                    ${statusHtml}
-                  </div>
-                  ${actionBtn}
+                <div class="text-right">
+                  <p class="text-xl font-black mobile-bill-total" style="color:${balance > 0 ? '#f43f5e' : 'var(--gold)'};">₹${totalDue.toLocaleString("en-IN")}</p>
+                  ${badgeHtml}
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-2 mt-2">
-                <div class="bg-white rounded-lg p-2 border border-slate-100 text-center">
-                  <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Main: ${eLast} →</p>
-                  <p class="font-black text-[13px] text-slate-800">${eCurr}</p>
+
+              <!-- Meter Readings Grid -->
+              <div class="mobile-card-grid">
+                <div class="mobile-card-stat">
+                  <p class="stat-label">⚡ Main Meter</p>
+                  <p class="stat-value">${eLast} → <span style="color:#e5b84c">${eCurr}</span></p>
                 </div>
-                <div class="bg-white rounded-lg p-2 border border-slate-100 text-center">
-                  <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Inv: ${iLast} →</p>
-                  <p class="font-black text-[13px] text-slate-800">${iCurr}</p>
+                <div class="mobile-card-stat">
+                  <p class="stat-label">🔌 Inverter</p>
+                  <p class="stat-value">${iLast} → <span style="color:#e5b84c">${iCurr}</span></p>
                 </div>
               </div>
-              <div class="mt-2 bg-white rounded-lg p-2 border border-slate-100 flex items-center justify-between">
-                <p class="text-[9px] font-bold text-slate-400 uppercase">Other Dues ₹</p>
-                <input type="number" class="w-20 px-2 py-1 border border-slate-200 rounded-lg text-xs font-bold outline-none text-right billing-other-dues-m focus:border-[#C8A24A]" value="${otherDues || ""}" oninput="calcBillingCardMobile(this)" data-bid="${bid}" data-rno="${rNo}" placeholder="0">
+
+              <!-- Billing Breakdown -->
+              <div class="mobile-card-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+                <div class="mobile-card-stat">
+                  <p class="stat-label">Elec Bill</p>
+                  <p class="stat-value" style="color:#f59e0b;">₹${bill.toLocaleString("en-IN")}</p>
+                </div>
+                <div class="mobile-card-stat">
+                  <p class="stat-label">Maint.</p>
+                  <p class="stat-value" style="color:#8b5cf6;">₹${maintenanceCharge.toLocaleString("en-IN")}</p>
+                </div>
+                <div class="mobile-card-stat">
+                  <p class="stat-label">Δ Units</p>
+                  <p class="stat-value delta-txt" style="color:#0891b2;">${delta}</p>
+                </div>
               </div>
-              <div class="mt-1 bg-emerald-50 rounded-lg p-2 border border-emerald-100 flex items-center justify-between">
-                <p class="text-[9px] font-bold text-emerald-600 uppercase">Paid Now ₹</p>
-                <input type="number" class="w-20 px-2 py-1 border border-emerald-200 rounded-lg text-xs font-bold outline-none text-right billing-amount-paid-m focus:border-emerald-500 bg-white text-emerald-700" value="${amountPaid || ""}" oninput="calcBillingCardMobile(this)" data-bid="${bid}" data-rno="${rNo}" placeholder="0">
+
+              <!-- Editable Fields -->
+              <div class="mobile-card-section">
+                <div class="flex items-center justify-between mb-2">
+                  <p class="text-[9px] font-bold text-slate-400 uppercase">Other Dues ₹</p>
+                  <input type="number" class="w-24 px-2 py-1.5 border border-slate-200 rounded-lg text-xs font-bold outline-none text-right billing-other-dues-m" value="${otherDues || ""}" oninput="calcBillingCardMobile(this)" data-bid="${bid}" data-rno="${rNo}" placeholder="0">
+                </div>
+                <div class="flex items-center justify-between">
+                  <p class="text-[9px] font-bold text-emerald-600 uppercase">Paid Now ₹</p>
+                  <input type="number" class="w-24 px-2 py-1.5 border border-emerald-200 rounded-lg text-xs font-bold outline-none text-right billing-amount-paid-m bg-emerald-50 text-emerald-700" value="${amountPaid || ""}" oninput="calcBillingCardMobile(this)" data-bid="${bid}" data-rno="${rNo}" placeholder="0">
+                </div>
               </div>
-              <div class="flex items-center justify-between mt-2 text-xs font-bold text-slate-500">
-                <span class="delta-txt">Δ ${delta} units @ ₹${rate}</span>
-                <span class="text-[12px] font-black mobile-balance-total text-rose-500">Bal: ₹${balance.toLocaleString("en-IN")}</span>
+
+              <!-- Balance Summary -->
+              <div class="flex items-center justify-between mt-2 px-1">
+                <span class="text-[10px] font-bold text-slate-400">Δ ${delta} units @ ₹${rate}/unit</span>
+                <span class="text-sm font-black mobile-balance-total ${balance > 0 ? 'text-rose-500' : 'text-emerald-500'}">Bal: ₹${balance.toLocaleString("en-IN")}</span>
               </div>
+
+              <!-- Status Checkboxes -->
+              ${!isVacant ? `
+              <div class="mobile-status-bar">
+                <label>
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer billing-rent-paid-m" ${rentChecked} data-bid="${bid}" data-rno="${rNo}">
+                  <span>Rent Paid</span>
+                </label>
+                <label>
+                  <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer billing-elec-paid-m" ${elecChecked} data-bid="${bid}" data-rno="${rNo}">
+                  <span>Elec Paid</span>
+                </label>
+              </div>
+              ` : ""}
+
+              <!-- Action Buttons -->
+              ${!isVacant ? `
+              <div class="mobile-action-bar">
+                <button onclick="sendBillingWA('${bid}', ${rNo}, '${(t.name || "").replace(/'/g, "\\'")}', ${totalDue}, 'reminder')" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+                  <i class="fab fa-whatsapp"></i> Remind
+                </button>
+                <button onclick="generateSingleElecBill('${bid}', ${rNo})" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+                  <i class="fas fa-file-pdf"></i> Invoice
+                </button>
+              </div>
+              ` : ""}
             `;
         mobileCards.appendChild(card);
       }
@@ -2189,6 +2979,44 @@ window.renderBillingTable = () => {
     mobileCards.innerHTML =
       '<p class="text-center text-slate-400 text-xs py-8">No occupied rooms for billing</p>';
   }
+
+  // Feature: Excel-like Keyboard Navigation
+  const tableInputs = Array.from(rows.querySelectorAll('input') || []);
+  tableInputs.forEach((input, index) => {
+    input.addEventListener('keydown', (e) => {
+      let jump = 0;
+      if (e.key === 'ArrowRight' || e.key === 'Enter') jump = 1;
+      else if (e.key === 'ArrowLeft') jump = -1;
+      else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        const nameClass = Array.from(input.classList).find(c => c.startsWith('billing-'));
+        if (nameClass) {
+          const colInputs = Array.from(document.querySelectorAll(`.${nameClass}`));
+          const myIdx = colInputs.indexOf(input);
+          if (e.key === 'ArrowDown' && myIdx >= 0 && myIdx + 1 < colInputs.length) {
+            e.preventDefault();
+            colInputs[myIdx + 1].focus();
+            colInputs[myIdx + 1].select();
+          } else if (e.key === 'ArrowUp' && myIdx > 0) {
+            e.preventDefault();
+            colInputs[myIdx - 1].focus();
+            colInputs[myIdx - 1].select();
+          }
+        }
+        return;
+      }
+
+      if (jump !== 0) {
+        e.preventDefault();
+        const nextInput = tableInputs[index + jump];
+        if (nextInput) {
+          nextInput.focus();
+          nextInput.select();
+        }
+      }
+    });
+  });
+
+  window.filterBillingSpreadsheet(); // Re-apply existing filters
 };
 
 window.sendBillingWA = (bid, rNo, name, amount, type) => {
@@ -2296,17 +3124,25 @@ window.calcBillingCardMobile = (input) => {
   const iCurr = t.invCurrent || 0;
   const rate = t.elecRate || 13;
   const rent = parseFloat(t.rentAmount || t.rent) || 0;
+  const maintenanceCharge = t.maintenanceCharge !== undefined && t.maintenanceCharge !== ""
+    ? parseFloat(t.maintenanceCharge) || 0
+    : 300;
   const delta = Math.max(0, eCurr - eLast) + Math.max(0, iCurr - iLast);
   const bill = delta * rate;
-  const totalDue = bill + rent + otherDues;
+  const totalDue = bill + rent + otherDues + maintenanceCharge;
   const balance = totalDue - amountPaid;
   const totalEl = card.querySelector(".mobile-bill-total");
   const balanceEl = card.querySelector(".mobile-balance-total");
   const deltaTxt = card.querySelector(".delta-txt");
-  if (deltaTxt) deltaTxt.textContent = `Δ ${delta} units @ ₹${rate}`;
-  if (totalEl) totalEl.textContent = `₹${totalDue.toLocaleString("en-IN")}`;
-  if (balanceEl)
+  if (deltaTxt) deltaTxt.textContent = `${delta}`;
+  if (totalEl) {
+    totalEl.textContent = `₹${totalDue.toLocaleString("en-IN")}`;
+    totalEl.style.color = balance > 0 ? "#f43f5e" : "var(--gold)";
+  }
+  if (balanceEl) {
     balanceEl.textContent = `Bal: ₹${balance.toLocaleString("en-IN")}`;
+    balanceEl.className = `text-sm font-black mobile-balance-total ${balance > 0 ? "text-rose-500" : "text-emerald-500"}`;
+  }
 };
 
 window.recalcBillingRowLive = (tr) => {
@@ -2365,6 +3201,25 @@ window.recalcBillingRowLive = (tr) => {
       badgeCell.textContent = "CLEARED";
       badgeCell.className =
         "px-2 py-0.5 rounded-md text-[9px] font-black bg-emerald-50 text-emerald-600 mb-1 border border-emerald-200 balance-badge";
+    }
+  }
+
+  // Feature: Smart Meter Validation (Current < Previous triggers red warning border)
+  const eCurrInput = tr.querySelector(".billing-ecurr");
+  if (eCurrInput) {
+    if (eCurr < eLast) {
+      eCurrInput.classList.add("border-rose-500", "bg-rose-50", "text-rose-600");
+    } else {
+      eCurrInput.classList.remove("border-rose-500", "bg-rose-50", "text-rose-600");
+    }
+  }
+
+  const iCurrInput = tr.querySelector(".billing-icurr");
+  if (iCurrInput) {
+    if (iCurr < iLast) {
+      iCurrInput.classList.add("border-rose-500", "bg-rose-50", "text-rose-600");
+    } else {
+      iCurrInput.classList.remove("border-rose-500", "bg-rose-50", "text-rose-600");
     }
   }
 };
@@ -2432,9 +3287,9 @@ window.saveBillingSpreadsheet = async () => {
   }
 
   saveState();
-  toast("Saving all readings...");
+  window.triggerAutoSaveIndicator(true);
   await Promise.all(promises);
-  toast(`✓ Saved spreadsheet data for ${updateCount} rooms.`);
+  window.triggerAutoSaveIndicator(false);
   renderBillingTable();
 };
 
@@ -2470,68 +3325,10 @@ window.generateAllElecBills = () => {
       parseFloat(maintAmt) > 0 ||
       parseFloat(duesAmt) > 0
     ) {
-      billsHtml += `
-        <div style="page-break-inside: avoid; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">
-            <div>
-              <h2 style="margin:0; font-size: 20px; font-weight: 900; color: #080D1A;">ANVI STAY</h2>
-              <p style="margin:0; font-size: 12px; color: #64748b; font-weight: bold;">Monthly Invoice</p>
-            </div>
-            <div style="text-align: right;">
-              <h3 style="margin:0; font-size: 16px; font-weight: 800; color: #b45309;">${pgName}</h3>
-              <p style="margin:0; font-size: 14px; font-weight: 800; color: #334155;">Room ${rno}</p>
-            </div>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <p style="margin:0 0 5px 0; font-size: 14px; font-weight: bold;">Tenant: ${tname}</p>
-            <p style="margin:0; font-size: 12px; color: #64748b;">Billing Month: ${byId("billing-month")?.value || "Current"}</p>
-          </div>
-          
-          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-            <h4 style="margin: 0 0 10px 0; font-size: 13px; color: #334155; text-transform: uppercase;">Electricity Breakdown</h4>
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-              <tr>
-                <th style="padding: 4px 0; text-align: left; color: #64748b;">Main Meter</th>
-                <td style="padding: 4px 0; text-align: right;">${eLast} → ${eCurr} = <b>${Math.max(0, eCurr - eLast)} units</b></td>
-              </tr>
-              <tr>
-                <th style="padding: 4px 0; text-align: left; color: #64748b;">Inverter</th>
-                <td style="padding: 4px 0; text-align: right;">${iLast} → ${iCurr} = <b>${Math.max(0, iCurr - iLast)} units</b></td>
-              </tr>
-              <tr style="border-top: 1px solid #e2e8f0;">
-                <th style="padding: 8px 0 0 0; text-align: left; color: #64748b;">Total Consumption</th>
-                <td style="padding: 8px 0 0 0; text-align: right; color: #0f172a;"><b>${delta} units @ ₹${rate}</b> = ${billText}</td>
-              </tr>
-            </table>
-          </div>
-
-          <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-            <h4 style="margin: 0 0 10px 0; font-size: 13px; color: #334155; text-transform: uppercase;">Charges Breakdown</h4>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 13px; color: #475569;">Room Rent</span>
-              <span style="font-size: 13px; font-weight: bold; color: #0f172a;">${rentText}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 13px; color: #475569;">Electricity Bill</span>
-              <span style="font-size: 13px; font-weight: bold; color: #0f172a;">${billText}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-              <span style="font-size: 13px; color: #475569;">Maintenance Charge</span>
-              <span style="font-size: 13px; font-weight: bold; color: #0f172a;">₹${maintAmt}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span style="font-size: 13px; color: #475569;">Other Dues</span>
-              <span style="font-size: 13px; font-weight: bold; color: #0f172a;">₹${duesAmt}</span>
-            </div>
-          </div>
-          
-          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-            <p style="margin:0; font-size: 14px; font-weight: 800; color: #166534; text-transform: uppercase;">Total Amount Payable</p>
-            <p style="margin:0; font-size: 24px; font-weight: 900; color: #14532d;">${totalDueText}</p>
-          </div>
-        </div>
-      `;
+      billsHtml += buildInvoiceHTML({
+        rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText,
+        rentText, maintAmt, duesAmt, totalDueText, pgName
+      });
     }
   });
 
@@ -2546,13 +3343,18 @@ window.generateAllElecBills = () => {
       <head>
         <title>ANVI STAY - Monthly Invoices - ${pgName}</title>
         <style>
-          body { font-family: 'Inter', system-ui, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
-          @media print { body { padding: 0; } button { display: none; } }
+          body { font-family: 'Inter', system-ui, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; color: #334155; background: #f8fafc; }
+          @media print { 
+            body { padding: 0; background: white; } 
+            .no-print { display: none !important; } 
+            .invoice-box { border: none !important; box-shadow: none !important; page-break-after: always; margin-bottom: 0 !important; border-radius: 0 !important;}
+            .invoice-box:last-child { page-break-after: avoid; }
+          }
         </style>
       </head>
       <body>
-        <div style="text-align: right; margin-bottom: 20px;">
-          <button onclick="window.print()" style="padding: 10px 20px; background: #080D1A; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">🖨️ Print All Invoices</button>
+        <div style="text-align: right; margin-bottom: 20px;" class="no-print">
+          <button onclick="window.print()" style="padding: 12px 24px; background: #080D1A; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">🖨️ Print All Invoices</button>
         </div>
         ${billsHtml}
       </body>
@@ -2582,68 +3384,10 @@ window.generateSingleElecBill = (bid, rno) => {
   const duesAmt = tr.querySelector(".billing-other-dues")?.value || 0;
   const totalDueText = tr.querySelector(".total-due-cell")?.textContent || "₹0";
 
-  const billsHtml = `
-    <div style="page-break-inside: avoid; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">
-        <div>
-          <h2 style="margin:0; font-size: 20px; font-weight: 900; color: #080D1A;">ANVI STAY</h2>
-          <p style="margin:0; font-size: 12px; color: #64748b; font-weight: bold;">Monthly Invoice</p>
-        </div>
-        <div style="text-align: right;">
-          <h3 style="margin:0; font-size: 16px; font-weight: 800; color: #b45309;">${pgName}</h3>
-          <p style="margin:0; font-size: 14px; font-weight: 800; color: #334155;">Room ${rno}</p>
-        </div>
-      </div>
-      
-      <div style="margin-bottom: 15px;">
-        <p style="margin:0 0 5px 0; font-size: 14px; font-weight: bold;">Tenant: ${tname}</p>
-        <p style="margin:0; font-size: 12px; color: #64748b;">Billing Month: ${byId("billing-month")?.value || "Current"}</p>
-      </div>
-      
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="margin: 0 0 10px 0; font-size: 13px; color: #334155; text-transform: uppercase;">Electricity Breakdown</h4>
-        <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <tr>
-            <th style="padding: 4px 0; text-align: left; color: #64748b;">Main Meter</th>
-            <td style="padding: 4px 0; text-align: right;">${eLast} → ${eCurr} = <b>${Math.max(0, eCurr - eLast)} units</b></td>
-          </tr>
-          <tr>
-            <th style="padding: 4px 0; text-align: left; color: #64748b;">Inverter</th>
-            <td style="padding: 4px 0; text-align: right;">${iLast} → ${iCurr} = <b>${Math.max(0, iCurr - iLast)} units</b></td>
-          </tr>
-          <tr style="border-top: 1px solid #e2e8f0;">
-            <th style="padding: 8px 0 0 0; text-align: left; color: #64748b;">Total Consumption</th>
-            <td style="padding: 8px 0 0 0; text-align: right; color: #0f172a;"><b>${delta} units @ ₹${rate}</b> = ${billText}</td>
-          </tr>
-        </table>
-      </div>
-
-      <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
-        <h4 style="margin: 0 0 10px 0; font-size: 13px; color: #334155; text-transform: uppercase;">Charges Breakdown</h4>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <span style="font-size: 13px; color: #475569;">Room Rent</span>
-          <span style="font-size: 13px; font-weight: bold; color: #0f172a;">${rentText}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <span style="font-size: 13px; color: #475569;">Electricity Bill</span>
-          <span style="font-size: 13px; font-weight: bold; color: #0f172a;">${billText}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
-          <span style="font-size: 13px; color: #475569;">Maintenance Charge</span>
-          <span style="font-size: 13px; font-weight: bold; color: #0f172a;">₹${maintAmt}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between;">
-          <span style="font-size: 13px; color: #475569;">Other Dues</span>
-          <span style="font-size: 13px; font-weight: bold; color: #0f172a;">₹${duesAmt}</span>
-        </div>
-      </div>
-      
-      <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 12px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
-        <p style="margin:0; font-size: 14px; font-weight: 800; color: #166534; text-transform: uppercase;">Total Amount Payable</p>
-        <p style="margin:0; font-size: 24px; font-weight: 900; color: #14532d;">${totalDueText}</p>
-      </div>
-    </div>
-  `;
+  const billsHtml = buildInvoiceHTML({
+    rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText,
+    rentText, maintAmt, duesAmt, totalDueText, pgName
+  });
 
   const printWin = window.open("", "_blank");
   printWin.document.write(`
@@ -2651,13 +3395,18 @@ window.generateSingleElecBill = (bid, rno) => {
       <head>
         <title>ANVI STAY - Monthly Invoice - Room ${rno}</title>
         <style>
-          body { font-family: 'Inter', system-ui, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
-          @media print { body { padding: 0; } button { display: none; } }
+          body { font-family: 'Inter', system-ui, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; color: #334155; background: #f8fafc; }
+          @media print { 
+            body { padding: 0; background: white; } 
+            .no-print { display: none !important; } 
+            .invoice-box { border: none !important; box-shadow: none !important; page-break-after: always; margin-bottom: 0 !important; border-radius: 0 !important;}
+            .invoice-box:last-child { page-break-after: avoid; }
+          }
         </style>
       </head>
       <body>
-        <div style="text-align: right; margin-bottom: 20px;">
-          <button onclick="window.print()" style="padding: 10px 20px; background: #080D1A; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">🖨️ Print Invoice</button>
+        <div style="text-align: right; margin-bottom: 20px;" class="no-print">
+          <button onclick="window.print()" style="padding: 12px 24px; background: #080D1A; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">🖨️ Print Invoice</button>
         </div>
         ${billsHtml}
       </body>
@@ -2671,7 +3420,7 @@ window.saveOtherDues = async () => {
   for (const tr of rows) {
     const bid = tr.dataset.bid;
     const rno = parseInt(tr.dataset.rno);
-    const key = `${bid} -${rno} `;
+    const key = `${bid}-${rno}`;
     const t = state.tenants[key];
     if (!t) continue;
     const otherDues = parseFloat(
@@ -2686,12 +3435,12 @@ window.saveOtherDues = async () => {
   }
 
   const cards =
-    byId("billing-cards-mobile")?.querySelectorAll(".bg-slate-50[data-bid]") ||
+    byId("billing-cards-mobile")?.querySelectorAll("[data-bid]") ||
     [];
   for (const card of cards) {
     const bid = card.dataset.bid;
     const rno = parseInt(card.dataset.rno);
-    const key = `${bid} -${rno} `;
+    const key = `${bid}-${rno}`;
     const t = state.tenants[key];
     if (!t) continue;
     const otherDuesM = parseFloat(
@@ -2702,12 +3451,190 @@ window.saveOtherDues = async () => {
     );
     if (!isNaN(otherDuesM)) t.otherDues = otherDuesM;
     if (!isNaN(amountPaidM)) t.amountPaid = amountPaidM;
+
+    // Save checkbox states from mobile cards
+    const rentPaidM = card.querySelector(".billing-rent-paid-m");
+    if (rentPaidM) t.rentPaid = rentPaidM.checked;
+    const elecPaidM = card.querySelector(".billing-elec-paid-m");
+    if (elecPaidM) t.elecPaid = elecPaidM.checked;
+
     state.tenants[key] = t;
   }
   saveState();
-  alert("✓ Tenant dues updated and saved locally.");
+  window.triggerAutoSaveIndicator(false);
 };
 
+// Invoice Generator Helper
+function buildInvoiceHTML(data) {
+  const { rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText, rentText, maintAmt, duesAmt, totalDueText, pgName } = data;
+  const monthStr = byId("billing-month")?.value || new Date().toISOString().slice(0, 7);
+  const invNumber = `INV-${monthStr.replace('-', '')}-${rno}`;
+  const dObj = new Date();
+  const dateStr = dObj.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+  const dueDateStr = new Date(dObj.setDate(dObj.getDate() + 5)).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+
+  // Get current logo URL from the document (or fallback)
+  const logoUrl = document.querySelector('link[rel="icon"]')?.href || location.origin + '/logo.png';
+
+  return `
+    <div class="invoice-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px; margin-bottom: 40px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); position: relative; overflow: hidden;">
+      
+      <!-- Top Accent Bar -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, #c8a24a 0%, #080D1A 100%);"></div>
+
+      <!-- Header -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; padding-top: 10px;">
+        <div style="display: flex; gap: 15px; align-items: center;">
+          <img src="${logoUrl}" alt="ANVI STAY LOGO" style="width: 60px; height: 60px; border-radius: 12px; object-fit: cover;">
+          <div>
+            <h1 style="margin: 0 0 4px 0; font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">ANVI STAY</h1>
+            <p style="margin: 0; font-size: 13px; color: #64748b;">Law Gate Road, Near LPU Campus<br>Phagwara, Punjab 144411</p>
+            <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8; font-weight: 600;">GSTIN: 03ABCDE1234F1Z5</p>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <h2 style="margin: 0 0 8px 0; font-size: 32px; font-weight: 900; color: #e2e8f0; text-transform: uppercase; letter-spacing: 2px;">INVOICE</h2>
+          <p style="margin: 0; font-size: 13px; font-weight: bold; color: #334155;"># ${invNumber}</p>
+          <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Date: ${dateStr}</p>
+          <p style="margin: 0; font-size: 13px; color: #f43f5e; font-weight: bold;">Due Date: ${dueDateStr}</p>
+        </div>
+      </div>
+
+      <!-- Bill To & Property Details -->
+      <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+        <div>
+          <h3 style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Billed To</h3>
+          <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 800; color: #0f172a;">${tname}</p>
+          <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600;">Room No: <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: #0f172a;">${rno}</span></p>
+        </div>
+        <div style="text-align: right;">
+          <h3 style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Property</h3>
+          <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 800; color: #b45309;">${pgName}</p>
+          <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600;">Billing Cycle: <span style="color: #0f172a;">${monthStr}</span></p>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px;">
+        <thead>
+          <tr>
+            <th style="padding: 12px; text-align: left; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; border-top-left-radius: 8px;">Description</th>
+            <th style="padding: 12px; text-align: right; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0;">Details</th>
+            <th style="padding: 12px; text-align: right; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; border-top-right-radius: 8px;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Monthly Rent</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Standard cycle</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">${rentText}</td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">
+              Electricity Consumed
+              <div style="font-size: 12px; color: #64748b; font-weight: normal; margin-top: 4px;">Main: ${eLast} → ${eCurr}<br>Inv: ${iLast} → ${iCurr}</div>
+            </td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b; vertical-align: top;">${delta} units @ ₹${rate}</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold; vertical-align: top;">${billText}</td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Maintenance & Service Charge</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Fixed</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${parseFloat(maintAmt).toLocaleString("en-IN")}</td>
+          </tr>
+          <tr style="${parseFloat(duesAmt) > 0 ? '' : 'display:none;'}">
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Other Arrears / Dues</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Previous Balances</td>
+            <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${parseFloat(duesAmt).toLocaleString("en-IN")}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Totals & Payment -->
+      <div style="display: flex; justify-content: flex-end;">
+        <div style="width: 350px;">
+          <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; margin-bottom: 12px;">
+              <span style="font-weight: bold; color: #334155;">Total Amount Payable</span>
+              <span style="font-size: 24px; font-weight: 900; color: #16a34a;">${totalDueText}</span>
+            </div>
+            <p style="margin: 0; font-size: 11px; color: #64748b; text-align: center;">Please pay before ${dueDateStr} to avoid late fees.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer & Signature -->
+      <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 2px solid #f1f5f9; padding-top: 20px;">
+        <div style="font-size: 12px; color: #94a3b8;">
+          <p style="margin: 0 0 4px 0; color: #475569; font-weight: bold;">Terms & Conditions</p>
+          <p style="margin: 0 0 2px 0;">1. Subject to Phagwara jurisdiction.</p>
+          <p style="margin: 0;">2. This is a computer-generated invoice and requires no physical signature.</p>
+        </div>
+        <div style="text-align: center; margin-right: 20px;">
+           <div style="border-bottom: 1px dashed #94a3b8; width: 120px; margin-bottom: 8px; height: 30px;">
+              <!-- Visual placeholder for digital signature -->
+              <span style="font-family: 'Brush Script MT', cursive; font-size: 20px; color: #c8a24a; opacity: 0.8;">Anvi Stay</span>
+           </div>
+           <p style="margin: 0; font-size: 13px; font-weight: bold; color: #0f172a;">Authorized Signatory</p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Global Search and Smart Billing Filter
+window.currentBillingFilter = 'all';
+window.setBillingFilter = (filterType, btn) => {
+  window.currentBillingFilter = filterType;
+  // Update button classes
+  document.querySelectorAll('#billing-quick-filters .bf-btn').forEach(b => {
+    b.classList.remove('bg-[#C8A24A]', 'text-white');
+    b.classList.add('bg-slate-100', 'text-slate-600');
+  });
+  if (btn) {
+    btn.classList.add('bg-[#C8A24A]', 'text-white');
+    btn.classList.remove('bg-slate-100', 'text-slate-600');
+  }
+  window.filterBillingSpreadsheet();
+};
+
+window.filterBillingSpreadsheet = () => {
+  const searchTerm = (byId("billing-search")?.value || "").toLowerCase();
+  const rows = byId("billing-rows")?.querySelectorAll("tr") || [];
+  const filterType = window.currentBillingFilter || 'all';
+
+  rows.forEach((tr) => {
+    const roomText = (tr.children[0]?.textContent || "").toLowerCase();
+    const tenantText = (tr.children[1]?.textContent || "").toLowerCase();
+    const isVacant = tr.classList.contains("opacity-75");
+    const balanceText = tr.querySelector(".balance-cell")?.textContent || "0";
+    const balance = parseFloat(balanceText.replace(/[^0-9.-]+/g, "")) || 0;
+
+    let show = (roomText.includes(searchTerm) || tenantText.includes(searchTerm));
+
+    // Apply Smart Filters
+    if (show) {
+      if (filterType === 'unpaid' && balance <= 0) show = false;
+      if (filterType === 'vacant' && !isVacant) show = false;
+    }
+
+    tr.style.display = show ? "" : "none";
+  });
+};
+
+// Feature: Google Sheets Auto-Save Indicator
+window.triggerAutoSaveIndicator = (isSaving) => {
+  const indicator = document.getElementById("billing-auto-save-indicator");
+  if (!indicator) return;
+  if (isSaving) {
+    indicator.innerHTML = `<i class="fas fa-spinner fa-spin text-amber-500 tracking-wider"></i> <span class="text-amber-600">Saving...</span>`;
+    indicator.classList.remove('opacity-0');
+  } else {
+    indicator.innerHTML = `<i class="fas fa-check-circle text-emerald-500 tracking-wider"></i> <span class="text-emerald-600">All changes saved</span>`;
+    indicator.classList.remove('opacity-0');
+    setTimeout(() => { indicator.classList.add('opacity-0'); }, 2500);
+  }
+};
 window.rolloverMonth = async () => {
   if (
     !confirm(
@@ -3018,16 +3945,15 @@ function renderLandlordGrid() {
             <div class="tile-room-no">${rNo}</div>
             <div class="tile-name">${t?.name || "—"}</div>
             <span class="tile-status" style="color:${t?.status === "Occupied" ? "var(--gold)" : "#94a3b8"}">${t?.status || "Vacant"}</span>
-            ${
-              t?.status === "Occupied"
-                ? `
+            ${t?.status === "Occupied"
+          ? `
               <div class="tile-bars" title="Rent | Electricity">
                 <div class="micro-bar"><div class="bar-fill ${t.rentPaid ? "rent-paid" : "rent-due"}"></div></div>
                 <div class="micro-bar"><div class="bar-fill ${t.elecPaid ? "elec-paid" : "elec-due"}" style="width:${t.elecPaid ? "100%" : "40%"}"></div></div>
               </div>
             `
-                : ""
-            }
+          : ""
+        }
           `;
       grid.appendChild(card);
     });
@@ -4265,7 +5191,7 @@ const testimonialData = [
   {
     name: "Priya Patel",
     course: "MBA, 1st Year",
-    text: "Anvi Stay made my transition so smooth. The Wi-Fi is great, rooms are clean, and the 24/7 support is a lifesaver during exams.",
+    text: "Anvi Stay made my transition-colors so smooth. The Wi-Fi is great, rooms are clean, and the 24/7 support is a lifesaver during exams.",
     rating: 5,
   },
   {
@@ -4700,7 +5626,7 @@ function renderAPMBadges(containerId, presets, selected) {
     .map((item) => {
       const isActive = selected.includes(item);
       return `<button type="button" onclick="toggleAPMBadge(this)" data-value="${item}" data-active="${isActive}"
-          class="apm-badge px-4 py-2 rounded-full text-xs font-bold border transition cursor-pointer
+          class="apm-badge px-4 py-2 rounded-full text-xs font-bold border transition-colors cursor-pointer
           ${isActive ? "bg-[#C8A24A] text-white border-[#C8A24A]" : "bg-slate-50 text-slate-500 border-slate-200 hover:border-[#C8A24A]"}">
           ${item}
         </button>`;
@@ -4713,11 +5639,11 @@ window.toggleAPMBadge = (btn) => {
   if (isActive) {
     btn.dataset.active = "false";
     btn.className =
-      "apm-badge px-4 py-2 rounded-full text-xs font-bold border transition cursor-pointer bg-slate-50 text-slate-500 border-slate-200 hover:border-[#C8A24A]";
+      "apm-badge px-4 py-2 rounded-full text-xs font-bold border transition-colors cursor-pointer bg-slate-50 text-slate-500 border-slate-200 hover:border-[#C8A24A]";
   } else {
     btn.dataset.active = "true";
     btn.className =
-      "apm-badge px-4 py-2 rounded-full text-xs font-bold border transition cursor-pointer bg-[#C8A24A] text-white border-[#C8A24A]";
+      "apm-badge px-4 py-2 rounded-full text-xs font-bold border transition-colors cursor-pointer bg-[#C8A24A] text-white border-[#C8A24A]";
   }
 };
 
@@ -4757,7 +5683,7 @@ window.addFloorRow = (name, roomsStr) => {
           <input type="text" class="apm-floor-rooms input-field py-2 text-sm" value="${rooms}" placeholder="Room numbers: 101, 102, 103" oninput="updateFloorPreview()">
           <p class="text-[9px] text-slate-400">Comma-separated room numbers. Tip: For range, use 101-108</p>
         </div>
-        <button onclick="removeFloorRow(this)" class="w-8 h-8 flex items-center justify-center text-rose-400 hover:bg-rose-50 rounded-xl transition mt-1">
+        <button onclick="removeFloorRow(this)" class="w-8 h-8 flex items-center justify-center text-rose-400 hover:bg-rose-50 rounded-xl transition-colors mt-1">
           <i class="fas fa-trash text-xs"></i>
         </button>
       `;
@@ -4929,7 +5855,7 @@ async function loadPropertiesFromAPI() {
   try {
     const res = await fetch(`${API_BASE}/properties`);
     const result = await res.json();
-    if (result.success && result.data.length > 0) {
+    if (result && result.success && Array.isArray(result.data) && result.data.length > 0) {
       // Merge API properties with hardcoded ones (API takes priority if same ID)
       const apiIds = new Set(result.data.map((p) => p.propertyId));
       const hardcodedOnly = buildings.filter((b) => !apiIds.has(b.id));
@@ -4953,9 +5879,11 @@ async function loadPropertiesFromAPI() {
         _fromAPI: true,
       }));
 
-      // Replace buildings array content
-      buildings.length = 0;
-      buildings.push(...apiBuildings, ...hardcodedOnly);
+      // Only clear if we actually have API properties
+      if (apiBuildings.length > 0) {
+        buildings.length = 0;
+        buildings.push(...apiBuildings, ...hardcodedOnly);
+      }
 
       // Ensure activeBuilding is valid
       if (!buildings.find((b) => b.id === state.activeBuilding)) {
@@ -4964,10 +5892,12 @@ async function loadPropertiesFromAPI() {
 
       // Update getLayoutForBuilding to handle API properties
       // (already handled via floors data)
+    } else {
+      console.warn("[loadProperties] API returned no valid properties, keeping hardcoded ones.");
     }
   } catch (err) {
     console.warn(
-      "[loadProperties] API not available, using hardcoded buildings.",
+      "[loadProperties] API request failed, keeping hardcoded properties.",
       err,
     );
   }
@@ -5427,10 +6357,10 @@ window.generateOwnerReport = async () => {
       "report-dues",
       "textContent",
       "₹" +
-        (
-          (a.financial?.totalUnpaidRent || 0) +
-          (a.financial?.totalUnpaidElec || 0)
-        ).toLocaleString("en-IN"),
+      (
+        (a.financial?.totalUnpaidRent || 0) +
+        (a.financial?.totalUnpaidElec || 0)
+      ).toLocaleString("en-IN"),
     );
     // Building breakdown
     const bbEl = byId("report-building-breakdown");
@@ -5465,7 +6395,7 @@ window.generateOwnerReport = async () => {
         "analytics-monthly-rent",
         "textContent",
         "₹" +
-          (a.financial.projectedMonthlyRevenue || 0).toLocaleString("en-IN"),
+        (a.financial.projectedMonthlyRevenue || 0).toLocaleString("en-IN"),
       );
       safeSet(
         "analytics-annual-proj",
@@ -5782,7 +6712,7 @@ function updatePendingActions() {
   const unpaidCount = allRooms.filter((r) => r && !r.rentPaid && r.name).length;
   if (unpaidCount > 0) {
     items.push(`
-      <div class="bg-rose-50 border border-rose-100 rounded-2xl p-4 cursor-pointer hover:bg-rose-100 transition flex items-center gap-3" onclick="setAdminTab('billing')">
+      <div class="bg-rose-50 border border-rose-100 rounded-2xl p-4 cursor-pointer hover:bg-rose-100 transition-colors flex items-center gap-3" onclick="setAdminTab('billing')">
         <div class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center flex-shrink-0">
           <i class="fas fa-indian-rupee-sign text-rose-500 text-sm"></i>
         </div>
@@ -5805,7 +6735,7 @@ function updatePendingActions() {
   });
   if (openComplaints > 0) {
     items.push(`
-      <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 cursor-pointer hover:bg-amber-100 transition flex items-center gap-3" onclick="setAdminTab('maintenance')">
+      <div class="bg-amber-50 border border-amber-100 rounded-2xl p-4 cursor-pointer hover:bg-amber-100 transition-colors flex items-center gap-3" onclick="setAdminTab('maintenance')">
         <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
           <i class="fas fa-comment-dots text-amber-500 text-sm"></i>
         </div>
@@ -5821,7 +6751,7 @@ function updatePendingActions() {
   const vacantCount = allRooms.filter((r) => r && !r.name && r.roomNo).length;
   if (vacantCount > 0) {
     items.push(`
-      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 cursor-pointer hover:bg-blue-100 transition flex items-center gap-3" onclick="setAdminTab('inventory')">
+      <div class="bg-blue-50 border border-blue-100 rounded-2xl p-4 cursor-pointer hover:bg-blue-100 transition-colors flex items-center gap-3" onclick="setAdminTab('inventory')">
         <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
           <i class="fas fa-door-open text-blue-500 text-sm"></i>
         </div>
@@ -6000,7 +6930,7 @@ setTimeout(() => {
 
 const _origSwitchView = window.switchView;
 window.switchView = (v, fromPopstate = false) => {
-  // Skip transition on initial page load to avoid blocking navigation
+  // Skip transition-colors on initial page load to avoid blocking navigation
   if (!_appLoaded) {
     _origSwitchView(v, fromPopstate);
     if (v === "landlord") {
@@ -6224,12 +7154,12 @@ window.openLightbox = (buildingIdx, imgIdx = 0) => {
 
   function renderLB() {
     overlay.innerHTML = `
-      <button onclick="document.getElementById('lightbox-overlay')?.remove()" class="absolute top-5 right-5 w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition z-10" style="backdrop-filter:blur(8px)"><i class="fas fa-xmark"></i></button>
-      <button onclick="window._lbPrev()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-lg hover:bg-white/20 transition z-10"><i class="fas fa-chevron-left"></i></button>
-      <button onclick="window._lbNext()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-lg hover:bg-white/20 transition z-10"><i class="fas fa-chevron-right"></i></button>
+      <button onclick="document.getElementById('lightbox-overlay')?.remove()" class="absolute top-5 right-5 w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center text-xl hover:bg-white/20 transition-colors z-10" style="backdrop-filter:blur(8px)"><i class="fas fa-xmark"></i></button>
+      <button onclick="window._lbPrev()" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-lg hover:bg-white/20 transition-colors z-10"><i class="fas fa-chevron-left"></i></button>
+      <button onclick="window._lbNext()" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 text-white flex items-center justify-center text-lg hover:bg-white/20 transition-colors z-10"><i class="fas fa-chevron-right"></i></button>
       <img src="${p.gallery[current]}" alt="${p.name}" class="max-h-[85vh] max-w-[90vw] object-contain rounded-2xl shadow-2xl" style="animation:viewFadeIn 0.3s ease">
       <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-        ${p.gallery.map((_, i) => `<div class="w-2.5 h-2.5 rounded-full transition ${i === current ? "bg-[#C8A24A] scale-125" : "bg-white/30"}" onclick="window._lbGo(${i})"></div>`).join("")}
+        ${p.gallery.map((_, i) => `<div class="w-2.5 h-2.5 rounded-full transition-colors ${i === current ? "bg-[#C8A24A] scale-125" : "bg-white/30"}" onclick="window._lbGo(${i})"></div>`).join("")}
       </div>
       <p class="absolute bottom-14 left-1/2 -translate-x-1/2 text-white/50 text-xs font-bold">${current + 1} / ${p.gallery.length} — ${p.name}</p>
     `;
@@ -6532,15 +7462,15 @@ window.renderMoveInChecklist = (container) => {
       <div class="w-full bg-slate-100 rounded-full h-2 mb-4"><div class="h-2 rounded-full transition-all duration-700" style="width:${pct}%;background:linear-gradient(90deg,#C8A24A,#10b981)"></div></div>
       <div class="space-y-2">
         ${checks
-          .map(
-            (c) => `
+      .map(
+        (c) => `
           <div class="flex items-center gap-3 py-2 px-3 rounded-xl ${c.done ? "bg-emerald-50" : "bg-slate-50"}">
             <i class="fas ${c.done ? "fa-check-circle text-emerald-500" : c.icon + " text-slate-300"} text-sm"></i>
             <span class="text-sm font-semibold ${c.done ? "text-emerald-700 line-through" : "text-slate-600"}">${c.label}</span>
           </div>
         `,
-          )
-          .join("")}
+      )
+      .join("")}
       </div>
     </div>
   `,
@@ -6559,7 +7489,7 @@ setTimeout(() => {
       if (topBar) {
         const toggle = document.createElement("button");
         toggle.className =
-          "dark-toggle-tenant w-10 h-10 rounded-xl flex items-center justify-center transition hover:bg-white/10";
+          "dark-toggle-tenant w-10 h-10 rounded-xl flex items-center justify-center transition-colors hover:bg-white/10";
         toggle.style.cssText =
           "position:absolute;top:16px;right:60px;z-index:50;color:white";
         toggle.innerHTML = document.body.classList.contains("dark-mode")
@@ -6791,22 +7721,21 @@ window.openExpenseTracker = () => {
         <button onclick="addExpense()" class="bg-[#C8A24A] text-white rounded-xl text-sm font-black hover:bg-[#b8922a] transition">+ Add</button>
       </div>
       <div id="expense-list" class="space-y-2">
-        ${
-          expenses.length === 0
-            ? '<p class="text-center text-slate-400 text-sm py-8">No expenses recorded yet</p>'
-            : expenses
-                .slice()
-                .reverse()
-                .map(
-                  (e) => `
+        ${expenses.length === 0
+      ? '<p class="text-center text-slate-400 text-sm py-8">No expenses recorded yet</p>'
+      : expenses
+        .slice()
+        .reverse()
+        .map(
+          (e) => `
             <div class="flex items-center justify-between py-3 px-4 rounded-xl bg-slate-50 border border-slate-100">
               <div><p class="text-sm font-bold text-slate-700">${e.desc}</p><p class="text-[10px] text-slate-400">${e.category} • ${e.date}</p></div>
               <span class="text-sm font-black text-red-500">-₹${(e.amount || 0).toLocaleString("en-IN")}</span>
             </div>
           `,
-                )
-                .join("")
-        }
+        )
+        .join("")
+    }
       </div>
     </div>
   `;
@@ -6861,23 +7790,23 @@ window.renderActivityTimeline = () => {
           <h4 class="text-sm font-black text-slate-700 mb-4"><i class="fas fa-clock-rotate-left text-[#C8A24A] mr-2"></i>Recent Activity</h4>
           <div class="relative pl-6 border-l-2 border-[#C8A24A]/20 space-y-4">
             ${logs
-              .map((log) => {
-                const colors = {
-                  billing: "bg-emerald-500",
-                  maintenance: "bg-amber-500",
-                  room: "bg-blue-500",
-                  auth: "bg-purple-500",
-                };
-                const color = colors[log.category] || "bg-slate-400";
-                const time = log.timestamp
-                  ? new Date(log.timestamp).toLocaleString("en-IN", {
-                      day: "numeric",
-                      month: "short",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : "";
-                return `
+          .map((log) => {
+            const colors = {
+              billing: "bg-emerald-500",
+              maintenance: "bg-amber-500",
+              room: "bg-blue-500",
+              auth: "bg-purple-500",
+            };
+            const color = colors[log.category] || "bg-slate-400";
+            const time = log.timestamp
+              ? new Date(log.timestamp).toLocaleString("en-IN", {
+                day: "numeric",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+              : "";
+            return `
                 <div class="relative">
                   <div class="absolute -left-[29px] w-4 h-4 rounded-full ${color} border-2 border-white"></div>
                   <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-100">
@@ -6885,14 +7814,14 @@ window.renderActivityTimeline = () => {
                     <p class="text-[10px] text-slate-400 mt-1"><span class="font-bold">${log.performedBy || ""}</span> • ${time}</p>
                   </div>
                 </div>`;
-              })
-              .join("")}
+          })
+          .join("")}
           </div>
         </div>
       `;
       container.insertAdjacentHTML("beforeend", html);
     })
-    .catch(() => {});
+    .catch(() => { });
 };
 
 // ── Admin: Maintenance Work Assignment UI ──
@@ -7069,13 +7998,13 @@ setTimeout(() => {
     const btnBar = document.createElement("div");
     btnBar.className = "flex flex-wrap gap-3 mb-4";
     btnBar.innerHTML = `
-      <button id="maint-assign-btn" onclick="openMaintenanceAssignModal()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition shadow-lg" style="background:linear-gradient(135deg,#C8A24A,#b8922a)">
+      <button id="maint-assign-btn" onclick="openMaintenanceAssignModal()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition-colors shadow-lg" style="background:linear-gradient(135deg,#C8A24A,#b8922a)">
         <i class="fas fa-plus mr-1"></i> Assign Work
       </button>
-      <button onclick="openBroadcastModal()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition shadow-lg" style="background:linear-gradient(135deg,#25d366,#128c7e)">
+      <button onclick="openBroadcastModal()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition-colors shadow-lg" style="background:linear-gradient(135deg,#25d366,#128c7e)">
         <i class="fab fa-whatsapp mr-1"></i> Broadcast
       </button>
-      <button onclick="openExpenseTracker()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition shadow-lg bg-slate-700 hover:bg-slate-800">
+      <button onclick="openExpenseTracker()" class="px-4 py-2 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-slate-700 hover:bg-slate-800">
         <i class="fas fa-receipt mr-1"></i> Expenses
       </button>
     `;
@@ -7091,18 +8020,18 @@ setTimeout(() => {
     const target = pending || dashTab;
     const actionsHtml = `
       <div id="dash-quick-actions" class="flex flex-wrap gap-3 mt-4 mb-4">
-        <button onclick="openMaintenanceAssignModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg" style="background:linear-gradient(135deg,#C8A24A,#b8922a)"><i class="fas fa-wrench mr-1"></i> Maintenance</button>
-        <button onclick="openBroadcastModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg" style="background:linear-gradient(135deg,#25d366,#128c7e)"><i class="fab fa-whatsapp mr-1"></i> Broadcast</button>
-        <button onclick="openExpenseTracker()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-slate-700 hover:bg-slate-800"><i class="fas fa-receipt mr-1"></i> Expenses</button>
-        <button onclick="openRoomSwapModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-indigo-600 hover:bg-indigo-700"><i class="fas fa-right-left mr-1"></i> Room Swap</button>
-        <button onclick="openBulkPriceModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-amber-600 hover:bg-amber-700"><i class="fas fa-tags mr-1"></i> Bulk Price</button>
-        <button onclick="openVisitorLog()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-teal-600 hover:bg-teal-700"><i class="fas fa-id-badge mr-1"></i> Visitors</button>
-        <button onclick="openRevenueReport()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-emerald-600 hover:bg-emerald-700"><i class="fas fa-chart-line mr-1"></i> Revenue</button>
-        <button onclick="loadDocExpiryAlerts()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-rose-600 hover:bg-rose-700"><i class="fas fa-bell mr-1"></i> Doc Alerts</button>
-        <button onclick="openIdCardGenerator()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-purple-600 hover:bg-purple-700"><i class="fas fa-address-card mr-1"></i> ID Card</button>
-        <button onclick="openPaymentHistory()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-blue-600 hover:bg-blue-700"><i class="fas fa-clock-rotate-left mr-1"></i> Pay History</button>
-        <button onclick="openReminderSettings()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-green-700 hover:bg-green-800"><i class="fas fa-clock mr-1"></i> Reminders</button>
-        <button onclick="openMaintenanceCalendar()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition shadow-lg bg-violet-600 hover:bg-violet-700"><i class="fas fa-calendar-alt mr-1"></i> Calendar</button>
+        <button onclick="openMaintenanceAssignModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg" style="background:linear-gradient(135deg,#C8A24A,#b8922a)"><i class="fas fa-wrench mr-1"></i> Maintenance</button>
+        <button onclick="openBroadcastModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg" style="background:linear-gradient(135deg,#25d366,#128c7e)"><i class="fab fa-whatsapp mr-1"></i> Broadcast</button>
+        <button onclick="openExpenseTracker()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-slate-700 hover:bg-slate-800"><i class="fas fa-receipt mr-1"></i> Expenses</button>
+        <button onclick="openRoomSwapModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-indigo-600 hover:bg-indigo-700"><i class="fas fa-right-left mr-1"></i> Room Swap</button>
+        <button onclick="openBulkPriceModal()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-amber-600 hover:bg-amber-700"><i class="fas fa-tags mr-1"></i> Bulk Price</button>
+        <button onclick="openVisitorLog()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-teal-600 hover:bg-teal-700"><i class="fas fa-id-badge mr-1"></i> Visitors</button>
+        <button onclick="openRevenueReport()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-emerald-600 hover:bg-emerald-700"><i class="fas fa-chart-line mr-1"></i> Revenue</button>
+        <button onclick="loadDocExpiryAlerts()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-rose-600 hover:bg-rose-700"><i class="fas fa-bell mr-1"></i> Doc Alerts</button>
+        <button onclick="openIdCardGenerator()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-purple-600 hover:bg-purple-700"><i class="fas fa-address-card mr-1"></i> ID Card</button>
+        <button onclick="openPaymentHistory()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-blue-600 hover:bg-blue-700"><i class="fas fa-clock-rotate-left mr-1"></i> Pay History</button>
+        <button onclick="openReminderSettings()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-green-700 hover:bg-green-800"><i class="fas fa-clock mr-1"></i> Reminders</button>
+        <button onclick="openMaintenanceCalendar()" class="px-4 py-2.5 rounded-xl text-xs font-black text-white transition-colors shadow-lg bg-violet-600 hover:bg-violet-700"><i class="fas fa-calendar-alt mr-1"></i> Calendar</button>
       </div>
     `;
     target.insertAdjacentHTML("afterend", actionsHtml);
@@ -7184,17 +8113,16 @@ window.openPaymentHistory = async () => {
     o.className =
       "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
     o.id = "pay-history-modal";
-    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>Payment History (${ap.length})</h3><button onclick="document.getElementById('pay-history-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${
-      ap.length === 0
-        ? '<p class="text-slate-400 text-center py-8">No payments yet</p>'
-        : `<table class="w-full text-xs"><thead><tr class="text-left"><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Tenant</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">PG/Room</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Type</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Amount</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Date</th></tr></thead><tbody>${ap
-            .slice(0, 100)
-            .map(
-              (p) =>
-                `<tr class="border-t border-slate-50"><td class="py-2 font-bold">${p.tenantName || "—"}</td><td class="py-2">${p.buildingId}/${p.roomNo}</td><td class="py-2"><span class="px-2 py-0.5 rounded-full text-[9px] font-black ${p.type === "rent" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}">${p.type}</span></td><td class="py-2 font-black">₹${(p.amount || 0).toLocaleString("en-IN")}</td><td class="py-2 text-slate-400">${p.paidAt ? new Date(p.paidAt).toLocaleDateString("en-IN") : "—"}</td></tr>`,
-            )
-            .join("")}</tbody></table>`
-    }</div></div>`;
+    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>Payment History (${ap.length})</h3><button onclick="document.getElementById('pay-history-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${ap.length === 0
+      ? '<p class="text-slate-400 text-center py-8">No payments yet</p>'
+      : `<table class="w-full text-xs"><thead><tr class="text-left"><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Tenant</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">PG/Room</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Type</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Amount</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Date</th></tr></thead><tbody>${ap
+        .slice(0, 100)
+        .map(
+          (p) =>
+            `<tr class="border-t border-slate-50"><td class="py-2 font-bold">${p.tenantName || "—"}</td><td class="py-2">${p.buildingId}/${p.roomNo}</td><td class="py-2"><span class="px-2 py-0.5 rounded-full text-[9px] font-black ${p.type === "rent" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}">${p.type}</span></td><td class="py-2 font-black">₹${(p.amount || 0).toLocaleString("en-IN")}</td><td class="py-2 text-slate-400">${p.paidAt ? new Date(p.paidAt).toLocaleDateString("en-IN") : "—"}</td></tr>`,
+        )
+        .join("")}</tbody></table>`
+      }</div></div>`;
     document.body.appendChild(o);
   } catch (e) {
     toast("Error");
@@ -7300,7 +8228,7 @@ window.openVisitorLog = async () => {
     });
     const d = await res.json();
     if (d.success) visitors = d.data;
-  } catch (e) {}
+  } catch (e) { }
   const o = document.createElement("div");
   o.className =
     "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
@@ -7367,7 +8295,7 @@ window.openMaintenanceCalendar = async () => {
     });
     const d = await res.json();
     if (d.success) tasks = d.data;
-  } catch (e) {}
+  } catch (e) { }
   const o = document.createElement("div");
   o.className =
     "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
@@ -7529,18 +8457,17 @@ window.loadDocExpiryAlerts = async () => {
     o.className =
       "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
     o.id = "doc-alerts-modal";
-    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-bell mr-2 text-rose-500"></i>Document Expiry Alerts</h3><button onclick="document.getElementById('doc-alerts-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${expired.length ? `<div class="mb-6"><h4 class="text-xs font-black text-rose-600 uppercase tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-1"></i>Expired (${expired.length})</h4>${expired.map((r) => `<div class="flex justify-between items-center p-3 bg-rose-50 rounded-xl mb-2 border border-rose-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-rose-600">${r.agreementEndDate}</p><p class="text-[10px] text-rose-400">EXPIRED</p></div></div>`).join("")}</div>` : ""}${
-      expiringSoon.length
-        ? `<div><h4 class="text-xs font-black text-amber-600 uppercase tracking-wider mb-3"><i class="fas fa-clock mr-1"></i>Expiring Soon (${expiringSoon.length})</h4>${expiringSoon
-            .map((r) => {
-              const days = Math.ceil(
-                (new Date(r.agreementEndDate) - new Date()) / 86400000,
-              );
-              return `<div class="flex justify-between items-center p-3 bg-amber-50 rounded-xl mb-2 border border-amber-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-amber-600">${r.agreementEndDate}</p><p class="text-[10px] text-amber-400">${days} days left</p></div></div>`;
-            })
-            .join("")}</div>`
-        : ""
-    }${!expired.length && !expiringSoon.length ? '<div class="text-center py-12"><i class="fas fa-check-circle text-4xl text-emerald-400 mb-3 block"></i><p class="text-sm font-bold text-slate-500">All documents up to date! 🎉</p></div>' : ""}</div></div>`;
+    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-bell mr-2 text-rose-500"></i>Document Expiry Alerts</h3><button onclick="document.getElementById('doc-alerts-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${expired.length ? `<div class="mb-6"><h4 class="text-xs font-black text-rose-600 uppercase tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-1"></i>Expired (${expired.length})</h4>${expired.map((r) => `<div class="flex justify-between items-center p-3 bg-rose-50 rounded-xl mb-2 border border-rose-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-rose-600">${r.agreementEndDate}</p><p class="text-[10px] text-rose-400">EXPIRED</p></div></div>`).join("")}</div>` : ""}${expiringSoon.length
+      ? `<div><h4 class="text-xs font-black text-amber-600 uppercase tracking-wider mb-3"><i class="fas fa-clock mr-1"></i>Expiring Soon (${expiringSoon.length})</h4>${expiringSoon
+        .map((r) => {
+          const days = Math.ceil(
+            (new Date(r.agreementEndDate) - new Date()) / 86400000,
+          );
+          return `<div class="flex justify-between items-center p-3 bg-amber-50 rounded-xl mb-2 border border-amber-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-amber-600">${r.agreementEndDate}</p><p class="text-[10px] text-amber-400">${days} days left</p></div></div>`;
+        })
+        .join("")}</div>`
+      : ""
+      }${!expired.length && !expiringSoon.length ? '<div class="text-center py-12"><i class="fas fa-check-circle text-4xl text-emerald-400 mb-3 block"></i><p class="text-sm font-bold text-slate-500">All documents up to date! 🎉</p></div>' : ""}</div></div>`;
     document.body.appendChild(o);
   } catch (e) {
     toast("Error");
@@ -7590,8 +8517,126 @@ async function loadFeedbackRatings() {
         }
       });
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 setTimeout(loadFeedbackRatings, 3000);
 
 run();
+
+// Global Search and Smart Billing Filter
+window.currentBillingFilter = 'all';
+window.setBillingFilter = (filterType, btn) => {
+  window.currentBillingFilter = filterType;
+  // Update button classes
+  document.querySelectorAll('#billing-quick-filters .bf-btn').forEach(b => {
+    b.classList.remove('bg-[#C8A24A]', 'text-white');
+    b.classList.add('bg-slate-100', 'text-slate-600');
+  });
+  if (btn) {
+    btn.classList.add('bg-[#C8A24A]', 'text-white');
+    btn.classList.remove('bg-slate-100', 'text-slate-600');
+  }
+  window.filterBillingSpreadsheet();
+};
+
+window.filterBillingSpreadsheet = () => {
+  const searchTerm = (byId("billing-search")?.value || "").toLowerCase();
+  const rows = byId("billing-rows")?.querySelectorAll("tr") || [];
+  const filterType = window.currentBillingFilter || 'all';
+
+  rows.forEach((tr) => {
+    const roomText = (tr.children[0]?.textContent || "").toLowerCase();
+    const tenantText = (tr.children[1]?.textContent || "").toLowerCase();
+    const isVacant = tr.classList.contains("opacity-75");
+    const balanceText = tr.querySelector(".balance-cell")?.textContent || "0";
+    const balance = parseFloat(balanceText.replace(/[^0-9.-]+/g, "")) || 0;
+
+    let show = (roomText.includes(searchTerm) || tenantText.includes(searchTerm));
+
+    // Apply Smart Filters
+    if (show) {
+      if (filterType === 'unpaid' && balance <= 0) show = false;
+      if (filterType === 'vacant' && !isVacant) show = false;
+    }
+
+    tr.style.display = show ? "" : "none";
+  });
+};
+
+// Feature: Google Sheets Auto-Save Indicator
+window.triggerAutoSaveIndicator = (isSaving) => {
+  const indicator = document.getElementById("billing-auto-save-indicator");
+  if (!indicator) return;
+  if (isSaving) {
+    indicator.innerHTML = `<i class="fas fa-spinner fa-spin text-amber-500 tracking-wider"></i> <span class="text-amber-600">Saving...</span>`;
+    indicator.classList.remove('opacity-0');
+  } else {
+    indicator.innerHTML = `<i class="fas fa-check-circle text-emerald-500 tracking-wider"></i> <span class="text-emerald-600">All changes saved</span>`;
+    indicator.classList.remove('opacity-0');
+    setTimeout(() => { indicator.classList.add('opacity-0'); }, 2500);
+  }
+};
+
+// Automatically recalculate footer when anything changes
+const originalCalcBillingRow = window.recalcBillingRowLive;
+window.recalcBillingRowLive = (tr) => {
+  if (originalCalcBillingRow) originalCalcBillingRow(tr);
+  recalcFooter();
+};
+
+window.recalcFooter = () => {
+  let sumElec = 0;
+  let sumRent = 0;
+  let sumTotal = 0;
+  let sumBalance = 0;
+
+  // Find spreadsheet totals
+  const rows = byId("billing-table-body")?.querySelectorAll("tbody tr") || [];
+  rows.forEach((tr) => {
+    const isVacant = tr.classList.contains("opacity-75");
+    if (isVacant) return;
+
+    const rate = parseFloat(tr.querySelector(".billing-rate")?.value) || 13;
+    const eLast = parseFloat(tr.querySelector(".billing-elast")?.value) || 0;
+    const eCurr = parseFloat(tr.querySelector(".billing-ecurr")?.value) || 0;
+    const iLast = parseFloat(tr.querySelector(".billing-ilast")?.value) || 0;
+    const iCurr = parseFloat(tr.querySelector(".billing-icurr")?.value) || 0;
+
+    const delta = Math.max(0, eCurr - eLast) + Math.max(0, iCurr - iLast);
+    const bill = delta * rate;
+
+    const rentText = tr.children[9]?.textContent || "0";
+    const rent = parseFloat(rentText.replace(/[^0-9.-]+/g, "")) || 0;
+
+    const maintenanceCharge =
+      parseFloat(tr.querySelector(".billing-maintenance")?.value) || 0;
+    const otherDues =
+      parseFloat(tr.querySelector(".billing-other-dues")?.value) || 0;
+    const amountPaid =
+      parseFloat(tr.querySelector(".billing-amount-paid")?.value) || 0;
+
+    const totalDue = bill + rent + maintenanceCharge + otherDues;
+    const balance = totalDue - amountPaid;
+
+    sumElec += bill;
+    sumRent += rent;
+    sumTotal += totalDue;
+    sumBalance += balance;
+  });
+
+  // Update spreadsheet footer
+  const tfoot = byId("billing-footer");
+  if (tfoot) {
+    tfoot.innerHTML = `
+        <tr>
+          <td colspan="8" class="text-right py-3 pr-4 text-slate-400 uppercase tracking-wider">Spreadsheet Totals</td>
+          <td class="py-3 text-amber-700">₹${sumElec.toLocaleString("en-IN")}</td>
+          <td class="py-3 text-slate-700">₹${sumRent.toLocaleString("en-IN")}</td>
+          <td class="py-3"></td>
+          <td class="py-3 text-emerald-700">₹${sumTotal.toLocaleString("en-IN")}</td>
+          <td colspan="1"></td>
+          <td class="py-3 text-rose-700">₹${sumBalance.toLocaleString("en-IN")}</td>
+          <td colspan="2"></td>
+        </tr>`;
+  }
+};

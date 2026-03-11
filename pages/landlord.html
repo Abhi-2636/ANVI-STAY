@@ -1,144 +1,76 @@
 <div id="view-landlord" class="view-section">
   <!-- Mobile sidebar backdrop -->
-  <div
-    class="admin-mobile-backdrop"
-    id="admin-mobile-backdrop"
-    onclick="toggleMobileSidebar()"
-  ></div>
+  <div class="admin-mobile-backdrop" id="admin-mobile-backdrop" onclick="toggleMobileSidebar()"></div>
 
   <!-- ═══ SIDEBAR ═══ -->
   <nav class="admin-sidebar" id="admin-sidebar">
     <div class="sidebar-logo">
-      <div
-        class="logo-icon"
-        style="
+      <div class="logo-icon" style="
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
           padding: 0;
-        "
-      >
-        <img
-          src="logo.png"
-          alt="ANVI STAY Logo"
-          style="width: 100%; height: 100%; object-fit: contain"
-        />
+        ">
+        <img src="logo.png" alt="ANVI STAY Logo" style="width: 100%; height: 100%; object-fit: contain" />
       </div>
       <span class="logo-text" style="letter-spacing: 0.06em">ANVI STAY</span>
     </div>
     <div class="sidebar-nav">
       <div class="nav-section-title">Overview</div>
-      <div
-        class="sidebar-link active"
-        onclick="setAdminTab('dashboard')"
-        data-tab="dashboard"
-      >
+      <div class="sidebar-link active" onclick="setAdminTab('dashboard')" data-tab="dashboard">
         <i class="fas fa-chart-pie"></i><span class="nav-label">Dashboard</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('inventory')"
-        data-tab="inventory"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('inventory')" data-tab="inventory">
         <i class="fas fa-building"></i><span class="nav-label">Inventory</span>
       </div>
 
       <div class="nav-section-title">Operations</div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('billing')"
-        data-tab="billing"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('billing')" data-tab="billing">
         <i class="fas fa-bolt"></i><span class="nav-label">Billing</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('maintenance')"
-        data-tab="maintenance"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('maintenance')" data-tab="maintenance">
         <i class="fas fa-wrench"></i><span class="nav-label">Maintenance</span>
       </div>
       <div class="sidebar-link" onclick="setAdminTab('upi')" data-tab="upi">
-        <i class="fas fa-credit-card"></i
-        ><span class="nav-label">UPI Queue</span>
+        <i class="fas fa-credit-card"></i><span class="nav-label">UPI Queue</span>
       </div>
 
       <div class="nav-section-title">Engagement</div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('analytics')"
-        data-tab="analytics"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('analytics')" data-tab="analytics">
         <i class="fas fa-chart-bar"></i><span class="nav-label">Analytics</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('notices')"
-        data-tab="notices"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('notices')" data-tab="notices">
         <i class="fas fa-bullhorn"></i><span class="nav-label">Notices</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('guests')"
-        data-tab="guests"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('guests')" data-tab="guests">
         <i class="fas fa-user-group"></i><span class="nav-label">Guests</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('bookings')"
-        data-tab="bookings"
-      >
-        <i class="fas fa-calendar-check"></i
-        ><span class="nav-label">Bookings</span>
+      <div class="sidebar-link" onclick="setAdminTab('bookings')" data-tab="bookings">
+        <i class="fas fa-calendar-check"></i><span class="nav-label">Bookings</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('housekeeping')"
-        data-tab="housekeeping"
-      >
+      <div class="sidebar-link" onclick="setAdminTab('housekeeping')" data-tab="housekeeping">
         <i class="fas fa-broom"></i><span class="nav-label">Housekeeping</span>
       </div>
 
       <div class="nav-section-title">Legal & Reports</div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('agreements')"
-        data-tab="agreements"
-      >
-        <i class="fas fa-file-signature"></i
-        ><span class="nav-label">Agreements</span>
+      <div class="sidebar-link" onclick="setAdminTab('agreements')" data-tab="agreements">
+        <i class="fas fa-file-signature"></i><span class="nav-label">Agreements</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('owner-reports')"
-        data-tab="owner-reports"
-      >
-        <i class="fas fa-chart-line"></i
-        ><span class="nav-label">Owner Reports</span>
+      <div class="sidebar-link" onclick="setAdminTab('owner-reports')" data-tab="owner-reports">
+        <i class="fas fa-chart-line"></i><span class="nav-label">Owner Reports</span>
       </div>
-      <div
-        class="sidebar-link"
-        onclick="setAdminTab('audit-trail')"
-        data-tab="audit-trail"
-      >
-        <i class="fas fa-clock-rotate-left"></i
-        ><span class="nav-label">Audit Trail</span>
+      <div class="sidebar-link" onclick="setAdminTab('audit-trail')" data-tab="audit-trail">
+        <i class="fas fa-clock-rotate-left"></i><span class="nav-label">Audit Trail</span>
       </div>
     </div>
     <!-- Sidebar footer -->
-    <div
-      style="
+    <div style="
         padding: 16px 20px;
         margin-top: auto;
         border-top: 1px solid rgba(255, 255, 255, 0.04);
-      "
-    >
-      <div
-        class="nav-label"
-        style="
+      ">
+      <div class="nav-label" style="
           display: flex;
           align-items: center;
           gap: 8px;
@@ -147,17 +79,12 @@
           color: rgba(255, 255, 255, 0.12);
           text-transform: uppercase;
           letter-spacing: 0.15em;
-        "
-      >
+        ">
         <span class="live-indicator" style="width: 5px; height: 5px"></span>
         v2.0 • Online
       </div>
     </div>
-    <div
-      class="sidebar-toggle"
-      onclick="toggleAdminSidebar()"
-      title="Collapse sidebar"
-    >
+    <div class="sidebar-toggle" onclick="toggleAdminSidebar()" title="Collapse sidebar">
       <i class="fas fa-chevron-left" id="sidebar-toggle-icon"></i>
     </div>
   </nav>
@@ -167,121 +94,79 @@
     <!-- Top Bar -->
     <div class="admin-topbar">
       <div class="flex items-center gap-2 sm:gap-3 min-w-0">
-        <button
-          onclick="toggleMobileSidebar()"
+        <button onclick="toggleMobileSidebar()"
           class="md:hidden flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 rounded-xl border flex items-center justify-center transition active:scale-95"
           style="
             background: rgba(255, 255, 255, 0.05);
             border-color: rgba(255, 255, 255, 0.08);
             color: var(--admin-text-dim);
-          "
-          aria-label="Menu"
-        >
+          " aria-label="Menu">
           <i class="fas fa-bars text-sm"></i>
         </button>
         <div class="min-w-0">
-          <h2
-            class="text-base sm:text-lg font-black tracking-tight leading-tight truncate"
-            style="color: var(--admin-text-bright)"
-            id="admin-tab-title"
-          >
+          <h2 class="text-base sm:text-lg font-black tracking-tight leading-tight truncate"
+            style="color: var(--admin-text-bright)" id="admin-tab-title">
             Dashboard
           </h2>
-          <p
-            class="text-[10px] font-bold tracking-wide hidden sm:block"
-            style="color: var(--admin-text-dim)"
-            id="admin-topbar-date"
-          ></p>
+          <p class="text-[10px] font-bold tracking-wide hidden sm:block" style="color: var(--admin-text-dim)"
+            id="admin-topbar-date"></p>
         </div>
       </div>
       <div class="flex items-center gap-1.5 sm:gap-3 flex-shrink-0">
         <!-- Notification Bell -->
-        <div
-          class="notif-bell"
-          id="admin-notif-bell"
-          onclick="toggleAdminNotifPanel()"
-        >
+        <div class="notif-bell" id="admin-notif-bell" onclick="toggleAdminNotifPanel()">
           <div
             class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition cursor-pointer active:scale-95"
             style="
               background: rgba(255, 255, 255, 0.05);
               border: 1px solid rgba(255, 255, 255, 0.08);
               color: var(--admin-text-dim);
-            "
-          >
+            ">
             <i class="fas fa-bell text-sm" id="admin-bell-icon"></i>
           </div>
-          <span
-            class="notif-badge"
-            id="admin-notif-badge"
-            data-count="0"
-          ></span>
-          <div
-            class="notif-dropdown"
-            id="admin-notif-dropdown"
-            style="
+          <span class="notif-badge" id="admin-notif-badge" data-count="0"></span>
+          <div class="notif-dropdown" id="admin-notif-dropdown" style="
               background: var(--navy-card);
               border-color: var(--admin-border);
-            "
-          >
-            <div
-              class="px-5 py-4 flex items-center justify-between"
-              style="border-bottom: 1px solid var(--admin-border)"
-            >
-              <p
-                class="font-black text-sm"
-                style="color: var(--admin-text-bright)"
-              >
+            ">
+            <div class="px-5 py-4 flex items-center justify-between"
+              style="border-bottom: 1px solid var(--admin-border)">
+              <p class="font-black text-sm" style="color: var(--admin-text-bright)">
                 Notifications
               </p>
-              <button
-                onclick="
+              <button onclick="
                   event.stopPropagation();
                   clearAdminNotifs();
-                "
-                class="text-[10px] font-bold uppercase tracking-wider"
-                style="color: var(--admin-text-dim)"
-              >
+                " class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--admin-text-dim)">
                 Clear all
               </button>
             </div>
             <div class="notif-dropdown-list" id="admin-notif-list">
-              <div
-                class="px-5 py-8 text-center text-sm"
-                style="color: var(--admin-text-dim)"
-              >
+              <div class="px-5 py-8 text-center text-sm" style="color: var(--admin-text-dim)">
                 No new notifications
               </div>
             </div>
           </div>
         </div>
         <!-- Admin Avatar -->
-        <div
-          class="hidden sm:flex items-center gap-2 pl-2"
-          style="border-left: 1px solid var(--admin-border)"
-        >
-          <div
-            class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black text-white"
-            style="
+        <div class="hidden sm:flex items-center gap-2 pl-2" style="border-left: 1px solid var(--admin-border)">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black text-white" style="
               background: linear-gradient(
                 135deg,
                 var(--gold),
                 var(--gold-light)
               );
-            "
-          >
+            ">
             <i class="fas fa-user-tie text-xs"></i>
           </div>
         </div>
-        <button
-          onclick="goBack()"
+        <button onclick="goBack()"
           class="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 text-xs font-bold rounded-xl transition active:scale-95"
           style="
             color: #f43f5e;
             border: 1px solid rgba(244, 63, 94, 0.25);
             background: rgba(244, 63, 94, 0.08);
-          "
-        >
+          ">
           <i class="fas fa-arrow-right-from-bracket text-[11px]"></i>
           <span class="hidden sm:inline">Logout</span>
         </button>
@@ -291,10 +176,7 @@
     <!-- ═══ SUB-VIEW: Dashboard ═══ -->
     <div class="admin-subview active" id="admin-tab-dashboard">
       <!-- #6: Welcome Banner -->
-      <div
-        id="admin-welcome-banner"
-        class="rounded-[20px] p-6 sm:p-8 mb-6 relative overflow-hidden"
-        style="
+      <div id="admin-welcome-banner" class="rounded-[20px] p-6 sm:p-8 mb-6 relative overflow-hidden" style="
           background: linear-gradient(
             135deg,
             var(--gold) 0%,
@@ -302,17 +184,10 @@
             #e8c94a 100%
           );
           box-shadow: 0 8px 32px rgba(212, 168, 67, 0.25);
-        "
-      >
-        <div
-          class="relative z-10 flex items-center justify-between flex-wrap gap-4"
-        >
+        ">
+        <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
           <div>
-            <p
-              id="admin-greeting"
-              class="text-2xl sm:text-3xl font-black tracking-tight"
-              style="color: #080d1a"
-            >
+            <p id="admin-greeting" class="text-2xl sm:text-3xl font-black tracking-tight" style="color: #080d1a">
               Good Morning 👋
             </p>
             <p class="text-sm font-bold mt-1 opacity-70" style="color: #080d1a">
@@ -321,14 +196,9 @@
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <div
-              class="px-4 py-2 rounded-xl text-xs font-black flex items-center gap-2"
-              style="background: rgba(8, 13, 26, 0.12); color: #080d1a"
-            >
-              <span
-                class="live-indicator"
-                style="width: 6px; height: 6px; background: #080d1a"
-              ></span>
+            <div class="px-4 py-2 rounded-xl text-xs font-black flex items-center gap-2"
+              style="background: rgba(8, 13, 26, 0.12); color: #080d1a">
+              <span class="live-indicator" style="width: 6px; height: 6px; background: #080d1a"></span>
               <span id="admin-greeting-time"></span>
             </div>
           </div>
@@ -339,111 +209,58 @@
       </div>
 
       <!-- #7: Pending Actions Widget -->
-      <div
-        id="admin-pending-actions"
-        class="hidden rounded-[20px] p-5 sm:p-6 mb-6 border"
-        style="
+      <div id="admin-pending-actions" class="hidden rounded-[20px] p-5 sm:p-6 mb-6 border" style="
           background: var(--admin-card-bg);
           border-color: var(--admin-border);
-        "
-      >
+        ">
         <div class="flex items-center gap-2 mb-4">
-          <span
-            class="w-7 h-7 rounded-lg flex items-center justify-center"
-            style="background: rgba(244, 63, 94, 0.1)"
-          >
-            <i
-              class="fas fa-triangle-exclamation text-xs"
-              style="color: #f43f5e"
-            ></i>
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center" style="background: rgba(244, 63, 94, 0.1)">
+            <i class="fas fa-triangle-exclamation text-xs" style="color: #f43f5e"></i>
           </span>
-          <h3
-            class="text-sm font-black uppercase tracking-wider"
-            style="color: var(--admin-text)"
-          >
+          <h3 class="text-sm font-black uppercase tracking-wider" style="color: var(--admin-text)">
             Needs Attention
           </h3>
-          <span
-            id="pending-action-count"
-            class="ml-auto px-2.5 py-0.5 text-[10px] font-black rounded-full"
-            style="background: rgba(244, 63, 94, 0.1); color: #f43f5e"
-            >0</span
-          >
+          <span id="pending-action-count" class="ml-auto px-2.5 py-0.5 text-[10px] font-black rounded-full"
+            style="background: rgba(244, 63, 94, 0.1); color: #f43f5e">0</span>
         </div>
-        <div
-          id="pending-action-list"
-          class="grid grid-cols-1 sm:grid-cols-3 gap-3"
-        >
+        <div id="pending-action-list" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <!-- Dynamically populated -->
         </div>
       </div>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
-        <div
-          class="stat-card-v2 cursor-pointer"
-          onclick="setAdminTab('inventory')"
-        >
-          <div
-            class="stat-icon"
-            style="background: rgba(52, 211, 153, 0.12); color: #34d399"
-          >
+        <div class="stat-card-v2 cursor-pointer" onclick="setAdminTab('inventory')">
+          <div class="stat-icon" style="background: rgba(52, 211, 153, 0.12); color: #34d399">
             <i class="fas fa-users"></i>
           </div>
           <div class="stat-val" id="l-stat-occ">--</div>
           <div class="stat-lbl">Active / Total</div>
         </div>
-        <div
-          class="stat-card-v2 cursor-pointer"
-          onclick="setAdminTab('billing')"
-        >
-          <div
-            class="stat-icon"
-            style="background: rgba(16, 185, 129, 0.12); color: #10b981"
-          >
+        <div class="stat-card-v2 cursor-pointer" onclick="setAdminTab('billing')">
+          <div class="stat-icon" style="background: rgba(16, 185, 129, 0.12); color: #10b981">
             <i class="fas fa-indian-rupee-sign"></i>
           </div>
           <div class="stat-val" id="l-stat-rev">₹0</div>
           <div class="stat-lbl">Net Inflow</div>
         </div>
-        <div
-          class="stat-card-v2 cursor-pointer"
-          onclick="setAdminTab('billing')"
-        >
-          <div
-            class="stat-icon"
-            style="background: rgba(234, 179, 8, 0.12); color: #eab308"
-          >
+        <div class="stat-card-v2 cursor-pointer" onclick="setAdminTab('billing')">
+          <div class="stat-icon" style="background: rgba(234, 179, 8, 0.12); color: #eab308">
             <i class="fas fa-bolt"></i>
           </div>
           <div class="stat-val" id="l-stat-pending-elec">0</div>
           <div class="stat-lbl">Bills Due</div>
         </div>
-        <div
-          class="stat-card-v2 cursor-pointer"
-          onclick="setAdminTab('maintenance')"
-        >
-          <div
-            class="stat-icon"
-            style="background: rgba(244, 63, 94, 0.12); color: #f43f5e"
-          >
+        <div class="stat-card-v2 cursor-pointer" onclick="setAdminTab('maintenance')">
+          <div class="stat-icon" style="background: rgba(244, 63, 94, 0.12); color: #f43f5e">
             <i class="fas fa-comment-dots"></i>
           </div>
           <div class="stat-val" id="l-stat-complaints">0</div>
           <div class="stat-lbl">Open Complaints</div>
-          <span
-            id="l-stat-complaints-dot"
-            class="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full hidden"
-            style="animation: pulse-red 2s infinite"
-          ></span>
+          <span id="l-stat-complaints-dot" class="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full hidden"
+            style="animation: pulse-red 2s infinite"></span>
         </div>
-        <div
-          class="stat-card-v2 cursor-pointer"
-          onclick="setAdminTab('maintenance')"
-        >
-          <div
-            class="stat-icon"
-            style="background: rgba(245, 158, 11, 0.12); color: #f59e0b"
-          >
+        <div class="stat-card-v2 cursor-pointer" onclick="setAdminTab('maintenance')">
+          <div class="stat-icon" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b">
             <i class="fas fa-ticket"></i>
           </div>
           <div class="stat-val" id="l-stat-expiring">0</div>
@@ -452,51 +269,32 @@
       </div>
 
       <!-- Occupancy Donut -->
-      <div
-        class="rounded-[20px] p-6 mb-6 shadow-sm"
-        style="
+      <div class="rounded-[20px] p-6 mb-6 shadow-sm" style="
           background: var(--admin-card-bg);
           border: 1px solid var(--admin-border);
-        "
-        id="occ-donut-container"
-      ></div>
+        " id="occ-donut-container"></div>
 
       <!-- Quick Room Grid Preview -->
-      <div
-        class="rounded-[20px] p-6 shadow-sm"
-        style="
+      <div class="rounded-[20px] p-6 shadow-sm" style="
           background: var(--admin-card-bg);
           border: 1px solid var(--admin-border);
-        "
-      >
+        ">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(255, 255, 255, 0.05)"
-              ><i
-                class="fas fa-th text-xs"
-                style="color: var(--admin-text-dim)"
-              ></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(255, 255, 255, 0.05)"><i class="fas fa-th text-xs"
+                style="color: var(--admin-text-dim)"></i></span>
             Room Overview
           </h3>
-          <button
-            onclick="setAdminTab('inventory')"
-            class="text-xs font-bold hover:underline flex items-center gap-1"
-            style="color: var(--gold)"
-          >
+          <button onclick="setAdminTab('inventory')" class="text-xs font-bold hover:underline flex items-center gap-1"
+            style="color: var(--gold)">
             View Full Inventory
             <i class="fas fa-arrow-right text-[10px]"></i>
           </button>
         </div>
-        <div
-          id="l-room-grid-preview"
-          class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2"
-        ></div>
+        <div id="l-room-grid-preview" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2">
+        </div>
       </div>
     </div>
 
@@ -504,339 +302,237 @@
     <div class="admin-subview" id="admin-tab-inventory">
       <!-- Property Tabs + Actions -->
       <div class="flex items-center gap-3 mb-5 flex-wrap">
-        <h3
-          class="text-sm font-black flex-shrink-0 flex items-center gap-2"
-          style="color: var(--admin-text)"
-        >
-          <span
-            class="w-7 h-7 rounded-lg flex items-center justify-center"
-            style="background: rgba(229, 184, 76, 0.1)"
-            ><i class="fas fa-building text-xs" style="color: var(--gold)"></i
-          ></span>
+        <h3 class="text-sm font-black flex-shrink-0 flex items-center gap-2" style="color: var(--admin-text)">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+            style="background: rgba(229, 184, 76, 0.1)"><i class="fas fa-building text-xs"
+              style="color: var(--gold)"></i></span>
           Properties
         </h3>
         <div class="flex-1"></div>
-        <button
-          onclick="openEditPropertyModal()"
-          class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition"
-          style="
+        <button onclick="openEditPropertyModal()"
+          class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold transition" style="
             background: var(--admin-card-bg);
             border: 1px solid var(--admin-border);
             color: var(--admin-text-dim);
-          "
-          title="Edit current property"
-        >
+          " title="Edit current property">
           <i class="fas fa-pen-to-square"></i> Edit
         </button>
-        <button
-          onclick="openAddPropertyModal()"
-          class="flex items-center gap-2 bg-gradient-to-r from-[#E5B84C] to-[#F2D06B] text-[#0B1120] px-5 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md"
-        >
+        <button onclick="openAddPropertyModal()"
+          class="flex items-center gap-2 bg-gradient-to-r from-[#E5B84C] to-[#F2D06B] text-[#0B1120] px-5 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md">
           <i class="fas fa-plus"></i> Add Property
         </button>
       </div>
-      <div
-        class="flex items-center space-x-2 overflow-x-auto pb-4 scrollbar-hide mb-4"
-        id="l-building-tabs"
-      ></div>
+      <div class="flex items-center space-x-2 overflow-x-auto pb-4 scrollbar-hide mb-4" id="l-building-tabs"></div>
 
       <!-- Filter -->
-      <div
-        class="flex items-center space-x-1.5 p-1.5 rounded-2xl w-fit mb-6 shadow-sm"
-        style="
+      <div class="flex items-center space-x-1.5 p-1.5 rounded-2xl w-fit mb-6 shadow-sm" style="
           background: var(--navy-card);
           border: 1px solid var(--admin-border);
-        "
-      >
-        <button
-          onclick="setLFilter('all')"
-          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white"
-          data-filt="all"
-        >
+        ">
+        <button onclick="setLFilter('all')"
+          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white" data-filt="all">
           All
         </button>
-        <button
-          onclick="setLFilter('pendingRent')"
-          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition"
-          style="color: var(--admin-text-dim)"
-          data-filt="pendingRent"
-        >
+        <button onclick="setLFilter('pendingRent')"
+          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition" style="color: var(--admin-text-dim)"
+          data-filt="pendingRent">
           Pending Dues
         </button>
-        <button
-          onclick="setLFilter('vacant')"
-          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition"
-          style="color: var(--admin-text-dim)"
-          data-filt="vacant"
-        >
+        <button onclick="setLFilter('vacant')" class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition"
+          style="color: var(--admin-text-dim)" data-filt="vacant">
           Vacant
         </button>
       </div>
 
       <!-- Room Grid -->
-      <div
-        id="l-room-grid"
-        class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3"
-      ></div>
+      <div id="l-room-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
+      </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Billing (Spreadsheet Mode) ═══ -->
     <div class="admin-subview" id="admin-tab-billing">
       <!-- Billing Summary Cards -->
-      <div
-        class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5"
-        id="billing-summary-cards"
-      >
-        <div
-          class="bg-amber-50 rounded-2xl p-4 text-center border border-amber-100"
-        >
-          <p
-            class="text-[9px] font-black uppercase tracking-wider text-amber-500 mb-1"
-          >
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5" id="billing-summary-cards">
+        <div class="bg-amber-50 rounded-2xl p-4 text-center border border-amber-100">
+          <p class="text-[9px] font-black uppercase tracking-wider text-amber-500 mb-1">
             Total Elec Bill
           </p>
           <p class="text-xl font-black text-amber-700" id="bs-elec-total">₹0</p>
         </div>
-        <div
-          class="bg-blue-50 rounded-2xl p-4 text-center border border-blue-100"
-        >
-          <p
-            class="text-[9px] font-black uppercase tracking-wider text-blue-500 mb-1"
-          >
+        <div class="bg-blue-50 rounded-2xl p-4 text-center border border-blue-100">
+          <p class="text-[9px] font-black uppercase tracking-wider text-blue-500 mb-1">
             Total Rent
           </p>
           <p class="text-xl font-black text-blue-700" id="bs-rent-total">₹0</p>
         </div>
-        <div
-          class="bg-emerald-50 rounded-2xl p-4 text-center border border-emerald-100"
-        >
-          <p
-            class="text-[9px] font-black uppercase tracking-wider text-emerald-500 mb-1"
-          >
+        <div class="bg-emerald-50 rounded-2xl p-4 text-center border border-emerald-100">
+          <p class="text-[9px] font-black uppercase tracking-wider text-emerald-500 mb-1">
             Total Due
           </p>
           <p class="text-xl font-black text-emerald-700" id="bs-total-due">
             ₹0
           </p>
         </div>
-        <div
-          class="bg-rose-50 rounded-2xl p-4 text-center border border-rose-100"
-        >
-          <p
-            class="text-[9px] font-black uppercase tracking-wider text-rose-500 mb-1"
-          >
+        <div class="bg-rose-50 rounded-2xl p-4 text-center border border-rose-100">
+          <p class="text-[9px] font-black uppercase tracking-wider text-rose-500 mb-1">
             Balance
           </p>
           <p class="text-xl font-black text-rose-700" id="bs-balance">₹0</p>
         </div>
       </div>
 
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-4 sm:p-6 shadow-sm"
-      >
-        <div
-          class="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3 sm:gap-4"
-        >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-4 sm:p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-3 sm:gap-4">
           <div class="min-w-0">
-            <h3
-              class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-              style="color: var(--admin-text)"
-            >
-              <span
-                class="w-7 h-7 rounded-lg flex items-center justify-center"
-                style="background: rgba(245, 158, 11, 0.1)"
-                ><i class="fas fa-bolt text-xs" style="color: #f59e0b"></i
-              ></span>
-              <span class="hidden sm:inline"
-                >Electricity Billing Spreadsheet</span
-              ><span class="sm:hidden">Elec Billing</span>
+            <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+              style="color: var(--admin-text)">
+              <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+                style="background: rgba(245, 158, 11, 0.1)"><i class="fas fa-bolt text-xs"
+                  style="color: #f59e0b"></i></span>
+              <span class="hidden sm:inline">Electricity Billing Spreadsheet</span><span class="sm:hidden">Elec
+                Billing</span>
+
+              <!-- Auto-Save Indicator -->
+              <span id="billing-auto-save-indicator"
+                class="ml-4 text-[10px] font-bold text-slate-400 flex items-center gap-1.5 opacity-0 transition-opacity duration-300">
+                <i class="fas fa-cloud check-icon"></i> <span class="indicator-text">All changes saved</span>
+              </span>
             </h3>
-            <p
-              class="text-xs mt-1 ml-9 hidden sm:block"
-              style="color: var(--admin-text-dim)"
-            >
+            <p class="text-xs mt-1 ml-9 hidden sm:block" style="color: var(--admin-text-dim)">
               <i class="fas fa-pencil text-[10px] mr-1"></i>Click any meter
               reading to edit inline • Press
-              <kbd
-                class="px-1.5 py-0.5 rounded-md text-[10px] font-bold"
-                style="background: var(--navy-card)"
-                >Tab</kbd
-              >
+              <kbd class="px-1.5 py-0.5 rounded-md text-[10px] font-bold" style="background: var(--navy-card)">Tab</kbd>
               to jump to next field
             </p>
           </div>
-          <div
-            class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto"
-          >
-            <input
-              type="month"
-              id="billing-month"
-              onchange="renderBillingTable()"
-              class="w-full sm:w-auto px-3 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition"
-              style="
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+            <input type="text" id="billing-search" placeholder="Search Room / Tenant..."
+              onkeyup="filterBillingSpreadsheet()"
+              class="w-full sm:w-auto px-3 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition" style="
                 border: 1px solid var(--admin-border);
                 background: var(--navy-card);
                 color: var(--admin-text-dim);
-              "
-              title="Select Rent Month"
-            />
-            <select
-              id="billing-building-select"
-              onchange="renderBillingTable()"
+              " />
+            <input type="month" id="billing-month" onchange="renderBillingTable()"
+              class="w-full sm:w-auto px-3 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition" style="
+                border: 1px solid var(--admin-border);
+                background: var(--navy-card);
+                color: var(--admin-text-dim);
+              " title="Select Rent Month" />
+            <select id="billing-building-select" onchange="renderBillingTable()"
               class="w-full sm:w-auto flex-1 sm:flex-none px-3 sm:px-4 py-2.5 rounded-xl text-xs font-bold transition"
               style="
                 border: 1px solid var(--admin-border);
                 background: var(--navy-card);
                 color: var(--admin-text-dim);
-              "
-            ></select>
+              "></select>
           </div>
         </div>
 
         <!-- Action Buttons Row -->
         <div class="flex flex-wrap gap-2 mb-4">
-          <button
-            onclick="saveBillingSpreadsheet()"
-            class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95"
-          >
+          <button onclick="saveBillingSpreadsheet()"
+            class="flex items-center gap-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95">
             <i class="fas fa-save"></i>
-            <span class="hidden sm:inline">Save All Readings</span
-            ><span class="sm:hidden">Save</span>
+            <span class="hidden sm:inline">Save All Readings</span><span class="sm:hidden">Save</span>
           </button>
-          <button
-            onclick="generateAllElecBills()"
-            class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95"
-          >
+          <button onclick="generateAllElecBills()"
+            class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95">
             <i class="fas fa-file-invoice"></i>
-            <span class="hidden sm:inline">Generate All Invoices</span
-            ><span class="sm:hidden">Gen Invoices</span>
+            <span class="hidden sm:inline">Generate All Invoices</span><span class="sm:hidden">Gen Invoices</span>
           </button>
-          <button
-            onclick="sendAllWhatsAppReminders()"
-            class="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95"
-          >
+          <button onclick="sendAllWhatsAppReminders()"
+            class="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95">
             <i class="fab fa-whatsapp"></i>
-            <span class="hidden sm:inline">Send All Reminders</span
-            ><span class="sm:hidden">Remind All</span>
+            <span class="hidden sm:inline">Send All Reminders</span><span class="sm:hidden">Remind All</span>
           </button>
-          <button
-            onclick="rolloverMonth()"
-            class="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95"
-          >
+          <button onclick="rolloverMonth()"
+            class="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:shadow-lg transition shadow-md active:scale-95">
             <i class="fas fa-forward"></i>
-            <span class="hidden sm:inline">Rollover Cycle</span
-            ><span class="sm:hidden">Rollover</span>
+            <span class="hidden sm:inline">Rollover Cycle</span><span class="sm:hidden">Rollover</span>
           </button>
-          <button
-            onclick="saveOtherDues()"
-            class="flex items-center gap-2 bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-800 transition active:scale-95"
-          >
+          <button onclick="saveOtherDues()"
+            class="flex items-center gap-2 bg-slate-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-800 transition active:scale-95">
             <i class="fas fa-coins"></i>
-            <span class="hidden sm:inline">Save Dues</span
-            ><span class="sm:hidden">Dues</span>
+            <span class="hidden sm:inline">Save Dues</span><span class="sm:hidden">Dues</span>
           </button>
+        </div>
+
+        <!-- Smart Filters Row -->
+        <div class="flex flex-wrap gap-2 mb-4" id="billing-quick-filters">
+          <button onclick="setBillingFilter('all', this)"
+            class="bf-btn active px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-[#C8A24A] text-white transition-colors shadow-sm">All
+            Rooms</button>
+          <button onclick="setBillingFilter('unpaid', this)"
+            class="bf-btn px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors shadow-sm"><i
+              class="fas fa-triangle-exclamation text-amber-500 mr-1 text-[10px]"></i> Unpaid Only</button>
+          <button onclick="setBillingFilter('vacant', this)"
+            class="bf-btn px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors shadow-sm"><i
+              class="fas fa-door-open text-slate-400 mr-1 text-[10px]"></i> Vacant</button>
         </div>
 
         <!-- Desktop: Table view -->
         <div
-          class="billing-table-wrapper overflow-x-auto max-h-[70vh] overflow-y-auto rounded-2xl border border-slate-100"
-        >
+          class="billing-table-wrapper overflow-x-auto max-h-[70vh] overflow-y-auto rounded-2xl border border-slate-100">
           <table class="billing-table" id="billing-table-body">
             <thead class="sticky top-0 bg-white shadow-sm z-10">
               <tr>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50">
                   Room
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50">
                   Tenant
                 </th>
-                <th
-                  class="text-slate-500 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-slate-500 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Prev (Main)
                 </th>
-                <th
-                  class="text-slate-800 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-slate-800 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Curr (Main)
                 </th>
                 <th
-                  class="text-slate-500 bg-slate-50 border-l border-slate-100 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                  class="text-slate-500 bg-slate-50 border-l border-slate-100 uppercase tracking-wider text-[10px] font-black px-2">
                   Prev (Inv)
                 </th>
-                <th
-                  class="text-slate-800 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-slate-800 bg-slate-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Curr (Inv)
                 </th>
-                <th
-                  class="text-indigo-600 bg-indigo-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-indigo-600 bg-indigo-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Δ Units
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black">
                   Rate
                 </th>
-                <th
-                  class="text-amber-600 bg-amber-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-amber-600 bg-amber-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Elec Bill ₹
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50">
                   Rent ₹
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black px-2 group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black px-2 group-hover:bg-slate-50">
                   Maint. ₹
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black px-2 group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black px-2 group-hover:bg-slate-50">
                   Other Dues ₹
                 </th>
-                <th
-                  class="text-emerald-700 bg-emerald-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-emerald-700 bg-emerald-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Total Due ₹
                 </th>
-                <th
-                  class="text-slate-700 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-slate-700 uppercase tracking-wider text-[10px] font-black px-2">
                   Paid Now ₹
                 </th>
-                <th
-                  class="text-rose-600 bg-rose-50 uppercase tracking-wider text-[10px] font-black px-2"
-                >
+                <th class="text-rose-600 bg-rose-50 uppercase tracking-wider text-[10px] font-black px-2">
                   Balance ₹
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50">
                   Status Overview
                 </th>
-                <th
-                  class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50"
-                >
+                <th class="text-slate-500 uppercase tracking-wider text-[10px] font-black group-hover:bg-slate-50">
                   Action
                 </th>
               </tr>
             </thead>
             <tbody id="billing-rows"></tbody>
-            <tfoot
-              id="billing-footer"
-              class="text-xs font-black"
-              style="background: #f8fafc"
-            ></tfoot>
+            <tfoot id="billing-footer" class="text-xs font-black" style="background: #f8fafc"></tfoot>
           </table>
         </div>
         <!-- Mobile: Card view -->
@@ -851,71 +547,50 @@
     <!-- ═══ SUB-VIEW: Maintenance (Kanban) ═══ -->
     <div class="admin-subview" id="admin-tab-maintenance">
       <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-        <h3
-          class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-          style="color: var(--admin-text)"
-        >
-          <span
-            class="w-7 h-7 rounded-lg flex items-center justify-center"
-            style="background: rgba(168, 85, 247, 0.1)"
-            ><i class="fas fa-wrench text-xs" style="color: #a855f7"></i
-          ></span>
+        <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+          style="color: var(--admin-text)">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+            style="background: rgba(168, 85, 247, 0.1)"><i class="fas fa-wrench text-xs"
+              style="color: #a855f7"></i></span>
           Support & Maintenance
         </h3>
         <div class="flex items-center gap-3">
-          <select
-            id="billing-search" placeholder="Search Room or Tenant..." class="px-3 py-2 rounded-xl text-xs font-bold w-full sm:w-64 border border-slate-200 outline-none focus:ring-2 focus:ring-blue-500 transition" onkeyup="filterBillingSpreadsheet()"
-            onchange="renderKanbanBoard()"
-            class="px-4 py-2.5 rounded-xl text-xs font-bold transition"
-            style="
+          <select id="billing-search" placeholder="Search Room or Tenant..."
+            class="px-3 py-2 rounded-xl text-xs font-bold w-full sm:w-64 border border-slate-200 outline-none focus:ring-2 focus:ring-blue-500 transition"
+            onkeyup="filterBillingSpreadsheet()" onchange="renderKanbanBoard()"
+            class="px-4 py-2.5 rounded-xl text-xs font-bold transition" style="
               border: 1px solid var(--admin-border);
               background: var(--navy-card);
               color: var(--admin-text-dim);
-            "
-          >
+            ">
             <option value="all">All Buildings</option>
           </select>
         </div>
       </div>
 
       <!-- Ticket Input -->
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-5 mb-6 shadow-sm"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-5 mb-6 shadow-sm">
         <div class="flex flex-col sm:flex-row gap-3">
-          <input
-            type="text"
-            id="kanban-ticket-input"
-            placeholder="Create a new maintenance task..."
-            class="flex-1 w-full px-4 py-3 rounded-xl text-sm font-bold outline-none transition"
-            style="
+          <input type="text" id="kanban-ticket-input" placeholder="Create a new maintenance task..."
+            class="flex-1 w-full px-4 py-3 rounded-xl text-sm font-bold outline-none transition" style="
               border: 1px solid var(--admin-border);
               background: var(--navy-card);
               color: var(--admin-text);
-            "
-          />
-          <select
-            id="kanban-ticket-building"
-            class="w-full sm:w-32 px-3 py-2 rounded-xl text-xs font-bold transition"
+            " />
+          <select id="kanban-ticket-building" class="w-full sm:w-32 px-3 py-2 rounded-xl text-xs font-bold transition"
             style="
               border: 1px solid var(--admin-border);
               background: var(--navy-card);
               color: var(--admin-text-dim);
-            "
-          ></select>
-          <select
-            id="kanban-ticket-room"
-            class="w-full sm:w-28 px-3 py-2 rounded-xl text-xs font-bold transition"
+            "></select>
+          <select id="kanban-ticket-room" class="w-full sm:w-28 px-3 py-2 rounded-xl text-xs font-bold transition"
             style="
               border: 1px solid var(--admin-border);
               background: var(--navy-card);
               color: var(--admin-text-dim);
-            "
-          ></select>
-          <button
-            onclick="addKanbanTicket()"
-            class="w-full sm:w-auto bg-gradient-to-r from-slate-800 to-slate-900 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase hover:shadow-lg transition"
-          >
+            "></select>
+          <button onclick="addKanbanTicket()"
+            class="w-full sm:w-auto bg-gradient-to-r from-slate-800 to-slate-900 text-white px-6 py-3 rounded-xl font-bold text-xs uppercase hover:shadow-lg transition">
             Add
           </button>
         </div>
@@ -924,30 +599,21 @@
       <!-- Kanban Columns -->
       <div class="kanban-container" id="kanban-board">
         <div class="kanban-col">
-          <div
-            class="kanban-col-title"
-            style="color: #f59e0b; border-color: #f59e0b"
-          >
+          <div class="kanban-col-title" style="color: #f59e0b; border-color: #f59e0b">
             <i class="fas fa-clipboard-list"></i> To-Do
             <span class="col-count" id="kanban-count-todo">0</span>
           </div>
           <div id="kanban-todo" class="min-h-[200px]"></div>
         </div>
         <div class="kanban-col">
-          <div
-            class="kanban-col-title"
-            style="color: #3b82f6; border-color: #3b82f6"
-          >
+          <div class="kanban-col-title" style="color: #3b82f6; border-color: #3b82f6">
             <i class="fas fa-spinner"></i> In Progress
             <span class="col-count" id="kanban-count-progress">0</span>
           </div>
           <div id="kanban-progress" class="min-h-[200px]"></div>
         </div>
         <div class="kanban-col">
-          <div
-            class="kanban-col-title"
-            style="color: #22c55e; border-color: #22c55e"
-          >
+          <div class="kanban-col-title" style="color: #22c55e; border-color: #22c55e">
             <i class="fas fa-check-circle"></i> Resolved
             <span class="col-count" id="kanban-count-done">0</span>
           </div>
@@ -959,55 +625,34 @@
     <!-- ═══ SUB-VIEW: Analytics ═══ -->
     <div class="admin-subview" id="admin-tab-analytics">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div
-          class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm"
-        >
+        <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm">
           <div class="flex items-center justify-between mb-5">
-            <h3
-              class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-              style="color: var(--admin-text)"
-            >
-              <span
-                class="w-7 h-7 rounded-lg flex items-center justify-center"
-                style="background: rgba(16, 185, 129, 0.1)"
-                ><i class="fas fa-chart-bar text-xs" style="color: #10b981"></i
-              ></span>
+            <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+              style="color: var(--admin-text)">
+              <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+                style="background: rgba(16, 185, 129, 0.1)"><i class="fas fa-chart-bar text-xs"
+                  style="color: #10b981"></i></span>
               Revenue Trend
             </h3>
-            <button
-              onclick="refreshAnalytics()"
-              class="text-xs font-bold transition flex items-center gap-1"
-              style="color: var(--admin-text-dim)"
-            >
+            <button onclick="refreshAnalytics()" class="text-xs font-bold transition flex items-center gap-1"
+              style="color: var(--admin-text-dim)">
               <i class="fas fa-refresh"></i> Refresh
             </button>
           </div>
           <div id="revenue-chart-container" class="min-h-[200px]">
-            <div
-              class="skeleton skeleton-block"
-              style="height: 200px; border-radius: 1rem"
-            ></div>
+            <div class="skeleton skeleton-block" style="height: 200px; border-radius: 1rem"></div>
           </div>
         </div>
-        <div
-          class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm"
-        >
-          <h3
-            class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(168, 85, 247, 0.1)"
-              ><i class="fas fa-bullseye text-xs" style="color: #a855f7"></i
-            ></span>
+        <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm">
+          <h3 class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(168, 85, 247, 0.1)"><i class="fas fa-bullseye text-xs"
+                style="color: #a855f7"></i></span>
             Lead Sources
           </h3>
           <div id="lead-source-chart" class="space-y-3 min-h-[200px]">
-            <div
-              class="skeleton skeleton-block"
-              style="height: 200px; border-radius: 1rem"
-            ></div>
+            <div class="skeleton skeleton-block" style="height: 200px; border-radius: 1rem"></div>
           </div>
         </div>
       </div>
@@ -1015,305 +660,180 @@
 
     <!-- ═══ SUB-VIEW: Notices ═══ -->
     <div class="admin-subview" id="admin-tab-notices">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 mb-6 shadow-sm"
-      >
-        <h3
-          class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
-          style="color: var(--admin-text)"
-        >
-          <span
-            class="w-7 h-7 rounded-lg flex items-center justify-center"
-            style="background: rgba(229, 184, 76, 0.1)"
-            ><i class="fas fa-bullhorn text-xs" style="color: var(--gold)"></i
-          ></span>
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 mb-6 shadow-sm">
+        <h3 class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
+          style="color: var(--admin-text)">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+            style="background: rgba(229, 184, 76, 0.1)"><i class="fas fa-bullhorn text-xs"
+              style="color: var(--gold)"></i></span>
           Post a Notice
         </h3>
         <div class="flex flex-col md:flex-row gap-3 items-end">
           <div class="flex-1 w-full">
-            <input
-              type="text"
-              id="notice-text-input"
-              placeholder="Type notice for all tenants..."
-              class="w-full px-4 py-3 rounded-xl text-sm font-bold outline-none transition"
-              style="
+            <input type="text" id="notice-text-input" placeholder="Type notice for all tenants..."
+              class="w-full px-4 py-3 rounded-xl text-sm font-bold outline-none transition" style="
                 border: 1px solid var(--admin-border);
                 background: var(--navy-card);
                 color: var(--admin-text);
-              "
-            />
+              " />
           </div>
-          <select
-            id="notice-priority-input"
-            class="px-4 py-3 rounded-xl text-sm font-bold w-32 transition"
-            style="
+          <select id="notice-priority-input" class="px-4 py-3 rounded-xl text-sm font-bold w-32 transition" style="
               border: 1px solid var(--admin-border);
               background: var(--navy-card);
               color: var(--admin-text-dim);
-            "
-          >
+            ">
             <option value="info">Info</option>
             <option value="warning">Warning</option>
             <option value="urgent">Urgent</option>
           </select>
-          <button
-            onclick="postNotice()"
-            class="bg-gradient-to-r from-slate-800 to-slate-900 text-white px-8 py-3 rounded-xl font-bold uppercase text-xs tracking-wider shadow-lg hover:shadow-xl transition"
-          >
+          <button onclick="postNotice()"
+            class="bg-gradient-to-r from-slate-800 to-slate-900 text-white px-8 py-3 rounded-xl font-bold uppercase text-xs tracking-wider shadow-lg hover:shadow-xl transition">
             Post Notice
           </button>
         </div>
       </div>
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm"
-      >
-        <h3
-          class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
-          style="color: var(--admin-text)"
-        >
-          <span
-            class="w-7 h-7 rounded-lg flex items-center justify-center"
-            style="background: rgba(255, 255, 255, 0.05)"
-            ><i
-              class="fas fa-list text-xs"
-              style="color: var(--admin-text-dim)"
-            ></i
-          ></span>
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm">
+        <h3 class="text-sm font-black uppercase tracking-wider mb-5 flex items-center gap-2"
+          style="color: var(--admin-text)">
+          <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+            style="background: rgba(255, 255, 255, 0.05)"><i class="fas fa-list text-xs"
+              style="color: var(--admin-text-dim)"></i></span>
           Active Notices
         </h3>
-        <div
-          id="admin-notice-list"
-          class="space-y-3 max-h-[500px] overflow-y-auto scrollbar-hide"
-        ></div>
+        <div id="admin-notice-list" class="space-y-3 max-h-[500px] overflow-y-auto scrollbar-hide"></div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Guests ═══ -->
     <div class="admin-subview" id="admin-tab-guests">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(99, 102, 241, 0.1)"
-              ><i class="fas fa-user-group text-xs" style="color: #818cf8"></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(99, 102, 241, 0.1)"><i class="fas fa-user-group text-xs"
+                style="color: #818cf8"></i></span>
             Guest Registry
           </h3>
-          <button
-            onclick="loadGuestRegistry()"
-            class="text-xs font-bold transition flex items-center gap-1"
-            style="color: var(--admin-text-dim)"
-          >
+          <button onclick="loadGuestRegistry()" class="text-xs font-bold transition flex items-center gap-1"
+            style="color: var(--admin-text-dim)">
             <i class="fas fa-refresh"></i> Refresh
           </button>
         </div>
         <div id="guest-registry-list" class="space-y-3">
-          <div
-            class="skeleton skeleton-block"
-            style="height: 120px; border-radius: 1rem"
-          ></div>
+          <div class="skeleton skeleton-block" style="height: 120px; border-radius: 1rem"></div>
         </div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: UPI Queue ═══ -->
     <div class="admin-subview" id="admin-tab-upi">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(245, 158, 11, 0.1)"
-              ><i class="fas fa-credit-card text-xs" style="color: #f59e0b"></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(245, 158, 11, 0.1)"><i class="fas fa-credit-card text-xs"
+                style="color: #f59e0b"></i></span>
             Pending UPI Payments
           </h3>
-          <button
-            onclick="renderPendingUpiPayments()"
-            class="text-xs font-bold transition flex items-center gap-1"
-            style="color: var(--admin-text-dim)"
-          >
+          <button onclick="renderPendingUpiPayments()" class="text-xs font-bold transition flex items-center gap-1"
+            style="color: var(--admin-text-dim)">
             <i class="fas fa-refresh"></i> Refresh
           </button>
         </div>
         <div id="pending-upi-list" class="space-y-3">
-          <div
-            class="skeleton skeleton-block"
-            style="height: 120px; border-radius: 1rem"
-          ></div>
+          <div class="skeleton skeleton-block" style="height: 120px; border-radius: 1rem"></div>
         </div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Bookings & Waitlist ═══ -->
     <div class="admin-subview" id="admin-tab-bookings">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(59, 130, 246, 0.1)"
-              ><i
-                class="fas fa-calendar-check text-xs"
-                style="color: #3b82f6"
-              ></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(59, 130, 246, 0.1)"><i class="fas fa-calendar-check text-xs"
+                style="color: #3b82f6"></i></span>
             Room Bookings & Waitlist
           </h3>
           <div class="flex gap-2">
-            <button
-              onclick="showNewBookingForm()"
-              class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-500 text-white hover:bg-blue-600 transition"
-            >
+            <button onclick="showNewBookingForm()"
+              class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-500 text-white hover:bg-blue-600 transition">
               <i class="fas fa-plus mr-1"></i> New Booking
             </button>
-            <button
-              onclick="loadBookings()"
-              class="text-xs font-bold transition flex items-center gap-1"
-              style="color: var(--admin-text-dim)"
-            >
+            <button onclick="loadBookings()" class="text-xs font-bold transition flex items-center gap-1"
+              style="color: var(--admin-text-dim)">
               <i class="fas fa-refresh"></i>
             </button>
           </div>
         </div>
         <!-- Booking Stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-          <div
-            class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100"
-          >
-            <p
-              class="text-2xl font-black text-amber-600"
-              id="booking-stat-pending"
-            >
+          <div class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100">
+            <p class="text-2xl font-black text-amber-600" id="booking-stat-pending">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-amber-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-amber-500">
               Pending
             </p>
           </div>
-          <div
-            class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100"
-          >
-            <p
-              class="text-2xl font-black text-emerald-600"
-              id="booking-stat-confirmed"
-            >
+          <div class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
+            <p class="text-2xl font-black text-emerald-600" id="booking-stat-confirmed">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-emerald-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-emerald-500">
               Confirmed
             </p>
           </div>
-          <div
-            class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100"
-          >
-            <p
-              class="text-2xl font-black text-blue-600"
-              id="booking-stat-waitlist"
-            >
+          <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
+            <p class="text-2xl font-black text-blue-600" id="booking-stat-waitlist">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-blue-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-blue-500">
               Waitlist
             </p>
           </div>
-          <div
-            class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100"
-          >
-            <p
-              class="text-2xl font-black text-slate-600"
-              id="booking-stat-checkedin"
-            >
+          <div class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
+            <p class="text-2xl font-black text-slate-600" id="booking-stat-checkedin">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-slate-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-500">
               Checked In
             </p>
           </div>
         </div>
         <!-- New Booking Form (hidden by default) -->
-        <div
-          id="new-booking-form"
-          class="hidden bg-blue-50 rounded-2xl p-5 mb-5 border border-blue-100"
-        >
-          <h4
-            class="text-xs font-black uppercase tracking-wider text-blue-600 mb-4"
-          >
+        <div id="new-booking-form" class="hidden bg-blue-50 rounded-2xl p-5 mb-5 border border-blue-100">
+          <h4 class="text-xs font-black uppercase tracking-wider text-blue-600 mb-4">
             <i class="fas fa-user-plus mr-1"></i> New Booking Request
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input
-              id="bk-name"
-              type="text"
-              placeholder="Full Name *"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <input
-              id="bk-phone"
-              type="text"
-              placeholder="Phone Number *"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <input
-              id="bk-email"
-              type="email"
-              placeholder="Email"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <input
-              id="bk-college"
-              type="text"
-              placeholder="College / University"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <select
-              id="bk-building"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
+            <input id="bk-name" type="text" placeholder="Full Name *"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <input id="bk-phone" type="text" placeholder="Phone Number *"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <input id="bk-email" type="email" placeholder="Email"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <input id="bk-college" type="text" placeholder="College / University"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <select id="bk-building"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300">
               <option value="">Select Property</option>
             </select>
-            <select
-              id="bk-room-type"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
+            <select id="bk-room-type"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300">
               <option value="">Room Type</option>
               <option value="single">Single</option>
               <option value="double">Double Sharing</option>
               <option value="triple">Triple Sharing</option>
             </select>
-            <input
-              id="bk-movein"
-              type="date"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <select
-              id="bk-source"
-              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-            >
+            <input id="bk-movein" type="date"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300" />
+            <select id="bk-source"
+              class="px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300">
               <option value="website">Website</option>
               <option value="instagram">Instagram</option>
               <option value="google">Google</option>
@@ -1323,150 +843,96 @@
               <option value="other">Other</option>
             </select>
           </div>
-          <textarea
-            id="bk-notes"
-            placeholder="Notes..."
-            rows="2"
-            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"
-          ></textarea>
+          <textarea id="bk-notes" placeholder="Notes..." rows="2"
+            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-blue-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-300"></textarea>
           <div class="flex gap-3 mt-4">
-            <button
-              onclick="saveBooking()"
-              class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="saveBooking()"
+              class="px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold text-sm transition">
               <i class="fas fa-check mr-1"></i> Save Booking
             </button>
-            <button
-              onclick="byId('new-booking-form').classList.add('hidden')"
-              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="byId('new-booking-form').classList.add('hidden')"
+              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition">
               Cancel
             </button>
           </div>
         </div>
         <div id="bookings-list" class="space-y-3">
-          <div
-            class="skeleton skeleton-block"
-            style="height: 100px; border-radius: 1rem"
-          ></div>
+          <div class="skeleton skeleton-block" style="height: 100px; border-radius: 1rem"></div>
         </div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Housekeeping ═══ -->
     <div class="admin-subview" id="admin-tab-housekeeping">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(16, 185, 129, 0.1)"
-              ><i class="fas fa-broom text-xs" style="color: #10b981"></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(16, 185, 129, 0.1)"><i class="fas fa-broom text-xs"
+                style="color: #10b981"></i></span>
             Housekeeping Schedule
           </h3>
           <div class="flex gap-2">
-            <button
-              onclick="showNewHkTaskForm()"
-              class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white hover:bg-emerald-600 transition"
-            >
+            <button onclick="showNewHkTaskForm()"
+              class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-500 text-white hover:bg-emerald-600 transition">
               <i class="fas fa-plus mr-1"></i> Add Task
             </button>
-            <button
-              onclick="loadHousekeeping()"
-              class="text-xs font-bold transition flex items-center gap-1"
-              style="color: var(--admin-text-dim)"
-            >
+            <button onclick="loadHousekeeping()" class="text-xs font-bold transition flex items-center gap-1"
+              style="color: var(--admin-text-dim)">
               <i class="fas fa-refresh"></i>
             </button>
           </div>
         </div>
         <!-- HK Stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-          <div
-            class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100"
-          >
+          <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
             <p class="text-2xl font-black text-blue-600" id="hk-stat-scheduled">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-blue-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-blue-500">
               Scheduled
             </p>
           </div>
-          <div
-            class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100"
-          >
+          <div class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100">
             <p class="text-2xl font-black text-amber-600" id="hk-stat-progress">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-amber-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-amber-500">
               In Progress
             </p>
           </div>
-          <div
-            class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100"
-          >
-            <p
-              class="text-2xl font-black text-emerald-600"
-              id="hk-stat-completed"
-            >
+          <div class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
+            <p class="text-2xl font-black text-emerald-600" id="hk-stat-completed">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-emerald-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-emerald-500">
               Completed
             </p>
           </div>
-          <div
-            class="bg-rose-50 rounded-xl p-4 text-center border border-rose-100"
-          >
+          <div class="bg-rose-50 rounded-xl p-4 text-center border border-rose-100">
             <p class="text-2xl font-black text-rose-600" id="hk-stat-overdue">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-rose-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-rose-500">
               Overdue
             </p>
           </div>
         </div>
         <!-- New HK Task Form -->
-        <div
-          id="new-hk-form"
-          class="hidden bg-emerald-50 rounded-2xl p-5 mb-5 border border-emerald-100"
-        >
-          <h4
-            class="text-xs font-black uppercase tracking-wider text-emerald-600 mb-4"
-          >
+        <div id="new-hk-form" class="hidden bg-emerald-50 rounded-2xl p-5 mb-5 border border-emerald-100">
+          <h4 class="text-xs font-black uppercase tracking-wider text-emerald-600 mb-4">
             <i class="fas fa-broom mr-1"></i> New Task
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <select
-              id="hk-building"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            >
+            <select id="hk-building"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300">
               <option value="">Select Property</option>
             </select>
-            <input
-              id="hk-room"
-              type="number"
-              placeholder="Room No. (0 for common)"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            />
-            <select
-              id="hk-type"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            >
+            <input id="hk-room" type="number" placeholder="Room No. (0 for common)"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+            <select id="hk-type"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300">
               <option value="room-cleaning">Room Cleaning</option>
               <option value="bathroom-cleaning">Bathroom Cleaning</option>
               <option value="common-area">Common Area</option>
@@ -1475,30 +941,19 @@
               <option value="pest-control">Pest Control</option>
               <option value="other">Other</option>
             </select>
-            <select
-              id="hk-priority"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            >
+            <select id="hk-priority"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300">
               <option value="normal">Normal Priority</option>
               <option value="low">Low</option>
               <option value="high">High</option>
               <option value="urgent">Urgent</option>
             </select>
-            <input
-              id="hk-date"
-              type="date"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            />
-            <input
-              id="hk-assigned"
-              type="text"
-              placeholder="Assigned To"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            />
-            <select
-              id="hk-recurring"
-              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-            >
+            <input id="hk-date" type="date"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+            <input id="hk-assigned" type="text" placeholder="Assigned To"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300" />
+            <select id="hk-recurring"
+              class="px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300">
               <option value="none">One-time</option>
               <option value="daily">Daily</option>
               <option value="weekly">Weekly</option>
@@ -1506,282 +961,167 @@
               <option value="monthly">Monthly</option>
             </select>
           </div>
-          <textarea
-            id="hk-desc"
-            placeholder="Description..."
-            rows="2"
-            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"
-          ></textarea>
+          <textarea id="hk-desc" placeholder="Description..." rows="2"
+            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-emerald-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-300"></textarea>
           <div class="flex gap-3 mt-4">
-            <button
-              onclick="saveHkTask()"
-              class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="saveHkTask()"
+              class="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold text-sm transition">
               <i class="fas fa-check mr-1"></i> Save Task
             </button>
-            <button
-              onclick="byId('new-hk-form').classList.add('hidden')"
-              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="byId('new-hk-form').classList.add('hidden')"
+              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition">
               Cancel
             </button>
           </div>
         </div>
         <div id="housekeeping-list" class="space-y-3">
-          <div
-            class="skeleton skeleton-block"
-            style="height: 100px; border-radius: 1rem"
-          ></div>
+          <div class="skeleton skeleton-block" style="height: 100px; border-radius: 1rem"></div>
         </div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Rental Agreements ═══ -->
     <div class="admin-subview" id="admin-tab-agreements">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(139, 92, 246, 0.1)"
-              ><i
-                class="fas fa-file-signature text-xs"
-                style="color: #8b5cf6"
-              ></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(139, 92, 246, 0.1)"><i class="fas fa-file-signature text-xs"
+                style="color: #8b5cf6"></i></span>
             Rental Agreements
           </h3>
           <div class="flex gap-2">
-            <button
-              onclick="showNewAgreementForm()"
-              class="px-4 py-2 rounded-xl text-xs font-bold bg-violet-500 text-white hover:bg-violet-600 transition"
-            >
+            <button onclick="showNewAgreementForm()"
+              class="px-4 py-2 rounded-xl text-xs font-bold bg-violet-500 text-white hover:bg-violet-600 transition">
               <i class="fas fa-plus mr-1"></i> New Agreement
             </button>
-            <button
-              onclick="loadAgreements()"
-              class="text-xs font-bold transition flex items-center gap-1"
-              style="color: var(--admin-text-dim)"
-            >
+            <button onclick="loadAgreements()" class="text-xs font-bold transition flex items-center gap-1"
+              style="color: var(--admin-text-dim)">
               <i class="fas fa-refresh"></i>
             </button>
           </div>
         </div>
         <!-- Agreement Stats -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-          <div
-            class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100"
-          >
+          <div class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p class="text-2xl font-black text-slate-600" id="agr-stat-draft">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-slate-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-500">
               Drafts
             </p>
           </div>
-          <div
-            class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100"
-          >
+          <div class="bg-amber-50 rounded-xl p-4 text-center border border-amber-100">
             <p class="text-2xl font-black text-amber-600" id="agr-stat-pending">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-amber-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-amber-500">
               Pending Sign
             </p>
           </div>
-          <div
-            class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100"
-          >
-            <p
-              class="text-2xl font-black text-emerald-600"
-              id="agr-stat-signed"
-            >
+          <div class="bg-emerald-50 rounded-xl p-4 text-center border border-emerald-100">
+            <p class="text-2xl font-black text-emerald-600" id="agr-stat-signed">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-emerald-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-emerald-500">
               Fully Signed
             </p>
           </div>
-          <div
-            class="bg-rose-50 rounded-xl p-4 text-center border border-rose-100"
-          >
+          <div class="bg-rose-50 rounded-xl p-4 text-center border border-rose-100">
             <p class="text-2xl font-black text-rose-600" id="agr-stat-expiring">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-rose-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-rose-500">
               Expiring Soon
             </p>
           </div>
         </div>
         <!-- New Agreement Form -->
-        <div
-          id="new-agreement-form"
-          class="hidden bg-violet-50 rounded-2xl p-5 mb-5 border border-violet-100"
-        >
-          <h4
-            class="text-xs font-black uppercase tracking-wider text-violet-600 mb-4"
-          >
+        <div id="new-agreement-form" class="hidden bg-violet-50 rounded-2xl p-5 mb-5 border border-violet-100">
+          <h4 class="text-xs font-black uppercase tracking-wider text-violet-600 mb-4">
             <i class="fas fa-file-contract mr-1"></i> New Rental Agreement
           </h4>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <select
-              id="agr-building"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            >
+            <select id="agr-building"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300">
               <option value="">Select Property</option>
             </select>
-            <input
-              id="agr-room"
-              type="number"
-              placeholder="Room No."
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-tenant"
-              type="text"
-              placeholder="Tenant Name *"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-phone"
-              type="text"
-              placeholder="Tenant Phone"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-start"
-              type="date"
-              placeholder="Start Date"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-end"
-              type="date"
-              placeholder="End Date"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-rent"
-              type="number"
-              placeholder="Rent Amount ₹"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
-            <input
-              id="agr-deposit"
-              type="number"
-              placeholder="Security Deposit ₹"
-              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-            />
+            <input id="agr-room" type="number" placeholder="Room No."
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-tenant" type="text" placeholder="Tenant Name *"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-phone" type="text" placeholder="Tenant Phone"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-start" type="date" placeholder="Start Date"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-end" type="date" placeholder="End Date"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-rent" type="number" placeholder="Rent Amount ₹"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
+            <input id="agr-deposit" type="number" placeholder="Security Deposit ₹"
+              class="px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300" />
           </div>
-          <textarea
-            id="agr-special"
-            placeholder="Special conditions..."
-            rows="2"
-            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"
-          ></textarea>
+          <textarea id="agr-special" placeholder="Special conditions..." rows="2"
+            class="w-full mt-3 px-4 py-3 rounded-xl bg-white border border-violet-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-300"></textarea>
           <div class="flex gap-3 mt-4">
-            <button
-              onclick="saveAgreement()"
-              class="px-6 py-3 bg-violet-500 hover:bg-violet-600 text-white rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="saveAgreement()"
+              class="px-6 py-3 bg-violet-500 hover:bg-violet-600 text-white rounded-xl font-bold text-sm transition">
               <i class="fas fa-check mr-1"></i> Create Agreement
             </button>
-            <button
-              onclick="byId('new-agreement-form').classList.add('hidden')"
-              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition"
-            >
+            <button onclick="byId('new-agreement-form').classList.add('hidden')"
+              class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl font-bold text-sm transition">
               Cancel
             </button>
           </div>
         </div>
         <div id="agreements-list" class="space-y-3">
-          <div
-            class="skeleton skeleton-block"
-            style="height: 100px; border-radius: 1rem"
-          ></div>
+          <div class="skeleton skeleton-block" style="height: 100px; border-radius: 1rem"></div>
         </div>
       </div>
     </div>
 
     <!-- ═══ SUB-VIEW: Owner Reports ═══ -->
     <div class="admin-subview" id="admin-tab-owner-reports">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6">
         <div class="flex items-center justify-between mb-5">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(200, 162, 74, 0.1)"
-              ><i class="fas fa-chart-line text-xs" style="color: #c8a24a"></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(200, 162, 74, 0.1)"><i class="fas fa-chart-line text-xs"
+                style="color: #c8a24a"></i></span>
             Owner / Landlord Reports
           </h3>
-          <button
-            onclick="generateOwnerReport()"
-            class="px-4 py-2 rounded-xl text-xs font-bold bg-[#c8a24a] text-white hover:opacity-90 transition"
-          >
+          <button onclick="generateOwnerReport()"
+            class="px-4 py-2 rounded-xl text-xs font-bold bg-[#c8a24a] text-white hover:opacity-90 transition">
             <i class="fas fa-file-pdf mr-1"></i> Generate Report
           </button>
         </div>
         <!-- Report Period -->
         <div class="flex flex-wrap gap-3 mb-5">
-          <select
-            id="report-building"
-            class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none"
-          >
+          <select id="report-building"
+            class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none">
             <option value="all">All Properties</option>
           </select>
-          <input
-            id="report-month"
-            type="month"
-            class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none"
-          />
+          <input id="report-month" type="month"
+            class="px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none" />
         </div>
         <!-- Report Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div
-            class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-5 text-white"
-          >
-            <p
-              class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1"
-            >
+          <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl p-5 text-white">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1">
               Total Revenue
             </p>
             <p class="text-3xl font-black" id="report-revenue">₹0</p>
           </div>
-          <div
-            class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white"
-          >
-            <p
-              class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1"
-            >
+          <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-5 text-white">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1">
               Occupancy Rate
             </p>
             <p class="text-3xl font-black" id="report-occupancy">0%</p>
           </div>
-          <div
-            class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-5 text-white"
-          >
-            <p
-              class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1"
-            >
+          <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-2xl p-5 text-white">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1">
               Pending Dues
             </p>
             <p class="text-3xl font-black" id="report-dues">₹0</p>
@@ -1790,9 +1130,7 @@
         <!-- Detailed Report -->
         <div id="owner-report-details" class="space-y-4">
           <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-            <h4
-              class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4"
-            >
+            <h4 class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4">
               <i class="fas fa-building mr-1"></i> Property-wise Breakdown
             </h4>
             <div id="report-building-breakdown" class="space-y-3">
@@ -1802,9 +1140,7 @@
             </div>
           </div>
           <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-            <h4
-              class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4"
-            >
+            <h4 class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4">
               <i class="fas fa-bolt mr-1"></i> Electricity Consumption
             </h4>
             <div id="report-electricity" class="space-y-3">
@@ -1814,9 +1150,7 @@
             </div>
           </div>
           <div class="bg-slate-50 rounded-2xl p-5 border border-slate-100">
-            <h4
-              class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4"
-            >
+            <h4 class="text-xs font-black uppercase tracking-wider text-slate-500 mb-4">
               <i class="fas fa-users mr-1"></i> Tenant Retention
             </h4>
             <div id="report-retention" class="space-y-3">
@@ -1831,34 +1165,21 @@
 
     <!-- ═══ SUB-VIEW: Audit Trail ═══ -->
     <div class="admin-subview" id="admin-tab-audit-trail">
-      <div
-        class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6"
-      >
+      <div class="bg-white rounded-[20px] border border-slate-100 p-6 shadow-sm mb-6">
         <div class="flex items-center justify-between mb-5 flex-wrap gap-3">
-          <h3
-            class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
-            style="color: var(--admin-text)"
-          >
-            <span
-              class="w-7 h-7 rounded-lg flex items-center justify-center"
-              style="background: rgba(168, 85, 247, 0.1)"
-              ><i
-                class="fas fa-clock-rotate-left text-xs"
-                style="color: #a855f7"
-              ></i
-            ></span>
+          <h3 class="text-sm font-black uppercase tracking-wider flex items-center gap-2"
+            style="color: var(--admin-text)">
+            <span class="w-7 h-7 rounded-lg flex items-center justify-center"
+              style="background: rgba(168, 85, 247, 0.1)"><i class="fas fa-clock-rotate-left text-xs"
+                style="color: #a855f7"></i></span>
             Activity Log
           </h3>
           <div class="flex items-center gap-2">
-            <select
-              id="audit-action-filter"
-              class="px-3 py-2 rounded-xl text-xs font-bold transition"
-              style="
+            <select id="audit-action-filter" class="px-3 py-2 rounded-xl text-xs font-bold transition" style="
                 border: 1px solid var(--admin-border);
                 background: var(--navy-card);
                 color: var(--admin-text-dim);
-              "
-            >
+              ">
               <option value="">All Actions</option>
               <option value="admin_login">Admin Login</option>
               <option value="tenant_login">Tenant Login</option>
@@ -1868,61 +1189,41 @@
               <option value="billing_generated">Billing Generated</option>
               <option value="file_uploaded">File Uploaded</option>
             </select>
-            <button
-              onclick="loadAuditLogs()"
-              class="px-4 py-2.5 rounded-xl text-xs font-bold bg-violet-500 text-white hover:bg-violet-600 transition"
-            >
+            <button onclick="loadAuditLogs()"
+              class="px-4 py-2.5 rounded-xl text-xs font-bold bg-violet-500 text-white hover:bg-violet-600 transition">
               <i class="fas fa-refresh mr-1"></i> Refresh
             </button>
           </div>
         </div>
         <!-- Audit Stats -->
         <div class="grid grid-cols-3 gap-3 mb-5">
-          <div
-            class="bg-violet-50 rounded-xl p-4 text-center border border-violet-100"
-          >
-            <p
-              class="text-2xl font-black text-violet-600"
-              id="audit-stat-today"
-            >
+          <div class="bg-violet-50 rounded-xl p-4 text-center border border-violet-100">
+            <p class="text-2xl font-black text-violet-600" id="audit-stat-today">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-violet-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-violet-500">
               Today
             </p>
           </div>
-          <div
-            class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100"
-          >
+          <div class="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
             <p class="text-2xl font-black text-blue-600" id="audit-stat-week">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-blue-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-blue-500">
               This Week
             </p>
           </div>
-          <div
-            class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100"
-          >
+          <div class="bg-slate-50 rounded-xl p-4 text-center border border-slate-100">
             <p class="text-2xl font-black text-slate-600" id="audit-stat-total">
               0
             </p>
-            <p
-              class="text-[9px] font-bold uppercase tracking-wider text-slate-500"
-            >
+            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-500">
               Total
             </p>
           </div>
         </div>
         <!-- Audit List -->
-        <div
-          id="audit-log-list"
-          class="space-y-2 max-h-[500px] overflow-y-auto scrollbar-hide"
-        >
+        <div id="audit-log-list" class="space-y-2 max-h-[500px] overflow-y-auto scrollbar-hide">
           <p class="text-center text-slate-400 text-xs py-8">
             Loading activity logs...
           </p>
@@ -1935,43 +1236,23 @@
   <!-- ═══ MOBILE BOTTOM NAVIGATION BAR ═══ -->
   <nav class="admin-bottom-nav" id="admin-bottom-nav">
     <div class="admin-bottom-nav-inner">
-      <div
-        class="admin-bottom-nav-item active"
-        data-bnav="dashboard"
-        onclick="setAdminTab('dashboard')"
-      >
+      <div class="admin-bottom-nav-item active" data-bnav="dashboard" onclick="setAdminTab('dashboard')">
         <i class="fas fa-chart-pie"></i>
         <span>Dashboard</span>
       </div>
-      <div
-        class="admin-bottom-nav-item"
-        data-bnav="inventory"
-        onclick="setAdminTab('inventory')"
-      >
+      <div class="admin-bottom-nav-item" data-bnav="inventory" onclick="setAdminTab('inventory')">
         <i class="fas fa-building"></i>
         <span>Rooms</span>
       </div>
-      <div
-        class="admin-bottom-nav-item"
-        data-bnav="billing"
-        onclick="setAdminTab('billing')"
-      >
+      <div class="admin-bottom-nav-item" data-bnav="billing" onclick="setAdminTab('billing')">
         <i class="fas fa-bolt"></i>
         <span>Billing</span>
       </div>
-      <div
-        class="admin-bottom-nav-item"
-        data-bnav="maintenance"
-        onclick="setAdminTab('maintenance')"
-      >
+      <div class="admin-bottom-nav-item" data-bnav="maintenance" onclick="setAdminTab('maintenance')">
         <i class="fas fa-wrench"></i>
         <span>Tasks</span>
       </div>
-      <div
-        class="admin-bottom-nav-item"
-        data-bnav="more"
-        onclick="toggleMobileSidebar()"
-      >
+      <div class="admin-bottom-nav-item" data-bnav="more" onclick="toggleMobileSidebar()">
         <i class="fas fa-ellipsis-h"></i>
         <span>More</span>
       </div>

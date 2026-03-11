@@ -1,4 +1,5 @@
 const Room = require('../models/Room');
+const Maintenance = require('../models/Maintenance');
 const { sendWhatsAppReceipt } = require('../utils/whatsapp');
 const { logAction } = require('./auditController');
 
@@ -84,6 +85,15 @@ exports.tenantLogin = async (req, res) => {
 
     // Return sanitized room data (no sensitive fields)
     const data = sanitizeForTenant(room);
+
+    // Fetch maintenance tickets to show in the portal as complaints
+    const tickets = await Maintenance.find({ buildingId, roomNo }).sort('-createdAt');
+    data.complaints = tickets.map((t) => ({
+      id: t._id,
+      text: t.description,
+      status: t.status,
+      createdAt: t.createdAt,
+    }));
 
     // Audit log
     await logAction({
@@ -237,6 +247,64 @@ exports.deleteRoom = async (req, res) => {
 };
 
 // ──────────────────────────────────────
+// @route   GET /api/rooms/dashboard-stats
+// @desc    Get aggregated stats for the admin dashboard (occupancy, revenue, dues)
+// @access  Private (admin)
+// ──────────────────────────────────────
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const list = await Room.find({});
+    let totalRooms = list.length;
+    let occupiedCount = 0;
+    let vacantCount = 0;
+    let bookedCount = 0;
+    let collectedRent = 0;
+    let pendingRentCount = 0;
+    let pendingElecCount = 0;
+
+    list.forEach(r => {
+      // Occupancy
+      if (r.status === 'Occupied') occupiedCount++;
+      else if (r.status === 'Booked') bookedCount++;
+      else vacantCount++;
+
+      // Revenue & Pending
+      if (r.status === 'Occupied') {
+        if (r.rentPaid) {
+          collectedRent += (r.rentAmount || 0);
+        } else {
+          pendingRentCount++;
+        }
+        if (!r.elecPaid) {
+          pendingElecCount++;
+        }
+      }
+    });
+
+    // Also get total open maintenance tickets
+    const Maintenance = require('../models/Maintenance');
+    const openTickets = await Maintenance.countDocuments({ status: { $in: ['open', 'in-progress'] } });
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalRooms,
+        occupiedCount,
+        vacantCount,
+        bookedCount,
+        collectedRent,
+        pendingRentCount,
+        pendingElecCount,
+        openTickets
+      }
+    });
+  } catch (err) {
+    console.error('[roomController] getDashboardStats error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// ──────────────────────────────────────
 // @route   POST /api/rooms/:buildingId/:roomNo/complaint
 // @desc    Submit a complaint (tenant)
 // @access  Public (verified via room password)
@@ -256,17 +324,17 @@ exports.submitComplaint = async (req, res) => {
     const isMatch = await room.matchPassword(password);
     if (!isMatch) return res.status(401).json({ success: false, message: 'Invalid credentials.' });
 
-    const complaint = {
-      id: Date.now(),
-      text,
+    // Create a new Maintenance ticket
+    await Maintenance.create({
+      buildingId,
+      roomNo: Number(roomNo),
+      tenantName: room.name || 'Tenant',
+      description: text,
       photoUrl: photoUrl || '',
-      status: 'open',
-      createdAt: new Date().toISOString(),
-    };
+      reportedBy: 'tenant',
+    });
 
-    room.complaints.push(complaint);
-    await room.save();
-
+    // Return the sanitized room object (fresh tickets will be loaded on the next tenantLogin)
     const data = room.toObject();
     delete data.studentPassword;
     res.status(201).json({ success: true, data });

@@ -36,6 +36,10 @@ const billingSchema = new mongoose.Schema({
     totalPaid: { type: Number, default: 0 },
     balance: { type: Number, default: 0 },
 
+    // Partial payment tracking
+    partialRentPaid: { type: Number, default: 0 },
+    partialElecPaid: { type: Number, default: 0 },
+
     status: {
         type: String,
         enum: ['generated', 'partially-paid', 'fully-paid', 'overdue'],

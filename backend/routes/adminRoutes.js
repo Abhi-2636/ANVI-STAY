@@ -9,6 +9,9 @@ const {
   createAdmin,
   updateAdmin,
   deleteAdmin,
+  refreshToken,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/adminController');
 
 /**
@@ -76,5 +79,10 @@ router.get('/users', protect, authorize('superadmin'), getAllAdmins);
 router.post('/users', protect, authorize('superadmin'), createAdmin);
 router.put('/users/:id', protect, authorize('superadmin'), updateAdmin);
 router.delete('/users/:id', protect, authorize('superadmin'), deleteAdmin);
+
+// ── Auth utilities (public) ──
+router.post('/refresh-token', refreshToken);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
 module.exports = router;

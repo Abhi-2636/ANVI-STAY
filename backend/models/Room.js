@@ -57,8 +57,8 @@ const roomSchema = new mongoose.Schema(
     },
 
     // ── Lease / Finance ──
-    checkinDate: { type: String, default: '' },
-    agreementEndDate: { type: String, default: '' },
+    checkinDate: { type: Date, default: null },
+    agreementEndDate: { type: Date, default: null },
     rentAmount: { type: Number, default: 0 },
     maintCharge: { type: Number, default: 300 },
     securityDeposit: { type: Number, default: 0 },
@@ -99,7 +99,7 @@ const roomSchema = new mongoose.Schema(
           elecReading: Number,
           invReading: Number,
           totalUnits: Number,
-          recordedAt: { type: String, default: '' },
+          recordedAt: { type: Date, default: Date.now },
         },
       ],
       default: [],
@@ -211,6 +211,29 @@ const roomSchema = new mongoose.Schema(
         submittedAt: { type: String, default: '' },
       },
       default: null,
+    },
+
+    // ── Tenant History (soft-delete / move-out archive) ──
+    // When a tenant vacates, their data is pushed here before the room is cleared.
+    tenantHistory: {
+      type: [
+        {
+          name: { type: String, default: '' },
+          phone: { type: String, default: '' },
+          aadhaarNo: { type: String, default: '' },
+          checkinDate: { type: Date, default: null },
+          checkoutDate: { type: Date, default: null },
+          agreementEndDate: { type: Date, default: null },
+          rentAmount: { type: Number, default: 0 },
+          securityDeposit: { type: Number, default: 0 },
+          photoUrl: { type: String, default: '' },
+          nationality: { type: String, default: '' },
+          leadSource: { type: String, default: '' },
+          reason: { type: String, default: '' }, // move-out reason
+          archivedAt: { type: Date, default: Date.now },
+        },
+      ],
+      default: [],
     },
   },
   { timestamps: true }
