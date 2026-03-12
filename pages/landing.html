@@ -927,219 +927,157 @@
   </section>
 
   <!-- Advanced Location Map Section -->
-  <section
-    class="py-20 sm:py-32 relative overflow-hidden"
-    style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%)"
-  >
-    <!-- Decorative Map Background Pattern -->
-    <div
-      class="absolute inset-0 opacity-[0.03]"
-      style="
-        background-image: radial-gradient(#c8a24a 1px, transparent 1px);
-        background-size: 40px 40px;
-      "
-    ></div>
-
+  <section class="py-20 sm:py-28 relative bg-slate-50">
     <div class="container mx-auto px-6 relative z-10">
-      <div class="text-center mb-16 sm:mb-24">
-        <div
-          class="inline-flex items-center gap-2 bg-[#C8A24A]/10 rounded-full px-5 py-2.5 mb-6 border border-[#C8A24A]/20"
-          style="backdrop-filter: blur(10px)"
+      <div class="text-center mb-16 sm:mb-20">
+        <p
+          class="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-[#C8A24A] mb-3"
         >
-          <i
-            class="fas fa-location-arrow text-sm text-[#C8A24A] animate-pulse"
-          ></i>
-          <span
-            class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]"
-            >Prime Location</span
-          >
-        </div>
+          <i class="fas fa-location-arrow mr-2"></i>Find Us
+        </p>
         <h2
-          class="text-[clamp(2rem,5vw,3.5rem)] font-black tracking-tighter mb-4 text-white"
+          class="text-[clamp(2rem,5vw,3rem)] font-black tracking-tighter mb-4 text-slate-900"
         >
-          Heart of
-          <span
-            style="
-              background: linear-gradient(135deg, #c8a24a, #e8c94a);
-              -webkit-background-clip: text;
-              background-clip: text;
-              color: transparent;
-            "
-            >LPU Student Hub</span
-          >
+          Our Location
         </h2>
         <p
-          class="text-slate-400 text-base sm:text-lg font-medium max-w-xl mx-auto leading-relaxed"
+          class="text-slate-500 text-sm sm:text-base font-medium max-w-xl mx-auto leading-relaxed"
         >
-          Situated at Law Gate, Phagwara. Minutes away from campus, surrounded
-          by markets, cafes, and transportation.
+          Conveniently located at Law Gate, Phagwara. Just minutes away from
+          Lovely Professional University, surrounded by markets and easy
+          transport.
         </p>
       </div>
 
       <div
-        class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center"
+        class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 bg-white p-4 sm:p-6 lg:p-8 rounded-[2rem] shadow-xl border border-slate-100"
       >
-        <!-- Interactive Value Cards -->
-        <div class="lg:col-span-5 space-y-5 order-2 lg:order-1">
-          <!-- Main Address Card -->
+        <!-- Left Column: Information Cards -->
+        <div class="w-full lg:w-1/3 flex flex-col space-y-4">
+          <!-- Primary Address Card -->
           <div
-            class="group relative bg-[#1e293b]/80 border border-slate-700/50 backdrop-blur-xl rounded-[2rem] p-8 overflow-hidden hover:border-[#C8A24A]/50 transition-all duration-500 hover:shadow-[0_0_40px_-10px_rgba(200,162,74,0.3)] hover:-translate-y-1 cursor-pointer"
+            class="bg-gradient-to-br from-[#1F3D2B] to-[#2a5038] rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-lg flex-shrink-0"
           >
             <div
-              class="absolute top-0 right-0 w-32 h-32 bg-[#C8A24A]/10 rounded-full blur-3xl -mr-16 -mt-16 transition-all duration-500 group-hover:bg-[#C8A24A]/20"
+              class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10"
             ></div>
 
-            <div class="flex items-start gap-6 relative z-10">
-              <div
-                class="w-14 h-14 bg-gradient-to-br from-[#1F3D2B] to-[#2a5038] rounded-2xl flex items-center justify-center flex-shrink-0 shadow-inner border border-white/5 group-hover:scale-110 transition-transform duration-500"
-              >
-                <i
-                  class="fas fa-map-pin text-2xl text-[#C8A24A] group-hover:animate-bounce"
-                ></i>
-              </div>
-              <div>
-                <h4
-                  class="text-xl sm:text-2xl font-black text-white mb-2 tracking-tight group-hover:text-[#C8A24A] transition-colors"
-                >
-                  Law Gate, Phagwara
-                </h4>
-                <p class="text-slate-400 text-sm leading-relaxed mb-4">
-                  Near Lovely Professional University,<br />Punjab 144411
-                </p>
-                <a
-                  href="https://maps.google.com/?q=Law+Gate+Phagwara+Punjab"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-[#C8A24A] hover:text-white transition-colors bg-[#C8A24A]/10 hover:bg-[#C8A24A]/20 px-4 py-2 rounded-xl"
-                >
-                  Get Directions <i class="fas fa-arrow-right"></i>
-                </a>
-              </div>
+            <div
+              class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mb-5 backdrop-blur-sm border border-white/10"
+            >
+              <i class="fas fa-map-pin text-xl text-[#C8A24A]"></i>
             </div>
+
+            <h4 class="text-xl sm:text-2xl font-bold mb-2 tracking-tight">
+              Law Gate,<br />Phagwara
+            </h4>
+            <p class="text-white/80 text-sm leading-relaxed mb-6 font-medium">
+              Near Lovely Professional University, Punjab 144411
+            </p>
+
+            <a
+              href="https://maps.google.com/?q=Law+Gate+Phagwara+Punjab"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex w-full justify-center items-center gap-2 bg-white text-[#1F3D2B] font-bold text-sm px-4 py-3 rounded-xl hover:bg-slate-100 transition-colors shadow-sm"
+            >
+              Get Directions <i class="fas fa-diamond-turn-right ml-1"></i>
+            </a>
           </div>
 
-          <!-- Quick Distances -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
-            <!-- Distance 1 -->
+          <!-- Secondary Quick Facts -->
+          <div class="grid grid-cols-1 gap-3">
             <div
-              class="bg-[#1e293b]/50 border border-slate-800 rounded-2xl p-5 flex items-center gap-5 hover:bg-[#1e293b] hover:border-emerald-500/30 transition-all duration-300 group cursor-default"
+              class="bg-slate-50 rounded-2xl p-4 sm:p-5 flex items-center gap-4 border border-slate-100 hover:border-[#1F3D2B]/20 transition-colors cursor-default"
             >
               <div
-                class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500/20 transition-colors"
+                class="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600"
               >
-                <i
-                  class="fas fa-person-walking text-emerald-400 text-lg group-hover:-rotate-12 transition-transform"
-                ></i>
+                <i class="fas fa-person-walking text-lg"></i>
               </div>
               <div>
-                <p class="text-white font-bold tracking-tight mb-0.5">
-                  5-10 Minutes Walk
-                </p>
+                <p class="text-slate-900 font-bold text-sm">5-10 Min Walk</p>
                 <p
-                  class="text-xs text-slate-500 font-semibold uppercase tracking-wider"
+                  class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest mt-0.5"
                 >
-                  To Main LPU Gate
+                  To LPU Main Gate
                 </p>
               </div>
             </div>
 
-            <!-- Distance 2 -->
             <div
-              class="bg-[#1e293b]/50 border border-slate-800 rounded-2xl p-5 flex items-center gap-5 hover:bg-[#1e293b] hover:border-blue-500/30 transition-all duration-300 group cursor-default"
+              class="bg-slate-50 rounded-2xl p-4 sm:p-5 flex items-center gap-4 border border-slate-100 hover:border-[#1F3D2B]/20 transition-colors cursor-default"
             >
               <div
-                class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/20 transition-colors"
+                class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600"
               >
-                <i
-                  class="fas fa-car-side text-blue-400 text-lg group-hover:translate-x-1 transition-transform"
-                ></i>
+                <i class="fas fa-car-side text-lg"></i>
               </div>
               <div>
-                <p class="text-white font-bold tracking-tight mb-0.5">
-                  E-Rickshaw Available
-                </p>
+                <p class="text-slate-900 font-bold text-sm">E-Rickshaws</p>
                 <p
-                  class="text-xs text-slate-500 font-semibold uppercase tracking-wider"
+                  class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest mt-0.5"
                 >
-                  ₹10-20 per ride
+                  ₹10-20 Per Ride
                 </p>
               </div>
             </div>
 
-            <!-- Distance 3 -->
             <div
-              class="bg-[#1e293b]/50 border border-slate-800 rounded-2xl p-5 flex items-center gap-5 hover:bg-[#1e293b] hover:border-amber-500/30 transition-all duration-300 group cursor-default"
+              class="bg-slate-50 rounded-2xl p-4 sm:p-5 flex items-center gap-4 border border-slate-100 hover:border-[#1F3D2B]/20 transition-colors cursor-default"
             >
               <div
-                class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-amber-500/20 transition-colors"
+                class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center text-amber-600"
               >
-                <i
-                  class="fas fa-store text-amber-400 text-lg group-hover:scale-110 transition-transform"
-                ></i>
+                <i class="fas fa-store text-lg"></i>
               </div>
               <div>
-                <p class="text-white font-bold tracking-tight mb-0.5">
-                  Local Markets
-                </p>
+                <p class="text-slate-900 font-bold text-sm">Local Markets</p>
                 <p
-                  class="text-xs text-slate-500 font-semibold uppercase tracking-wider"
+                  class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest mt-0.5"
                 >
-                  Shops, ATMs & Cafes
+                  Shops & ATMs Nearby
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Advanced Map Display -->
+        <!-- Right Column: Clean Map Embed -->
         <div
-          class="lg:col-span-7 order-1 lg:order-2 h-[450px] lg:h-[600px] relative group perspective-1000"
+          class="w-full lg:w-2/3 min-h-[400px] lg:min-h-full bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 relative shadow-inner"
         >
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.3!2d75.7!3d31.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5f5e5e5e5e5f%3A0x5e5e5e5e5e5e5e5e!2sLaw%20Gate%2C%20Phagwara%2C%20Punjab!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+            width="100%"
+            height="100%"
+            style="border: 0; filter: contrast(1.05) saturate(1.1)"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Anvi Stay Location Map"
+            class="absolute inset-0 z-10 w-full h-full"
+          ></iframe>
+
+          <!-- Clean floating badge inside map -->
           <div
-            class="absolute inset-0 bg-gradient-to-r from-[#C8A24A] to-emerald-500 rounded-[2.5rem] blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"
-          ></div>
-          <div
-            class="relative h-full w-full rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl transform transition-transform duration-700 hover:scale-[1.01] bg-slate-800"
+            class="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-sm border border-slate-200/50 p-3 rounded-xl shadow-lg flex items-center gap-3"
           >
-            <!-- Glass Overlay Info inside Map -->
-            <div
-              class="absolute top-6 left-6 z-20 bg-slate-900/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-xl transform transition-transform duration-500 hover:scale-105 hidden sm:block"
-            >
-              <div class="flex items-center gap-3">
-                <img
-                  src="logo.png"
-                  alt="Anvi Stay"
-                  class="w-8 h-8 object-contain drop-shadow-[0_0_8px_rgba(200,162,74,0.8)]"
-                />
-                <div>
-                  <p
-                    class="text-white font-black text-sm uppercase tracking-widest"
-                  >
-                    Anvi Stay
-                  </p>
-                  <p class="text-[#C8A24A] text-[10px] font-bold">
-                    Premium Housing
-                  </p>
-                </div>
-              </div>
+            <img
+              src="logo.png"
+              alt="Anvi Stay"
+              class="w-6 h-6 object-contain"
+            />
+            <div>
+              <p
+                class="text-slate-900 font-black text-xs uppercase tracking-widest leading-none mb-1"
+              >
+                Anvi Stay
+              </p>
+              <p class="text-[#C8A24A] text-[9px] font-bold leading-none">
+                Prmium Housing
+              </p>
             </div>
-
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.3!2d75.7!3d31.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5f5e5e5e5e5f%3A0x5e5e5e5e5e5e5e5e!2sLaw%20Gate%2C%20Phagwara%2C%20Punjab!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-              width="100%"
-              height="100%"
-              style="border: 0; filter: contrast(1.1) saturate(1.2)"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="Anvi Stay Location Map"
-              class="absolute inset-0 z-10"
-            ></iframe>
-
-            <!-- Interactive Map Cover Overlay (Removes pointer events so map is fully interactive but adds visual depth) -->
-            <div
-              class="absolute inset-0 pointer-events-none z-15 shadow-[inset_0_0_60px_rgba(15,23,42,0.8)]"
-            ></div>
           </div>
         </div>
       </div>
