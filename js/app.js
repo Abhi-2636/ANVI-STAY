@@ -1042,53 +1042,78 @@ function renderLandingUI() {
             </span>`;
 
       return `
-        <div class="property-card ${isFull ? "opacity-75" : ""}" onclick="openRoomDetail(${idx})">
-          <div class="h-44 sm:h-60 relative overflow-hidden">
-            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 hover:scale-110" loading="lazy" width="800" height="500">
-            <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 40%,rgba(11,17,32,0.75) 100%)"></div>
+        <div class="group relative bg-white rounded-[2rem] border border-slate-100 overflow-hidden shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_20px_40px_-12px_rgba(16,185,129,0.15)] hover:border-emerald-200 transition-all duration-500 hover:-translate-y-2 flex flex-col ${isFull ? "opacity-80" : ""}" onclick="openRoomDetail(${idx})" style="cursor: pointer;">
+          
+          <!-- Image Section -->
+          <div class="h-56 sm:h-64 relative overflow-hidden">
+            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-110" loading="lazy" width="800" height="500">
+            <!-- Smooth gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
+            
+            <!-- Top Badges -->
             <div class="absolute top-4 left-4 flex gap-2">
               ${roomBadge}
             </div>
             <div class="absolute top-4 right-4 flex gap-2">
-              <button onclick="openLightbox(${idx}, 0);event.stopPropagation()" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition-colors shadow-lg" style="backdrop-filter:blur(6px)" title="View Gallery">
+              <button onclick="openLightbox(${idx}, 0);event.stopPropagation()" class="bg-white/20 text-white w-9 h-9 rounded-xl flex items-center justify-center text-sm border border-white/20 hover:bg-white/40 transition-colors shadow-lg backdrop-blur-md" title="View Gallery">
                 <i class="fas fa-images"></i>
               </button>
-              <button onclick="toggleCompare(${idx}, event)" class="bg-white/15 text-white w-8 h-8 rounded-lg flex items-center justify-center text-xs hover:bg-white/30 transition-colors shadow-lg" style="backdrop-filter:blur(6px)" title="Compare">
+              <button onclick="toggleCompare(${idx}, event)" class="bg-white/20 text-white w-9 h-9 rounded-xl flex items-center justify-center text-sm border border-white/20 hover:bg-emerald-500 hover:border-emerald-400 transition-colors shadow-lg backdrop-blur-md" title="Compare">
                 <i class="fas fa-scale-balanced"></i>
               </button>
               ${availBadge}
             </div>
-            <div class="absolute bottom-4 left-4 right-4">
-              <h3 class="text-xl sm:text-2xl font-black tracking-tight leading-tight text-white mb-1">${p.name}</h3>
-              <div class="flex items-center text-white/70 text-[10px] font-bold uppercase tracking-widest">
-                <i class="fas fa-location-dot mr-1.5 text-[#C8A24A]"></i> Law Gate, Phagwara
+
+            <!-- Title Area overlayed on image -->
+            <div class="absolute bottom-5 left-5 right-5">
+              <h3 class="text-2xl sm:text-3xl font-black tracking-tight text-white mb-2 group-hover:text-emerald-300 transition-colors">${p.name}</h3>
+              <div class="flex flex-wrap items-center gap-2 text-white/80 text-[11px] font-bold uppercase tracking-wider">
+                <span class="flex items-center"><i class="fas fa-location-dot mr-1.5 text-emerald-400"></i> Law Gate, Phagwara</span>
+                <span class="w-1 h-1 rounded-full bg-white/30 hidden sm:block"></span>
+                <span class="flex items-center hidden sm:flex text-amber-300"><i class="fas fa-star mr-1 text-[10px]"></i> 4.8</span>
               </div>
             </div>
           </div>
-          <div class="p-5 sm:p-6 flex flex-col flex-1">
+
+          <!-- Card Body -->
+          <div class="p-6 sm:p-8 flex flex-col flex-1 bg-white">
             ${occupancyBar}
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-amber-50 text-[9px] font-bold text-amber-700"><i class="fas fa-wifi text-[8px]"></i> Wi-Fi</span>
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-blue-50 text-[9px] font-bold text-blue-700"><i class="fas fa-snowflake text-[8px]"></i> AC</span>
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-emerald-50 text-[9px] font-bold text-emerald-700"><i class="fas fa-shield-halved text-[8px]"></i> CCTV</span>
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-purple-50 text-[9px] font-bold text-purple-700"><i class="fas fa-bolt text-[8px]"></i> Backup</span>
+            
+            <!-- Amenities Pills -->
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-emerald-50 text-[10px] font-bold text-emerald-700 border border-emerald-100"><i class="fas fa-wifi text-[9px]"></i> Free Wi-Fi</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-blue-50 text-[10px] font-bold text-blue-700 border border-blue-100"><i class="fas fa-snowflake text-[9px]"></i> AC Room</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-50 text-[10px] font-bold text-amber-700 border border-amber-100"><i class="fas fa-utensils text-[9px]"></i> Kitchen</span>
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-purple-50 text-[10px] font-bold text-purple-700 border border-purple-100"><i class="fas fa-bolt text-[9px]"></i> Backup</span>
             </div>
-            <div class="flex justify-between items-end border-t pt-4 mt-auto" style="border-color:rgba(200,162,74,0.12)">
+
+            <!-- Footer area (Price & CTA) -->
+            <div class="flex justify-between items-end border-t border-slate-100 pt-5 mt-auto">
               <div>
-                <p class="text-[9px] uppercase font-black tracking-widest mb-0.5 text-slate-400">Starting from</p>
-                <div class="flex items-baseline gap-1">
-                  <p class="text-2xl sm:text-3xl font-black text-[#C8A24A] tracking-tighter leading-none">₹${(+p.rent).toLocaleString("en-IN")}</p>
-                  <span class="text-[10px] font-bold text-slate-400">/mo</span>
+                <p class="text-[10px] uppercase font-bold tracking-widest text-slate-400 mb-1">Monthly Rent</p>
+                <div class="flex items-end gap-1 leading-none">
+                  <span class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tighter">₹${(+p.rent).toLocaleString("en-IN")}</span>
+                  <span class="text-xs font-bold text-slate-400 mb-1">/mo</span>
                 </div>
               </div>
-              <div class="flex items-center gap-2">
+
+              <div class="flex items-center gap-3">
                 ${
                   isFull
-                    ? `<span class="text-[9px] font-bold uppercase tracking-wider text-red-400">Fully Booked</span>`
-                    : `<span class="text-[9px] font-bold uppercase tracking-wider hidden sm:inline text-[#C8A24A]">Explore →</span>`
+                    ? `<span class="text-[10px] font-black uppercase tracking-widest text-rose-500 bg-rose-50 px-3 py-1.5 rounded-lg">Filled</span>`
+                    : `<span class="text-[10px] font-black uppercase tracking-widest text-emerald-600 group-hover:translate-x-1 transition-transform hidden sm:inline-block">View Details &rarr;</span>`
                 }
-                <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY!\n\nI'm interested in:\n\n🏠 PG: " + p.name + "\n🛏️ Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/mo\n\nPlease share availability and details. Thank you!")}" target="_blank" rel="noopener noreferrer" class="text-white w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-colors shadow-lg gold-hover-btn" style="background:linear-gradient(135deg,#1F3D2B,#2a5438)" onclick="event.stopPropagation()" aria-label="WhatsApp enquiry">
-                  <i class="fab fa-whatsapp text-lg"></i>
+                <!-- WhatsApp Button -->
+                <a 
+                  href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY!\n\nI'm interested in:\n\n🏠 PG: " + p.name + "\n🛏️ Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/mo\n\nPlease share availability and details. Thank you!")}" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="bg-emerald-500 text-white w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 shadow-[0_8px_20px_-6px_rgba(16,185,129,0.5)] hover:bg-emerald-600 hover:-translate-y-1 hover:shadow-[0_12px_24px_-6px_rgba(16,185,129,0.6)]" 
+                  onclick="event.stopPropagation()" 
+                  aria-label="WhatsApp enquiry"
+                  title="Chat on WhatsApp"
+                >
+                  <i class="fab fa-whatsapp text-2xl"></i>
                 </a>
               </div>
             </div>

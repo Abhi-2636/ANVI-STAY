@@ -319,226 +319,304 @@
   </section>
 
   <!-- Services & Amenities -->
+  <!-- Ultra-Premium Services & Amenities -->
   <section
     id="services"
-    class="py-20 sm:py-28"
-    style="
-      background: linear-gradient(
-        180deg,
-        #ffffff 0%,
-        #faf9f7 50%,
-        #f8f7f4 100%
-      );
-    "
+    class="py-24 sm:py-32 relative bg-white overflow-hidden"
   >
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-14 sm:mb-20">
-        <div
-          class="inline-flex items-center gap-2 bg-amber-50 rounded-full px-4 py-2 mb-5"
-        >
-          <i class="fas fa-sparkles text-xs text-[#C8A24A]"></i>
-          <span
-            class="text-[10px] font-black uppercase tracking-widest text-[#C8A24A]"
-            >What We Offer</span
-          >
-        </div>
-        <h2
-          class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-4"
-        >
-          Services &amp; Amenities
-        </h2>
-        <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto">
-          Everything you need for a comfortable, safe, and productive stay — all
-          under one roof.
-        </p>
-      </div>
+    <!-- Background accents -->
+    <div
+      class="absolute inset-0 opacity-[0.03]"
+      style="
+        background-image: radial-gradient(#1e293b 1px, transparent 1px);
+        background-size: 24px 24px;
+      "
+    ></div>
+    <div
+      class="absolute -top-40 -left-40 w-96 h-96 bg-amber-200/40 rounded-full blur-[100px]"
+    ></div>
+    <div
+      class="absolute top-1/2 -right-20 w-80 h-80 bg-emerald-200/40 rounded-full blur-[100px]"
+    ></div>
+
+    <div class="container mx-auto px-6 relative z-10 max-w-7xl">
+      <!-- Section Header -->
       <div
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"
+        class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8"
       >
-        <!-- 1. Fully Furnished -->
-        <div class="service-card">
+        <div class="max-w-2xl">
           <div
-            class="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-4"
+            class="inline-flex items-center gap-2 bg-amber-50 rounded-full px-5 py-2.5 mb-6 border border-amber-100 shadow-sm"
           >
-            <i class="fas fa-couch text-xl text-[#C8A24A]"></i>
+            <span class="flex h-2 w-2 relative">
+              <span
+                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"
+              ></span>
+              <span
+                class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"
+              ></span>
+            </span>
+            <span
+              class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]"
+              >What We Offer</span
+            >
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Fully Furnished
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Move-in ready rooms with bed, wardrobe, desk, and all essentials
-            included.
+          <h2
+            class="text-[clamp(2.5rem,4vw,3.5rem)] font-black tracking-tighter text-slate-900 leading-[1.1] mb-6"
+          >
+            Everything you need,<br />
+            <span
+              class="bg-gradient-to-r from-amber-500 to-[#C8A24A] bg-clip-text text-transparent"
+              >nothing you don't.</span
+            >
+          </h2>
+          <p
+            class="text-slate-500 text-lg font-medium leading-relaxed max-w-xl"
+          >
+            We've thoughtfully designed our properties to provide a completely
+            hassle-free, secure, and comfortable living experience so you can
+            focus entirely on your studies.
           </p>
         </div>
-
-        <!-- 2. Wi-Fi -->
-        <div class="service-card">
-          <div
-            class="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-4"
+        <div class="hidden md:block">
+          <a
+            href="#properties"
+            class="group inline-flex items-center justify-center gap-3 bg-white text-slate-800 font-bold px-6 py-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/50 transition-all"
           >
-            <i class="fas fa-wifi text-xl text-blue-500"></i>
+            Explore Properties
+            <i
+              class="fas fa-arrow-right text-sm text-[#C8A24A] group-hover:translate-x-1 transition-transform"
+            ></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Modern Bento Grid for Amenities -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[220px]"
+      >
+        <!-- Large Card: Fully Furnished -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-8 border border-slate-100 overflow-hidden lg:col-span-2 lg:row-span-2 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-slate-200 transition-all duration-500 hover:-translate-y-1"
+        >
+          <div
+            class="absolute right-0 bottom-0 w-64 h-64 bg-amber-100 rounded-full blur-[80px] opacity-0 group-hover:opacity-60 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 mb-6 group-hover:scale-110 transition-transform duration-500"
+            >
+              <i class="fas fa-couch text-2xl text-[#C8A24A]"></i>
+            </div>
+            <div>
+              <h4
+                class="text-2xl font-black text-slate-900 mb-3 tracking-tight"
+              >
+                Move-in Ready Luxury
+              </h4>
+              <p class="text-slate-500 text-base leading-relaxed max-w-md">
+                Premium, fully-furnished rooms designed meticulously with
+                high-quality beds, spacious wardrobes, and dedicated ergonomic
+                study desks.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            High-Speed Wi-Fi
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Reliable, fast internet across all rooms for classes, study, and
-            entertainment.
-          </p>
+          <img
+            src="https://images.unsplash.com/photo-1522771731470-8ee3c2336829?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            alt="Furnished Room"
+            class="absolute top-0 right-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none mix-blend-multiply"
+          />
         </div>
 
-        <!-- 3. 24/7 Assistance -->
-        <div class="service-card">
+        <!-- Medium Card: High-Speed Wi-Fi -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-headset text-xl text-emerald-500"></i>
+            class="absolute right-0 top-0 w-32 h-32 bg-blue-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-blue-600 transition-colors"
+            >
+              <i class="fas fa-wifi text-xl text-blue-500"></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-slate-900 mb-2">
+                High-Speed Wi-Fi
+              </h4>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Enterprise-grade, reliable internet across all corners of the
+                property for uninterrupted studies.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            24/7 Assistance
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Round-the-clock support via WhatsApp and phone for any query or
-            emergency.
-          </p>
         </div>
 
-        <!-- 4. CCTV Security -->
-        <div class="service-card">
+        <!-- Medium Card: Security -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-red-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-red-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-shield-halved text-xl text-red-500"></i>
+            class="absolute left-0 bottom-0 w-32 h-32 bg-red-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-red-600 transition-colors"
+            >
+              <i class="fas fa-shield-halved text-xl text-red-500"></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-slate-900 mb-2">
+                24/7 CCTV Security
+              </h4>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Continuous surveillance monitoring at all entry points to ensure
+                your complete peace of mind.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            CCTV Security
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            24/7 CCTV surveillance at all properties for your safety and peace
-            of mind.
-          </p>
         </div>
 
-        <!-- 5. Fast Maintenance -->
-        <div class="service-card">
+        <!-- Medium Card: Power Backup -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-yellow-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-wrench text-xl text-purple-500"></i>
+            class="absolute right-0 bottom-0 w-32 h-32 bg-yellow-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-yellow-600 transition-colors"
+            >
+              <i
+                class="fas fa-bolt text-xl text-yellow-500 group-hover:animate-pulse"
+              ></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-slate-900 mb-2">
+                Power Backup
+              </h4>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Heavy-duty inverter backups across properties so sudden outages
+                never leave you in the dark.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Fast Maintenance
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Quick issue resolution — just raise a ticket and we handle the rest
-            promptly.
-          </p>
         </div>
 
-        <!-- 6. Power Backup -->
-        <div class="service-card">
+        <!-- Medium Card: Fast Maintenance -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-purple-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-yellow-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-bolt text-xl text-yellow-500"></i>
+            class="absolute left-0 top-0 w-32 h-32 bg-purple-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-purple-600 transition-colors"
+            >
+              <i class="fas fa-wrench text-xl text-purple-500"></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-slate-900 mb-2">
+                Fast Maintenance
+              </h4>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Dedicated staff to promptly resolve any electrical or plumbing
+                issues you report.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Power Backup
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Inverter backup across all properties so you're never left in the
-            dark.
-          </p>
         </div>
 
-        <!-- 7. RO Drinking Water -->
-        <div class="service-card">
+        <!-- Wide Card: Housekeeping & Amenities -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 sm:p-8 border border-slate-100 overflow-hidden lg:col-span-2 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-emerald-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-cyan-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-droplet text-xl text-cyan-500"></i>
+            class="absolute top-0 right-0 w-64 h-64 bg-emerald-100 rounded-full blur-[80px] opacity-0 group-hover:opacity-60 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-center">
+            <div class="flex items-center gap-4 mb-5">
+              <div
+                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
+              >
+                <i class="fas fa-broom text-xl text-emerald-500"></i>
+              </div>
+              <div
+                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
+              >
+                <i class="fas fa-droplet text-xl text-cyan-500"></i>
+              </div>
+              <div
+                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
+              >
+                <i class="fas fa-shirt text-xl text-indigo-500"></i>
+              </div>
+            </div>
+            <h4 class="text-xl font-bold text-slate-900 mb-2">
+              Seamless Daily Living
+            </h4>
+            <p
+              class="text-slate-500 text-sm sm:text-base leading-relaxed max-w-lg"
+            >
+              Enjoy meticulous daily housekeeping of common areas, 24/7
+              unlimited RO purified drinking water, and readily accessible
+              on-site laundry facilities. We manage the chores so you don't have
+              to.
+            </p>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            RO Drinking Water
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Clean, purified RO drinking water available 24/7 at every property.
-          </p>
         </div>
 
-        <!-- 8. Laundry Service -->
-        <div class="service-card">
+        <!-- Medium Card: Student Community -->
+        <div
+          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-pink-200 transition-all duration-500 hover:-translate-y-1"
+        >
           <div
-            class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-shirt text-xl text-indigo-500"></i>
+            class="absolute right-0 top-0 w-32 h-32 bg-pink-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-pink-600 transition-colors"
+            >
+              <i
+                class="fas fa-users text-xl text-pink-500 group-hover:scale-110 transition-transform"
+              ></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-slate-900 mb-2">
+                Vibrant Community
+              </h4>
+              <p class="text-slate-500 text-sm leading-relaxed">
+                Live, collaborate, and grow with a curated community of
+                like-minded LPU students.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Laundry Service
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Convenient on-site laundry facility to save your time and effort.
-          </p>
         </div>
 
-        <!-- 9. Student Community -->
-        <div class="service-card">
+        <!-- Medium Card: No Brokerage -->
+        <div
+          class="group relative bg-slate-900 rounded-[2rem] p-6 border border-slate-800 overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-emerald-900/40"
+        >
           <div
-            class="w-12 h-12 bg-pink-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-users text-xl text-pink-500"></i>
+            class="absolute inset-0 bg-gradient-to-br from-emerald-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
+          ></div>
+          <div class="relative z-10 h-full flex flex-col justify-between">
+            <div
+              class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700"
+            >
+              <i class="fas fa-handshake text-xl text-emerald-400"></i>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold text-white mb-2">Zero Brokerage</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">
+                Book directly with our management. No hidden fees, no
+                unnecessary middle-men commissions.
+              </p>
+            </div>
           </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Student Community
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Live with like-minded peers in a vibrant, supportive community.
-          </p>
-        </div>
-
-        <!-- 10. No Brokerage -->
-        <div class="service-card">
-          <div
-            class="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-handshake text-xl text-emerald-500"></i>
-          </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            No Brokerage
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Book directly with us — zero brokerage, zero hidden charges.
-          </p>
-        </div>
-
-        <!-- 11. Housekeeping -->
-        <div class="service-card">
-          <div
-            class="w-12 h-12 bg-teal-50 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-broom text-xl text-teal-500"></i>
-          </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Housekeeping
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Regular cleaning of common areas and corridors to maintain hygiene.
-          </p>
-        </div>
-
-        <!-- 12. Parking -->
-        <div class="service-card">
-          <div
-            class="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center mb-4"
-          >
-            <i class="fas fa-square-parking text-xl text-slate-500"></i>
-          </div>
-          <h4 class="text-base sm:text-lg font-bold text-slate-800 mb-2">
-            Parking Space
-          </h4>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
-            Dedicated two-wheeler parking available at all properties.
-          </p>
         </div>
       </div>
     </div>
@@ -709,61 +787,106 @@
   </section>
 
   <!-- Managed Properties -->
+  <!-- Premium Properties Section -->
   <section
     id="properties"
-    class="py-24 sm:py-32"
-    style="background: linear-gradient(180deg, #f8f7f4 0%, #f1f0ec 100%)"
+    class="py-24 sm:py-32 relative overflow-hidden"
+    style="background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)"
   >
-    <div class="container mx-auto px-6">
+    <!-- Background Decor -->
+    <div
+      class="absolute inset-0 opacity-[0.03]"
+      style="
+        background-image: radial-gradient(#64748b 1px, transparent 1px);
+        background-size: 32px 32px;
+      "
+    ></div>
+    <div
+      class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-100 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"
+    ></div>
+
+    <div class="container mx-auto px-6 relative z-10 max-w-7xl">
       <div class="text-center mb-12 sm:mb-20">
-        <p
-          class="text-[10px] font-black uppercase tracking-[0.3em] text-[#C8A24A] mb-3"
+        <div
+          class="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2.5 mb-6 border border-slate-200 shadow-sm shadow-slate-200/50"
         >
-          <i class="fas fa-building mr-2"></i>Premium Student Housing
-        </p>
+          <i class="fas fa-building text-emerald-600 text-[10px]"></i>
+          <span
+            class="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-700"
+            >Premium Housing</span
+          >
+        </div>
         <h2
-          class="text-[clamp(2rem,6vw,4rem)] font-black mb-3 sm:mb-4 tracking-tighter text-slate-900 leading-none"
+          class="text-[clamp(2.5rem,5vw,4.5rem)] font-black tracking-tighter mb-4 text-slate-900 leading-none"
         >
-          Our Managed Properties
+          Our
+          <span
+            class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent"
+            >Managed</span
+          >
+          Properties
         </h2>
         <p
-          class="text-gray-400 text-sm sm:text-base font-medium max-w-lg mx-auto"
+          class="text-slate-500 text-base sm:text-lg font-medium max-w-xl mx-auto leading-relaxed"
         >
-          Handpicked, fully-managed student accommodations near LPU — designed
-          for comfort, safety & convenience
+          Handpicked, premium student accommodations near LPU — meticulously
+          designed for unmatched comfort, safety, and convenience.
         </p>
       </div>
 
-      <!-- Search & Filter Bar -->
-      <div class="search-filter-bar" id="property-search-bar">
-        <div class="flex items-center gap-2 text-slate-400 flex-shrink-0">
-          <i class="fas fa-search text-sm text-[#C8A24A]"></i>
-        </div>
-        <input
-          type="text"
-          id="search-property"
-          placeholder="Search by property name..."
-          oninput="filterProperties()"
-        />
-        <select id="filter-price" onchange="filterProperties()">
-          <option value="all">All Prices</option>
-          <option value="0-8000">Under ₹8,000</option>
-          <option value="8000-10000">₹8,000 – ₹10,000</option>
-          <option value="10000-12000">₹10,000 – ₹12,000</option>
-          <option value="12000-99999">₹12,000+</option>
-        </select>
-        <select id="filter-type" onchange="filterProperties()">
-          <option value="all">All Types</option>
-          <option value="Fully Furnished">Fully Furnished</option>
-          <option value="Semi-Furnished">Semi-Furnished</option>
-        </select>
-        <button
-          onclick="resetFilters()"
-          class="filter-badge"
-          title="Reset filters"
+      <!-- Enhanced Search & Filter Bar -->
+      <div
+        class="search-filter-bar bg-white/80 backdrop-blur-xl border border-white p-4 rounded-2xl sm:rounded-full shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] mb-12 max-w-4xl mx-auto transition-shadow hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)]"
+        id="property-search-bar"
+      >
+        <div
+          class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full"
         >
-          <i class="fas fa-rotate-right text-[10px]"></i> Reset
-        </button>
+          <div
+            class="flex items-center gap-3 flex-1 w-full bg-slate-50/50 px-4 py-3 rounded-xl sm:rounded-full border border-slate-100"
+          >
+            <i class="fas fa-search text-emerald-600"></i>
+            <input
+              type="text"
+              id="search-property"
+              class="w-full bg-transparent border-none text-slate-700 placeholder-slate-400 font-medium text-sm outline-none focus:ring-0"
+              placeholder="Search properties (e.g., Blessing, Royal)..."
+              oninput="filterProperties()"
+            />
+          </div>
+
+          <div class="flex w-full sm:w-auto gap-3">
+            <select
+              id="filter-price"
+              onchange="filterProperties()"
+              class="flex-1 sm:flex-none appearance-none bg-slate-50/50 border border-slate-100 text-slate-700 text-sm font-semibold px-5 py-3 rounded-xl sm:rounded-full outline-none focus:border-emerald-300 transition-colors cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748B%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:10px] bg-[position:calc(100%-12px)_center] bg-no-repeat pr-8"
+            >
+              <option value="all">All Prices</option>
+              <option value="0-8000">Under ₹8,000</option>
+              <option value="8000-10000">₹8,000 – ₹10,000</option>
+              <option value="10000-12000">₹10,000 – ₹12,000</option>
+              <option value="12000-99999">₹12,000+</option>
+            </select>
+
+            <select
+              id="filter-type"
+              onchange="filterProperties()"
+              class="flex-1 sm:flex-none appearance-none bg-slate-50/50 border border-slate-100 text-slate-700 text-sm font-semibold px-5 py-3 rounded-xl sm:rounded-full outline-none focus:border-emerald-300 transition-colors cursor-pointer bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748B%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:10px] bg-[position:calc(100%-12px)_center] bg-no-repeat pr-8"
+            >
+              <option value="all">All Types</option>
+              <option value="Fully Furnished">Fully Furnished</option>
+              <option value="Semi-Furnished">Semi-Furnished</option>
+            </select>
+
+            <button
+              onclick="resetFilters()"
+              class="bg-slate-900 text-white font-bold text-sm px-6 py-3 rounded-xl sm:rounded-full hover:bg-slate-800 transition-colors shadow-none flex items-center justify-center gap-2 whitespace-nowrap"
+              title="Reset filters"
+            >
+              <i class="fas fa-rotate-right text-xs"></i> Reset
+            </button>
+          </div>
+        </div>
       </div>
 
       <div
@@ -781,32 +904,65 @@
   </section>
 
   <!-- Premium Testimonials Section -->
-  <section class="py-24 sm:py-32 relative overflow-hidden" style="background: linear-gradient(135deg, #0b1120 0%, #1f3d2b 100%);">
+  <section
+    class="py-24 sm:py-32 relative overflow-hidden"
+    style="background: linear-gradient(135deg, #0b1120 0%, #1f3d2b 100%)"
+  >
     <!-- Decorative background blobs -->
-    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C8A24A]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
-    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]"></div>
+    <div
+      class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C8A24A]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"
+    ></div>
+    <div
+      class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"
+    ></div>
+    <div
+      class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]"
+    ></div>
 
     <div class="container mx-auto px-6 mb-16 sm:mb-20 relative z-10">
       <div class="text-center max-w-2xl mx-auto">
-        <div class="inline-flex items-center gap-2 bg-white/5 rounded-full px-5 py-2.5 mb-6 border border-white/10" style="backdrop-filter: blur(12px);">
+        <div
+          class="inline-flex items-center gap-2 bg-white/5 rounded-full px-5 py-2.5 mb-6 border border-white/10"
+          style="backdrop-filter: blur(12px)"
+        >
           <i class="fas fa-heart text-[#C8A24A] text-[10px] animate-pulse"></i>
-          <span class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]">What Students Say</span>
+          <span
+            class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]"
+            >What Students Say</span
+          >
         </div>
-        <h2 class="text-[clamp(2.5rem,4vw,3.5rem)] font-black tracking-tighter mb-6 text-white leading-[1.1]">
-          Trusted by <span style="background: linear-gradient(135deg, #c8a24a, #e8c94a); -webkit-background-clip: text; background-clip: text; color: transparent;">500+ Students</span>
+        <h2
+          class="text-[clamp(2.5rem,4vw,3.5rem)] font-black tracking-tighter mb-6 text-white leading-[1.1]"
+        >
+          Trusted by
+          <span
+            style="
+              background: linear-gradient(135deg, #c8a24a, #e8c94a);
+              -webkit-background-clip: text;
+              background-clip: text;
+              color: transparent;
+            "
+            >500+ Students</span
+          >
         </h2>
-        <p class="text-white/50 text-base sm:text-lg font-medium leading-relaxed">
-          Real experiences from LPU students who chose Anvi Stay for their academic journey. Their stories speak louder than our words.
+        <p
+          class="text-white/50 text-base sm:text-lg font-medium leading-relaxed"
+        >
+          Real experiences from LPU students who chose Anvi Stay for their
+          academic journey. Their stories speak louder than our words.
         </p>
       </div>
     </div>
 
     <!-- Edge masks for the scrolling track so it fades out neatly at screen edges -->
     <div class="relative z-10 w-[95%] mx-auto">
-      <div class="absolute inset-y-0 left-0 w-8 sm:w-24 bg-gradient-to-r from-[#0b1120] to-transparent z-20 pointer-events-none"></div>
-      <div class="absolute inset-y-0 right-0 w-8 sm:w-24 bg-gradient-to-l from-[#1f3d2b] to-transparent z-20 pointer-events-none"></div>
-      
+      <div
+        class="absolute inset-y-0 left-0 w-8 sm:w-24 bg-gradient-to-r from-[#0b1120] to-transparent z-20 pointer-events-none"
+      ></div>
+      <div
+        class="absolute inset-y-0 right-0 w-8 sm:w-24 bg-gradient-to-l from-[#1f3d2b] to-transparent z-20 pointer-events-none"
+      ></div>
+
       <div class="overflow-hidden">
         <div class="testimonials-track flex gap-6" id="testimonials-track">
           <!-- Testimonials will be duplicated by JS for infinite scroll -->
