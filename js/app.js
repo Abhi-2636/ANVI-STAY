@@ -1189,6 +1189,8 @@ window.tenantLogout = () => {
     dash.innerHTML = "";
   }
   if (loginForm) loginForm.classList.remove("hidden");
+  const bottomNav = byId("mobile-bottom-nav");
+  if (bottomNav) bottomNav.classList.add("hidden");
   // Clear inputs
   safeSet("tenant-room-input", "value", "");
   safeSet("tenant-pass-input", "value", "");
@@ -1246,6 +1248,28 @@ window.fetchTenantDashboard = async () => {
     return;
   }
 
+  const dash = byId("tenant-dash");
+  const loginForm = byId("tenant-login-form");
+  const bottomNav = byId("mobile-bottom-nav");
+
+  // Show Skeleton First
+  if (loginForm && !state.tenantLogin) {
+    loginForm.classList.add("hidden");
+    dash.classList.remove("hidden");
+    if(bottomNav) bottomNav.classList.remove("hidden");
+    dash.innerHTML = `
+      <div class="space-y-6">
+        <div class="h-40 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] w-full skeleton"></div>
+        <div class="h-64 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] w-full skeleton"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="h-48 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] skeleton"></div>
+          <div class="h-48 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] skeleton"></div>
+        </div>
+      </div>
+    `;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   try {
     const res = await fetch(`${API_BASE}/rooms/tenant-login`, {
       method: "POST",
@@ -1259,6 +1283,9 @@ window.fetchTenantDashboard = async () => {
     const result = await res.json();
 
     if (!result.success) {
+      if (loginForm) loginForm.classList.remove("hidden");
+      dash.classList.add("hidden");
+      if(bottomNav) bottomNav.classList.add("hidden");
       showTenantError(result.message || "Login failed.");
       return;
     }
@@ -1358,17 +1385,21 @@ window.fetchTenantDashboard = async () => {
                 <i class="fas fa-house-chimney-window text-3xl sm:text-4xl text-white drop-shadow-lg relative z-10"></i>
               </div>
             </div>
-            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 w-fit">
-              <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
-                <i class="fas fa-user text-sm text-white"></i>
+            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 w-fit relative overflow-hidden group">
+              <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center relative z-10 transition-transform group-hover:scale-110">
+                <i class="fas fa-user text-sm text-white drop-shadow"></i>
               </div>
-              <div>
-                <p class="text-white/60 text-[9px] font-bold uppercase tracking-widest">Resident</p>
+              <div class="relative z-10">
+                <p class="text-white/60 text-[9px] font-bold uppercase tracking-widest flex items-center gap-1">
+                  Resident 
+                  ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<span class="px-1.5 py-0.5 rounded-sm bg-gradient-to-r from-[#C8A24A] to-amber-300 text-slate-900 text-[6px] shadow-[0_0_10px_rgba(200,162,74,0.5)] animate-pulse" title="Super Tenant"><i class="fas fa-crown"></i> SUPER</span>' : ''}
+                </p>
                 <p class="text-white font-bold text-sm sm:text-base">${t.name || "Not Set"}</p>
               </div>
+              ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ''}
             </div>
           </div>
-          <div class="absolute -right-8 -bottom-8 opacity-[0.06]">
+          <div class="absolute -right-8 -bottom-8 opacity-[0.06] group-hover:scale-110 group-hover:opacity-[0.08] transition-all duration-700">
             <i class="fas fa-house-user text-[14rem] sm:text-[18rem]"></i>
           </div>
         </div>
@@ -1516,10 +1547,10 @@ window.fetchTenantDashboard = async () => {
              <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
           </button>
           
-          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
-             <i class="fas fa-screwdriver-wrench text-2xl sm:text-3xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Request</span>
+          <button onclick="window.requestRoomCleaning()" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl transition-all group-hover:bg-emerald-500/10"></div>
+             <i class="fas fa-broom text-2xl sm:text-3xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
+             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Housekeeping</span>
           </button>
         </div>
 
@@ -1530,11 +1561,14 @@ window.fetchTenantDashboard = async () => {
           <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.rentPaid ? "border-emerald-200" : "border-rose-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
             <div class="absolute -right-10 -top-10 w-40 h-40 ${t.rentPaid ? "bg-emerald-500/10" : "bg-rose-500/10"} rounded-full blur-[40px] pointer-events-none"></div>
             
-            <div class="flex items-start justify-between mb-8 relative z-10">
-              <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.rentPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-rose-100 to-rose-50 text-rose-600 shadow-rose-200/50"} shadow-lg">
-                <i class="fas ${t.rentPaid ? "fa-circle-check" : "fa-clock"} text-2xl"></i>
+            <div class="flex items-start justify-between mb-6 relative z-10">
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.rentPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-rose-100 to-rose-50 text-rose-600 shadow-rose-200/50"} shadow-lg relative">
+                <i class="fas ${t.rentPaid ? "fa-circle-check" : "fa-clock"} text-2xl relative z-10"></i>
+                <svg class="absolute inset-0 w-14 h-14 progress-ring__circle" viewBox="0 0 56 56">
+                  <circle cx="28" cy="28" r="26" fill="transparent" stroke="${t.rentPaid ? '#10b981' : '#f43f5e'}" stroke-width="4" stroke-dasharray="163.3" stroke-dashoffset="${t.rentPaid ? '0' : '40'}"></circle>
+                </svg>
               </div>
-              <span class="${t.rentPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.rentPaid ? "PAID" : "DUE"}</span>
+              <span class="${t.rentPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200 animate-pulse"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.rentPaid ? "PAID" : "DUE"}</span>
             </div>
             
             <div class="relative z-10">
@@ -1575,23 +1609,21 @@ window.fetchTenantDashboard = async () => {
           <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.elecPaid ? "border-emerald-200" : "border-amber-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
             <div class="absolute -right-10 -top-10 w-40 h-40 ${t.elecPaid ? "bg-emerald-500/10" : "bg-amber-500/10"} rounded-full blur-[40px] pointer-events-none"></div>
 
-            <div class="flex items-start justify-between mb-8 relative z-10">
-              <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.elecPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-amber-100 to-amber-50 text-amber-600 shadow-amber-200/50"} shadow-lg">
-                <i class="fas ${t.elecPaid ? "fa-circle-check" : "fa-bolt"} text-2xl"></i>
+            <div class="flex items-start justify-between mb-6 relative z-10">
+              <div class="donut-chart shadow-lg ${t.elecPaid ? 'grayscale-[50%]' : ''}" style="width: 56px; height: 56px; background: conic-gradient(#3b82f6 0% ${totalBill > 0 ? (totalElec/totalBill)*100 : 50}%, #f97316 ${totalBill > 0 ? (totalElec/totalBill)*100 : 50}% 100%);">
+                <div class="donut-inner text-[10px] font-black text-slate-700" style="width: 44px; height: 44px;"><i class="fas ${t.elecPaid ? "fa-circle-check text-emerald-500" : "fa-bolt"} text-lg"></i></div>
               </div>
-              <span class="${t.elecPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-amber-50 text-amber-600 border border-amber-200"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.elecPaid ? "SETTLED" : "DUE"}</span>
+              <span class="${t.elecPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-amber-50 text-amber-600 border border-amber-200 animate-pulse"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.elecPaid ? "SETTLED" : "DUE"}</span>
             </div>
             
             <div class="relative z-10">
               <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-plug"></i> Electricity & Maintenance</p>
-              <p class="text-4xl sm:text-5xl font-black ${t.elecPaid ? "text-slate-900" : "text-amber-500"} tracking-tighter leading-none mb-3">₹${bill.toLocaleString("en-IN")}</p>
+              <p class="text-4xl sm:text-5xl font-black ${t.elecPaid ? "text-slate-900 dark:text-slate-100" : "text-amber-500"} tracking-tighter leading-none mb-3">₹${bill.toLocaleString("en-IN")}</p>
               
-              <div class="flex items-center gap-3 my-4 bg-slate-50/80 px-4 py-2.5 rounded-xl border border-slate-100 w-fit">
-                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div> ${units} Units</div>
+              <div class="flex items-center gap-2 sm:gap-3 my-4 bg-slate-50/80 px-4 py-2.5 rounded-xl border border-slate-100 w-fit">
+                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div> ₹${totalElec.toLocaleString("en-IN")}</div>
                 <div class="w-px h-3 bg-slate-300"></div>
-                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> ₹${num(t.elecRate, 13)}/unit</div>
-                <div class="w-px h-3 bg-slate-300"></div>
-                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-purple-400"></div> +₹${num(t.maintCharge, 300)} Maint.</div>
+                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-orange-500"></div> ₹${totalMaint.toLocaleString("en-IN")} Maint.</div>
               </div>
 
               ${!t.elecPaid
@@ -2154,6 +2186,7 @@ window.tenantDownloadInvoice = (type, amount, month, paidAt, utrNumber) => {
     utrNumber: utrNumber
   };
   
+  if (window.triggerConfetti) window.triggerConfetti();
   window.generateUpiInvoice(room, paymentData);
 };
 
@@ -2200,6 +2233,7 @@ window.submitUpiPayment = async (paymentType, amount) => {
 
     if (result.success) {
       closeUpiPaymentModal();
+      if (window.triggerConfetti) window.triggerConfetti();
       toast("✅ Payment submitted for verification! You'll be notified once approved.", 5000);
       // Refresh dashboard to show pending status
       fetchTenantDashboard();
@@ -2665,6 +2699,44 @@ window.generateUpiInvoice = (room, payment) => {
     win.document.write(invoiceHTML);
     win.document.close();
   }
+};
+
+// ── Confetti & Premium UX ──
+window.triggerConfetti = () => {
+  for (let i = 0; i < 50; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.animationDelay = Math.random() * 2 + "s";
+    confetti.style.backgroundColor = ["#10b981", "#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6"][Math.floor(Math.random() * 5)];
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 4000);
+  }
+};
+
+window.requestRoomCleaning = () => {
+  const lastCleaning = localStorage.getItem("lastCleaningRequest");
+  if (lastCleaning) {
+    const daysSince = (new Date() - new Date(lastCleaning)) / (1000 * 60 * 60 * 24);
+    if (daysSince < 7) {
+      toast("🧹 Housekeeping already scheduled. You can request again in " + Math.ceil(7 - daysSince) + " days.", 5000);
+      return;
+    }
+  }
+  
+  if (!state.tenantLogin) {
+    toast("Please login to request housekeeping.", 4000);
+    return;
+  }
+  
+  const { bid, rno } = state.tenantLogin;
+  const buildingName = buildings.find((b) => b.id === bid)?.name || "ANVI STAY";
+  
+  const text = encodeURIComponent(`Hello Team,\n\nI need housekeeping services for my room.\n\n🏠 PG: ${buildingName}\n🚪 Room: ${rno}\n\nPlease let me know the scheduled time. Thank you!`);
+  window.open(`https://wa.me/919142272776?text=${text}`, "_blank");
+  
+  localStorage.setItem("lastCleaningRequest", new Date().toISOString());
+  toast("✨ Housekeeping request sent via WhatsApp!", 4000);
 };
 
 // ---- Landlord Control ----
