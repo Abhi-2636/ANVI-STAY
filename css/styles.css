@@ -6177,21 +6177,40 @@ body {
 }
 
 .dark {
-  background-color: #0f172a !important;
+  background-color: #0b1120 !important;
   color: #f8fafc;
 }
 
-.dark .bg-white\/80 { background-color: rgba(30, 41, 59, 0.8) !important; border-color: rgba(255,255,255,0.05) !important; }
-.dark .bg-white\/70 { background-color: rgba(30, 41, 59, 0.7) !important; border-color: rgba(255,255,255,0.05) !important; }
-.dark .text-slate-900 { color: #f8fafc !important; }
-.dark .text-slate-800 { color: #f1f5f9 !important; }
-.dark .text-slate-700 { color: #e2e8f0 !important; }
-.dark .text-slate-600 { color: #cbd5e1 !important; }
-.dark .text-slate-500 { color: #94a3b8 !important; }
+.dark .bg-slate-\[50\],
 .dark .bg-slate-50 { background-color: #1e293b !important; }
 .dark .bg-slate-100 { background-color: #334155 !important; }
+.dark .bg-slate-200 { background-color: #475569 !important; }
+.dark .bg-slate-800 { background-color: #0f172a !important; border-color: #334155 !important; }
+.dark .bg-slate-900 { background-color: #020617 !important; border-color: #1e293b !important; }
+
+.dark .bg-white\/80 { background-color: rgba(30, 41, 59, 0.6) !important; border-color: rgba(255,255,255,0.08) !important; box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1); }
+.dark .bg-white\/70 { background-color: rgba(30, 41, 59, 0.5) !important; border-color: rgba(255,255,255,0.08) !important; }
+.dark .bg-white\/10 { background-color: rgba(255, 255, 255, 0.05) !important; }
+
+.dark .text-slate-900,
+.dark .text-slate-800 { color: #f8fafc !important; }
+.dark .text-slate-700 { color: #f1f5f9 !important; }
+.dark .text-slate-600 { color: #cbd5e1 !important; }
+.dark .text-slate-500 { color: #94a3b8 !important; }
+.dark .text-slate-400 { color: #64748b !important; }
+
 .dark .border-slate-100 { border-color: #334155 !important; }
 .dark .border-slate-200 { border-color: #475569 !important; }
+.dark .border-slate-300 { border-color: #64748b !important; }
+.dark .border-white { border-color: rgba(255, 255, 255, 0.1) !important; }
+
+/* Enhanced Typography & Shadows for Dark Mode */
+.dark .shadow-\[0_30px_60px_-15px_rgba\(0\,0\,0\,0\.05\)\] {
+  box-shadow: 0 30px 60px -15px rgba(0,0,0,0.4) !important;
+}
+.dark .bg-gradient-to-r.from-slate-900.via-slate-700.to-slate-900 {
+  background-image: linear-gradient(to right, #f8fafc, #cbd5e1, #f8fafc) !important;
+}
 
 /* Sticky Bottom Nav */
 .mobile-bottom-nav {
