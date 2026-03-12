@@ -285,6 +285,7 @@ let state = {
   activeBuilding: buildings[0].id,
   tenants: {},
   activeLFilter: "all",
+  adminRoomView: "grid", // map or grid
   selectedRoom: null,
   rentPaidLocal: false,
   elecPaidLocal: false,
@@ -336,13 +337,194 @@ const num = (v, d = 0) => {
 };
 const byId = (id) => document.getElementById(id);
 
-function toast(msg, timeout = 3000) {
-  const t = byId("toast");
-  const inner = byId("toast-inner");
-  if (!t || !inner) return;
-  inner.textContent = msg;
-  t.classList.remove("hidden");
-  setTimeout(() => t.classList.add("hidden"), timeout);
+window.playHaptic = () => {
+  if (navigator.vibrate) navigator.vibrate(10);
+  try {
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(400, audioCtx.currentTime);
+    gainNode.gain.setValueAtTime(0.03, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(
+      0.0001,
+      audioCtx.currentTime + 0.1,
+    );
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+  } catch (e) {}
+};
+
+// Global click delegation for haptics
+document.addEventListener("click", (e) => {
+  if (e.target.closest("button") || e.target.closest("a")) {
+    if (window.playHaptic) window.playHaptic();
+  }
+});
+
+// Custom Cursor Engine
+function initCustomCursor() {
+  const dot = document.getElementById("cursor-dot");
+  const ring = document.getElementById("cursor-ring");
+
+  if (!dot || !ring) return; // Wait until they exist
+
+  // Only init once
+  if (window._cursorInitialized) return;
+  window._cursorInitialized = true;
+
+  let mouseX = window.innerWidth / 2,
+    mouseY = window.innerHeight / 2;
+  let ringX = mouseX,
+    ringY = mouseY;
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.transform = `translate(calc(${mouseX}px - 50%), calc(${mouseY}px - 50%))`;
+
+    // Check if hovering interactive element
+    const target = e.target;
+    if (
+      target.closest("button") ||
+      target.closest("a") ||
+      target.closest("input") ||
+      target.closest("select") ||
+      target.closest(".tilt-card") ||
+      target.closest(".cursor-pointer")
+    ) {
+      document.body.classList.add("cursor-hover");
+    } else {
+      document.body.classList.remove("cursor-hover");
+    }
+  });
+
+  const render = () => {
+    ringX += (mouseX - ringX) * 0.2;
+    ringY += (mouseY - ringY) * 0.2;
+    ring.style.transform = `translate(calc(${ringX}px - 50%), calc(${ringY}px - 50%))`;
+    requestAnimationFrame(render);
+  };
+  requestAnimationFrame(render);
+
+  document.addEventListener("mousedown", () =>
+    document.body.classList.add("cursor-click"),
+  );
+  document.addEventListener("mouseup", () =>
+    document.body.classList.remove("cursor-click"),
+  );
+}
+
+// Try to init now, and also on load
+initCustomCursor();
+document.addEventListener("DOMContentLoaded", initCustomCursor);
+// Safe polling to bind to dynamically injected SPA elements
+// Safe polling to bind to dynamically injected SPA elements
+setInterval(initCustomCursor, 500);
+
+// Global UI Effects
+let islandTimeout;
+window.dynamicIsland = function (
+  msg,
+  iconSrc = "assets/img/logo.png",
+  duration = 4000,
+) {
+  const island = document.getElementById("dynamic-island");
+  const textEl = document.getElementById("island-text");
+  const iconEl = document.getElementById("island-icon");
+  if (!island) return;
+
+  textEl.textContent = msg;
+  iconEl.src = iconSrc;
+
+  clearTimeout(islandTimeout);
+  island.classList.add("island-active");
+
+  if (window.playHaptic) window.playHaptic();
+
+  islandTimeout = setTimeout(() => {
+    island.classList.remove("island-active");
+  }, duration);
+};
+
+window.fireConfetti = function () {
+  const colors = ["#C8A24A", "#e8c94a", "#10b981", "#ffffff"];
+  const container = document.createElement("div");
+  container.className = "confetti-container";
+  document.body.appendChild(container);
+
+  for (let i = 0; i < 70; i++) {
+    const confetti = document.createElement("div");
+    confetti.className = "confetti-piece";
+    confetti.style.left = Math.random() * 100 + "vw";
+    confetti.style.backgroundColor =
+      colors[Math.floor(Math.random() * colors.length)];
+
+    // Randomize physics
+    const animDuration = Math.random() * 3 + 2;
+    const animDelay = Math.random() * 2;
+    confetti.style.animation = `confetti-fall ${animDuration}s ease-in ${animDelay}s forwards`;
+
+    container.appendChild(confetti);
+  }
+
+  // Cleanup
+  setTimeout(() => {
+    container.remove();
+  }, 6000);
+};
+
+function toast(msg, timeout = 3000, type = "success") {
+  const container = byId("toast");
+  if (!container) {
+    alert(msg);
+    return;
+  }
+
+  // If msg contains error words, auto-switch to error styling
+  if (
+    msg.toLowerCase().includes("error") ||
+    msg.toLowerCase().includes("failed") ||
+    msg.toLowerCase().includes("invalid")
+  ) {
+    type = "error";
+  }
+
+  const t = document.createElement("div");
+  t.className = `glass-toast ${type}`;
+
+  let icon = "fa-check-circle text-emerald-400";
+  if (type === "error") icon = "fa-exclamation-circle text-rose-400";
+  if (type === "info") icon = "fa-info-circle text-blue-400";
+
+  t.innerHTML = `
+    <i class="fas ${icon} text-lg drop-shadow-md"></i>
+    <span class="font-bold tracking-wide text-sm drop-shadow-sm">${msg}</span>
+    <div class="glass-toast-progress"></div>
+  `;
+
+  container.appendChild(t);
+
+  requestAnimationFrame(() => {
+    t.classList.add("show");
+    const progress = t.querySelector(".glass-toast-progress");
+    if (progress) {
+      progress.style.transition = `transform ${timeout}ms linear`;
+      requestAnimationFrame(() => {
+        progress.style.transform = "scaleX(0)";
+      });
+    }
+  });
+
+  setTimeout(() => {
+    t.classList.remove("show");
+    t.classList.add("hide");
+    setTimeout(() => {
+      if (t.parentElement) t.remove();
+    }, 400);
+  }, timeout);
 }
 
 function toggleMobileMenu(btn) {
@@ -378,18 +560,40 @@ window.closeMobileMenu = () => {
   if (btn) btn.setAttribute("aria-expanded", "false");
 };
 
-// Scroll shadow on header
-let lastScrollY = 0;
+// Scroll shadow and Smart Dynamic Header
+let lastScrollY = window.scrollY;
 window.addEventListener(
   "scroll",
   () => {
     const header = byId("main-header");
     if (!header) return;
+
+    // Add box shadow when scrolled past top
     if (window.scrollY > 10) {
       header.classList.add("scrolled");
+      header.style.boxShadow = "0 10px 30px -10px rgba(0,0,0,0.1)";
     } else {
       header.classList.remove("scrolled");
+      header.style.boxShadow = "none";
     }
+
+    // Smart Header Hide/Show (Hides on scroll down, shows on scroll up)
+    if (window.scrollY > 150) {
+      // Scrolling down
+      if (window.scrollY > lastScrollY) {
+        header.classList.add("header-hidden");
+        // Always close mobile menu on scroll down
+        if (window.closeMobileMenu) window.closeMobileMenu();
+      }
+      // Scrolling up
+      else {
+        header.classList.remove("header-hidden");
+      }
+    } else {
+      // Always show when near the very top
+      header.classList.remove("header-hidden");
+    }
+
     // Scroll-to-top button visibility
     const scrollBtn = byId("scroll-to-top-btn");
     if (scrollBtn) {
@@ -439,6 +643,7 @@ async function run() {
   renderLandingUI();
   renderTestimonials();
   initStatsCounter();
+  initInteractiveMap();
   initDarkMode();
   initListeners();
 
@@ -537,6 +742,17 @@ window.goBack = () => {
   localStorage.removeItem("anvi_admin_name");
   state.tenants = {};
   stopNotifPolling();
+
+  // Clear security auto-lock
+  state.isLocked = false;
+  if (typeof adminInactivityTimer !== "undefined")
+    clearTimeout(adminInactivityTimer);
+  const lockModal = document.getElementById("admin-lock-modal");
+  if (lockModal) {
+    lockModal.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
   if (viewHistory.length > 1) {
     viewHistory.pop();
     const prev = viewHistory[viewHistory.length - 1];
@@ -866,10 +1082,11 @@ function renderLandingUI() {
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                ${isFull
-          ? `<span class="text-[9px] font-bold uppercase tracking-wider text-red-400">Fully Booked</span>`
-          : `<span class="text-[9px] font-bold uppercase tracking-wider hidden sm:inline text-[#C8A24A]">Explore →</span>`
-        }
+                ${
+                  isFull
+                    ? `<span class="text-[9px] font-bold uppercase tracking-wider text-red-400">Fully Booked</span>`
+                    : `<span class="text-[9px] font-bold uppercase tracking-wider hidden sm:inline text-[#C8A24A]">Explore →</span>`
+                }
                 <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY!\n\nI'm interested in:\n\n🏠 PG: " + p.name + "\n🛏️ Type: " + (p.type || "N/A") + "\n💰 Rent: ₹" + (+p.rent).toLocaleString("en-IN") + "/mo\n\nPlease share availability and details. Thank you!")}" target="_blank" rel="noopener noreferrer" class="text-white w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-colors shadow-lg gold-hover-btn" style="background:linear-gradient(135deg,#1F3D2B,#2a5438)" onclick="event.stopPropagation()" aria-label="WhatsApp enquiry">
                   <i class="fab fa-whatsapp text-lg"></i>
                 </a>
@@ -986,8 +1203,8 @@ window.openRoomDetail = (idx) => {
           </h4>
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-5">
             ${amenities
-      .map(
-        (a) => `
+              .map(
+                (a) => `
               <div class="flex items-center gap-2.5 p-2.5 rounded-xl border" style="border-color:rgba(200,162,74,0.1);background:rgba(200,162,74,0.03)">
                 <div class="w-7 h-7 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0">
                   <i class="fas ${a.icon} text-[10px]" style="color:#C8A24A"></i>
@@ -995,8 +1212,8 @@ window.openRoomDetail = (idx) => {
                 <span class="text-[10px] sm:text-xs font-bold text-slate-700">${a.label}</span>
               </div>
             `,
-      )
-      .join("")}
+              )
+              .join("")}
           </div>
 
           <!-- Nearby Places -->
@@ -1124,7 +1341,12 @@ window.validateAdmin = async () => {
       adminToken = data.token;
       localStorage.setItem("anvi_admin_token", adminToken);
       localStorage.setItem("anvi_admin_name", data.data.name || "Admin");
+      localStorage.setItem("anvi_admin_email", email); // For lock screen re-auth
       if (errEl) errEl.classList.add("hidden");
+
+      // Auto-lock initialization
+      initAdminSecurity();
+
       switchView("landlord");
       toast(`Welcome back, ${data.data.name}!`);
     } else {
@@ -1142,6 +1364,191 @@ window.validateAdmin = async () => {
       errEl.classList.remove("hidden");
     }
     toast("Connection error. Check backend server.", 4000);
+  }
+};
+
+// ---- Premium App-like Admin Security Lockdown ----
+let adminInactivityTimer;
+const ADMIN_TIMEOUT_MS = 5 * 60 * 1000; // 5 mins inactivity
+
+window.initAdminSecurity = () => {
+  // Clear any existing
+  if (adminInactivityTimer) clearTimeout(adminInactivityTimer);
+
+  // Only bind if Admin is actually logged in
+  if (!adminToken) return;
+
+  const resetTimer = () => {
+    if (state.isLocked) return; // Don't reset if already locked
+    clearTimeout(adminInactivityTimer);
+    adminInactivityTimer = setTimeout(() => {
+      if (adminToken && state.view === "landlord") lockAdminScreen();
+    }, ADMIN_TIMEOUT_MS);
+  };
+
+  // Bind to activity events
+  ["mousemove", "keydown", "click", "scroll"].forEach((event) => {
+    document.addEventListener(event, resetTimer, { passive: true });
+  });
+
+  resetTimer();
+};
+
+window.lockAdminScreen = () => {
+  if (state.isLocked) return;
+  state.isLocked = true;
+
+  let lockModal = document.getElementById("admin-lock-modal");
+  if (!lockModal) {
+    lockModal = document.createElement("div");
+    lockModal.id = "admin-lock-modal";
+    lockModal.className =
+      "fixed inset-0 z-[999999] bg-slate-900/80 backdrop-blur-xl flex flex-col items-center justify-center p-6 opacity-0 transition-opacity duration-300";
+    lockModal.innerHTML = `
+      <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300 text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-tr from-rose-500/10 to-amber-500/10 pointer-events-none"></div>
+        <div class="relative z-10">
+          <div class="w-20 h-20 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner ring-4 ring-slate-800">
+            <i class="fas fa-lock text-3xl text-slate-400" id="lock-icon-anim"></i>
+          </div>
+          <h2 class="text-xl font-black text-white mb-2 tracking-tight">Session Locked</h2>
+          <p class="text-xs text-slate-400 font-medium mb-8">For security, your admin session paused due to inactivity.</p>
+          
+          <div class="text-left mb-4">
+            <label class="text-[10px] font-black uppercase text-slate-500 tracking-widest pl-1 mb-2 block">Admin Password</label>
+            <div class="relative">
+              <input type="password" id="admin-unlock-input" class="w-full bg-slate-800 border border-slate-700 text-white text-sm font-bold rounded-xl px-4 py-3 outline-none focus:border-amber-500 transition shadow-inner" placeholder="Enter password to resume...">
+            </div>
+            <p id="admin-unlock-error" class="text-rose-400 text-xs font-bold mt-2 hidden text-center"></p>
+          </div>
+          
+          <div class="flex gap-3">
+            <button onclick="goBack()" class="flex-1 px-4 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition">Sign Out</button>
+            <button onclick="unlockAdminScreen()" class="flex-1 px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-900 rounded-xl text-xs font-bold shadow-lg transition active:scale-95">Resume</button>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lockModal);
+
+    // Allow enter key unlock
+    document
+      .getElementById("admin-unlock-input")
+      .addEventListener("keydown", (e) => {
+        if (e.key === "Enter") unlockAdminScreen();
+      });
+  }
+
+  // Make it visible & block scroll
+  lockModal.classList.remove("hidden");
+  requestAnimationFrame(() => {
+    lockModal.classList.remove("opacity-0");
+    lockModal.querySelector("div").classList.remove("scale-95");
+  });
+  document.body.style.overflow = "hidden";
+
+  // Attempt to focus input
+  setTimeout(() => document.getElementById("admin-unlock-input").focus(), 300);
+
+  if (window.dynamicIsland)
+    window.dynamicIsland("Admin Session Locked", "assets/img/logo.png", 4000);
+};
+
+window.unlockAdminScreen = async () => {
+  const email = localStorage.getItem("anvi_admin_email");
+  const pwdInput = document.getElementById("admin-unlock-input");
+  const errEl = document.getElementById("admin-unlock-error");
+
+  if (!email || !pwdInput.value) {
+    errEl.textContent = "Please enter password.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password: pwdInput.value }),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Unlocked
+      errEl.classList.add("hidden");
+      pwdInput.value = "";
+      state.isLocked = false;
+
+      const lockModal = document.getElementById("admin-lock-modal");
+      if (lockModal) {
+        lockModal.classList.add("opacity-0");
+        setTimeout(() => {
+          lockModal.classList.add("hidden");
+          document.body.style.overflow = "";
+        }, 300);
+      }
+
+      if (window.dynamicIsland)
+        window.dynamicIsland("Welcome Back", "assets/img/logo.png", 3000);
+
+      // Update token in memory
+      adminToken = data.token;
+      localStorage.setItem("anvi_admin_token", adminToken);
+
+      // Restart timeout listener quietly
+      initAdminSecurity();
+    } else {
+      errEl.textContent = "Incorrect Password. Access Denied.";
+      errEl.classList.remove("hidden");
+
+      // Flash red icon effect
+      const icon = document.getElementById("lock-icon-anim");
+      if (icon) {
+        icon.classList.remove("text-slate-400");
+        icon.classList.add("text-rose-500", "animate-bounce");
+        setTimeout(() => {
+          icon.classList.add("text-slate-400");
+          icon.classList.remove("text-rose-500", "animate-bounce");
+        }, 600);
+      }
+    }
+  } catch (err) {
+    errEl.textContent = "Connection error.";
+    errEl.classList.remove("hidden");
+  }
+};
+
+window.requestJITPrivileges = async () => {
+  if (!adminToken) return;
+  const btn = document.getElementById("jit-request-btn");
+  const origText = btn.innerHTML;
+  btn.innerHTML = `<i class=\"fas fa-spinner fa-spin\"></i> Requesting...`;
+
+  try {
+    const res = await fetch(`${API_BASE}/admin/jit/request`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${adminToken}` },
+    });
+    const data = await res.json();
+    if (data.success) {
+      if (window.dynamicIsland)
+        window.dynamicIsland("God Mode Activated", "assets/img/logo.png", 5000);
+      btn.innerHTML = `<i class=\"fas fa-bolt text-[11px]\"></i> <span class=\"hidden sm:inline\">JIT Active (15m)</span>`;
+      btn.style.background = "rgba(16, 185, 129, 0.2)";
+      setTimeout(
+        () => {
+          btn.innerHTML = origText;
+          btn.style.background = "rgba(16, 185, 129, 0.08)";
+        },
+        15 * 60 * 1000,
+      );
+    } else {
+      toast(data.message || "Failed to elevate privileges.");
+      btn.innerHTML = origText;
+    }
+  } catch (err) {
+    toast("Server unreachable.");
+    btn.innerHTML = origText;
   }
 };
 
@@ -1256,14 +1663,34 @@ window.fetchTenantDashboard = async () => {
   if (loginForm && !state.tenantLogin) {
     loginForm.classList.add("hidden");
     dash.classList.remove("hidden");
-    if(bottomNav) bottomNav.classList.remove("hidden");
+    if (bottomNav) bottomNav.classList.remove("hidden");
+
+    // Smooth transition engine style entry
+    dash.parentElement.classList.add("dashboard-enter");
+
     dash.innerHTML = `
-      <div class="space-y-6">
-        <div class="h-40 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] w-full skeleton"></div>
-        <div class="h-64 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] w-full skeleton"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div class="h-48 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] skeleton"></div>
-          <div class="h-48 bg-slate-200 dark:bg-slate-700 rounded-[2.5rem] skeleton"></div>
+      <div class="space-y-6 sm:space-y-10">
+        <!-- Notification skeleton -->
+        <div class="flex justify-end mb-4"><div class="w-12 h-12 rounded-xl skeleton-box"></div></div>
+        
+        <!-- Welcome Card Skeleton -->
+        <div class="h-40 sm:h-56 rounded-[2rem] sm:rounded-[2.5rem] w-full skeleton-box"></div>
+        
+        <!-- Profile Skeleton -->
+        <div class="h-64 sm:h-80 rounded-[2rem] w-full skeleton-box"></div>
+        
+        <!-- Details / Stats grid skeleton -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
+          <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
+          <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
+          <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
+        </div>
+        
+        <!-- Payment Cards Skeleton -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="h-[400px] rounded-[2rem] skeleton-box"></div>
+          <div class="h-[400px] rounded-[2rem] skeleton-box"></div>
         </div>
       </div>
     `;
@@ -1285,7 +1712,7 @@ window.fetchTenantDashboard = async () => {
     if (!result.success) {
       if (loginForm) loginForm.classList.remove("hidden");
       dash.classList.add("hidden");
-      if(bottomNav) bottomNav.classList.add("hidden");
+      if (bottomNav) bottomNav.classList.add("hidden");
       showTenantError(result.message || "Login failed.");
       return;
     }
@@ -1297,7 +1724,10 @@ window.fetchTenantDashboard = async () => {
     // Store credentials for complaint submission
     state.tenantLogin = { bid, rno, pass };
 
-    const units = num(t.elecCurrent) - num(t.elecLast) + (num(t.invCurrent) - num(t.invLast));
+    const units =
+      num(t.elecCurrent) -
+      num(t.elecLast) +
+      (num(t.invCurrent) - num(t.invLast));
     const totalElec = units * num(t.elecRate, 13);
     const totalMaint = num(t.maintCharge, 300);
     const bill = totalElec + totalMaint;
@@ -1340,24 +1770,62 @@ window.fetchTenantDashboard = async () => {
     const tenantNotifCount = fetchedNotices.length + resolvedComplaints.length;
 
     const hour = new Date().getHours();
-    const greeting = hour < 6 ? "Good Night" : hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : hour < 21 ? "Good Evening" : "Good Night";
-    const greetIcon = hour < 6 ? "fa-moon" : hour < 12 ? "fa-mug-hot" : hour < 17 ? "fa-sun" : hour < 21 ? "fa-cloud-sun" : "fa-moon";
-    const greetGradient = hour < 6 ? "from-indigo-900 via-purple-900 to-slate-900" : hour < 12 ? "from-amber-800 via-orange-900 to-slate-900" : hour < 17 ? "from-sky-800 via-emerald-900 to-slate-900" : hour < 21 ? "from-orange-900 via-rose-900 to-slate-900" : "from-indigo-900 via-purple-900 to-slate-900";
+    const greeting =
+      hour < 6
+        ? "Good Night"
+        : hour < 12
+          ? "Good Morning"
+          : hour < 17
+            ? "Good Afternoon"
+            : hour < 21
+              ? "Good Evening"
+              : "Good Night";
+    const greetIcon =
+      hour < 6
+        ? "fa-moon"
+        : hour < 12
+          ? "fa-mug-hot"
+          : hour < 17
+            ? "fa-sun"
+            : hour < 21
+              ? "fa-cloud-sun"
+              : "fa-moon";
+    const greetGradient =
+      hour < 6
+        ? "from-indigo-900 via-purple-900 to-slate-900"
+        : hour < 12
+          ? "from-amber-800 via-orange-900 to-slate-900"
+          : hour < 17
+            ? "from-sky-800 via-emerald-900 to-slate-900"
+            : hour < 21
+              ? "from-orange-900 via-rose-900 to-slate-900"
+              : "from-indigo-900 via-purple-900 to-slate-900";
 
     // Payment streak calculation
-    const rentPayments = (t.paymentHistory || []).filter(p => p.type === 'rent').sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
+    const rentPayments = (t.paymentHistory || [])
+      .filter((p) => p.type === "rent")
+      .sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
     let streak = 0;
     for (const p of rentPayments) {
       const paidDay = new Date(p.paidAt).getDate();
-      if (paidDay <= 5) streak++; else break;
+      if (paidDay <= 5) streak++;
+      else break;
     }
 
     // Days until due
     const today = new Date();
-    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const daysInMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() + 1,
+      0,
+    ).getDate();
     const daysLeft = daysInMonth - today.getDate();
-    const dueProgress = Math.min(100, Math.round((today.getDate() / daysInMonth) * 100));
-    const dueColor = dueProgress > 75 ? '#ef4444' : dueProgress > 50 ? '#f59e0b' : '#10b981';
+    const dueProgress = Math.min(
+      100,
+      Math.round((today.getDate() / daysInMonth) * 100),
+    );
+    const dueColor =
+      dueProgress > 75 ? "#ef4444" : dueProgress > 50 ? "#f59e0b" : "#10b981";
 
     // DiceBear avatar URL
     const avatarUrl = `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(t.name || rno)}&backgroundColor=c0aede,d1d4f9,b6e3f4,ffd5dc&radius=50`;
@@ -1382,7 +1850,9 @@ window.fetchTenantDashboard = async () => {
         </div>
 
         <!-- Animated Notice Marquee -->
-        ${fetchedNotices.length > 0 ? `
+        ${
+          fetchedNotices.length > 0
+            ? `
         <div class="notice-marquee-container mb-6 rounded-2xl overflow-hidden border border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 relative">
           <div class="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-amber-50 to-transparent z-10 pointer-events-none"></div>
           <div class="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
@@ -1392,13 +1862,15 @@ window.fetchTenantDashboard = async () => {
             </div>
             <div class="marquee-track overflow-hidden flex-1">
               <div class="marquee-content">
-                ${fetchedNotices.map(n => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === 'urgent' ? 'text-rose-700' : n.priority === 'warning' ? 'text-amber-700' : 'text-blue-700'}"><i class="fas ${n.priority === 'urgent' ? 'fa-circle-exclamation' : 'fa-circle-info'} text-xs"></i> ${n.text}</span>`).join('')}
-                ${fetchedNotices.map(n => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === 'urgent' ? 'text-rose-700' : n.priority === 'warning' ? 'text-amber-700' : 'text-blue-700'}"><i class="fas ${n.priority === 'urgent' ? 'fa-circle-exclamation' : 'fa-circle-info'} text-xs"></i> ${n.text}</span>`).join('')}
+                ${fetchedNotices.map((n) => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === "urgent" ? "text-rose-700" : n.priority === "warning" ? "text-amber-700" : "text-blue-700"}"><i class="fas ${n.priority === "urgent" ? "fa-circle-exclamation" : "fa-circle-info"} text-xs"></i> ${n.text}</span>`).join("")}
+                ${fetchedNotices.map((n) => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === "urgent" ? "text-rose-700" : n.priority === "warning" ? "text-amber-700" : "text-blue-700"}"><i class="fas ${n.priority === "urgent" ? "fa-circle-exclamation" : "fa-circle-info"} text-xs"></i> ${n.text}</span>`).join("")}
               </div>
             </div>
           </div>
         </div>
-        ` : ''}
+        `
+            : ""
+        }
 
         <!-- Rent Due Countdown -->
         ${!t.rentPaid ? renderCountdown("auto") : ""}
@@ -1414,7 +1886,7 @@ window.fetchTenantDashboard = async () => {
                 <div class="flex items-center gap-2 mb-3 flex-wrap">
                   <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-300 border border-white/10">${buildings.find((b) => b.id === bid).name}</span>
                   <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-white/70 border border-white/10"><i class="fas ${greetIcon} mr-1"></i>${greeting}</span>
-                  ${streak > 0 ? `<span class="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-orange-300 border border-orange-400/20">🔥 ${streak} Month Streak!</span>` : ''}
+                  ${streak > 0 ? `<span class="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-orange-300 border border-orange-400/20">🔥 ${streak} Month Streak!</span>` : ""}
                 </div>
                 <h2 class="text-5xl sm:text-7xl font-black tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">Room ${rno}</h2>
               </div>
@@ -1433,13 +1905,15 @@ window.fetchTenantDashboard = async () => {
                 <div class="relative z-10">
                   <p class="text-white/60 text-[9px] font-bold uppercase tracking-widest flex items-center gap-1">
                     Resident 
-                    ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<span class="px-1.5 py-0.5 rounded-sm bg-gradient-to-r from-[#C8A24A] to-amber-300 text-slate-900 text-[6px] shadow-[0_0_10px_rgba(200,162,74,0.5)] animate-pulse" title="Super Tenant"><i class="fas fa-crown"></i> SUPER</span>' : ''}
+                    ${(t.paymentHistory || []).filter((p) => p.type === "rent").length >= 3 ? '<span class="px-1.5 py-0.5 rounded-sm bg-gradient-to-r from-[#C8A24A] to-amber-300 text-slate-900 text-[6px] shadow-[0_0_10px_rgba(200,162,74,0.5)] animate-pulse" title="Super Tenant"><i class="fas fa-crown"></i> SUPER</span>' : ""}
                   </p>
                   <p class="text-white font-bold text-sm sm:text-base">${t.name || "Not Set"}</p>
                 </div>
-                ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ''}
+                ${(t.paymentHistory || []).filter((p) => p.type === "rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ""}
               </div>
-              ${!t.rentPaid ? `
+              ${
+                !t.rentPaid
+                  ? `
               <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3">
                 <div class="relative z-10">
                   <p class="text-white/50 text-[8px] font-black uppercase tracking-widest">Due Countdown</p>
@@ -1451,7 +1925,9 @@ window.fetchTenantDashboard = async () => {
                   </div>
                 </div>
               </div>
-              ` : ''}
+              `
+                  : ""
+              }
             </div>
           </div>
           <div class="absolute -right-8 -bottom-8 opacity-[0.06]">
@@ -1477,10 +1953,11 @@ window.fetchTenantDashboard = async () => {
             <!-- Photo -->
             <div class="flex-shrink-0 flex justify-center sm:justify-start">
               <div class="w-28 h-36 rounded-xl overflow-hidden shadow-lg border-2 border-slate-100 bg-slate-50 flex items-center justify-center">
-                ${t.photoUrl
-        ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
-        : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
-      }
+                ${
+                  t.photoUrl
+                    ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
+                    : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
+                }
               </div>
             </div>
 
@@ -1507,8 +1984,9 @@ window.fetchTenantDashboard = async () => {
                 </div>
                 <p class="text-base font-bold text-slate-800">${t.collegeIdNo || "N/A"}</p>
               </div>
-              ${t.nationality === "Foreign"
-        ? `
+              ${
+                t.nationality === "Foreign"
+                  ? `
               <div class="bg-amber-50 rounded-xl p-4 border border-amber-200">
                 <div class="flex items-center gap-2 mb-1.5">
                   <i class="fas fa-globe text-amber-600 text-[10px]"></i>
@@ -1518,7 +1996,7 @@ window.fetchTenantDashboard = async () => {
                 <p class="text-[9px] font-bold text-slate-500">Visa: <span class="text-slate-800 text-sm">${t.visaNo || "N/A"}</span></p>
               </div>
               `
-        : `
+                  : `
               <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
                 <div class="flex items-center gap-2 mb-1.5">
                   <i class="fas fa-fingerprint text-purple-500 text-[10px]"></i>
@@ -1527,12 +2005,13 @@ window.fetchTenantDashboard = async () => {
                 <p class="text-base font-bold text-slate-800">${t.aadhaarNo ? t.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
               </div>
               `
-      }
+              }
             </div>
           </div>
 
-          ${t.secondTenant && t.secondTenant.name
-        ? `
+          ${
+            t.secondTenant && t.secondTenant.name
+              ? `
           <!-- 2nd Tenant -->
           <div class="mt-6 pt-6 border-t border-slate-100">
             <div class="flex items-center gap-2 mb-4">
@@ -1545,10 +2024,11 @@ window.fetchTenantDashboard = async () => {
             <div class="flex flex-col sm:flex-row gap-5">
               <div class="flex-shrink-0 flex justify-center sm:justify-start">
                 <div class="w-20 h-26 rounded-lg overflow-hidden shadow border border-indigo-100 bg-indigo-50/50 flex items-center justify-center">
-                  ${t.secondTenant.photoUrl
-          ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
-          : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
-        }
+                  ${
+                    t.secondTenant.photoUrl
+                      ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
+                      : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
+                  }
                 </div>
               </div>
               <div class="flex-1 grid grid-cols-2 gap-3">
@@ -1564,26 +2044,27 @@ window.fetchTenantDashboard = async () => {
                   <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">College ID</p>
                   <p class="text-sm font-bold text-slate-800">${t.secondTenant.collegeIdNo || "N/A"}</p>
                 </div>
-                ${t.secondTenant.nationality === "Foreign"
-          ? `
+                ${
+                  t.secondTenant.nationality === "Foreign"
+                    ? `
                 <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
                   <p class="text-[8px] font-black uppercase tracking-widest text-amber-600 mb-0.5">Passport / Visa</p>
                   <p class="text-[10px] font-bold text-slate-800">${t.secondTenant.passportNo || "N/A"} / ${t.secondTenant.visaNo || "N/A"}</p>
                 </div>
                 `
-          : `
+                    : `
                 <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
                   <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Aadhaar</p>
                   <p class="text-sm font-bold text-slate-800">${t.secondTenant.aadhaarNo ? t.secondTenant.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
                 </div>
                 `
-        }
+                }
               </div>
             </div>
           </div>
           `
-        : ""
-      }
+              : ""
+          }
         </div>
 
         </div>
@@ -1620,7 +2101,7 @@ window.fetchTenantDashboard = async () => {
           <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
             <div class="absolute -right-4 -top-4 w-12 h-12 bg-rose-500/10 rounded-full blur-[10px] group-hover:bg-rose-500/20 transition-all"></div>
             <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Outstanding Dues</p>
-            <p class="text-xl sm:text-2xl font-black ${!t.rentPaid || !t.elecPaid ? 'text-rose-500' : 'text-slate-800'} tracking-tight counter-animate" data-val="${Math.round((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0))}">₹0</p>
+            <p class="text-xl sm:text-2xl font-black ${!t.rentPaid || !t.elecPaid ? "text-rose-500" : "text-slate-800"} tracking-tight counter-animate" data-val="${Math.round((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0))}">₹0</p>
           </div>
           <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
             <div class="absolute -right-4 -top-4 w-12 h-12 bg-amber-500/10 rounded-full blur-[10px] group-hover:bg-amber-500/20 transition-all"></div>
@@ -1645,7 +2126,7 @@ window.fetchTenantDashboard = async () => {
               <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.rentPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-rose-100 to-rose-50 text-rose-600 shadow-rose-200/50"} shadow-lg relative">
                 <i class="fas ${t.rentPaid ? "fa-circle-check" : "fa-clock"} text-2xl relative z-10"></i>
                 <svg class="absolute inset-0 w-14 h-14 progress-ring__circle" viewBox="0 0 56 56">
-                  <circle cx="28" cy="28" r="26" fill="transparent" stroke="${t.rentPaid ? '#10b981' : '#f43f5e'}" stroke-width="4" stroke-dasharray="163.3" stroke-dashoffset="${t.rentPaid ? '0' : '40'}"></circle>
+                  <circle cx="28" cy="28" r="26" fill="transparent" stroke="${t.rentPaid ? "#10b981" : "#f43f5e"}" stroke-width="4" stroke-dasharray="163.3" stroke-dashoffset="${t.rentPaid ? "0" : "40"}"></circle>
                 </svg>
               </div>
               <span class="${t.rentPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200 animate-pulse"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.rentPaid ? "PAID" : "DUE"}</span>
@@ -1654,11 +2135,14 @@ window.fetchTenantDashboard = async () => {
             <div class="relative z-10">
               <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-home"></i> Monthly Rent</p>
               <p class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-4">₹${Number(t.rentAmount || 0).toLocaleString("en-IN")}</p>
-              ${!t.rentPaid
-        ? (() => {
-            const pendingRent = (t.pendingPayments || []).find(p => p.type === 'rent' && p.status === 'pending');
-            return pendingRent
-              ? `<div class="mt-6 pt-5 border-t border-amber-100">
+              ${
+                !t.rentPaid
+                  ? (() => {
+                      const pendingRent = (t.pendingPayments || []).find(
+                        (p) => p.type === "rent" && p.status === "pending",
+                      );
+                      return pendingRent
+                        ? `<div class="mt-6 pt-5 border-t border-amber-100">
                   <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3">Verification Progress</p>
                   <div class="relative">
                     <div class="absolute top-3 left-3 right-3 h-0.5 bg-slate-200 z-0"></div>
@@ -1682,19 +2166,19 @@ window.fetchTenantDashboard = async () => {
                     <p class="text-[9px] text-amber-600 font-semibold"><i class="fas fa-hashtag"></i> UTR: <span class="font-mono text-amber-800">${pendingRent.utrNumber}</span></p>
                   </div>
                 </div>`
-              : `<div class="mt-6 pt-5 border-t border-rose-100">
+                        : `<div class="mt-6 pt-5 border-t border-rose-100">
                   <button onclick="openUpiPaymentModal('rent', ${Number(t.rentAmount || 0)})"
                     class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white px-5 py-3.5 rounded-xl text-sm font-bold transition-all shadow-[0_8px_16px_rgba(225,29,72,0.25)] hover:shadow-lg active:scale-[0.98] group">
                     <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1 ml-1 text-xs"></i>
                   </button>
                 </div>`;
-          })()
-        : `
+                    })()
+                  : `
               <div class="mt-6 pt-5 border-t border-emerald-100">
                 <p class="text-emerald-600 text-xs font-bold flex items-center gap-2"><div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center inline-flex"><i class="fas fa-check text-[10px]"></i></div> Payment received successfully</p>
               </div>
             `
-      }
+              }
             </div>
           </div>
 
@@ -1703,7 +2187,7 @@ window.fetchTenantDashboard = async () => {
             <div class="absolute -right-10 -top-10 w-40 h-40 ${t.elecPaid ? "bg-emerald-500/10" : "bg-amber-500/10"} rounded-full blur-[40px] pointer-events-none"></div>
 
             <div class="flex items-start justify-between mb-6 relative z-10">
-              <div class="donut-chart shadow-lg ${t.elecPaid ? 'grayscale-[50%]' : ''}" style="width: 56px; height: 56px; background: conic-gradient(#3b82f6 0% ${totalBill > 0 ? (totalElec/totalBill)*100 : 50}%, #f97316 ${totalBill > 0 ? (totalElec/totalBill)*100 : 50}% 100%);">
+              <div class="donut-chart shadow-lg ${t.elecPaid ? "grayscale-[50%]" : ""}" style="width: 56px; height: 56px; background: conic-gradient(#3b82f6 0% ${totalBill > 0 ? (totalElec / totalBill) * 100 : 50}%, #f97316 ${totalBill > 0 ? (totalElec / totalBill) * 100 : 50}% 100%);">
                 <div class="donut-inner text-[10px] font-black text-slate-700" style="width: 44px; height: 44px;"><i class="fas ${t.elecPaid ? "fa-circle-check text-emerald-500" : "fa-bolt"} text-lg"></i></div>
               </div>
               <span class="${t.elecPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-amber-50 text-amber-600 border border-amber-200 animate-pulse"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.elecPaid ? "SETTLED" : "DUE"}</span>
@@ -1729,17 +2213,21 @@ window.fetchTenantDashboard = async () => {
                   </div>
                   <input type="range" min="10" max="100" value="50" step="10" class="w-full accent-emerald-500" oninput="const v=this.value; document.getElementById('split-pct').textContent=v+'%'; document.getElementById('split-yours').textContent='₹'+(Math.round(${bill}*v/100)).toLocaleString('en-IN'); document.getElementById('split-mate').textContent='₹'+(Math.round(${bill}*(100-v)/100)).toLocaleString('en-IN');" />
                   <div class="flex justify-between">
-                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">You Pay</p><p id="split-yours" class="text-lg font-black text-emerald-600">₹${Math.round(bill * 0.5).toLocaleString('en-IN')}</p></div>
-                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">Roommate</p><p id="split-mate" class="text-lg font-black text-blue-600">₹${Math.round(bill * 0.5).toLocaleString('en-IN')}</p></div>
+                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">You Pay</p><p id="split-yours" class="text-lg font-black text-emerald-600">₹${Math.round(bill * 0.5).toLocaleString("en-IN")}</p></div>
+                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">Roommate</p><p id="split-mate" class="text-lg font-black text-blue-600">₹${Math.round(bill * 0.5).toLocaleString("en-IN")}</p></div>
                   </div>
                 </div>
               </div>
 
-              ${!t.elecPaid
-        ? (() => {
-            const pendingElec = (t.pendingPayments || []).find(p => p.type === 'electricity' && p.status === 'pending');
-            return pendingElec
-              ? `<div class="mt-6 pt-5 border-t border-amber-100">
+              ${
+                !t.elecPaid
+                  ? (() => {
+                      const pendingElec = (t.pendingPayments || []).find(
+                        (p) =>
+                          p.type === "electricity" && p.status === "pending",
+                      );
+                      return pendingElec
+                        ? `<div class="mt-6 pt-5 border-t border-amber-100">
                   <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3">Verification Progress</p>
                   <div class="relative">
                     <div class="absolute top-3 left-3 right-3 h-0.5 bg-slate-200 z-0"></div>
@@ -1763,27 +2251,29 @@ window.fetchTenantDashboard = async () => {
                     <p class="text-[9px] text-amber-600 font-semibold"><i class="fas fa-hashtag"></i> UTR: <span class="font-mono text-amber-800">${pendingElec.utrNumber}</span></p>
                   </div>
                 </div>`
-              : `<div class="mt-6 pt-5 border-t border-amber-100">
+                        : `<div class="mt-6 pt-5 border-t border-amber-100">
                   <button onclick="openUpiPaymentModal('electricity', ${bill})"
                     class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-5 py-3.5 rounded-xl text-sm font-bold transition-all shadow-[0_8px_16px_rgba(245,158,11,0.25)] hover:shadow-lg active:scale-[0.98] group">
                     <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1 ml-1 text-xs"></i>
                   </button>
                 </div>`;
-          })()
-        : `
+                    })()
+                  : `
               <div class="mt-6 pt-5 border-t border-emerald-100">
                 <p class="text-emerald-600 text-xs font-bold flex items-center gap-2"><div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center inline-flex"><i class="fas fa-check text-[10px]"></i></div> Settled for this month</p>
               </div>
             `
-      }
+              }
             </div>
           </div>
         </div>
 
         <!-- Rejected Payments Alert -->
         ${(() => {
-          const rejected = (t.pendingPayments || []).filter(p => p.status === 'rejected');
-          if (rejected.length === 0) return '';
+          const rejected = (t.pendingPayments || []).filter(
+            (p) => p.status === "rejected",
+          );
+          if (rejected.length === 0) return "";
           return `
           <div class="bg-rose-50 border border-rose-200 rounded-2xl p-5 mb-6 sm:mb-8">
             <div class="flex items-center gap-2 mb-3">
@@ -1796,16 +2286,20 @@ window.fetchTenantDashboard = async () => {
               </div>
             </div>
             <div class="space-y-2">
-              ${rejected.map(p => `
+              ${rejected
+                .map(
+                  (p) => `
                 <div class="bg-white rounded-xl p-3 border border-rose-100 flex items-center justify-between">
                   <div>
-                    <span class="text-[9px] font-black uppercase tracking-widest ${p.type === 'rent' ? 'text-rose-500' : 'text-amber-500'}">${p.type === 'rent' ? 'Rent' : 'Electricity'}</span>
-                    <p class="text-sm font-bold text-slate-700 mt-0.5">₹${Number(p.amount || 0).toLocaleString('en-IN')} • UTR: ${p.utrNumber}</p>
-                    <p class="text-[10px] text-slate-400">${new Date(p.submittedAt).toLocaleDateString('en-IN')}</p>
+                    <span class="text-[9px] font-black uppercase tracking-widest ${p.type === "rent" ? "text-rose-500" : "text-amber-500"}">${p.type === "rent" ? "Rent" : "Electricity"}</span>
+                    <p class="text-sm font-bold text-slate-700 mt-0.5">₹${Number(p.amount || 0).toLocaleString("en-IN")} • UTR: ${p.utrNumber}</p>
+                    <p class="text-[10px] text-slate-400">${new Date(p.submittedAt).toLocaleDateString("en-IN")}</p>
                   </div>
                   <span class="text-[9px] font-black uppercase bg-rose-100 text-rose-600 px-2 py-1 rounded-lg">Rejected</span>
                 </div>
-              `).join('')}
+              `,
+                )
+                .join("")}
             </div>
           </div>`;
         })()}
@@ -1882,13 +2376,13 @@ window.fetchTenantDashboard = async () => {
 
         <!-- Room Amenities -->
         ${(() => {
-        const enabledAmenities = (t.amenities || []).filter((a) => a.enabled);
-        if (enabledAmenities.length === 0) return "";
-        const iconMap = {};
-        MASTER_AMENITIES.forEach((a) => {
-          iconMap[a.name] = a.icon;
-        });
-        return `
+          const enabledAmenities = (t.amenities || []).filter((a) => a.enabled);
+          if (enabledAmenities.length === 0) return "";
+          const iconMap = {};
+          MASTER_AMENITIES.forEach((a) => {
+            iconMap[a.name] = a.icon;
+          });
+          return `
           <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
             <div class="flex items-center gap-4 mb-8">
               <div class="w-12 h-12 bg-indigo-50 border border-indigo-100/50 rounded-2xl flex items-center justify-center shadow-inner">
@@ -1901,8 +2395,8 @@ window.fetchTenantDashboard = async () => {
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
               ${enabledAmenities
-            .map(
-              (a) => `
+                .map(
+                  (a) => `
                 <div class="flex items-center gap-3 bg-white border border-slate-100/50 shadow-sm hover:shadow hover:border-indigo-100 rounded-2xl p-4 transition-all hover:-translate-y-1">
                   <div class="w-10 h-10 bg-indigo-50/80 rounded-xl flex items-center justify-center flex-shrink-0 text-indigo-600">
                     <i class="fas ${iconMap[a.name] || "fa-check"} text-sm drop-shadow-sm"></i>
@@ -1910,11 +2404,11 @@ window.fetchTenantDashboard = async () => {
                   <span class="text-sm font-bold text-slate-700">${a.name}</span>
                 </div>
               `,
-            )
-            .join("")}
+                )
+                .join("")}
             </div>
           </div>`;
-      })()}
+        })()}
 
         <!-- Action Buttons -->
 
@@ -1945,8 +2439,9 @@ window.fetchTenantDashboard = async () => {
               </button>
             </div>
             
-            ${(t.complaints || []).length
-          ? `
+            ${
+              (t.complaints || []).length
+                ? `
               <div class="mt-8">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="h-px flex-1 bg-slate-200"></div>
@@ -1955,10 +2450,10 @@ window.fetchTenantDashboard = async () => {
                 </div>
                 <div class="space-y-4">
                 ${(t.complaints || [])
-            .slice()
-            .reverse()
-            .map(
-              (c) => `
+                  .slice()
+                  .reverse()
+                  .map(
+                    (c) => `
                   <div class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:shadow transition-shadow group relative overflow-hidden">
                     <div class="absolute left-0 top-0 bottom-0 w-1 ${c.status === "open" ? "bg-amber-400" : "bg-emerald-400"}"></div>
                     <div class="flex items-start justify-between mb-4 pl-3">
@@ -1995,20 +2490,22 @@ window.fetchTenantDashboard = async () => {
                       </div>
                     </div>
                   </div>
-                `
-            ).join("")}
+                `,
+                  )
+                  .join("")}
                 </div>
               </div>
             `
-          : ""
-        }
+                : ""
+            }
           </div>
         </div>
 
 
         <!-- Payment History -->
-        ${(t.paymentHistory || []).length
-        ? `
+        ${
+          (t.paymentHistory || []).length
+            ? `
         <div id="tenant-payment-history" class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
           <div class="flex items-center gap-4 mb-8">
             <div class="w-12 h-12 bg-blue-50 border border-blue-100/50 rounded-2xl flex items-center justify-center shadow-inner">
@@ -2021,19 +2518,19 @@ window.fetchTenantDashboard = async () => {
           </div>
           <div class="space-y-3">
             ${(t.paymentHistory || [])
-          .slice()
-          .reverse()
-          .slice(0, 10)
-          .map(
-            (p) => `
+              .slice()
+              .reverse()
+              .slice(0, 10)
+              .map(
+                (p) => `
               <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/50 hover:bg-slate-50 border border-slate-100/50 p-4 sm:p-5 rounded-2xl transition-all group">
                 <div class="flex items-center gap-4 mb-3 sm:mb-0">
                   <div class="w-10 h-10 ${p.type === "rent" ? "bg-emerald-100/80" : "bg-amber-100/80"} rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
                     <i class="fas ${p.type === "rent" ? "fa-indian-rupee-sign text-emerald-600" : "fa-bolt text-amber-600"}"></i>
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-slate-800 capitalize">${p.type === 'electricity' ? 'Electricity & Maint.' : 'Rent'}</p>
-                    <p class="text-xs text-slate-500 font-medium mt-0.5">${p.month || ""} • ${p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN') : ""}</p>
+                    <p class="text-sm font-bold text-slate-800 capitalize">${p.type === "electricity" ? "Electricity & Maint." : "Rent"}</p>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">${p.month || ""} • ${p.paidAt ? new Date(p.paidAt).toLocaleDateString("en-IN") : ""}</p>
                   </div>
                 </div>
                 <div class="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto border-t sm:border-t-0 border-slate-200/60 sm:border-none pt-3 sm:pt-0 mt-2 sm:mt-0">
@@ -2041,43 +2538,73 @@ window.fetchTenantDashboard = async () => {
                      <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-0.5">Paid</p>
                      <span class="text-lg font-black text-slate-900 tracking-tight">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
                   </div>
-                  <button onclick="window.tenantDownloadInvoice('${p.type}', ${p.amount || 0}, '${p.month || ''}', '${p.paidAt || ''}', '${p.utrNumber || ''}')" class="px-4 py-2 bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-600 rounded-xl text-xs font-bold text-slate-600 transition-all shadow-sm flex items-center gap-2 active:scale-95 group-hover:shadow">
+                  <button onclick="window.tenantDownloadInvoice('${p.type}', ${p.amount || 0}, '${p.month || ""}', '${p.paidAt || ""}', '${p.utrNumber || ""}')" class="px-4 py-2 bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-600 rounded-xl text-xs font-bold text-slate-600 transition-all shadow-sm flex items-center gap-2 active:scale-95 group-hover:shadow">
                     <i class="fas fa-file-invoice text-emerald-500"></i> <span class="hidden sm:inline">View</span> Invoice
                   </button>
                 </div>
               </div>
             `,
-          )
-          .join("")}
+              )
+              .join("")}
           </div>
         </div>
         `
-        : ""
-      }
+            : ""
+        }
 
         <!-- Charts Grid: Expense History & Breakdown -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 sm:mb-10">
           <!-- Expense Mini-Chart -->
           ${(() => {
             const ph = (t.paymentHistory || []).slice(-6);
-            if (ph.length === 0) return '';
-            const maxAmt = Math.max(...ph.map(x => Number(x.amount || 0)));
-            const bars = ph.map((p, i) => {
-              const pct = maxAmt > 0 ? (Number(p.amount || 0) / maxAmt) * 100 : 50;
-              const color = p.type === 'rent' ? 'from-emerald-400 to-emerald-600' : 'from-blue-400 to-indigo-500';
-              const mo = p.month ? p.month.substring(0, 3) : (p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN', { month: 'short' }) : '');
-              return '<div class="flex-1 flex flex-col items-center gap-1 group">' +
-                '<p class="text-[8px] sm:text-[9px] font-black text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">\u20b9' + Number(p.amount || 0).toLocaleString('en-IN') + '</p>' +
-                '<div class="w-full bg-gradient-to-t ' + color + ' rounded-t-lg transition-all duration-700 group-hover:opacity-80 relative overflow-hidden" style="height: ' + Math.max(pct, 10) + '%; animation: barGrow 0.8s ease-out ' + (i * 0.1) + 's both;">' +
-                '<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-t-lg"></div></div>' +
-                '<p class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-wider">' + mo + '</p>' +
-                '<div class="w-1.5 h-1.5 rounded-full ' + (p.type === 'rent' ? 'bg-emerald-400' : 'bg-blue-400') + '"></div></div>';
-            }).join('');
-            return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.6s;">' +
+            if (ph.length === 0) return "";
+            const maxAmt = Math.max(...ph.map((x) => Number(x.amount || 0)));
+            const bars = ph
+              .map((p, i) => {
+                const pct =
+                  maxAmt > 0 ? (Number(p.amount || 0) / maxAmt) * 100 : 50;
+                const color =
+                  p.type === "rent"
+                    ? "from-emerald-400 to-emerald-600"
+                    : "from-blue-400 to-indigo-500";
+                const mo = p.month
+                  ? p.month.substring(0, 3)
+                  : p.paidAt
+                    ? new Date(p.paidAt).toLocaleDateString("en-IN", {
+                        month: "short",
+                      })
+                    : "";
+                return (
+                  '<div class="flex-1 flex flex-col items-center gap-1 group">' +
+                  '<p class="text-[8px] sm:text-[9px] font-black text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">\u20b9' +
+                  Number(p.amount || 0).toLocaleString("en-IN") +
+                  "</p>" +
+                  '<div class="w-full bg-gradient-to-t ' +
+                  color +
+                  ' rounded-t-lg transition-all duration-700 group-hover:opacity-80 relative overflow-hidden" style="height: ' +
+                  Math.max(pct, 10) +
+                  "%; animation: barGrow 0.8s ease-out " +
+                  i * 0.1 +
+                  's both;">' +
+                  '<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-t-lg"></div></div>' +
+                  '<p class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-wider">' +
+                  mo +
+                  "</p>" +
+                  '<div class="w-1.5 h-1.5 rounded-full ' +
+                  (p.type === "rent" ? "bg-emerald-400" : "bg-blue-400") +
+                  '"></div></div>'
+                );
+              })
+              .join("");
+            return (
+              '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.6s;">' +
               '<div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-[60px]"></div>' +
               '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-column text-blue-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Expense History</p><p class="text-xs text-slate-500 font-medium mt-0.5">Your recent payments</p></div></div>' +
-              '<div class="flex items-end gap-2 h-32 relative z-10 w-full">' + bars + '</div>' +
-              '<div class="flex items-center justify-center gap-6 mt-4 relative z-10"><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Rent</span><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Elec. & Maint.</span></div></div>';
+              '<div class="flex items-end gap-2 h-32 relative z-10 w-full">' +
+              bars +
+              "</div>" +
+              '<div class="flex items-center justify-center gap-6 mt-4 relative z-10"><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Rent</span><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Elec. & Maint.</span></div></div>'
+            );
           })()}
 
           <!-- #20: Where Does My Money Go? -->
@@ -2086,28 +2613,46 @@ window.fetchTenantDashboard = async () => {
             const elecVal = totalElec;
             const maintVal = totalMaint;
             const totalSpend = rentVal + elecVal + maintVal;
-            if (totalSpend === 0) return '';
-            
+            if (totalSpend === 0) return "";
+
             const rentPct = Math.round((rentVal / totalSpend) * 100);
             const elecPct = Math.round((elecVal / totalSpend) * 100);
             const maintPct = Math.round((maintVal / totalSpend) * 100);
-            
-            const conicStr = `conic-gradient(#10b981 0% ${rentPct}%, #3b82f6 ${rentPct}% ${rentPct+elecPct}%, #f59e0b ${rentPct+elecPct}% 100%)`;
-            
-            return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.7s;">' +
-                   '<div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-[60px]"></div>' +
-                   '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-pie text-emerald-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Your Spending</p><p class="text-xs text-slate-500 font-medium mt-0.5">This month&apos;s breakdown</p></div></div>' +
-                   '<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 relative z-10 h-[160px]">' +
-                     '<div class="donut-chart shadow-lg relative flex items-center justify-center flex-shrink-0" style="width: 140px; height: 140px; border-radius: 50%; background: ' + conicStr + ';">' +
-                       '<div class="bg-white rounded-full flex flex-col items-center justify-center shadow-inner" style="width: 100px; height: 100px;"><p class="text-[8px] uppercase font-black tracking-widest text-slate-400">Total</p><p class="text-sm font-black text-slate-800 tracking-tighter">₹' + totalSpend.toLocaleString('en-IN') + '</p></div>' +
-                     '</div>' +
-                     '<div class="space-y-4 w-full sm:w-auto">' +
-                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Rent</p><p class="text-xs font-bold text-slate-800">₹' + rentVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + rentPct + '%)</span></p></div></div>' +
-                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-blue-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Electric</p><p class="text-xs font-bold text-slate-800">₹' + elecVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + elecPct + '%)</span></p></div></div>' +
-                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Maint.</p><p class="text-xs font-bold text-slate-800">₹' + maintVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + maintPct + '%)</span></p></div></div>' +
-                     '</div>' +
-                   '</div>' +
-                   '</div>';
+
+            const conicStr = `conic-gradient(#10b981 0% ${rentPct}%, #3b82f6 ${rentPct}% ${rentPct + elecPct}%, #f59e0b ${rentPct + elecPct}% 100%)`;
+
+            return (
+              '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.7s;">' +
+              '<div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-[60px]"></div>' +
+              '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-pie text-emerald-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Your Spending</p><p class="text-xs text-slate-500 font-medium mt-0.5">This month&apos;s breakdown</p></div></div>' +
+              '<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 relative z-10 h-[160px]">' +
+              '<div class="donut-chart shadow-lg relative flex items-center justify-center flex-shrink-0" style="width: 140px; height: 140px; border-radius: 50%; background: ' +
+              conicStr +
+              ';">' +
+              '<div class="bg-white rounded-full flex flex-col items-center justify-center shadow-inner" style="width: 100px; height: 100px;"><p class="text-[8px] uppercase font-black tracking-widest text-slate-400">Total</p><p class="text-sm font-black text-slate-800 tracking-tighter">₹' +
+              totalSpend.toLocaleString("en-IN") +
+              "</p></div>" +
+              "</div>" +
+              '<div class="space-y-4 w-full sm:w-auto">' +
+              '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Rent</p><p class="text-xs font-bold text-slate-800">₹' +
+              rentVal.toLocaleString("en-IN") +
+              ' <span class="text-slate-400 font-medium">(' +
+              rentPct +
+              "%)</span></p></div></div>" +
+              '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-blue-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Electric</p><p class="text-xs font-bold text-slate-800">₹' +
+              elecVal.toLocaleString("en-IN") +
+              ' <span class="text-slate-400 font-medium">(' +
+              elecPct +
+              "%)</span></p></div></div>" +
+              '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Maint.</p><p class="text-xs font-bold text-slate-800">₹' +
+              maintVal.toLocaleString("en-IN") +
+              ' <span class="text-slate-400 font-medium">(' +
+              maintPct +
+              "%)</span></p></div></div>" +
+              "</div>" +
+              "</div>" +
+              "</div>"
+            );
           })()}
         </div>
 
@@ -2187,45 +2732,50 @@ window.fetchTenantDashboard = async () => {
     renderTenantNotifs(fetchedNotices, t.complaints);
 
     // ── Feature #2: Interactive 3D Tilt Effect on Cards ──
-    document.querySelectorAll('.tilt-card, #tenant-payment-status > div').forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = ((y - centerY) / centerY) * -4;
-        const rotateY = ((x - centerX) / centerX) * 4;
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-        card.style.transition = 'transform 0.1s ease';
+    document
+      .querySelectorAll(".tilt-card, #tenant-payment-status > div")
+      .forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = ((y - centerY) / centerY) * -4;
+          const rotateY = ((x - centerX) / centerX) * 4;
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+          card.style.transition = "transform 0.1s ease";
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform =
+            "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
+          card.style.transition = "transform 0.4s ease";
+        });
       });
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-        card.style.transition = 'transform 0.4s ease';
-      });
-    });
 
     // ── Feature #12: Magnetic Buttons ──
-    document.querySelectorAll('.magnetic-btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
+    document.querySelectorAll(".magnetic-btn").forEach((btn) => {
+      btn.addEventListener("mousemove", (e) => {
         const rect = btn.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
         btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
       });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.transform = 'translate(0, 0)';
-        btn.style.transition = 'transform 0.3s ease';
+      btn.addEventListener("mouseleave", () => {
+        btn.style.transform = "translate(0, 0)";
+        btn.style.transition = "transform 0.3s ease";
       });
-      btn.addEventListener('mouseenter', () => {
-        btn.style.transition = 'transform 0.1s ease';
+      btn.addEventListener("mouseenter", () => {
+        btn.style.transition = "transform 0.1s ease";
       });
     });
     // ── Feature #28: Scroll Progress ──
     const dashboardContainer = document.documentElement;
-    window.addEventListener('scroll', () => {
-      const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrollProgress = document.getElementById('scroll-progress');
+    window.addEventListener("scroll", () => {
+      const scrollTotal =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrollProgress = document.getElementById("scroll-progress");
       if (scrollProgress && scrollTotal > 0) {
         scrollProgress.style.width = `${(window.scrollY / scrollTotal) * 100}%`;
       }
@@ -2233,67 +2783,83 @@ window.fetchTenantDashboard = async () => {
 
     // ── Feature #39: Session Timer ──
     let sessionSeconds = 0;
-    const sessionTimerEl = document.getElementById('session-time-display');
-    if (window.tenantSessionInterval) clearInterval(window.tenantSessionInterval);
+    const sessionTimerEl = document.getElementById("session-time-display");
+    if (window.tenantSessionInterval)
+      clearInterval(window.tenantSessionInterval);
     if (sessionTimerEl) {
       window.tenantSessionInterval = setInterval(() => {
         sessionSeconds++;
-        const m = Math.floor(sessionSeconds / 60).toString().padStart(2, '0');
-        const s = (sessionSeconds % 60).toString().padStart(2, '0');
+        const m = Math.floor(sessionSeconds / 60)
+          .toString()
+          .padStart(2, "0");
+        const s = (sessionSeconds % 60).toString().padStart(2, "0");
         sessionTimerEl.textContent = `${m}:${s}`;
       }, 1000);
     }
 
     // ── Feature #22: Animated Number Counters ──
-    document.querySelectorAll('.counter-animate').forEach(el => {
-      const target = parseFloat(el.getAttribute('data-val') || 0);
-      const isCurrency = el.textContent.includes('₹');
+    document.querySelectorAll(".counter-animate").forEach((el) => {
+      const target = parseFloat(el.getAttribute("data-val") || 0);
+      const isCurrency = el.textContent.includes("₹");
       let current = 0;
       const duration = 1500;
       const stepTime = 20;
       const totalSteps = duration / stepTime;
       const increment = target / totalSteps;
-      
+
       const timer = setInterval(() => {
         current += increment;
         if (current >= target) {
           current = target;
           clearInterval(timer);
         }
-        el.textContent = isCurrency ? '₹' + Math.floor(current).toLocaleString('en-IN') : Math.floor(current);
+        el.textContent = isCurrency
+          ? "₹" + Math.floor(current).toLocaleString("en-IN")
+          : Math.floor(current);
       }, stepTime);
     });
 
     // ── Feature #14: Blur Spotlight on Complaint Focus ──
-    const complaintInput = byId('tenant-complaint-input');
+    const complaintInput = byId("tenant-complaint-input");
     if (complaintInput) {
-      complaintInput.addEventListener('focus', () => {
-        dash.classList.add('spotlight-active');
-        const section = byId('tenant-complaint-section');
-        if (section) section.classList.add('spotlight-target');
+      complaintInput.addEventListener("focus", () => {
+        dash.classList.add("spotlight-active");
+        const section = byId("tenant-complaint-section");
+        if (section) section.classList.add("spotlight-target");
       });
-      complaintInput.addEventListener('blur', () => {
-        dash.classList.remove('spotlight-active');
-        const section = byId('tenant-complaint-section');
-        if (section) section.classList.remove('spotlight-target');
+      complaintInput.addEventListener("blur", () => {
+        dash.classList.remove("spotlight-active");
+        const section = byId("tenant-complaint-section");
+        if (section) section.classList.remove("spotlight-target");
       });
     }
 
     // ── Feature #4: Pull-to-Refresh (Mobile) ──
     let touchStartY = 0;
     let refreshing = false;
-    dash.addEventListener('touchstart', (e) => {
-      if (window.scrollY === 0) touchStartY = e.touches[0].clientY;
-    }, { passive: true });
-    dash.addEventListener('touchmove', (e) => {
-      if (refreshing || window.scrollY > 0) return;
-      const diff = e.touches[0].clientY - touchStartY;
-      if (diff > 80) {
-        refreshing = true;
-        toast("🔄 Refreshing your dashboard...", 2000);
-        setTimeout(() => { fetchTenantDashboard(); refreshing = false; }, 1500);
-      }
-    }, { passive: true });
+    dash.addEventListener(
+      "touchstart",
+      (e) => {
+        if (window.scrollY === 0) touchStartY = e.touches[0].clientY;
+      },
+      { passive: true },
+    );
+    dash.addEventListener(
+      "touchmove",
+      (e) => {
+        if (refreshing || window.scrollY > 0) return;
+        const diff = e.touches[0].clientY - touchStartY;
+        if (diff > 80) {
+          refreshing = true;
+          toast("🔄 Refreshing your dashboard...", 2000);
+          setTimeout(() => {
+            fetchTenantDashboard();
+            refreshing = false;
+          }, 1500);
+        }
+      },
+      { passive: true },
+    );
   } catch (err) {
     console.error("[Tenant Login]", err);
     showTenantError("Server unreachable. Make sure the backend is running.");
@@ -2314,9 +2880,13 @@ window.openUpiPaymentModal = (paymentType, amount) => {
   const existingModal = byId("upi-payment-modal");
   if (existingModal) existingModal.remove();
 
-  const typeLabel = paymentType === "rent" ? "Monthly Rent" : "Electricity + Maintenance";
+  const typeLabel =
+    paymentType === "rent" ? "Monthly Rent" : "Electricity + Maintenance";
   const typeColor = paymentType === "rent" ? "rose" : "amber";
-  const monthLabel = new Date().toLocaleString("en-IN", { month: "long", year: "numeric" });
+  const monthLabel = new Date().toLocaleString("en-IN", {
+    month: "long",
+    year: "numeric",
+  });
 
   const modalHTML = `
     <div id="upi-payment-modal" class="fixed inset-0 z-[9999] flex items-center justify-center p-4" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);">
@@ -2421,7 +2991,7 @@ window.openUpiPaymentModal = (paymentType, amount) => {
                 <p class="text-2xl font-black text-${typeColor}-700 mt-1">₹${Number(amount).toLocaleString("en-IN")}</p>
               </div>
               <div class="w-12 h-12 bg-${typeColor}-100 rounded-xl flex items-center justify-center">
-                <i class="fas ${paymentType === 'rent' ? 'fa-home' : 'fa-bolt'} text-${typeColor}-500 text-lg"></i>
+                <i class="fas ${paymentType === "rent" ? "fa-home" : "fa-bolt"} text-${typeColor}-500 text-lg"></i>
               </div>
             </div>
           </div>
@@ -2496,15 +3066,15 @@ window.tenantDownloadInvoice = (type, amount, month, paidAt, utrNumber) => {
     toast("Room data not found. Please refresh the page.", 4000);
     return;
   }
-  
+
   const paymentData = {
     type: type,
     amount: amount,
     month: month,
     paidAt: paidAt,
-    utrNumber: utrNumber
+    utrNumber: utrNumber,
   };
-  
+
   if (window.triggerConfetti) window.triggerConfetti();
   window.generateUpiInvoice(room, paymentData);
 };
@@ -2517,7 +3087,8 @@ window.submitUpiPayment = async (paymentType, amount) => {
 
   if (!utr || utr.length < 6) {
     if (errEl) {
-      errEl.querySelector("span").textContent = "Please enter a valid UTR/Transaction Reference Number (minimum 6 characters).";
+      errEl.querySelector("span").textContent =
+        "Please enter a valid UTR/Transaction Reference Number (minimum 6 characters).";
       errEl.classList.remove("hidden");
     }
     return;
@@ -2552,29 +3123,36 @@ window.submitUpiPayment = async (paymentType, amount) => {
 
     if (result.success) {
       closeUpiPaymentModal();
-      if (window.triggerConfetti) window.triggerConfetti();
-      toast("✅ Payment submitted for verification! You'll be notified once approved.", 5000);
+      if (window.fireConfetti) window.fireConfetti();
+      toast(
+        "✅ Payment submitted for verification! You'll be notified once approved.",
+        5000,
+      );
       // Refresh dashboard to show pending status
       fetchTenantDashboard();
     } else {
       if (errEl) {
-        errEl.querySelector("span").textContent = result.message || "Failed to submit payment. Please try again.";
+        errEl.querySelector("span").textContent =
+          result.message || "Failed to submit payment. Please try again.";
         errEl.classList.remove("hidden");
       }
       if (btn) {
         btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
+        btn.innerHTML =
+          '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
       }
     }
   } catch (err) {
     console.error("[submitUpiPayment]", err);
     if (errEl) {
-      errEl.querySelector("span").textContent = "Server error. Please try again later.";
+      errEl.querySelector("span").textContent =
+        "Server error. Please try again later.";
       errEl.classList.remove("hidden");
     }
     if (btn) {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
+      btn.innerHTML =
+        '<i class="fas fa-paper-plane"></i> <span>Submit Payment for Verification</span>';
     }
   }
 };
@@ -2603,7 +3181,8 @@ window.renderPendingUpiPayments = async () => {
     const result = await res.json();
 
     if (!result.success) {
-      container.innerHTML = '<p class="text-rose-500 text-sm p-4">Failed to load data.</p>';
+      container.innerHTML =
+        '<p class="text-rose-500 text-sm p-4">Failed to load data.</p>';
       return;
     }
 
@@ -2633,8 +3212,12 @@ window.renderPendingUpiPayments = async () => {
     }
 
     // Stats cards
-    const approvedCount = reviewed.filter((p) => p.status === "approved").length;
-    const rejectedCount = reviewed.filter((p) => p.status === "rejected").length;
+    const approvedCount = reviewed.filter(
+      (p) => p.status === "approved",
+    ).length;
+    const rejectedCount = reviewed.filter(
+      (p) => p.status === "rejected",
+    ).length;
     const totalPendingAmount = pending.reduce((s, p) => s + (p.amount || 0), 0);
 
     let html = `
@@ -2670,7 +3253,9 @@ window.renderPendingUpiPayments = async () => {
       `;
 
       pending.forEach((p) => {
-        const bName = buildings.find((b) => b.id === p.room.buildingId)?.name || p.room.buildingId;
+        const bName =
+          buildings.find((b) => b.id === p.room.buildingId)?.name ||
+          p.room.buildingId;
         const pTypeColor = p.type === "rent" ? "rose" : "amber";
         const pTypeIcon = p.type === "rent" ? "fa-home" : "fa-bolt";
         const pTypeLabel = p.type === "rent" ? "Rent" : "Electricity";
@@ -2733,7 +3318,9 @@ window.renderPendingUpiPayments = async () => {
         .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))
         .slice(0, 20)
         .forEach((p) => {
-          const bName = buildings.find((b) => b.id === p.room.buildingId)?.name || p.room.buildingId;
+          const bName =
+            buildings.find((b) => b.id === p.room.buildingId)?.name ||
+            p.room.buildingId;
           const isApproved = p.status === "approved";
 
           html += `
@@ -2761,32 +3348,52 @@ window.renderPendingUpiPayments = async () => {
     container.innerHTML = html;
   } catch (err) {
     console.error("[renderPendingUpiPayments]", err);
-    container.innerHTML = '<p class="text-rose-500 text-sm p-4">Error loading UPI payments. Check backend connection.</p>';
+    container.innerHTML =
+      '<p class="text-rose-500 text-sm p-4">Error loading UPI payments. Check backend connection.</p>';
   }
 };
 
 // ── Admin: Approve UPI Payment ──
 window.adminApproveUpiPayment = async (buildingId, roomNo, paymentId) => {
-  if (!confirm("✅ Approve this payment? This will mark the payment as received and generate an invoice.")) return;
+  if (
+    !confirm(
+      "✅ Approve this payment? This will mark the payment as received and generate an invoice.",
+    )
+  )
+    return;
 
   try {
-    const res = await fetch(`${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${adminToken}`,
+    const res = await fetch(
+      `${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ status: "approved" }),
       },
-      body: JSON.stringify({ status: "approved" }),
-    });
+    );
 
     const result = await res.json();
 
     if (result.success) {
-      toast("✅ Payment approved! Invoice has been generated.", 4000);
+      if (window.fireConfetti) window.fireConfetti();
+      if (window.dynamicIsland) {
+        window.dynamicIsland(
+          "✅ Payment Approved & Invoice Generated!",
+          "assets/img/logo.png",
+          5000,
+        );
+      } else {
+        toast("✅ Payment approved! Invoice has been generated.", 4000);
+      }
 
       // Generate & open invoice for the approved payment
       const room = result.data;
-      const payment = (room.pendingPayments || []).find((p) => p.id === paymentId);
+      const payment = (room.pendingPayments || []).find(
+        (p) => p.id === paymentId,
+      );
       if (payment) {
         generateUpiInvoice(room, payment);
       }
@@ -2796,7 +3403,11 @@ window.adminApproveUpiPayment = async (buildingId, roomNo, paymentId) => {
 
       // Also refresh room list if visible
       if (typeof loadRoomsForBuilding === "function") {
-        try { loadRoomsForBuilding(); } catch (e) { /* ok */ }
+        try {
+          loadRoomsForBuilding();
+        } catch (e) {
+          /* ok */
+        }
       }
     } else {
       toast(result.message || "Failed to approve payment.", 4000);
@@ -2809,17 +3420,21 @@ window.adminApproveUpiPayment = async (buildingId, roomNo, paymentId) => {
 
 // ── Admin: Reject UPI Payment ──
 window.adminRejectUpiPayment = async (buildingId, roomNo, paymentId) => {
-  if (!confirm("❌ Reject this payment? The tenant will need to resubmit.")) return;
+  if (!confirm("❌ Reject this payment? The tenant will need to resubmit."))
+    return;
 
   try {
-    const res = await fetch(`${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${adminToken}`,
+    const res = await fetch(
+      `${API_BASE}/rooms/${buildingId}/${roomNo}/upi-verify/${paymentId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${adminToken}`,
+        },
+        body: JSON.stringify({ status: "rejected" }),
       },
-      body: JSON.stringify({ status: "rejected" }),
-    });
+    );
 
     const result = await res.json();
 
@@ -2837,12 +3452,17 @@ window.adminRejectUpiPayment = async (buildingId, roomNo, paymentId) => {
 
 // ── Generate Invoice After Approval ──
 window.generateUpiInvoice = (room, payment) => {
-  const bName = buildings.find((b) => b.id === room.buildingId)?.name || room.buildingId;
+  const bName =
+    buildings.find((b) => b.id === room.buildingId)?.name || room.buildingId;
   const now = new Date(payment.paidAt || payment.submittedAt || Date.now());
   const invoiceNo = "INV-" + now.getTime().toString(36).toUpperCase();
-  const monthLabel = payment.month || now.toLocaleString("default", { month: "long", year: "numeric" });
+  const monthLabel =
+    payment.month ||
+    now.toLocaleString("default", { month: "long", year: "numeric" });
 
-  const eu = Math.max(0, (room.elecCurrent || 0) - (room.elecLast || 0)) + Math.max(0, (room.invCurrent || 0) - (room.invLast || 0));
+  const eu =
+    Math.max(0, (room.elecCurrent || 0) - (room.elecLast || 0)) +
+    Math.max(0, (room.invCurrent || 0) - (room.invLast || 0));
   const eb = eu * (room.elecRate || 13);
   const maintCharge = room.maintCharge || 300;
   const duesAmt = room.otherDues || 0;
@@ -2851,9 +3471,21 @@ window.generateUpiInvoice = (room, payment) => {
   const isRent = payment.type === "rent";
   const invoiceAmount = payment.amount || 0;
 
-  const dateStr = now.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
-  const dueDateStr = new Date(now.setDate(now.getDate() + 5)).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
-  const logoUrl = document.querySelector('link[rel="icon"]')?.href || location.origin + '/logo.png';
+  const dateStr = now.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const dueDateStr = new Date(
+    now.setDate(now.getDate() + 5),
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const logoUrl =
+    document.querySelector('link[rel="icon"]')?.href ||
+    location.origin + "/logo.png";
 
   const invoiceHTML = `
     <!DOCTYPE html>
@@ -2935,13 +3567,16 @@ window.generateUpiInvoice = (room, payment) => {
               </tr>
             </thead>
             <tbody>
-              ${isRent ? `
+              ${
+                isRent
+                  ? `
               <tr>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Monthly Rent</td>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Standard cycle</td>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${(room.rentAmount || 0).toLocaleString("en-IN")}</td>
               </tr>
-              ` : `
+              `
+                  : `
               <tr>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">
                   Electricity Consumed
@@ -2955,8 +3590,9 @@ window.generateUpiInvoice = (room, payment) => {
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Fixed</td>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${maintCharge.toLocaleString("en-IN")}</td>
               </tr>
-              `}
-              <tr style="${duesAmt > 0 ? '' : 'display:none;'}">
+              `
+              }
+              <tr style="${duesAmt > 0 ? "" : "display:none;"}">
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Other Arrears / Dues</td>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Previous Balances</td>
                 <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${duesAmt.toLocaleString("en-IN")}</td>
@@ -2992,7 +3628,7 @@ window.generateUpiInvoice = (room, payment) => {
                 <span style="color: #666;">Method:</span><span style="font-weight: 700; color: #1a1a1a;">UPI Transfer</span>
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 13px;">
-                <span style="color: #666;">UTR No:</span><span style="font-weight: 700; color: #1a1a1a;">${payment.utrNumber || 'N/A'}</span>
+                <span style="color: #666;">UTR No:</span><span style="font-weight: 700; color: #1a1a1a;">${payment.utrNumber || "N/A"}</span>
               </div>
               <div style="display: flex; justify-content: space-between; font-size: 13px;">
                 <span style="color: #666;">Verified On:</span><span style="font-weight: 700; color: #1a1a1a;">${dateStr}</span>
@@ -3039,7 +3675,13 @@ window.triggerConfetti = () => {
     confetti.className = "confetti";
     confetti.style.left = Math.random() * 100 + "vw";
     confetti.style.animationDelay = Math.random() * 2 + "s";
-    confetti.style.backgroundColor = ["#10b981", "#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6"][Math.floor(Math.random() * 5)];
+    confetti.style.backgroundColor = [
+      "#10b981",
+      "#3b82f6",
+      "#f59e0b",
+      "#ef4444",
+      "#8b5cf6",
+    ][Math.floor(Math.random() * 5)];
     document.body.appendChild(confetti);
     setTimeout(() => confetti.remove(), 4000);
   }
@@ -3048,24 +3690,32 @@ window.triggerConfetti = () => {
 window.requestRoomCleaning = () => {
   const lastCleaning = localStorage.getItem("lastCleaningRequest");
   if (lastCleaning) {
-    const daysSince = (new Date() - new Date(lastCleaning)) / (1000 * 60 * 60 * 24);
+    const daysSince =
+      (new Date() - new Date(lastCleaning)) / (1000 * 60 * 60 * 24);
     if (daysSince < 7) {
-      toast("🧹 Housekeeping already scheduled. You can request again in " + Math.ceil(7 - daysSince) + " days.", 5000);
+      toast(
+        "🧹 Housekeeping already scheduled. You can request again in " +
+          Math.ceil(7 - daysSince) +
+          " days.",
+        5000,
+      );
       return;
     }
   }
-  
+
   if (!state.tenantLogin) {
     toast("Please login to request housekeeping.", 4000);
     return;
   }
-  
+
   const { bid, rno } = state.tenantLogin;
   const buildingName = buildings.find((b) => b.id === bid)?.name || "ANVI STAY";
-  
-  const text = encodeURIComponent(`Hello Team,\n\nI need housekeeping services for my room.\n\n🏠 PG: ${buildingName}\n🚪 Room: ${rno}\n\nPlease let me know the scheduled time. Thank you!`);
+
+  const text = encodeURIComponent(
+    `Hello Team,\n\nI need housekeeping services for my room.\n\n🏠 PG: ${buildingName}\n🚪 Room: ${rno}\n\nPlease let me know the scheduled time. Thank you!`,
+  );
   window.open(`https://wa.me/919142272776?text=${text}`, "_blank");
-  
+
   localStorage.setItem("lastCleaningRequest", new Date().toISOString());
   toast("✨ Housekeeping request sent via WhatsApp!", 4000);
 };
@@ -3388,12 +4038,12 @@ window.renderBillingTable = () => {
                 <div class="flex items-center gap-3">
                   <span class="w-11 h-11 rounded-xl flex items-center justify-center text-lg font-black shadow-sm" style="background:${isVacant ? "#f1f5f9" : "var(--admin-accent)"};color:${isVacant ? "#94a3b8" : "var(--navy)"};">${rNo}</span>
                   <div>
-                    <p class="text-sm font-black text-slate-800">${isVacant ? '<span class="italic text-slate-400">Vacant</span>' : (t.name || "—")}</p>
+                    <p class="text-sm font-black text-slate-800">${isVacant ? '<span class="italic text-slate-400">Vacant</span>' : t.name || "—"}</p>
                     <p class="text-[10px] font-bold text-slate-400">${isVacant ? "No tenant assigned" : `Rent: ₹${rent.toLocaleString("en-IN")}`}</p>
                   </div>
                 </div>
                 <div class="text-right">
-                  <p class="text-xl font-black mobile-bill-total" style="color:${balance > 0 ? '#f43f5e' : 'var(--gold)'};">₹${totalDue.toLocaleString("en-IN")}</p>
+                  <p class="text-xl font-black mobile-bill-total" style="color:${balance > 0 ? "#f43f5e" : "var(--gold)"};">₹${totalDue.toLocaleString("en-IN")}</p>
                   ${badgeHtml}
                 </div>
               </div>
@@ -3441,11 +4091,13 @@ window.renderBillingTable = () => {
               <!-- Balance Summary -->
               <div class="flex items-center justify-between mt-2 px-1">
                 <span class="text-[10px] font-bold text-slate-400">Δ ${delta} units @ ₹${rate}/unit</span>
-                <span class="text-sm font-black mobile-balance-total ${balance > 0 ? 'text-rose-500' : 'text-emerald-500'}">Bal: ₹${balance.toLocaleString("en-IN")}</span>
+                <span class="text-sm font-black mobile-balance-total ${balance > 0 ? "text-rose-500" : "text-emerald-500"}">Bal: ₹${balance.toLocaleString("en-IN")}</span>
               </div>
 
               <!-- Status Checkboxes -->
-              ${!isVacant ? `
+              ${
+                !isVacant
+                  ? `
               <div class="mobile-status-bar">
                 <label>
                   <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-emerald-500 focus:ring-emerald-500 cursor-pointer billing-rent-paid-m" ${rentChecked} data-bid="${bid}" data-rno="${rNo}">
@@ -3456,10 +4108,14 @@ window.renderBillingTable = () => {
                   <span>Elec Paid</span>
                 </label>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
 
               <!-- Action Buttons -->
-              ${!isVacant ? `
+              ${
+                !isVacant
+                  ? `
               <div class="mobile-action-bar">
                 <button onclick="sendBillingWA('${bid}', ${rNo}, '${(t.name || "").replace(/'/g, "\\'")}', ${totalDue}, 'reminder')" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
                   <i class="fab fa-whatsapp"></i> Remind
@@ -3468,7 +4124,9 @@ window.renderBillingTable = () => {
                   <i class="fas fa-file-pdf"></i> Invoice
                 </button>
               </div>
-              ` : ""}
+              `
+                  : ""
+              }
             `;
         mobileCards.appendChild(card);
       }
@@ -3511,22 +4169,30 @@ window.renderBillingTable = () => {
   }
 
   // Feature: Excel-like Keyboard Navigation
-  const tableInputs = Array.from(rows.querySelectorAll('input') || []);
+  const tableInputs = Array.from(rows.querySelectorAll("input") || []);
   tableInputs.forEach((input, index) => {
-    input.addEventListener('keydown', (e) => {
+    input.addEventListener("keydown", (e) => {
       let jump = 0;
-      if (e.key === 'ArrowRight' || e.key === 'Enter') jump = 1;
-      else if (e.key === 'ArrowLeft') jump = -1;
-      else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        const nameClass = Array.from(input.classList).find(c => c.startsWith('billing-'));
+      if (e.key === "ArrowRight" || e.key === "Enter") jump = 1;
+      else if (e.key === "ArrowLeft") jump = -1;
+      else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        const nameClass = Array.from(input.classList).find((c) =>
+          c.startsWith("billing-"),
+        );
         if (nameClass) {
-          const colInputs = Array.from(document.querySelectorAll(`.${nameClass}`));
+          const colInputs = Array.from(
+            document.querySelectorAll(`.${nameClass}`),
+          );
           const myIdx = colInputs.indexOf(input);
-          if (e.key === 'ArrowDown' && myIdx >= 0 && myIdx + 1 < colInputs.length) {
+          if (
+            e.key === "ArrowDown" &&
+            myIdx >= 0 &&
+            myIdx + 1 < colInputs.length
+          ) {
             e.preventDefault();
             colInputs[myIdx + 1].focus();
             colInputs[myIdx + 1].select();
-          } else if (e.key === 'ArrowUp' && myIdx > 0) {
+          } else if (e.key === "ArrowUp" && myIdx > 0) {
             e.preventDefault();
             colInputs[myIdx - 1].focus();
             colInputs[myIdx - 1].select();
@@ -3654,9 +4320,10 @@ window.calcBillingCardMobile = (input) => {
   const iCurr = t.invCurrent || 0;
   const rate = t.elecRate || 13;
   const rent = parseFloat(t.rentAmount || t.rent) || 0;
-  const maintenanceCharge = t.maintenanceCharge !== undefined && t.maintenanceCharge !== ""
-    ? parseFloat(t.maintenanceCharge) || 0
-    : 300;
+  const maintenanceCharge =
+    t.maintenanceCharge !== undefined && t.maintenanceCharge !== ""
+      ? parseFloat(t.maintenanceCharge) || 0
+      : 300;
   const delta = Math.max(0, eCurr - eLast) + Math.max(0, iCurr - iLast);
   const bill = delta * rate;
   const totalDue = bill + rent + otherDues + maintenanceCharge;
@@ -3738,18 +4405,34 @@ window.recalcBillingRowLive = (tr) => {
   const eCurrInput = tr.querySelector(".billing-ecurr");
   if (eCurrInput) {
     if (eCurr < eLast) {
-      eCurrInput.classList.add("border-rose-500", "bg-rose-50", "text-rose-600");
+      eCurrInput.classList.add(
+        "border-rose-500",
+        "bg-rose-50",
+        "text-rose-600",
+      );
     } else {
-      eCurrInput.classList.remove("border-rose-500", "bg-rose-50", "text-rose-600");
+      eCurrInput.classList.remove(
+        "border-rose-500",
+        "bg-rose-50",
+        "text-rose-600",
+      );
     }
   }
 
   const iCurrInput = tr.querySelector(".billing-icurr");
   if (iCurrInput) {
     if (iCurr < iLast) {
-      iCurrInput.classList.add("border-rose-500", "bg-rose-50", "text-rose-600");
+      iCurrInput.classList.add(
+        "border-rose-500",
+        "bg-rose-50",
+        "text-rose-600",
+      );
     } else {
-      iCurrInput.classList.remove("border-rose-500", "bg-rose-50", "text-rose-600");
+      iCurrInput.classList.remove(
+        "border-rose-500",
+        "bg-rose-50",
+        "text-rose-600",
+      );
     }
   }
 };
@@ -3856,8 +4539,20 @@ window.generateAllElecBills = () => {
       parseFloat(duesAmt) > 0
     ) {
       billsHtml += buildInvoiceHTML({
-        rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText,
-        rentText, maintAmt, duesAmt, totalDueText, pgName
+        rno,
+        tname,
+        eLast,
+        eCurr,
+        iLast,
+        iCurr,
+        delta,
+        rate,
+        billText,
+        rentText,
+        maintAmt,
+        duesAmt,
+        totalDueText,
+        pgName,
       });
     }
   });
@@ -3915,8 +4610,20 @@ window.generateSingleElecBill = (bid, rno) => {
   const totalDueText = tr.querySelector(".total-due-cell")?.textContent || "₹0";
 
   const billsHtml = buildInvoiceHTML({
-    rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText,
-    rentText, maintAmt, duesAmt, totalDueText, pgName
+    rno,
+    tname,
+    eLast,
+    eCurr,
+    iLast,
+    iCurr,
+    delta,
+    rate,
+    billText,
+    rentText,
+    maintAmt,
+    duesAmt,
+    totalDueText,
+    pgName,
   });
 
   const printWin = window.open("", "_blank");
@@ -3965,8 +4672,7 @@ window.saveOtherDues = async () => {
   }
 
   const cards =
-    byId("billing-cards-mobile")?.querySelectorAll("[data-bid]") ||
-    [];
+    byId("billing-cards-mobile")?.querySelectorAll("[data-bid]") || [];
   for (const card of cards) {
     const bid = card.dataset.bid;
     const rno = parseInt(card.dataset.rno);
@@ -3996,15 +4702,43 @@ window.saveOtherDues = async () => {
 
 // Invoice Generator Helper
 function buildInvoiceHTML(data) {
-  const { rno, tname, eLast, eCurr, iLast, iCurr, delta, rate, billText, rentText, maintAmt, duesAmt, totalDueText, pgName } = data;
-  const monthStr = byId("billing-month")?.value || new Date().toISOString().slice(0, 7);
-  const invNumber = `INV-${monthStr.replace('-', '')}-${rno}`;
+  const {
+    rno,
+    tname,
+    eLast,
+    eCurr,
+    iLast,
+    iCurr,
+    delta,
+    rate,
+    billText,
+    rentText,
+    maintAmt,
+    duesAmt,
+    totalDueText,
+    pgName,
+  } = data;
+  const monthStr =
+    byId("billing-month")?.value || new Date().toISOString().slice(0, 7);
+  const invNumber = `INV-${monthStr.replace("-", "")}-${rno}`;
   const dObj = new Date();
-  const dateStr = dObj.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
-  const dueDateStr = new Date(dObj.setDate(dObj.getDate() + 5)).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+  const dateStr = dObj.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+  const dueDateStr = new Date(
+    dObj.setDate(dObj.getDate() + 5),
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   // Get current logo URL from the document (or fallback)
-  const logoUrl = document.querySelector('link[rel="icon"]')?.href || location.origin + '/logo.png';
+  const logoUrl =
+    document.querySelector('link[rel="icon"]')?.href ||
+    location.origin + "/logo.png";
 
   return `
     <div class="invoice-box" style="background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px; margin-bottom: 40px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); position: relative; overflow: hidden;">
@@ -4072,7 +4806,7 @@ function buildInvoiceHTML(data) {
             <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Fixed</td>
             <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${parseFloat(maintAmt).toLocaleString("en-IN")}</td>
           </tr>
-          <tr style="${parseFloat(duesAmt) > 0 ? '' : 'display:none;'}">
+          <tr style="${parseFloat(duesAmt) > 0 ? "" : "display:none;"}">
             <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Other Arrears / Dues</td>
             <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Previous Balances</td>
             <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${parseFloat(duesAmt).toLocaleString("en-IN")}</td>
@@ -4113,17 +4847,17 @@ function buildInvoiceHTML(data) {
 }
 
 // Global Search and Smart Billing Filter
-window.currentBillingFilter = 'all';
+window.currentBillingFilter = "all";
 window.setBillingFilter = (filterType, btn) => {
   window.currentBillingFilter = filterType;
   // Update button classes
-  document.querySelectorAll('#billing-quick-filters .bf-btn').forEach(b => {
-    b.classList.remove('bg-[#C8A24A]', 'text-white');
-    b.classList.add('bg-slate-100', 'text-slate-600');
+  document.querySelectorAll("#billing-quick-filters .bf-btn").forEach((b) => {
+    b.classList.remove("bg-[#C8A24A]", "text-white");
+    b.classList.add("bg-slate-100", "text-slate-600");
   });
   if (btn) {
-    btn.classList.add('bg-[#C8A24A]', 'text-white');
-    btn.classList.remove('bg-slate-100', 'text-slate-600');
+    btn.classList.add("bg-[#C8A24A]", "text-white");
+    btn.classList.remove("bg-slate-100", "text-slate-600");
   }
   window.filterBillingSpreadsheet();
 };
@@ -4131,7 +4865,7 @@ window.setBillingFilter = (filterType, btn) => {
 window.filterBillingSpreadsheet = () => {
   const searchTerm = (byId("billing-search")?.value || "").toLowerCase();
   const rows = byId("billing-rows")?.querySelectorAll("tr") || [];
-  const filterType = window.currentBillingFilter || 'all';
+  const filterType = window.currentBillingFilter || "all";
 
   rows.forEach((tr) => {
     const roomText = (tr.children[0]?.textContent || "").toLowerCase();
@@ -4140,12 +4874,12 @@ window.filterBillingSpreadsheet = () => {
     const balanceText = tr.querySelector(".balance-cell")?.textContent || "0";
     const balance = parseFloat(balanceText.replace(/[^0-9.-]+/g, "")) || 0;
 
-    let show = (roomText.includes(searchTerm) || tenantText.includes(searchTerm));
+    let show = roomText.includes(searchTerm) || tenantText.includes(searchTerm);
 
     // Apply Smart Filters
     if (show) {
-      if (filterType === 'unpaid' && balance <= 0) show = false;
-      if (filterType === 'vacant' && !isVacant) show = false;
+      if (filterType === "unpaid" && balance <= 0) show = false;
+      if (filterType === "vacant" && !isVacant) show = false;
     }
 
     tr.style.display = show ? "" : "none";
@@ -4158,11 +4892,13 @@ window.triggerAutoSaveIndicator = (isSaving) => {
   if (!indicator) return;
   if (isSaving) {
     indicator.innerHTML = `<i class="fas fa-spinner fa-spin text-amber-500 tracking-wider"></i> <span class="text-amber-600">Saving...</span>`;
-    indicator.classList.remove('opacity-0');
+    indicator.classList.remove("opacity-0");
   } else {
     indicator.innerHTML = `<i class="fas fa-check-circle text-emerald-500 tracking-wider"></i> <span class="text-emerald-600">All changes saved</span>`;
-    indicator.classList.remove('opacity-0');
-    setTimeout(() => { indicator.classList.add('opacity-0'); }, 2500);
+    indicator.classList.remove("opacity-0");
+    setTimeout(() => {
+      indicator.classList.add("opacity-0");
+    }, 2500);
   }
 };
 window.rolloverMonth = async () => {
@@ -4475,15 +5211,16 @@ function renderLandlordGrid() {
             <div class="tile-room-no">${rNo}</div>
             <div class="tile-name">${t?.name || "—"}</div>
             <span class="tile-status" style="color:${t?.status === "Occupied" ? "var(--gold)" : "#94a3b8"}">${t?.status || "Vacant"}</span>
-            ${t?.status === "Occupied"
-          ? `
+            ${
+              t?.status === "Occupied"
+                ? `
               <div class="tile-bars" title="Rent | Electricity">
                 <div class="micro-bar"><div class="bar-fill ${t.rentPaid ? "rent-paid" : "rent-due"}"></div></div>
                 <div class="micro-bar"><div class="bar-fill ${t.elecPaid ? "elec-paid" : "elec-due"}" style="width:${t.elecPaid ? "100%" : "40%"}"></div></div>
               </div>
             `
-          : ""
-        }
+                : ""
+            }
           `;
       grid.appendChild(card);
     });
@@ -4491,7 +5228,151 @@ function renderLandlordGrid() {
 
   // Also refresh dashboard preview
   typeof renderRoomPreview === "function" && renderRoomPreview();
+
+  if (state.adminRoomView === "map") {
+    renderLandlordMap();
+  }
 }
+
+// ── New SVG Interactive Map ──
+window.setAdminRoomView = (view) => {
+  state.adminRoomView = view;
+  const grid = document.getElementById("l-room-grid");
+  const mapContainer = document.getElementById("l-room-map");
+  const btnGrid = document.getElementById("l-view-grid-btn");
+  const btnMap = document.getElementById("l-view-map-btn");
+
+  if (view === "grid") {
+    grid.classList.remove("hidden");
+    mapContainer.classList.add("hidden");
+
+    btnGrid.className =
+      "px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm flex items-center gap-2 transition";
+    btnMap.className =
+      "px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2";
+    btnMap.style.color = "var(--admin-text-dim)";
+    btnMap.style.background = "transparent";
+  } else {
+    grid.classList.add("hidden");
+    mapContainer.classList.remove("hidden");
+
+    btnMap.className =
+      "px-5 py-2.5 rounded-xl text-xs font-bold bg-[#C8A24A] text-white shadow-sm flex items-center gap-2 transition";
+    btnMap.style.color = "";
+    btnGrid.className =
+      "px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2";
+    btnGrid.style.color = "var(--admin-text-dim)";
+    btnGrid.style.background = "transparent";
+
+    renderLandlordMap();
+  }
+};
+
+window.renderLandlordMap = () => {
+  const svgMap = document.getElementById("interactive-svg-map");
+  if (!svgMap) return;
+  const build = buildings.find((b) => b.id === state.activeBuilding);
+  let layout = getLayoutForBuilding(build.id);
+
+  // Create an automatic floor plan layout
+  let svgContent = "";
+
+  // Define styles
+  svgContent += `
+    <defs>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="5" result="blur" />
+        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+      </filter>
+      <linearGradient id="wallGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1e293b" />
+        <stop offset="100%" stop-color="#0f172a" />
+      </linearGradient>
+    </defs>
+  `;
+
+  // Draw Building Outer Shell
+  svgContent += `<rect x="50" y="50" width="900" height="500" rx="20" fill="url(#wallGradient)" stroke="#334155" stroke-width="4" />`;
+  svgContent += `<text x="500" y="30" font-family="Inter, sans-serif" font-weight="900" font-size="20" font-style="normal" letter-spacing="0.2em" fill="#64748b" text-anchor="middle">${build.name} - FLOOR PLAN</text>`;
+
+  let startY = 80;
+
+  layout.forEach((floor, fIdx) => {
+    const rooms =
+      floor.rooms ||
+      Array.from(
+        { length: floor.end - floor.start + 1 },
+        (_, i) => floor.start + i,
+      );
+
+    // Draw Corridor line
+    const floorY = startY + fIdx * 140;
+    svgContent += `<rect x="80" y="${floorY + 50}" width="840" height="20" fill="#020617" opacity="0.5" />`;
+    svgContent += `<text x="70" y="${floorY + 65}" font-family="Inter" font-weight="800" font-size="12" fill="#94a3b8" transform="rotate(-90 70,${floorY + 65})">${floor.name.toUpperCase()}</text>`;
+
+    let roomX = 100;
+    const roomWidth = Math.min(800 / rooms.length - 10, 80); // Calculate dynamic width
+    const roomGap = 10;
+
+    rooms.forEach((rNo) => {
+      const key = `${state.activeBuilding}-${rNo}`;
+      const t = state.tenants[key];
+
+      let fillCol = "#334155";
+      let strokeCol = "#475569";
+      let glowFilter = "";
+
+      if (!t || !t.status || t.status === "Available") {
+        fillCol = "rgba(15, 23, 42, 0.8)";
+      } else if (t.status === "Booked") {
+        fillCol = "rgba(59, 130, 246, 0.2)";
+        strokeCol = "#3b82f6";
+        glowFilter = `filter="url(#glow)"`;
+      } else if (t.status === "Occupied" && t.rentPaid && t.elecPaid) {
+        fillCol = "rgba(16, 185, 129, 0.2)";
+        strokeCol = "#10b981";
+        glowFilter = `filter="url(#glow)"`;
+      } else if (t.status === "Occupied") {
+        fillCol = "rgba(245, 158, 11, 0.2)";
+        strokeCol = "#f59e0b";
+        glowFilter = `filter="url(#glow)"`;
+      }
+
+      // Hide or dim based on filters
+      let opacity = 1;
+      if (
+        state.activeLFilter === "pendingRent" &&
+        (!t || (t.rentPaid && t.elecPaid))
+      )
+        opacity = 0.2;
+      if (
+        state.activeLFilter === "vacant" &&
+        t?.status &&
+        t.status !== "Available"
+      )
+        opacity = 0.2;
+
+      // Map Room Box
+      // Interactive `<g>` tag to make it clickable
+      svgContent += `
+        <g class="cursor-pointer transition-transform hover:-translate-y-1 hover:scale-105" onclick="openLModal('${state.activeBuilding}', ${rNo})" opacity="${opacity}">
+          <rect x="${roomX}" y="${floorY + (rNo % 2 === 0 ? 0 : 80)}" width="${roomWidth}" height="50" rx="8" fill="${fillCol}" stroke="${strokeCol}" stroke-width="2" ${glowFilter} />
+          <text x="${roomX + roomWidth / 2}" y="${floorY + (rNo % 2 === 0 ? 25 : 105)}" font-family="Inter" font-weight="900" font-size="14" fill="#f8fafc" text-anchor="middle" dominant-baseline="middle">${rNo}</text>
+          
+          ${
+            t?.status === "Occupied" && (!t.rentPaid || !t.elecPaid)
+              ? `<circle cx="${roomX + roomWidth - 10}" cy="${floorY + (rNo % 2 === 0 ? 10 : 90)}" r="4" fill="#f43f5e" />`
+              : ""
+          }
+        </g>
+      `;
+
+      roomX += roomWidth + roomGap;
+    });
+  });
+
+  svgMap.innerHTML = svgContent;
+};
 
 function updateLandlordStats() {
   const list = Object.values(state.tenants);
@@ -5701,7 +6582,16 @@ window.toggleDarkMode = () => {
   const isDark = document.body.classList.toggle("dark-mode");
   localStorage.setItem("anvi-dark-mode", isDark);
   updateDarkIcon(isDark);
-  toast(isDark ? "🌙 Dark mode enabled" : "☀️ Light mode enabled", 2000);
+
+  if (window.dynamicIsland) {
+    window.dynamicIsland(
+      isDark ? "Dark Mode Enabled" : "Light Mode Enabled",
+      "assets/img/logo.png",
+      2500,
+    );
+  } else {
+    toast(isDark ? "🌙 Dark mode enabled" : "☀️ Light mode enabled", 2000);
+  }
 };
 function updateDarkIcon(isDark) {
   const icon = byId("dark-mode-icon");
@@ -5768,14 +6658,26 @@ function renderTestimonials() {
   const cards = testimonialData
     .map(
       (t) => `
-        <div class="testimonial-card">
-          <div class="testimonial-stars mb-3">${"★".repeat(t.rating)}${"☆".repeat(5 - t.rating)}</div>
-          <p class="text-sm text-slate-600 leading-relaxed mb-5 italic">"${t.text}"</p>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-[#C8A24A] to-[#e0c06a] flex items-center justify-center text-white font-black text-sm">${t.name.charAt(0)}</div>
-            <div>
-              <p class="text-sm font-bold text-slate-800">${t.name}</p>
-              <p class="text-[10px] font-semibold text-slate-400">${t.course}</p>
+        <div class="testimonial-card relative group hover:-translate-y-2 transition-transform duration-500 hover:shadow-[0_20px_40px_-15px_rgba(200,162,74,0.3)]">
+          <!-- Glass quote icon -->
+          <div class="absolute top-4 right-4 text-7xl text-[#C8A24A]/5 font-serif leading-none select-none group-hover:text-[#C8A24A]/10 transition-colors">"</div>
+          <div class="relative z-10">
+            <div class="flex items-center gap-1 mb-4">
+              ${'<i class="fas fa-star text-amber-400 text-xs shadow-sm drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]"></i>'.repeat(t.rating)}
+              ${'<i class="far fa-star text-slate-300 text-xs"></i>'.repeat(5 - t.rating)}
+            </div>
+            <p class="text-sm font-medium text-slate-700 leading-relaxed mb-6 italic group-hover:text-slate-900 transition-colors">"${t.text}"</p>
+            <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
+              <div class="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#C8A24A] to-[#e0c06a] flex items-center justify-center text-white shadow-md shadow-[#C8A24A]/30">
+                <span class="font-black text-sm uppercase tracking-wide">${t.name.charAt(0)}</span>
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center" title="Verified Resident">
+                  <i class="fas fa-check text-[7px] text-white"></i>
+                </div>
+              </div>
+              <div>
+                <p class="text-[13px] font-black tracking-tight text-slate-900">${t.name}</p>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">${t.course}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -5875,6 +6777,41 @@ window.resetFilters = () => {
   filterProperties();
   toast("Filters reset", 1500);
 };
+
+// ── Interactive Location Map ──
+function initInteractiveMap() {
+  const mapContainer = document.querySelector(".perspective-1000");
+  if (!mapContainer) return;
+
+  const card = mapContainer.querySelector(".relative.h-full.w-full");
+  if (!card) return;
+
+  mapContainer.addEventListener("mousemove", (e) => {
+    const rect = mapContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Normalize coordinates from -1 to 1
+    const xPercent = (x / rect.width - 0.5) * 2;
+    const yPercent = (y / rect.height - 0.5) * 2;
+
+    // Max rotation is 15 degrees
+    const rotateX = yPercent * -15;
+    const rotateY = xPercent * 15;
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    card.style.transition = `transform 0.1s ease`;
+  });
+
+  mapContainer.addEventListener("mouseleave", () => {
+    card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+    card.style.transition = `transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+  });
+
+  mapContainer.addEventListener("mouseenter", () => {
+    card.style.transition = `transform 0.1s ease`;
+  });
+}
 
 // ── Rent Due Countdown Timer (for tenant dashboard) ──
 function renderCountdown(dueDate) {
@@ -6385,7 +7322,12 @@ async function loadPropertiesFromAPI() {
   try {
     const res = await fetch(`${API_BASE}/properties`);
     const result = await res.json();
-    if (result && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (
+      result &&
+      result.success &&
+      Array.isArray(result.data) &&
+      result.data.length > 0
+    ) {
       // Merge API properties with hardcoded ones (API takes priority if same ID)
       const apiIds = new Set(result.data.map((p) => p.propertyId));
       const hardcodedOnly = buildings.filter((b) => !apiIds.has(b.id));
@@ -6423,7 +7365,9 @@ async function loadPropertiesFromAPI() {
       // Update getLayoutForBuilding to handle API properties
       // (already handled via floors data)
     } else {
-      console.warn("[loadProperties] API returned no valid properties, keeping hardcoded ones.");
+      console.warn(
+        "[loadProperties] API returned no valid properties, keeping hardcoded ones.",
+      );
     }
   } catch (err) {
     console.warn(
@@ -6887,10 +7831,10 @@ window.generateOwnerReport = async () => {
       "report-dues",
       "textContent",
       "₹" +
-      (
-        (a.financial?.totalUnpaidRent || 0) +
-        (a.financial?.totalUnpaidElec || 0)
-      ).toLocaleString("en-IN"),
+        (
+          (a.financial?.totalUnpaidRent || 0) +
+          (a.financial?.totalUnpaidElec || 0)
+        ).toLocaleString("en-IN"),
     );
     // Building breakdown
     const bbEl = byId("report-building-breakdown");
@@ -6925,7 +7869,7 @@ window.generateOwnerReport = async () => {
         "analytics-monthly-rent",
         "textContent",
         "₹" +
-        (a.financial.projectedMonthlyRevenue || 0).toLocaleString("en-IN"),
+          (a.financial.projectedMonthlyRevenue || 0).toLocaleString("en-IN"),
       );
       safeSet(
         "analytics-annual-proj",
@@ -7992,15 +8936,15 @@ window.renderMoveInChecklist = (container) => {
       <div class="w-full bg-slate-100 rounded-full h-2 mb-4"><div class="h-2 rounded-full transition-all duration-700" style="width:${pct}%;background:linear-gradient(90deg,#C8A24A,#10b981)"></div></div>
       <div class="space-y-2">
         ${checks
-      .map(
-        (c) => `
+          .map(
+            (c) => `
           <div class="flex items-center gap-3 py-2 px-3 rounded-xl ${c.done ? "bg-emerald-50" : "bg-slate-50"}">
             <i class="fas ${c.done ? "fa-check-circle text-emerald-500" : c.icon + " text-slate-300"} text-sm"></i>
             <span class="text-sm font-semibold ${c.done ? "text-emerald-700 line-through" : "text-slate-600"}">${c.label}</span>
           </div>
         `,
-      )
-      .join("")}
+          )
+          .join("")}
       </div>
     </div>
   `,
@@ -8251,21 +9195,22 @@ window.openExpenseTracker = () => {
         <button onclick="addExpense()" class="bg-[#C8A24A] text-white rounded-xl text-sm font-black hover:bg-[#b8922a] transition">+ Add</button>
       </div>
       <div id="expense-list" class="space-y-2">
-        ${expenses.length === 0
-      ? '<p class="text-center text-slate-400 text-sm py-8">No expenses recorded yet</p>'
-      : expenses
-        .slice()
-        .reverse()
-        .map(
-          (e) => `
+        ${
+          expenses.length === 0
+            ? '<p class="text-center text-slate-400 text-sm py-8">No expenses recorded yet</p>'
+            : expenses
+                .slice()
+                .reverse()
+                .map(
+                  (e) => `
             <div class="flex items-center justify-between py-3 px-4 rounded-xl bg-slate-50 border border-slate-100">
               <div><p class="text-sm font-bold text-slate-700">${e.desc}</p><p class="text-[10px] text-slate-400">${e.category} • ${e.date}</p></div>
               <span class="text-sm font-black text-red-500">-₹${(e.amount || 0).toLocaleString("en-IN")}</span>
             </div>
           `,
-        )
-        .join("")
-    }
+                )
+                .join("")
+        }
       </div>
     </div>
   `;
@@ -8320,23 +9265,23 @@ window.renderActivityTimeline = () => {
           <h4 class="text-sm font-black text-slate-700 mb-4"><i class="fas fa-clock-rotate-left text-[#C8A24A] mr-2"></i>Recent Activity</h4>
           <div class="relative pl-6 border-l-2 border-[#C8A24A]/20 space-y-4">
             ${logs
-          .map((log) => {
-            const colors = {
-              billing: "bg-emerald-500",
-              maintenance: "bg-amber-500",
-              room: "bg-blue-500",
-              auth: "bg-purple-500",
-            };
-            const color = colors[log.category] || "bg-slate-400";
-            const time = log.timestamp
-              ? new Date(log.timestamp).toLocaleString("en-IN", {
-                day: "numeric",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-              : "";
-            return `
+              .map((log) => {
+                const colors = {
+                  billing: "bg-emerald-500",
+                  maintenance: "bg-amber-500",
+                  room: "bg-blue-500",
+                  auth: "bg-purple-500",
+                };
+                const color = colors[log.category] || "bg-slate-400";
+                const time = log.timestamp
+                  ? new Date(log.timestamp).toLocaleString("en-IN", {
+                      day: "numeric",
+                      month: "short",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })
+                  : "";
+                return `
                 <div class="relative">
                   <div class="absolute -left-[29px] w-4 h-4 rounded-full ${color} border-2 border-white"></div>
                   <div class="bg-white rounded-xl p-3 shadow-sm border border-slate-100">
@@ -8344,14 +9289,14 @@ window.renderActivityTimeline = () => {
                     <p class="text-[10px] text-slate-400 mt-1"><span class="font-bold">${log.performedBy || ""}</span> • ${time}</p>
                   </div>
                 </div>`;
-          })
-          .join("")}
+              })
+              .join("")}
           </div>
         </div>
       `;
       container.insertAdjacentHTML("beforeend", html);
     })
-    .catch(() => { });
+    .catch(() => {});
 };
 
 // ── Admin: Maintenance Work Assignment UI ──
@@ -8643,16 +9588,17 @@ window.openPaymentHistory = async () => {
     o.className =
       "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
     o.id = "pay-history-modal";
-    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>Payment History (${ap.length})</h3><button onclick="document.getElementById('pay-history-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${ap.length === 0
-      ? '<p class="text-slate-400 text-center py-8">No payments yet</p>'
-      : `<table class="w-full text-xs"><thead><tr class="text-left"><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Tenant</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">PG/Room</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Type</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Amount</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Date</th></tr></thead><tbody>${ap
-        .slice(0, 100)
-        .map(
-          (p) =>
-            `<tr class="border-t border-slate-50"><td class="py-2 font-bold">${p.tenantName || "—"}</td><td class="py-2">${p.buildingId}/${p.roomNo}</td><td class="py-2"><span class="px-2 py-0.5 rounded-full text-[9px] font-black ${p.type === "rent" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}">${p.type}</span></td><td class="py-2 font-black">₹${(p.amount || 0).toLocaleString("en-IN")}</td><td class="py-2 text-slate-400">${p.paidAt ? new Date(p.paidAt).toLocaleDateString("en-IN") : "—"}</td></tr>`,
-        )
-        .join("")}</tbody></table>`
-      }</div></div>`;
+    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-clock-rotate-left mr-2 text-blue-500"></i>Payment History (${ap.length})</h3><button onclick="document.getElementById('pay-history-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${
+      ap.length === 0
+        ? '<p class="text-slate-400 text-center py-8">No payments yet</p>'
+        : `<table class="w-full text-xs"><thead><tr class="text-left"><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Tenant</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">PG/Room</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Type</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Amount</th><th class="pb-2 text-[10px] font-black text-slate-400 uppercase">Date</th></tr></thead><tbody>${ap
+            .slice(0, 100)
+            .map(
+              (p) =>
+                `<tr class="border-t border-slate-50"><td class="py-2 font-bold">${p.tenantName || "—"}</td><td class="py-2">${p.buildingId}/${p.roomNo}</td><td class="py-2"><span class="px-2 py-0.5 rounded-full text-[9px] font-black ${p.type === "rent" ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}">${p.type}</span></td><td class="py-2 font-black">₹${(p.amount || 0).toLocaleString("en-IN")}</td><td class="py-2 text-slate-400">${p.paidAt ? new Date(p.paidAt).toLocaleDateString("en-IN") : "—"}</td></tr>`,
+            )
+            .join("")}</tbody></table>`
+    }</div></div>`;
     document.body.appendChild(o);
   } catch (e) {
     toast("Error");
@@ -8758,7 +9704,7 @@ window.openVisitorLog = async () => {
     });
     const d = await res.json();
     if (d.success) visitors = d.data;
-  } catch (e) { }
+  } catch (e) {}
   const o = document.createElement("div");
   o.className =
     "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
@@ -8825,7 +9771,7 @@ window.openMaintenanceCalendar = async () => {
     });
     const d = await res.json();
     if (d.success) tasks = d.data;
-  } catch (e) { }
+  } catch (e) {}
   const o = document.createElement("div");
   o.className =
     "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
@@ -8987,17 +9933,18 @@ window.loadDocExpiryAlerts = async () => {
     o.className =
       "fixed inset-0 bg-slate-900/70 z-[9999] flex items-center justify-center p-4";
     o.id = "doc-alerts-modal";
-    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-bell mr-2 text-rose-500"></i>Document Expiry Alerts</h3><button onclick="document.getElementById('doc-alerts-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${expired.length ? `<div class="mb-6"><h4 class="text-xs font-black text-rose-600 uppercase tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-1"></i>Expired (${expired.length})</h4>${expired.map((r) => `<div class="flex justify-between items-center p-3 bg-rose-50 rounded-xl mb-2 border border-rose-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-rose-600">${r.agreementEndDate}</p><p class="text-[10px] text-rose-400">EXPIRED</p></div></div>`).join("")}</div>` : ""}${expiringSoon.length
-      ? `<div><h4 class="text-xs font-black text-amber-600 uppercase tracking-wider mb-3"><i class="fas fa-clock mr-1"></i>Expiring Soon (${expiringSoon.length})</h4>${expiringSoon
-        .map((r) => {
-          const days = Math.ceil(
-            (new Date(r.agreementEndDate) - new Date()) / 86400000,
-          );
-          return `<div class="flex justify-between items-center p-3 bg-amber-50 rounded-xl mb-2 border border-amber-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-amber-600">${r.agreementEndDate}</p><p class="text-[10px] text-amber-400">${days} days left</p></div></div>`;
-        })
-        .join("")}</div>`
-      : ""
-      }${!expired.length && !expiringSoon.length ? '<div class="text-center py-12"><i class="fas fa-check-circle text-4xl text-emerald-400 mb-3 block"></i><p class="text-sm font-bold text-slate-500">All documents up to date! 🎉</p></div>' : ""}</div></div>`;
+    o.innerHTML = `<div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-hidden flex flex-col"><div class="p-6 border-b flex justify-between items-center"><h3 class="text-lg font-black"><i class="fas fa-bell mr-2 text-rose-500"></i>Document Expiry Alerts</h3><button onclick="document.getElementById('doc-alerts-modal').remove()" class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><i class="fas fa-times text-sm"></i></button></div><div class="flex-1 overflow-y-auto p-6">${expired.length ? `<div class="mb-6"><h4 class="text-xs font-black text-rose-600 uppercase tracking-wider mb-3"><i class="fas fa-exclamation-triangle mr-1"></i>Expired (${expired.length})</h4>${expired.map((r) => `<div class="flex justify-between items-center p-3 bg-rose-50 rounded-xl mb-2 border border-rose-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-rose-600">${r.agreementEndDate}</p><p class="text-[10px] text-rose-400">EXPIRED</p></div></div>`).join("")}</div>` : ""}${
+      expiringSoon.length
+        ? `<div><h4 class="text-xs font-black text-amber-600 uppercase tracking-wider mb-3"><i class="fas fa-clock mr-1"></i>Expiring Soon (${expiringSoon.length})</h4>${expiringSoon
+            .map((r) => {
+              const days = Math.ceil(
+                (new Date(r.agreementEndDate) - new Date()) / 86400000,
+              );
+              return `<div class="flex justify-between items-center p-3 bg-amber-50 rounded-xl mb-2 border border-amber-100"><div><p class="text-sm font-bold">${r.name || "Unnamed"}</p><p class="text-[10px] text-slate-400">${r.buildingId} / Room ${r.roomNo}</p></div><div class="text-right"><p class="text-xs font-black text-amber-600">${r.agreementEndDate}</p><p class="text-[10px] text-amber-400">${days} days left</p></div></div>`;
+            })
+            .join("")}</div>`
+        : ""
+    }${!expired.length && !expiringSoon.length ? '<div class="text-center py-12"><i class="fas fa-check-circle text-4xl text-emerald-400 mb-3 block"></i><p class="text-sm font-bold text-slate-500">All documents up to date! 🎉</p></div>' : ""}</div></div>`;
     document.body.appendChild(o);
   } catch (e) {
     toast("Error");
@@ -9047,24 +9994,24 @@ async function loadFeedbackRatings() {
         }
       });
     }
-  } catch (e) { }
+  } catch (e) {}
 }
 setTimeout(loadFeedbackRatings, 3000);
 
 run();
 
 // Global Search and Smart Billing Filter
-window.currentBillingFilter = 'all';
+window.currentBillingFilter = "all";
 window.setBillingFilter = (filterType, btn) => {
   window.currentBillingFilter = filterType;
   // Update button classes
-  document.querySelectorAll('#billing-quick-filters .bf-btn').forEach(b => {
-    b.classList.remove('bg-[#C8A24A]', 'text-white');
-    b.classList.add('bg-slate-100', 'text-slate-600');
+  document.querySelectorAll("#billing-quick-filters .bf-btn").forEach((b) => {
+    b.classList.remove("bg-[#C8A24A]", "text-white");
+    b.classList.add("bg-slate-100", "text-slate-600");
   });
   if (btn) {
-    btn.classList.add('bg-[#C8A24A]', 'text-white');
-    btn.classList.remove('bg-slate-100', 'text-slate-600');
+    btn.classList.add("bg-[#C8A24A]", "text-white");
+    btn.classList.remove("bg-slate-100", "text-slate-600");
   }
   window.filterBillingSpreadsheet();
 };
@@ -9072,7 +10019,7 @@ window.setBillingFilter = (filterType, btn) => {
 window.filterBillingSpreadsheet = () => {
   const searchTerm = (byId("billing-search")?.value || "").toLowerCase();
   const rows = byId("billing-rows")?.querySelectorAll("tr") || [];
-  const filterType = window.currentBillingFilter || 'all';
+  const filterType = window.currentBillingFilter || "all";
 
   rows.forEach((tr) => {
     const roomText = (tr.children[0]?.textContent || "").toLowerCase();
@@ -9081,12 +10028,12 @@ window.filterBillingSpreadsheet = () => {
     const balanceText = tr.querySelector(".balance-cell")?.textContent || "0";
     const balance = parseFloat(balanceText.replace(/[^0-9.-]+/g, "")) || 0;
 
-    let show = (roomText.includes(searchTerm) || tenantText.includes(searchTerm));
+    let show = roomText.includes(searchTerm) || tenantText.includes(searchTerm);
 
     // Apply Smart Filters
     if (show) {
-      if (filterType === 'unpaid' && balance <= 0) show = false;
-      if (filterType === 'vacant' && !isVacant) show = false;
+      if (filterType === "unpaid" && balance <= 0) show = false;
+      if (filterType === "vacant" && !isVacant) show = false;
     }
 
     tr.style.display = show ? "" : "none";
@@ -9099,11 +10046,13 @@ window.triggerAutoSaveIndicator = (isSaving) => {
   if (!indicator) return;
   if (isSaving) {
     indicator.innerHTML = `<i class="fas fa-spinner fa-spin text-amber-500 tracking-wider"></i> <span class="text-amber-600">Saving...</span>`;
-    indicator.classList.remove('opacity-0');
+    indicator.classList.remove("opacity-0");
   } else {
     indicator.innerHTML = `<i class="fas fa-check-circle text-emerald-500 tracking-wider"></i> <span class="text-emerald-600">All changes saved</span>`;
-    indicator.classList.remove('opacity-0');
-    setTimeout(() => { indicator.classList.add('opacity-0'); }, 2500);
+    indicator.classList.remove("opacity-0");
+    setTimeout(() => {
+      indicator.classList.add("opacity-0");
+    }, 2500);
   }
 };
 

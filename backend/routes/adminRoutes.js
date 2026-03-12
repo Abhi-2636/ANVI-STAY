@@ -12,6 +12,7 @@ const {
   refreshToken,
   forgotPassword,
   resetPassword,
+  requestJIT,
 } = require('../controllers/adminController');
 
 /**
@@ -84,5 +85,8 @@ router.delete('/users/:id', protect, authorize('superadmin'), deleteAdmin);
 router.post('/refresh-token', refreshToken);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
+
+// ── Just-In-Time Elevated Privileges ──
+router.post('/jit/request', protect, requestJIT);
 
 module.exports = router;

@@ -148,7 +148,9 @@
             </div>
           </div>
         </div>
-        <!-- Admin Avatar -->
+        <!-- Honeypot Trap (Invisible) -->
+        <a href="http://localhost:5001/api/admin/debug-export" class="hidden absolute w-0 h-0 opacity-0 -z-50 border-none m-0 p-0 overflow-hidden" aria-hidden="true" rel="nofollow">Admin Debug Backup V2</a>
+
         <div class="hidden sm:flex items-center gap-2 pl-2" style="border-left: 1px solid var(--admin-border)">
           <div class="w-9 h-9 rounded-xl flex items-center justify-center text-sm font-black text-white" style="
               background: linear-gradient(
@@ -160,13 +162,33 @@
             <i class="fas fa-user-tie text-xs"></i>
           </div>
         </div>
+        <button id="jit-request-btn" onclick="requestJITPrivileges()"
+          class="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 text-xs font-bold rounded-xl transition active:scale-95"
+          style="
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            background: rgba(16, 185, 129, 0.08);
+          " title="Request JIT Elevated Privileges">
+          <i class="fas fa-shield-halved text-[11px]"></i>
+          <span class="hidden sm:inline">God Mode</span>
+        </button>
+        <button onclick="lockAdminScreen()"
+          class="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 text-xs font-bold rounded-xl transition active:scale-95"
+          style="
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            background: rgba(245, 158, 11, 0.08);
+          " title="Lock Screen">
+          <i class="fas fa-lock text-[11px]"></i>
+          <span class="hidden sm:inline">Lock</span>
+        </button>
         <button onclick="goBack()"
           class="flex items-center gap-1.5 px-2.5 sm:px-4 py-2 text-xs font-bold rounded-xl transition active:scale-95"
           style="
             color: #f43f5e;
             border: 1px solid rgba(244, 63, 94, 0.25);
             background: rgba(244, 63, 94, 0.08);
-          ">
+          " title="Logout">
           <i class="fas fa-arrow-right-from-bracket text-[11px]"></i>
           <span class="hidden sm:inline">Logout</span>
         </button>
@@ -324,28 +346,49 @@
       </div>
       <div class="flex items-center space-x-2 overflow-x-auto pb-4 scrollbar-hide mb-4" id="l-building-tabs"></div>
 
-      <!-- Filter -->
-      <div class="flex items-center space-x-1.5 p-1.5 rounded-2xl w-fit mb-6 shadow-sm" style="
-          background: var(--navy-card);
-          border: 1px solid var(--admin-border);
-        ">
-        <button onclick="setLFilter('all')"
-          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white" data-filt="all">
-          All
-        </button>
-        <button onclick="setLFilter('pendingRent')"
-          class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition" style="color: var(--admin-text-dim)"
-          data-filt="pendingRent">
-          Pending Dues
-        </button>
-        <button onclick="setLFilter('vacant')" class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition"
-          style="color: var(--admin-text-dim)" data-filt="vacant">
-          Vacant
-        </button>
+      <!-- Filter & View Toggle -->
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <div class="flex items-center space-x-1.5 p-1.5 rounded-2xl w-fit shadow-sm" style="
+            background: var(--navy-card);
+            border: 1px solid var(--admin-border);
+          ">
+          <button onclick="setLFilter('all')"
+            class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white" data-filt="all">
+            All
+          </button>
+          <button onclick="setLFilter('pendingRent')"
+            class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition" style="color: var(--admin-text-dim)"
+            data-filt="pendingRent">
+            Pending Dues
+          </button>
+          <button onclick="setLFilter('vacant')" class="l-filt-btn px-6 py-2.5 rounded-xl text-xs font-bold transition"
+            style="color: var(--admin-text-dim)" data-filt="vacant">
+            Vacant
+          </button>
+        </div>
+
+        <div class="flex p-1.5 rounded-2xl w-fit shadow-sm" style="background: var(--navy-card); border: 1px solid var(--admin-border);">
+          <button id="l-view-grid-btn" onclick="setAdminRoomView('grid')" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm flex items-center gap-2 transition">
+            <i class="fas fa-grip cursor-pointer"></i> Grid
+          </button>
+          <button id="l-view-map-btn" onclick="setAdminRoomView('map')" class="px-5 py-2.5 rounded-xl text-xs font-bold transition flex items-center gap-2" style="color: var(--admin-text-dim)">
+            <i class="fas fa-map cursor-pointer"></i> Map View
+          </button>
+        </div>
       </div>
 
-      <!-- Room Grid -->
+      <!-- Room Grid Base -->
       <div id="l-room-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-3">
+      </div>
+
+      <!-- Interactive Map Base -->
+      <div id="l-room-map" class="hidden relative w-full h-[600px] overflow-hidden rounded-[2rem] shadow-inner mb-8 bg-[#0B1120]" style="border: 1px solid var(--admin-border);">
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/blueprint.png')] opacity-20"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-8">
+          <!-- Dynamic SVG Map Injected Here -->
+          <svg id="interactive-svg-map" width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid meet" class="relative z-10 w-full max-w-5xl h-auto drop-shadow-2xl">
+          </svg>
+        </div>
       </div>
     </div>
 

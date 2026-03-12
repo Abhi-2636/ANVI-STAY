@@ -91,6 +91,35 @@ app.use(mongoSanitize({
     },
 }));
 
+// ── XSS Protection ──
+const xss = require('xss-clean');
+app.use(xss());
+
+// ── Prevent HTTP Parameter Pollution ──
+const hpp = require('hpp');
+app.use(hpp());
+
+// ── IP Blacklist check ──
+const ipBlacklist = require('./middleware/ipBlacklist');
+app.use(ipBlacklist);
+
+// ── Honeypot Trap Route ──
+app.all('/api/admin/debug-export', async (req, res) => {
+    try {
+        const ip = req.ip || req.connection.remoteAddress;
+        const BlacklistedIP = require('./models/BlacklistedIP');
+        await BlacklistedIP.findOneAndUpdate(
+            { ipAddress: ip },
+            { ipAddress: ip, reason: 'Honeypot Trap Triggered on /api/admin/debug-export' },
+            { upsert: true }
+        );
+        console.warn(`[Security] HONEYPOT TRIGGERED! Banning IP: ${ip}`);
+        res.status(403).json({ success: false, message: 'Access denied.' });
+    } catch (err) {
+        res.status(403).json({ success: false, message: 'Access denied.' });
+    }
+});
+
 // ── Serve uploaded files statically ──
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

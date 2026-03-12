@@ -49,9 +49,14 @@ const adminSchema = new mongoose.Schema(
       type: String,
       select: false,
     },
-    passwordResetExpires: {
-      type: Date,
-      select: false,
+    // ── Strict Concurrent Session Limit ──
+    currentSessionToken: {
+      type: String, // Stores the active token signature or hash
+      default: '',
+    },
+    // ── Just-In-Time (JIT) Elevated Privileges ──
+    jitActiveUntil: {
+      type: Date, // If now < jitActiveUntil, admin has god mode
     },
   },
   { timestamps: true }

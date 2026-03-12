@@ -26,6 +26,13 @@ const protect = async (req, res, next) => {
       return res.status(401).json({ success: false, message: 'Account deactivated or not found' });
     }
 
+    // ── Strict Concurrent Session Limits ──
+    // Match the signature of the token against what's saved. If it doesn't match, they logged in elsewhere.
+    const tokenSignature = token.split('.')[2];
+    if (req.admin.currentSessionToken && req.admin.currentSessionToken !== tokenSignature) {
+      return res.status(401).json({ success: false, message: 'Session logged out: You logged in from another device.' });
+    }
+
     next();
   } catch (err) {
     return res.status(401).json({ success: false, message: 'Token invalid or expired' });
@@ -33,17 +40,26 @@ const protect = async (req, res, next) => {
 };
 
 /**
- * Restrict to specific roles.
+ * Restrict to specific roles. Also supports JIT Elevated Privileges.
  * Usage: authorize('superadmin', 'admin')
  */
 const authorize = (...roles) => (req, res, next) => {
-  if (!roles.includes(req.admin.role)) {
-    return res.status(403).json({
-      success: false,
-      message: `Role "${req.admin.role}" is not authorized for this action`,
-    });
+  // If user has the required role, great.
+  if (roles.includes(req.admin.role)) {
+    return next();
   }
-  next();
+
+  // JIT Elevated Privileges Exception:
+  // If the route strictly requires superadmin, but admin has active God Mode, allow it.
+  if (roles.includes('superadmin') && req.admin.jitActiveUntil && new Date() < new Date(req.admin.jitActiveUntil)) {
+    req.admin.isJITActivated = true;
+    return next();
+  }
+
+  return res.status(403).json({
+    success: false,
+    message: `Role "${req.admin.role}" is not authorized for this action`,
+  });
 };
 
 module.exports = { protect, authorize };

@@ -17,9 +17,14 @@ const signRefreshToken = (id) =>
   });
 
 // Helper – send access + refresh token response
-const sendTokenResponse = (admin, statusCode, res) => {
+const sendTokenResponse = async (admin, statusCode, res) => {
   const accessToken = signAccessToken(admin._id);
   const refreshToken = signRefreshToken(admin._id);
+  
+  // Track concurrent session
+  admin.currentSessionToken = accessToken.split('.')[2];
+  await admin.save({ validateBeforeSave: false });
+
   const data = {
     _id: admin._id,
     name: admin.name,
@@ -72,7 +77,7 @@ exports.loginAdmin = async (req, res) => {
       ipAddress: req.ip,
     });
 
-    sendTokenResponse(admin, 200, res);
+    await sendTokenResponse(admin, 200, res);
   } catch (err) {
     console.error('[adminController] loginAdmin error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
@@ -104,7 +109,7 @@ exports.updateMe = async (req, res) => {
 
     await admin.save();
 
-    sendTokenResponse(admin, 200, res);
+    await sendTokenResponse(admin, 200, res);
   } catch (err) {
     console.error('[adminController] updateMe error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
@@ -382,9 +387,38 @@ exports.resetPassword = async (req, res) => {
       ipAddress: req.ip,
     });
 
-    sendTokenResponse(admin, 200, res);
+    await sendTokenResponse(admin, 200, res);
   } catch (err) {
     console.error('[adminController] resetPassword error:', err);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
+// ──────────────────────────────────────
+// @route   POST /api/admin/jit/request
+// @desc    Request Just-in-Time Elevated Privileges
+// @access  Private
+// ──────────────────────────────────────
+exports.requestJIT = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin._id);
+    
+    // Auto-approve for demo/implementation purposes.
+    // In production, this would send an email to superadmin and wait for approval.
+    admin.jitActiveUntil = new Date(Date.now() + 15 * 60 * 1000); // 15 mins
+    await admin.save();
+    
+    await logAction({
+      action: 'jit_activated',
+      performedBy: admin.email,
+      performedByRole: admin.role,
+      description: `Admin ${admin.email} temporarily elevated to Superadmin JIT mode for 15 minutes.`,
+      ipAddress: req.ip,
+    });
+    
+    return res.status(200).json({ success: true, message: 'JIT Elevated Privileges activated for 15 minutes.', expiresAt: admin.jitActiveUntil });
+  } catch (err) {
+    console.error('[adminController] requestJIT error:', err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };

@@ -1,5 +1,26 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const CryptoJS = require("crypto-js");
+
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'AnviMasterKey123!@#';
+
+function encrypt(text) {
+  if (!text) return text;
+  return CryptoJS.AES.encrypt(text, ENCRYPTION_KEY).toString();
+}
+
+function decrypt(text) {
+  if (!text) return text;
+  // Basic check to see if it might be an encrypted string (Base64)
+  if (!text.startsWith('U2F')) return text; 
+  try {
+    const bytes = CryptoJS.AES.decrypt(text, ENCRYPTION_KEY);
+    const original = bytes.toString(CryptoJS.enc.Utf8);
+    return original || text;
+  } catch (err) {
+    return text;
+  }
+}
 
 const roomSchema = new mongoose.Schema(
   {
@@ -23,8 +44,20 @@ const roomSchema = new mongoose.Schema(
     phone: { type: String, trim: true, default: '' },
     nationality: { type: String, enum: ['Indian', 'Foreign', ''], default: 'Indian' },
     collegeIdNo: { type: String, trim: true, default: '' },
-    aadhaarNo: { type: String, trim: true, default: '' },
-    passportNo: { type: String, trim: true, default: '' },
+    aadhaarNo: { 
+      type: String, 
+      trim: true, 
+      default: '',
+      get: decrypt,
+      set: encrypt 
+    },
+    passportNo: { 
+      type: String, 
+      trim: true, 
+      default: '',
+      get: decrypt,
+      set: encrypt 
+    },
     visaNo: { type: String, trim: true, default: '' },
     photoUrl: { type: String, default: '' },
     studentPassword: { type: String, select: false, default: '' },
@@ -236,7 +269,11 @@ const roomSchema = new mongoose.Schema(
       default: [],
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true,
+    toJSON: { getters: true },
+    toObject: { getters: true } 
+  }
 );
 
 // Compound unique index: one room per building

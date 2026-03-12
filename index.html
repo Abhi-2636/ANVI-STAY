@@ -61,15 +61,40 @@
 
 <body>
 
-  <!-- Preloader -->
-  <div id="preloader"
-    class="fixed inset-0 bg-white flex flex-col items-center justify-center z-[9999] transition-opacity duration-500">
-    <h2 class="text-3xl font-black text-[#C8A24A] tracking-tighter">
-      ANVI STAY
-    </h2>
-    <p class="text-slate-400 text-xs font-bold mt-2">
-      WE LISTEN • WE CARE • YOU STAY
-    </p>
+  <!-- Global Custom Cursor -->
+  <div id="cursor-dot" class="custom-cursor-dot"></div>
+  <div id="cursor-ring" class="custom-cursor-ring"></div>
+
+  <!-- Premium Preloader -->
+  <div id="preloader" class="fixed inset-0 bg-white z-[9999] flex flex-col items-center justify-center transition-all duration-700">
+    <div class="relative flex flex-col items-center">
+      <!-- Animated Logo Ring -->
+      <div class="w-24 h-24 mb-6 relative flex items-center justify-center">
+        <svg class="absolute inset-0 w-full h-full animate-[spin_4s_linear_infinite]" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#f8fafc" stroke-width="2"/>
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#C8A24A" stroke-width="3" stroke-dasharray="100 200" stroke-linecap="round"/>
+        </svg>
+        <svg class="absolute inset-0 w-full h-full animate-[spin_3s_linear_infinite_reverse]" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#f8fafc" stroke-width="1"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="50 250" stroke-linecap="round"/>
+        </svg>
+        <img src="assets/img/logo.png" alt="Logo" class="w-12 h-12 relative z-10 animate-pulse-slow object-contain" onerror="this.src='logo.png'; this.onerror=function(){this.style.display='none'; document.getElementById('preloader-fallback-icon').style.display='block';}"/>
+        <i class="fas fa-building text-3xl text-[#C8A24A] relative z-10" style="display: none;" id="preloader-fallback-icon"></i>
+      </div>
+      <script>
+        document.querySelector('#preloader img').addEventListener('error', function() {
+          document.getElementById('preloader-fallback-icon').style.display = 'block';
+        });
+      </script>
+
+      <h2 class="text-3xl font-black text-[#C8A24A] tracking-tighter fade-in-up">ANVI STAY</h2>
+      <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em] mt-3 fade-in-up" style="animation-delay: 0.2s">We Listen • We Care • You Stay</p>
+      
+      <!-- Loading Bar -->
+      <div class="w-48 h-1 bg-slate-100 rounded-full mt-8 overflow-hidden fade-in-up" style="animation-delay: 0.4s">
+        <div class="h-full bg-gradient-to-r from-[#C8A24A] to-emerald-400 rounded-full animate-progress-bar"></div>
+      </div>
+    </div>
   </div>
 
   <!-- Header Navigation (loaded from pages/header.html) -->
@@ -88,9 +113,18 @@
   <!-- Overlays - Drawer, Contact Modal, Room Detail -->
   <div id="include-overlays"></div>
 
-  <!-- Toast -->
-  <div id="toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[99999] hidden">
-    <div id="toast-inner" class="bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold"></div>
+  <!-- Apple-style Dynamic Island -->
+  <div id="dynamic-island">
+    <div class="island-glow"></div>
+    <div class="island-content">
+      <img src="assets/img/logo.png" alt="Icon" id="island-icon" class="w-6 h-6 object-contain" />
+      <span id="island-text" class="text-sm font-bold tracking-tight">System Notice</span>
+    </div>
+  </div>
+
+  <!-- Glassmorphic Global Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[99999] opacity-0 pointer-events-none transition-all duration-500 translate-y-10 flex flex-col gap-3">
+    <!-- Toasts will be injected here -->
   </div>
 
   <!-- HTML Include Loader -->
@@ -146,23 +180,27 @@
     }
   </script>
 
-  <!-- Preloader safety: always hide -->
+  <!-- Preloader logic & Safe Hide -->
   <script>
     function forceHidePreloader() {
       const pr = document.getElementById("preloader");
       if (pr) {
-        pr.style.opacity = "0";
+        // Circular clip-path reveal animation
+        pr.style.clipPath = 'circle(150% at 50% 50%)';
         setTimeout(() => {
-          try {
-            pr.remove();
-          } catch (e) { }
-        }, 600);
+          pr.style.clipPath = 'circle(0% at 50% 50%)';
+          pr.style.opacity = '0';
+        }, 50);
+        
+        setTimeout(() => {
+          try { pr.remove(); } catch (e) { }
+        }, 800);
       }
     }
     window.addEventListener("load", () => {
-      setTimeout(forceHidePreloader, 800);
+      setTimeout(forceHidePreloader, 1500); // Give the new animation time to play
     });
-    setTimeout(forceHidePreloader, 3500);
+    setTimeout(forceHidePreloader, 4000); // Failsafe
     window.addEventListener("error", forceHidePreloader);
     window.addEventListener("unhandledrejection", forceHidePreloader);
   </script>
