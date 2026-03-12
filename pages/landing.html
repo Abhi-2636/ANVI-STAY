@@ -1113,17 +1113,91 @@
             class="absolute inset-0 bg-emerald-900/5 mix-blend-multiply pointer-events-none group-hover:opacity-0 transition-opacity duration-700 z-10"
           ></div>
 
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3403.3!2d75.7!3d31.25!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391a5f5e5e5e5e5f%3A0x5e5e5e5e5e5e5e5e!2sLaw%20Gate%2C%20Phagwara%2C%20Punjab!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-            width="100%"
-            height="100%"
-            style="border: 0; filter: contrast(1.02) saturate(1.05)"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Anvi Stay Location Map"
-            class="absolute inset-0 z-0 w-full h-full"
-          ></iframe>
+          <!-- Custom Styled Map Graphic Area -->
+          <div
+            class="absolute inset-0 z-0 bg-slate-100 overflow-hidden rounded-[2rem]"
+          >
+            <!-- A subtle dot pattern to act as a modern map backdrop -->
+            <div
+              class="absolute inset-0"
+              style="
+                background-image: radial-gradient(#94a3b8 1px, transparent 1px);
+                background-size: 20px 20px;
+                opacity: 0.3;
+              "
+            ></div>
+
+            <!-- Map background image (placeholder pattern or static map) -->
+            <div class="absolute inset-0 bg-emerald-50/50"></div>
+
+            <!-- Stylized roads -->
+            <div
+              class="absolute top-1/2 left-0 w-full h-8 bg-white shadow-sm transform -translate-y-1/2 -rotate-6"
+            ></div>
+            <div
+              class="absolute top-0 left-1/3 w-12 h-full bg-white shadow-sm transform rotate-12"
+            ></div>
+            <div
+              class="absolute top-1/4 left-1/4 w-full h-4 bg-white shadow-sm transform rotate-45 opacity-60"
+            ></div>
+
+            <!-- Focus Area Highlight circle -->
+            <div
+              class="absolute top-1/2 left-1/2 rounded-full transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-emerald-400/20 blur-3xl"
+            ></div>
+
+            <!-- Animated Custom Map Pin -->
+            <div
+              class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-[120%] z-10"
+            >
+              <div class="relative group cursor-pointer">
+                <div
+                  class="w-14 h-14 bg-gradient-to-br from-[#1F3D2B] to-emerald-700 rounded-full flex items-center justify-center shadow-2xl shadow-emerald-900/40 border-4 border-white z-20 relative transform transition-transform duration-300 group-hover:-translate-y-2 group-hover:scale-110"
+                >
+                  <img
+                    src="logo.png"
+                    alt="Anvi Stay"
+                    class="w-6 h-6 object-contain"
+                  />
+                </div>
+                <!-- Pin needle -->
+                <div
+                  class="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-1 h-4 bg-[#1F3D2B] z-10 transition-transform duration-300 group-hover:h-6 group-hover:-bottom-5 group-hover:bg-emerald-700"
+                ></div>
+                <!-- Ping effect -->
+                <div
+                  class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-14 h-14 bg-emerald-500 rounded-full animate-ping opacity-20 pointer-events-none"
+                ></div>
+                <!-- Floor shadow -->
+                <div
+                  class="absolute -bottom-5 left-1/2 transform -translate-x-1/2 w-8 h-2 bg-black/20 rounded-[50%] blur-sm transition-all duration-300 group-hover:w-4 group-hover:opacity-10"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Fake nearby location dots -->
+            <div
+              class="absolute top-[30%] left-[20%] w-3 h-3 bg-amber-400 rounded-full border-2 border-white shadow-md tooltip-trigger"
+              title="Local Market"
+            ></div>
+            <div
+              class="absolute top-[70%] left-[80%] w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-md tooltip-trigger"
+              title="LPU Main Gate"
+            ></div>
+            <div
+              class="absolute top-[20%] right-[30%] w-3 h-3 bg-rose-500 rounded-full border-2 border-white shadow-md tooltip-trigger"
+              title="Hospital"
+            ></div>
+
+            <a
+              href="https://maps.google.com/?q=Law+Gate+Phagwara+Punjab"
+              target="_blank"
+              class="absolute inset-0 z-30"
+              title="Click to open in Google Maps"
+            >
+              <span class="sr-only">Open Location in Google Maps</span>
+            </a>
+          </div>
 
           <!-- Stunning floating badge inside map -->
           <div
