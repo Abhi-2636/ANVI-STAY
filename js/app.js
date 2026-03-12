@@ -8684,23 +8684,97 @@ window.openLightbox = (buildingIdx, imgIdx = 0) => {
 
 // ── #2: Rent Calculator Widget ──
 window.calcRent = () => {
-  const type = byId("calc-room-type")?.value || "12000";
-  const units = parseInt(byId("calc-elec-units")?.value) || 0;
+  const typeSelect = byId("calc-room-type");
+  const type = typeSelect?.value || "12000";
+  
+  const unitsSlider = byId("calc-elec-units");
+  const units = parseInt(unitsSlider?.value) || 0;
+  
+  const elecDisplay = byId("calc-elec-display");
+  if (elecDisplay) elecDisplay.innerText = units;
+
   const rent = parseInt(type);
   const elec = units * 13;
   const maint = 300;
   const total = rent + elec + maint;
+  
+  // Calculate percentages for the circular progress (rent is largest chunk)
+  const rentPct = Math.round((rent / total) * 100);
+  const elecPct = Math.round((elec / total) * 100);
+
   const result = byId("calc-result");
+
   if (result) {
     result.innerHTML = `
-      <div class="grid grid-cols-2 gap-3 mt-4">
-        <div class="bg-amber-50 rounded-xl p-3 text-center"><p class="text-lg font-black text-[#C8A24A]">₹${rent.toLocaleString("en-IN")}</p><p class="text-[9px] font-bold text-slate-400 uppercase">Base Rent</p></div>
-        <div class="bg-blue-50 rounded-xl p-3 text-center"><p class="text-lg font-black text-blue-600">₹${elec.toLocaleString("en-IN")}</p><p class="text-[9px] font-bold text-slate-400 uppercase">${units} units × ₹13</p></div>
-        <div class="bg-emerald-50 rounded-xl p-3 text-center"><p class="text-lg font-black text-emerald-600">₹${maint}</p><p class="text-[9px] font-bold text-slate-400 uppercase">Maintenance</p></div>
-        <div class="rounded-xl p-3 text-center" style="background:linear-gradient(135deg,rgba(200,162,74,0.1),rgba(200,162,74,0.05))"><p class="text-xl font-black text-[#C8A24A]">₹${total.toLocaleString("en-IN")}</p><p class="text-[9px] font-bold text-slate-400 uppercase">Total / Month</p></div>
+      <div class="flex flex-col h-full space-y-6">
+        
+        <!-- Total Estimate Hero Card -->
+        <div class="relative overflow-hidden rounded-[2rem] p-8 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] pb-10 group" style="background: linear-gradient(135deg, rgba(15,23,42,0.8), rgba(30,41,59,0.9));">
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(200,162,74,0.15),transparent_70%)] opacity-80 group-hover:opacity-100 transition duration-700 pointer-events-none"></div>
+          <div class="absolute -bottom-16 -right-16 w-64 h-64 bg-blue-500/20 blur-[80px] rounded-full group-hover:bg-blue-500/30 transition duration-700 pointer-events-none"></div>
+          
+          <div class="relative z-10 flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-2 h-2 rounded-full bg-emerald-400 animate-[pulse_2s_ease-in-out_infinite] shadow-[0_0_10px_rgba(52,211,153,0.8)]"></div>
+                <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em] opacity-80">Total Monthly Cost</p>
+              </div>
+              <div class="flex items-baseline gap-2 transform group-hover:translate-x-1 transition-transform duration-500">
+                <span class="text-3xl font-black text-[#C8A24A]">₹</span>
+                <p class="text-[clamp(3rem,5vw,4.5rem)] font-black text-white tracking-tighter leading-none" style="text-shadow: 0 4px 20px rgba(0,0,0,0.5);">${total.toLocaleString("en-IN")}</p>
+              </div>
+            </div>
+            
+            <!-- Visual Breakdown Chart -->
+            <div class="hidden sm:flex relative items-center justify-center w-28 h-28 transform group-hover:scale-105 transition-transform duration-700 cursor-default">
+              <div class="absolute inset-0 rounded-full box-border border-[8px] border-slate-800/50 shadow-[inset_0_4px_10px_rgba(0,0,0,0.5)]"></div>
+              <div class="absolute inset-0 rounded-full transition-all duration-1000 ease-out" style="background: conic-gradient(#C8A24A 0% ${rentPct}%, #3b82f6 ${rentPct}% ${rentPct+elecPct}%, #10b981 ${rentPct+elecPct}% 100%); mix-blend-mode: screen; mask: radial-gradient(transparent 55%, black 56%); -webkit-mask: radial-gradient(transparent 55%, black 56%);"></div>
+              <div class="text-center">
+                <i class="fas fa-chart-pie text-xl text-white/50 mb-1 group-hover:text-white/80 transition-colors"></i>
+                <p class="text-[9px] font-black text-white/80 uppercase tracking-widest">Data</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cost Modules -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 flex-1">
+          <!-- Rent Module -->
+          <div class="group/mod relative bg-[#0f172a]/60 backdrop-blur-xl rounded-2xl p-4 border border-white/5 hover:border-[#C8A24A]/40 hover:bg-[#1e293b]/90 hover:-translate-y-1 transition-all duration-300 shadow-xl overflow-hidden">
+            <div class="absolute -right-4 -top-4 w-16 h-16 bg-[#C8A24A]/10 rounded-full blur-xl group-hover/mod:bg-[#C8A24A]/20 transition-colors"></div>
+            <div class="w-8 h-8 rounded-full bg-[#C8A24A]/10 flex items-center justify-center mb-3 group-hover/mod:scale-110 transition-transform">
+              <div class="w-3 h-3 rounded-full bg-[#C8A24A] shadow-[0_0_10px_rgba(200,162,74,0.5)]"></div>
+            </div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover/mod:text-slate-300">Base Rent</p>
+            <p class="text-xl font-black text-white tracking-tight">₹${rent.toLocaleString("en-IN")}</p>
+            <div class="mt-2 w-full bg-slate-800 h-1 rounded-full overflow-hidden"><div class="bg-[#C8A24A] h-full transition-all duration-700" style="width: ${rentPct}%"></div></div>
+          </div>
+
+          <!-- Electricity Module -->
+          <div class="group/mod relative bg-[#0f172a]/60 backdrop-blur-xl rounded-2xl p-4 border border-white/5 hover:border-blue-500/40 hover:bg-[#1e293b]/90 hover:-translate-y-1 transition-all duration-300 shadow-xl overflow-hidden">
+             <div class="absolute -right-4 -top-4 w-16 h-16 bg-blue-500/10 rounded-full blur-xl group-hover/mod:bg-blue-500/20 transition-colors"></div>
+            <div class="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center mb-3 group-hover/mod:scale-110 transition-transform">
+              <div class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+            </div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover/mod:text-slate-300">Electricity</p>
+            <p class="text-xl font-black text-white tracking-tight">₹${elec.toLocaleString("en-IN")}</p>
+            <div class="mt-2 w-full bg-slate-800 h-1 rounded-full overflow-hidden"><div class="bg-blue-500 h-full transition-all duration-700" style="width: ${elecPct}%"></div></div>
+          </div>
+
+          <!-- Maintenance Module -->
+          <div class="group/mod relative bg-[#0f172a]/60 backdrop-blur-xl rounded-2xl p-4 border border-white/5 hover:border-emerald-500/40 hover:bg-[#1e293b]/90 hover:-translate-y-1 transition-all duration-300 shadow-xl overflow-hidden">
+             <div class="absolute -right-4 -top-4 w-16 h-16 bg-emerald-500/10 rounded-full blur-xl group-hover/mod:bg-emerald-500/20 transition-colors"></div>
+            <div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3 group-hover/mod:scale-110 transition-transform">
+              <div class="w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)]"></div>
+            </div>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1 group-hover/mod:text-slate-300">Maintenance</p>
+            <p class="text-xl font-black text-white tracking-tight">₹${maint}</p>
+            <div class="mt-2 text-[9px] font-bold text-slate-500 tracking-wider">FIXED MONTHLY</div>
+          </div>
+        </div>
+
       </div>
     `;
-    result.style.animation = "viewFadeIn 0.4s ease";
   }
 };
 
@@ -8709,38 +8783,151 @@ setTimeout(() => {
   const propertiesSection = document.querySelector("#properties");
   if (propertiesSection && !byId("rent-calculator")) {
     const calcHtml = `
-    <section id="rent-calculator" class="py-16 sm:py-24" style="background:linear-gradient(180deg,#f1f0ec 0%,#ffffff 100%)">
-      <div class="container mx-auto px-6 max-w-2xl">
-        <div class="text-center mb-8">
-          <p class="text-[10px] font-black uppercase tracking-[0.3em] text-[#C8A24A] mb-3"><i class="fas fa-calculator mr-2"></i>Cost Estimator</p>
-          <h2 class="text-[clamp(1.75rem,4.5vw,3rem)] font-black tracking-tighter mb-3">Rent Calculator</h2>
-          <p class="text-gray-400 text-sm font-medium">Get an instant estimate of your monthly costs</p>
-        </div>
-        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-100">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-            <div>
-              <label class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2 block">Property</label>
-              <select id="calc-room-type" onchange="calcRent()" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:border-[#C8A24A] focus:ring-2 focus:ring-[#C8A24A]/20 outline-none transition">
-                <option value="12000">SP Bhargav 1 — ₹12,000</option>
-                <option value="11500">SP Bhargav 2 / 3 — ₹11,500</option>
-                <option value="10000">Comfort Corner — ₹10,000</option>
-                <option value="9500">Ambey Apartment 2 — ₹9,500</option>
-                <option value="9000">Ambey Apartment 1 — ₹9,000</option>
-                <option value="8500">SKG Apartment — ₹8,500</option>
-                <option value="7500">NS Pariyal — ₹7,500</option>
-                <option value="7000">Blessing PG — ₹7,000</option>
-              </select>
+    <section id="rent-calculator" class="relative py-24 sm:py-32 overflow-hidden bg-[#020617] text-white">
+      <!-- Deep Tech Background Canvas -->
+      <div class="absolute inset-0 bg-[#020617] z-0"></div>
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] z-0 hover:bg-[size:4.2rem_4.2rem] transition-all duration-[3s] ease-in-out"></div>
+      
+      <!-- Glowing Orbs -->
+      <div class="absolute top-[20%] left-[-10%] w-[800px] h-[800px] bg-[#C8A24A]/10 blur-[180px] rounded-full mix-blend-screen pointer-events-none z-0 animate-[pulse_6s_ease-in-out_infinite]"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[900px] h-[900px] bg-blue-900/20 blur-[200px] rounded-full mix-blend-screen pointer-events-none z-0 animate-[pulse_8s_ease-in-out_infinite]"></div>
+      
+      <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-6xl mx-auto">
+          
+          <!-- Section Title Area -->
+          <div class="text-center mb-16 sm:mb-24 scroll-reveal group">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 hover:bg-white/10 hover:border-white/20 hover:scale-105 transition-all duration-300 cursor-default shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+              <div class="w-2 h-2 rounded-full bg-[#C8A24A] shadow-[0_0_10px_rgba(200,162,74,0.8)]"></div>
+              <span class="text-[10px] font-black uppercase tracking-[0.25em] text-white/90">Predictive Engine v2.0</span>
             </div>
-            <div>
-              <label class="text-[10px] font-black uppercase tracking-wider text-slate-500 mb-2 block">Electricity Units (est.)</label>
-              <input type="number" id="calc-elec-units" value="30" min="0" max="500" oninput="calcRent()" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold focus:border-[#C8A24A] focus:ring-2 focus:ring-[#C8A24A]/20 outline-none transition" placeholder="e.g. 30">
+            <h2 class="text-[clamp(2.5rem,6vw,5rem)] font-black tracking-tighter text-white leading-[1.05] mb-6 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] text-balance">
+              Simulate Your <br class="sm:hidden"/> 
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#eadeb5] via-[#C8A24A] to-[#8d6d2a]">Living Costs</span>
+            </h2>
+            <p class="text-slate-400 text-sm sm:text-base font-semibold max-w-2xl mx-auto leading-relaxed group-hover:text-slate-300 transition-colors">
+              Access our premier intelligence dashboard. Dial in your room specs and power usage below to generate an exact high-fidelity financial forecast.
+            </p>
+          </div>
+
+          <!-- Glassmorphic Terminal Window -->
+          <div class="relative bg-[#0b1120]/80 backdrop-blur-[60px] rounded-[3rem] p-6 sm:p-10 lg:p-14 border border-white/[0.08] shadow-[0_0_80px_-12px_rgba(0,0,0,0.6)] scroll-reveal overflow-hidden group/board">
+            <!-- Sweep Reflection -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-white/5 via-white/0 to-transparent opacity-0 group-hover/board:opacity-100 transition-opacity duration-1000 pointer-events-none"></div>
+            
+            <!-- Custom corner decorative lines -->
+            <div class="absolute top-0 left-0 w-20 h-[1px] bg-gradient-to-r from-[#C8A24A] to-transparent"></div>
+            <div class="absolute top-0 left-0 w-[1px] h-20 bg-gradient-to-b from-[#C8A24A] to-transparent"></div>
+            <div class="absolute bottom-0 right-0 w-20 h-[1px] bg-gradient-to-l from-blue-500 to-transparent"></div>
+            <div class="absolute bottom-0 right-0 w-[1px] h-20 bg-gradient-to-t from-blue-500 to-transparent"></div>
+
+            <div class="flex flex-col lg:flex-row gap-10 lg:gap-16 relative z-10">
+              
+              <!-- Input Panel (Left) -->
+              <div class="w-full lg:w-5/12 flex flex-col justify-center space-y-12 pr-2">
+                
+                <!-- Property Selector Component -->
+                <div class="space-y-5">
+                  <label class="flex items-center justify-between">
+                    <span class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]">Property Tier</span>
+                    <i class="fas fa-layer-group text-slate-500 text-sm"></i>
+                  </label>
+                  <div class="relative group/sel">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[#C8A24A] to-amber-700 rounded-2xl blur-md opacity-20 group-hover/sel:opacity-50 transition duration-500"></div>
+                    <select id="calc-room-type" onchange="calcRent()" class="relative w-full appearance-none bg-[#090e17] border border-white/10 hover:border-white/20 text-white text-base sm:text-lg font-black rounded-2xl px-6 py-5 focus:outline-none focus:ring-2 focus:ring-[#C8A24A]/60 transition-all cursor-pointer shadow-[inset_0_2px_10px_rgba(0,0,0,0.5)]">
+                      <option value="12000" class="bg-slate-900 border-none">SP Bhargav 1 — ₹12,000</option>
+                      <option value="11500" class="bg-slate-900">SP Bhargav 2 / 3 — ₹11,500</option>
+                      <option value="10000" class="bg-slate-900">Comfort Corner — ₹10,000</option>
+                      <option value="9500" class="bg-slate-900">Ambey Apartment 2 — ₹9,500</option>
+                      <option value="9000" class="bg-slate-900">Ambey Apartment 1 — ₹9,000</option>
+                      <option value="8500" class="bg-slate-900">SKG Apartment — ₹8,500</option>
+                      <option value="7500" class="bg-slate-900">NS Pariyal — ₹7,500</option>
+                      <option value="7000" class="bg-slate-900">Blessing PG — ₹7,000</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-6 flex items-center pointer-events-none">
+                      <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center backdrop-blur-sm border border-white/5 group-hover/sel:bg-white/10 transition-colors">
+                        <i class="fas fa-chevron-down text-[#C8A24A] text-xs"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Custom Power Slider Component -->
+                <div class="space-y-6">
+                  <label class="flex items-center justify-between">
+                    <span class="text-[11px] font-black uppercase tracking-[0.2em] text-blue-400">Power Matrix</span>
+                    <div class="flex items-baseline gap-1.5 bg-blue-500/10 px-4 py-1.5 rounded-full border border-blue-500/30 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+                      <span id="calc-elec-display" class="text-base font-black text-blue-400 drop-shadow-[0_0_5px_rgba(59,130,246,0.8)]">30</span>
+                      <span class="text-[9px] font-black text-blue-400/80 uppercase tracking-widest">Units</span>
+                    </div>
+                  </label>
+                  
+                  <div class="relative pt-4 pb-2 group/slider">
+                    <!-- Inline styling for premium custom slider track and thumb -->
+                    <style>
+                      #calc-elec-units {
+                        -webkit-appearance: none;
+                        width: 100%;
+                        background: rgba(255,255,255,0.03);
+                        border-radius: 9999px;
+                        height: 6px;
+                        outline: none;
+                        border: 1px solid rgba(255,255,255,0.05);
+                        box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+                      }
+                      #calc-elec-units::-webkit-slider-thumb {
+                        -webkit-appearance: none;
+                        appearance: none;
+                        width: 26px;
+                        height: 26px;
+                        border-radius: 50%;
+                        background: radial-gradient(circle, #60a5fa 0%, #2563eb 100%);
+                        cursor: pointer;
+                        border: 3px solid #0f172a;
+                        box-shadow: 0 0 20px rgba(96,165,250,0.6), inset 0 2px 4px rgba(255,255,255,0.5);
+                        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+                      }
+                      #calc-elec-units::-webkit-slider-thumb:hover {
+                        transform: scale(1.3);
+                        box-shadow: 0 0 25px rgba(96,165,250,0.9), inset 0 2px 6px rgba(255,255,255,0.8);
+                      }
+                      #calc-elec-units::-webkit-slider-thumb:active {
+                        transform: scale(1.1);
+                      }
+                    </style>
+                    <input type="range" id="calc-elec-units" min="0" max="200" value="30" oninput="calcRent()" class="w-full">
+                    
+                    <div class="flex justify-between text-[9px] font-black uppercase tracking-[0.25em] text-slate-500 mt-6">
+                      <span class="hover:text-blue-400 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all cursor-pointer" onclick="byId('calc-elec-units').value=0; calcRent();">0 U</span>
+                      <span class="text-slate-600/50">AVG: 30-50</span>
+                      <span class="hover:text-blue-400 hover:drop-shadow-[0_0_5px_rgba(59,130,246,0.5)] transition-all cursor-pointer" onclick="byId('calc-elec-units').value=200; calcRent();">200 MAX</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Sleek Divider -->
+              <div class="hidden lg:flex items-center justify-center px-4">
+                <div class="w-px h-full bg-gradient-to-b from-transparent via-white/10 to-transparent shadow-[0_0_10px_rgba(255,255,255,0.1)]"></div>
+              </div>
+
+              <!-- Result Output Panel (Right) -->
+              <div class="w-full lg:w-7/12">
+                <div id="calc-result" class="h-full"></div>
+              </div>
+              
             </div>
           </div>
-          <div id="calc-result"></div>
         </div>
       </div>
     </section>`;
     propertiesSection.insertAdjacentHTML("afterend", calcHtml);
+    if(typeof revealObserver !== 'undefined'){
+      setTimeout(() => {
+        document.querySelectorAll('#rent-calculator .scroll-reveal').forEach(el => revealObserver.observe(el));
+      }, 500);
+    }
     calcRent();
   }
 }, 2500);
@@ -10144,3 +10331,26 @@ window.recalcFooter = () => {
         </tr>`;
   }
 };
+
+window.calculateEstimate = () => {
+  const roomTypeEl = document.getElementById('est-room-type');
+  const acEl = document.getElementById('est-ac');
+  const foodEl = document.getElementById('est-food');
+  const totalEl = document.getElementById('est-total');
+
+  if (!roomTypeEl || !totalEl) return;
+
+  const baseRent = parseInt(roomTypeEl.value) || 0;
+  const acAddon = (acEl && acEl.checked) ? parseInt(acEl.value) : 0;
+  const foodAddon = (foodEl && foodEl.checked) ? parseInt(foodEl.value) : 0;
+  const total = baseRent + acAddon + foodAddon;
+  
+  totalEl.innerText = '₹' + total.toLocaleString('en-IN');
+};
+
+// Also listen to view changes to initialize estimate if available
+document.addEventListener("DOMContentLoaded", () => {
+  setTimeout(() => {
+    if (window.calculateEstimate) window.calculateEstimate();
+  }, 1000); // Give it time to load HTML includes
+});

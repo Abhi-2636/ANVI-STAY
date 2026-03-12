@@ -113,14 +113,8 @@
   <!-- Overlays - Drawer, Contact Modal, Room Detail -->
   <div id="include-overlays"></div>
 
-  <!-- Apple-style Dynamic Island -->
-  <div id="dynamic-island">
-    <div class="island-glow"></div>
-    <div class="island-content">
-      <img src="assets/img/logo.png" alt="Icon" id="island-icon" class="w-6 h-6 object-contain" />
-      <span id="island-text" class="text-sm font-bold tracking-tight">System Notice</span>
-    </div>
-  </div>
+
+
 
   <!-- Glassmorphic Global Toast -->
   <div id="toast" class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[99999] opacity-0 pointer-events-none transition-all duration-500 translate-y-10 flex flex-col gap-3">
@@ -164,6 +158,11 @@
       appScript.type = 'module';
       appScript.src = 'js/app.js';
       document.body.appendChild(appScript);
+
+      // Developer profile page
+      const devScript = document.createElement('script');
+      devScript.src = 'js/developer.js';
+      document.body.appendChild(devScript);
     }
 
     loadIncludes();
