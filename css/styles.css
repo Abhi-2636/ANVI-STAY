@@ -1035,76 +1035,16 @@ body.dark-mode .testimonial-card {
 }
 
 /* ---- FAQ Accordion ---- */
-.faq-item {
-  border: 1px solid #f1f5f9;
-  border-radius: 1.25rem;
-  overflow: hidden;
-  transition: all 0.3s;
-  background: white;
-}
-
-body.dark-mode .faq-item {
-  background: #1e293b;
-  border-color: #334155;
-}
-
-.faq-item:hover {
-  border-color: var(--brand-gold, #c8a24a);
-}
-
-.faq-question {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.25rem 1.5rem;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #1e293b;
-  user-select: none;
-  transition: background 0.2s;
-}
-
-body.dark-mode .faq-question {
-  color: #e2e8f0;
-}
-
-.faq-question:hover {
-  background: #fefce8;
-}
-
-body.dark-mode .faq-question:hover {
-  background: rgba(200, 162, 74, 0.08);
-}
-
-.faq-question .faq-chevron {
-  transition: transform 0.3s;
-  color: #c8a24a;
-  font-size: 0.8rem;
-}
-
+/* Core transition overrides to work with new Tailwind HTML structure */
 .faq-item.open .faq-chevron {
   transform: rotate(180deg);
 }
-
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition:
-    max-height 0.35s ease,
-    padding 0.35s ease;
-  padding: 0 1.5rem;
-}
-
 .faq-item.open .faq-answer {
-  max-height: 200px;
-  padding: 0 1.5rem 1.25rem;
+  max-height: 300px !important;
+  opacity: 1 !important;
 }
-
-.faq-answer p {
-  font-size: 0.88rem;
-  color: #64748b;
-  line-height: 1.7;
+.faq-item.open .faq-question {
+  background-color: transparent;
 }
 
 /* ---- Occupancy Donut ---- */

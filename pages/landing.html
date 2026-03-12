@@ -807,119 +807,305 @@
     </div>
   </section>
 
-  <!-- FAQ Section -->
-  <section class="py-16 sm:py-24 bg-gray-50 border-t border-gray-100">
-    <div class="container mx-auto px-6 max-w-3xl">
-      <div class="text-center mb-12 sm:mb-16">
-        <p
-          class="text-[10px] font-black uppercase tracking-[0.3em] text-[#C8A24A] mb-3"
-        >
-          Frequently Asked
-        </p>
-        <h2
-          class="text-[clamp(1.75rem,4.5vw,3rem)] font-black tracking-tighter mb-3"
-        >
-          Got Questions?
-        </h2>
-        <p class="text-gray-400 text-sm font-medium">
-          Everything you need to know about staying with us
-        </p>
-      </div>
-      <div class="space-y-3" id="faq-container">
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-map-marker-alt text-[#C8A24A] mr-3"></i>How far
-              are the properties from LPU?</span
+  <!-- Premium FAQ Section -->
+  <section class="py-24 sm:py-32 bg-white relative overflow-hidden" id="faq">
+    <!-- Ambient background dots -->
+    <div
+      class="absolute inset-0 opacity-[0.02]"
+      style="
+        background-image: radial-gradient(#1e293b 1px, transparent 1px);
+        background-size: 32px 32px;
+      "
+    ></div>
+
+    <!-- Top-right geometric accent -->
+    <div
+      class="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-slate-100/50 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
+    ></div>
+
+    <div class="container mx-auto px-6 relative z-10 max-w-7xl">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <!-- Left Axis: Title & Context -->
+        <div class="w-full lg:w-1/3 flex flex-col justify-start pt-4">
+          <div
+            class="inline-flex items-center gap-2 bg-slate-50 rounded-full px-5 py-2.5 mb-6 border border-slate-100 self-start shadow-[0_8px_16px_-6px_rgba(0,0,0,0.02)]"
+          >
+            <div
+              class="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
+              <i class="fas fa-question text-[10px]"></i>
+            </div>
+            <span
+              class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-700 pr-2"
+              >Clear Your Doubts</span
+            >
           </div>
-          <div class="faq-answer">
-            <p>
-              All our properties are located within 2-5 minutes of driving
-              distance from LPU's main gate at Law Gate, Phagwara. Many students
-              walk or use the university shuttle.
+
+          <h2
+            class="text-[clamp(2.5rem,4vw,3.5rem)] font-black tracking-tighter mb-6 text-slate-900 leading-[1.1]"
+          >
+            Frequently<br /><span
+              class="bg-gradient-to-r from-slate-500 to-slate-800 bg-clip-text text-transparent"
+              >Asked</span
+            >
+            Questions
+          </h2>
+
+          <p
+            class="text-slate-500 text-base font-medium leading-relaxed max-w-sm mb-10"
+          >
+            Find everything you need to know about staying with ANVI STAY. From
+            lease terms to location, we've got you covered.
+          </p>
+
+          <div class="hidden lg:flex flex-col gap-4">
+            <p
+              class="text-xs font-bold uppercase tracking-widest text-[#C8A24A]"
+            >
+              Still have questions?
             </p>
+            <a
+              href="mailto:support@anvistay.com"
+              class="inline-flex items-center justify-center gap-3 bg-slate-900 text-white font-bold px-6 py-4 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10 hover:shadow-slate-900/20 max-w-[200px]"
+            >
+              Contact Us
+              <i
+                class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"
+              ></i>
+            </a>
           </div>
         </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-money-bill-wave text-[#C8A24A] mr-3"></i>What is
-              included in the rent?</span
+
+        <!-- Right Axis: Accordion List -->
+        <div class="w-full lg:w-2/3 space-y-4" id="faq-container">
+          <!-- FAQ 1 -->
+          <div
+            class="faq-item group bg-white border border-slate-100 rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_-4px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300"
+            onclick="toggleFaq(this)"
+          >
+            <div
+              class="faq-question flex items-center justify-between p-6 sm:px-8 sm:py-7 cursor-pointer bg-white transition-colors duration-300"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
-          </div>
-          <div class="faq-answer">
-            <p>
-              Rent covers your furnished room, Wi-Fi, water supply, CCTV
-              security, and housekeeping. Electricity and maintenance are
-              charged separately based on usage at ₹13/unit + ₹300 maintenance.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-file-contract text-[#C8A24A] mr-3"></i>Is there
-              a rental agreement?</span
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div
+                  class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 flex-shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300"
+                >
+                  <i class="fas fa-map-marker-alt text-lg"></i>
+                </div>
+                <h3
+                  class="font-black text-slate-800 text-base sm:text-lg tracking-tight group-hover:text-slate-900 transition-colors"
+                >
+                  How far are the properties from LPU?
+                </h3>
+              </div>
+              <div
+                class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors flex-shrink-0 ml-4"
+              >
+                <i
+                  class="fas fa-chevron-down faq-chevron transition-transform duration-300"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="faq-answer px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out opacity-0"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
+              <div class="pb-7 pt-2 border-t border-slate-50">
+                <p
+                  class="text-slate-500 text-sm sm:text-base leading-relaxed font-medium"
+                >
+                  All our properties are located within 2-5 minutes of driving
+                  distance from LPU's main gate at Law Gate, Phagwara. Many
+                  students walk or use the easily available e-rickshaws.
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="faq-answer">
-            <p>
-              Yes, we provide a proper legal rental agreement for all tenants.
-              The standard lease is for 6 months and can be renewed. A security
-              deposit (usually 1-2 months rent) is required.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-clock text-[#C8A24A] mr-3"></i>What are the
-              timings and rules?</span
+
+          <!-- FAQ 2 -->
+          <div
+            class="faq-item group bg-white border border-slate-100 rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_-4px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300"
+            onclick="toggleFaq(this)"
+          >
+            <div
+              class="faq-question flex items-center justify-between p-6 sm:px-8 sm:py-7 cursor-pointer bg-white transition-colors duration-300"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
-          </div>
-          <div class="faq-answer">
-            <p>
-              Gate closes by 10:00 – 10:30 PM depending on the property.
-              Visitors are allowed till 7-8 PM. Smoking and loud music are not
-              allowed inside rooms.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-utensils text-[#C8A24A] mr-3"></i>Is food
-              available?</span
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div
+                  class="w-10 h-10 sm:w-12 sm:h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 flex-shrink-0 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300"
+                >
+                  <i class="fas fa-money-bill-wave text-lg"></i>
+                </div>
+                <h3
+                  class="font-black text-slate-800 text-base sm:text-lg tracking-tight group-hover:text-slate-900 transition-colors"
+                >
+                  What is included in the rent?
+                </h3>
+              </div>
+              <div
+                class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors flex-shrink-0 ml-4"
+              >
+                <i
+                  class="fas fa-chevron-down faq-chevron transition-transform duration-300"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="faq-answer px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out opacity-0"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
+              <div class="pb-7 pt-2 border-t border-slate-50">
+                <p
+                  class="text-slate-500 text-sm sm:text-base leading-relaxed font-medium"
+                >
+                  Rent covers your luxuriously furnished room, high-speed Wi-Fi,
+                  24/7 water supply, advanced CCTV security, and professional
+                  housekeeping. Electricity and maintenance are practically
+                  logged and charged separately based on actual usage.
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="faq-answer">
-            <p>
-              Some properties like Blessing PG include home-cooked meals. Others
-              have common kitchen access and are close to the market area with
-              many affordable food options and mess services.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item" onclick="toggleFaq(this)">
-          <div class="faq-question">
-            <span
-              ><i class="fas fa-shield-halved text-[#C8A24A] mr-3"></i>How do I
-              pay rent?</span
+
+          <!-- FAQ 3 -->
+          <div
+            class="faq-item group bg-white border border-slate-100 rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_-4px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300"
+            onclick="toggleFaq(this)"
+          >
+            <div
+              class="faq-question flex items-center justify-between p-6 sm:px-8 sm:py-7 cursor-pointer bg-white transition-colors duration-300"
             >
-            <i class="fas fa-chevron-down faq-chevron"></i>
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div
+                  class="w-10 h-10 sm:w-12 sm:h-12 bg-purple-50 rounded-xl flex items-center justify-center text-purple-600 flex-shrink-0 group-hover:bg-purple-500 group-hover:text-white transition-colors duration-300"
+                >
+                  <i class="fas fa-file-contract text-lg"></i>
+                </div>
+                <h3
+                  class="font-black text-slate-800 text-base sm:text-lg tracking-tight group-hover:text-slate-900 transition-colors"
+                >
+                  Is there a rental agreement?
+                </h3>
+              </div>
+              <div
+                class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors flex-shrink-0 ml-4"
+              >
+                <i
+                  class="fas fa-chevron-down faq-chevron transition-transform duration-300"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="faq-answer px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out opacity-0"
+            >
+              <div class="pb-7 pt-2 border-t border-slate-50">
+                <p
+                  class="text-slate-500 text-sm sm:text-base leading-relaxed font-medium"
+                >
+                  Yes, we ensure complete transparency by providing a proper,
+                  legal rental agreement digitally for all tenants via their
+                  Resident Portal. The standard initial lease is for 6 months
+                  and can easily be renewed.
+                </p>
+              </div>
+            </div>
           </div>
-          <div class="faq-answer">
-            <p>
-              Rent can be paid via UPI/online transfer. You'll receive WhatsApp
-              reminders and can track your payment status through the Resident
-              Portal with a simple room number and password login.
-            </p>
+
+          <!-- FAQ 4 -->
+          <div
+            class="faq-item group bg-white border border-slate-100 rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_-4px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300"
+            onclick="toggleFaq(this)"
+          >
+            <div
+              class="faq-question flex items-center justify-between p-6 sm:px-8 sm:py-7 cursor-pointer bg-white transition-colors duration-300"
+            >
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div
+                  class="w-10 h-10 sm:w-12 sm:h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 flex-shrink-0 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300"
+                >
+                  <i class="fas fa-clock text-lg"></i>
+                </div>
+                <h3
+                  class="font-black text-slate-800 text-base sm:text-lg tracking-tight group-hover:text-slate-900 transition-colors"
+                >
+                  What are the timings and rules?
+                </h3>
+              </div>
+              <div
+                class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors flex-shrink-0 ml-4"
+              >
+                <i
+                  class="fas fa-chevron-down faq-chevron transition-transform duration-300"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="faq-answer px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out opacity-0"
+            >
+              <div class="pb-7 pt-2 border-t border-slate-50">
+                <p
+                  class="text-slate-500 text-sm sm:text-base leading-relaxed font-medium"
+                >
+                  Gate closes securely by 10:00 – 10:30 PM depending on the
+                  property specific guidelines. Visitors are only allowed till 8
+                  PM in common areas for safety. Smoking and loud noise
+                  environments inside rooms are strictly restricted to maintain
+                  study conditions.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div
+            class="faq-item group bg-white border border-slate-100 rounded-[1.5rem] overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_30px_-4px_rgba(0,0,0,0.06)] hover:border-slate-200 transition-all duration-300"
+            onclick="toggleFaq(this)"
+          >
+            <div
+              class="faq-question flex items-center justify-between p-6 sm:px-8 sm:py-7 cursor-pointer bg-white transition-colors duration-300"
+            >
+              <div class="flex items-center gap-4 sm:gap-6">
+                <div
+                  class="w-10 h-10 sm:w-12 sm:h-12 bg-rose-50 rounded-xl flex items-center justify-center text-rose-600 flex-shrink-0 group-hover:bg-rose-500 group-hover:text-white transition-colors duration-300"
+                >
+                  <i class="fas fa-shield-halved text-lg"></i>
+                </div>
+                <h3
+                  class="font-black text-slate-800 text-base sm:text-lg tracking-tight group-hover:text-slate-900 transition-colors"
+                >
+                  How do I pay rent?
+                </h3>
+              </div>
+              <div
+                class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-slate-100 transition-colors flex-shrink-0 ml-4"
+              >
+                <i
+                  class="fas fa-chevron-down faq-chevron transition-transform duration-300"
+                ></i>
+              </div>
+            </div>
+            <div
+              class="faq-answer px-6 sm:px-8 overflow-hidden max-h-0 transition-all duration-300 ease-in-out opacity-0"
+            >
+              <div class="pb-7 pt-2 border-t border-slate-50">
+                <p
+                  class="text-slate-500 text-sm sm:text-base leading-relaxed font-medium"
+                >
+                  Rent can be effortlessly paid via UPI, Net Banking, or card
+                  via your exclusive Resident Dashboard. You will receive
+                  automated WhatsApp reminders for seamless logging and can
+                  download real-time digital invoices immediately after payment.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Contact Button (shown only on small screens) -->
+          <div class="lg:hidden mt-8 pt-6 border-t border-slate-100">
+            <a
+              href="mailto:support@anvistay.com"
+              class="w-full flex items-center justify-center gap-3 bg-slate-900 text-white font-bold px-6 py-4 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10"
+            >
+              Contact Support <i class="fas fa-arrow-right text-sm"></i>
+            </a>
           </div>
         </div>
       </div>
