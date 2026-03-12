@@ -1500,8 +1500,31 @@ window.fetchTenantDashboard = async () => {
       }
         </div>
 
+        </div>
+
+        <!-- Quick Actions Grid -->
+        <div class="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
+          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+             <i class="fas fa-wallet text-2xl sm:text-3xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
+          </button>
+          
+          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/5 rounded-full blur-xl transition-all group-hover:bg-blue-500/10"></div>
+             <i class="fas fa-file-invoice-dollar text-2xl sm:text-3xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
+          </button>
+          
+          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
+             <i class="fas fa-screwdriver-wrench text-2xl sm:text-3xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Request</span>
+          </button>
+        </div>
+
         <!-- Payment Status Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
+        <div id="tenant-payment-status" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
 
           <!-- Rent Card -->
           <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.rentPaid ? "border-emerald-200" : "border-rose-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
@@ -1742,7 +1765,7 @@ window.fetchTenantDashboard = async () => {
         <!-- Action Buttons -->
 
         <!-- Complaint Form -->
-        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+        <div id="tenant-complaint-section" class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
           <div class="absolute -right-20 -top-20 w-64 h-64 bg-rose-500/5 rounded-full blur-[50px]"></div>
           
           <div class="flex items-center gap-4 mb-8 relative z-10">
@@ -1804,7 +1827,7 @@ window.fetchTenantDashboard = async () => {
         <!-- Payment History -->
         ${(t.paymentHistory || []).length
         ? `
-        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
+        <div id="tenant-payment-history" class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
           <div class="flex items-center gap-4 mb-8">
             <div class="w-12 h-12 bg-blue-50 border border-blue-100/50 rounded-2xl flex items-center justify-center shadow-inner">
               <i class="fas fa-clock-rotate-left text-blue-500 text-lg"></i>
