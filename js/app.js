@@ -1297,11 +1297,11 @@ window.fetchTenantDashboard = async () => {
     // Store credentials for complaint submission
     state.tenantLogin = { bid, rno, pass };
 
-    const units =
-      num(t.elecCurrent) -
-      num(t.elecLast) +
-      (num(t.invCurrent) - num(t.invLast));
-    const bill = units * num(t.elecRate, 13) + num(t.maintCharge, 300);
+    const units = num(t.elecCurrent) - num(t.elecLast) + (num(t.invCurrent) - num(t.invLast));
+    const totalElec = units * num(t.elecRate, 13);
+    const totalMaint = num(t.maintCharge, 300);
+    const bill = totalElec + totalMaint;
+    const totalBill = bill;
 
     // Fetch active notices from API
     let noticesHtml = "";
