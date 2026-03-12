@@ -1,156 +1,157 @@
-<div id="view-tenant" class="view-section">
-  <div id="tenant-login-form" class="max-w-lg mx-auto px-6 py-16 sm:py-24">
+<div id="view-tenant" class="view-section relative overflow-hidden bg-slate-50 min-h-screen">
+  <!-- Decorative Background Elements -->
+  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-emerald-200/20 blur-[100px] animate-pulse-slow"></div>
+    <div class="absolute top-[30%] -right-[15%] w-[45%] h-[45%] rounded-full bg-teal-200/20 blur-[120px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+    <div class="absolute -bottom-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-[#C8A24A]/10 blur-[100px] animate-pulse-slow" style="animation-delay: 1s;"></div>
+    <!-- Mesh pattern overlay -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8cGF0aCBkPSJNMCAwTDggOFpNOCAwTDAgOFoiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLW9wYWNpdHk9IjAuMDQiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-30"></div>
+  </div>
+
+  <div id="tenant-login-form" class="max-w-lg mx-auto px-6 py-16 sm:py-24 relative z-10">
     <!-- Header -->
-    <div class="text-center mb-10 sm:mb-14">
-      <div class="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-6 sm:mb-8">
+    <div class="text-center mb-10 sm:mb-14 fade-in">
+      <div class="relative w-24 h-24 sm:w-28 sm:h-28 mx-auto mb-6 sm:mb-8 group">
         <!-- Animated rings -->
-        <div class="absolute inset-0 rounded-[1.8rem] border-2 border-emerald-200/30"
-          style="animation: adminPulseRing 3s ease-in-out infinite"></div>
-        <div class="absolute inset-[-8px] rounded-[2rem] border border-emerald-200/10"
-          style="animation: adminPulseRing 3s ease-in-out infinite 0.5s"></div>
+        <div class="absolute inset-0 rounded-3xl border border-emerald-300/30 scale-[1.15] opacity-50 group-hover:scale-[1.25] transition-transform duration-700"
+          style="animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite"></div>
+        <div class="absolute inset-[-8px] rounded-3xl border border-emerald-300/20 scale-[1.3] opacity-30 group-hover:scale-[1.4] transition-transform duration-700 delay-100"
+          style="animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite 0.5s"></div>
         <div
-          class="relative w-full h-full bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700 text-white rounded-[1.8rem] flex items-center justify-center shadow-2xl"
-          style="box-shadow: 0 16px 48px rgba(16, 185, 129, 0.25)">
-          <i class="fas fa-fingerprint text-4xl sm:text-5xl" aria-hidden="true"
-            style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2))"></i>
+          class="relative w-full h-full bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-800 text-white rounded-3xl flex items-center justify-center shadow-[0_20px_40px_-10px_rgba(16,185,129,0.5)] transform group-hover:-translate-y-2 transition-transform duration-500">
+          <i class="fas fa-fingerprint text-4xl sm:text-5xl drop-shadow-md"></i>
         </div>
         <!-- Floating decorative dots -->
-        <div class="absolute -top-2 -right-2 w-3 h-3 bg-amber-400 rounded-full opacity-50"
+        <div class="absolute -top-3 -right-3 w-4 h-4 bg-gradient-to-br from-amber-300 to-amber-500 rounded-full shadow-lg"
           style="animation: float1 4s ease-in-out infinite"></div>
-        <div class="absolute -bottom-1 -left-3 w-2 h-2 bg-emerald-300 rounded-full opacity-40"
+        <div class="absolute -bottom-2 -left-4 w-3 h-3 bg-gradient-to-br from-emerald-300 to-emerald-500 rounded-full shadow-lg"
           style="animation: float1 5s ease-in-out infinite reverse"></div>
       </div>
-      <h2 class="text-[clamp(2rem,5vw,3.2rem)] font-black text-slate-900 tracking-tighter leading-tight">
+      <h2 class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-tight bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-700 to-slate-900">
         Student Portal
       </h2>
-      <p class="text-slate-400 font-semibold mt-2 text-sm flex items-center justify-center gap-2">
-        <span class="live-indicator"></span>
+      <p class="text-slate-500 font-medium mt-3 text-sm flex items-center justify-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
         Secure access to your room details & payments
       </p>
     </div>
 
     <!-- Login Card -->
-    <div class="bg-white p-6 sm:p-10 rounded-[2rem] shadow-2xl border border-slate-100/80 space-y-5 sm:space-y-7"
-      style="box-shadow: 0 20px 60px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.03)">
+    <div class="bg-white/80 backdrop-blur-xl p-6 sm:p-10 rounded-[2.5rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.05)] border border-white space-y-5 sm:space-y-7 fade-in relative overflow-hidden" style="animation-delay: 0.1s;">
+      
+      <!-- Top highlight bar -->
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-400 via-teal-500 to-emerald-600"></div>
+
       <!-- Quick Info Banner -->
       <div
-        class="flex items-center gap-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-100/50 rounded-2xl p-4">
+        class="flex items-center gap-4 bg-emerald-50/50 border border-emerald-100/80 rounded-2xl p-4 transition-all hover:bg-emerald-50 hover:shadow-sm">
         <div
-          class="w-10 h-10 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
-          <i class="fas fa-shield-halved text-emerald-600 text-base"></i>
+          class="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm border border-emerald-100 text-emerald-500">
+          <i class="fas fa-shield-halved text-lg"></i>
         </div>
         <div>
-          <p class="text-emerald-800 text-xs font-extrabold">End-to-End Encrypted</p>
-          <p class="text-emerald-600 text-[10px] font-semibold mt-0.5">Your data is secure and never shared.</p>
+          <p class="text-emerald-900 text-xs font-black uppercase tracking-wider">End-to-End Encrypted</p>
+          <p class="text-emerald-600/80 text-[10px] sm:text-xs font-semibold mt-0.5">Your data is completely private and secure.</p>
         </div>
       </div>
 
       <!-- Building Select -->
-      <div>
-        <label class="flex items-center gap-2 mb-2.5 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-          <span class="w-5 h-5 rounded-md bg-amber-50 flex items-center justify-center">
-            <i class="fas fa-building text-amber-500 text-[9px]"></i>
-          </span>
-          Select Building
+      <div class="group">
+        <label class="flex items-center gap-2 mb-2 text-[10px] font-black text-slate-400 uppercase tracking-widest group-focus-within:text-emerald-500 transition-colors">
+          <i class="fas fa-building"></i> Select Building
         </label>
-        <select id="tenant-building-select" class="input-field font-semibold text-slate-800 rounded-2xl"></select>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <i class="far fa-building"></i>
+          </div>
+          <select id="tenant-building-select" class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10 rounded-2xl text-slate-800 font-semibold transition-all outline-none appearance-none"></select>
+          <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+            <i class="fas fa-chevron-down text-xs"></i>
+          </div>
+        </div>
       </div>
 
       <!-- Room Number -->
-      <div>
-        <label class="flex items-center gap-2 mb-2.5 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-          <span class="w-5 h-5 rounded-md bg-blue-50 flex items-center justify-center">
-            <i class="fas fa-door-open text-blue-500 text-[9px]"></i>
-          </span>
-          Room Number
+      <div class="group">
+        <label class="flex items-center gap-2 mb-2 text-[10px] font-black text-slate-400 uppercase tracking-widest group-focus-within:text-emerald-500 transition-colors">
+          <i class="fas fa-door-open"></i> Room Number
         </label>
-        <input type="number" id="tenant-room-input" inputmode="numeric" placeholder="e.g. 101"
-          class="input-field font-semibold rounded-2xl" />
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <i class="fas fa-hashtag"></i>
+          </div>
+          <input type="number" id="tenant-room-input" inputmode="numeric" placeholder="e.g. 101"
+            class="w-full pl-11 pr-4 py-3.5 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10 rounded-2xl text-slate-800 font-semibold transition-all outline-none placeholder:text-slate-400 placeholder:font-medium" />
+        </div>
       </div>
 
       <!-- Password -->
-      <div class="relative">
-        <label class="flex items-center gap-2 mb-2.5 text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-          <span class="w-5 h-5 rounded-md bg-violet-50 flex items-center justify-center">
-            <i class="fas fa-lock text-violet-500 text-[9px]"></i>
-          </span>
-          Password
+      <div class="group relative">
+        <label class="flex items-center gap-2 mb-2 text-[10px] font-black text-slate-400 uppercase tracking-widest group-focus-within:text-emerald-500 transition-colors">
+          <i class="fas fa-lock"></i> Password
         </label>
-        <input type="password" id="tenant-pass-input" placeholder="Enter your room password"
-          class="input-field font-semibold pr-14 rounded-2xl" />
-        <button type="button" onclick="toggleTenantPass()"
-          class="absolute right-4 top-[2.7rem] w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition">
-          <i id="tenant-pass-eye" class="fas fa-eye text-sm"></i>
-        </button>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+            <i class="fas fa-key"></i>
+          </div>
+          <input type="password" id="tenant-pass-input" placeholder="Enter your room password"
+            class="w-full pl-11 pr-14 py-3.5 bg-slate-50/50 hover:bg-slate-50 border border-slate-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-400/10 rounded-2xl text-slate-800 font-semibold transition-all outline-none placeholder:text-slate-400 placeholder:font-medium" />
+          <button type="button" onclick="toggleTenantPass()"
+            class="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl bg-white shadow-sm border border-slate-100 flex items-center justify-center text-slate-400 hover:text-emerald-600 hover:border-emerald-200 transition-all">
+            <i id="tenant-pass-eye" class="fas fa-eye text-xs"></i>
+          </button>
+        </div>
       </div>
 
       <!-- Error -->
       <div id="tenant-error"
-        class="hidden text-rose-600 text-sm font-semibold bg-rose-50 border border-rose-100 rounded-xl p-3 flex items-center gap-2">
+        class="hidden text-rose-600 text-sm font-semibold bg-rose-50 border border-rose-100 rounded-xl p-4 flex items-center gap-3 animate-[fadeInUp_0.3s_ease]">
       </div>
 
       <!-- Submit -->
       <button onclick="fetchTenantDashboard()"
-        class="w-full bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 text-white py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg shadow-xl active:scale-[0.98] transition-all focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 flex items-center justify-center gap-3 relative overflow-hidden group"
-        style="box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3)">
-        <span
-          class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-        <i class="fas fa-arrow-right-to-bracket relative z-10"></i>
-        <span class="relative z-10">Access My Room</span>
+        class="w-full bg-slate-900 hover:bg-emerald-600 text-white py-4 sm:py-4.5 rounded-2xl font-bold text-base shadow-[0_4px_14px_0_rgba(0,0,0,0.2)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.3)] active:scale-[0.98] transition-all flex items-center justify-center gap-3 overflow-hidden group">
+        <i class="fas fa-arrow-right-to-bracket transition-transform group-hover:translate-x-1"></i>
+        <span>Access My Room</span>
       </button>
 
       <!-- Divider -->
-      <div class="flex items-center gap-4 py-1">
-        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
-        <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">or</span>
-        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+      <div class="flex items-center gap-4 py-2">
+        <div class="flex-1 h-px bg-slate-200"></div>
+        <span class="text-[9px] font-black text-slate-300 uppercase tracking-widest">Help & Support</span>
+        <div class="flex-1 h-px bg-slate-200"></div>
       </div>
 
       <!-- Help Links -->
       <div class="flex flex-col sm:flex-row gap-3">
         <a href="https://wa.me/919142272776?text=Hello%20ANVI%20STAY%2C%0A%0AI%20have%20forgotten%20my%20resident%20portal%20password.%0A%0A%F0%9F%8F%A0%20PG%20Name%3A%20%5BPlease%20enter%20your%20PG%20name%5D%0A%F0%9F%9A%AA%20Room%20No%3A%20%5BPlease%20enter%20your%20room%20number%5D%0A%F0%9F%91%A4%20Name%3A%20%5BYour%20full%20name%5D%0A%F0%9F%93%B1%20Registered%20Phone%3A%20%5BYour%20phone%20number%5D%0A%0APlease%20help%20me%20reset%20my%20password.%20Thank%20you!"
           target="_blank" rel="noopener noreferrer"
-          class="flex-1 text-center bg-gradient-to-r from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 text-slate-600 py-3.5 rounded-xl font-semibold text-xs transition-all flex items-center justify-center gap-2 border border-slate-100 hover:border-slate-200 hover:-translate-y-0.5 hover:shadow-md">
-          <i class="fab fa-whatsapp text-green-500 text-sm"></i> Forgot Password?
+          class="flex-1 text-center bg-white hover:bg-slate-50 text-slate-600 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow">
+          <i class="fab fa-whatsapp text-emerald-500 text-sm"></i> Forgot Details?
         </a>
         <a href="https://wa.me/919142272776?text=Hello%20ANVI%20STAY%20Support%2C%0A%0AI%20need%20help%20with%20the%20resident%20portal.%0A%0A%F0%9F%8F%A0%20PG%20Name%3A%20%5BPlease%20enter%20your%20PG%20name%5D%0A%F0%9F%9A%AA%20Room%20No%3A%20%5BPlease%20enter%20your%20room%20number%5D%0A%F0%9F%91%A4%20Name%3A%20%5BYour%20full%20name%5D%0A%0AIssue%3A%20%5BPlease%20describe%20your%20issue%5D%0A%0AThank%20you!"
           target="_blank" rel="noopener noreferrer"
-          class="flex-1 text-center bg-gradient-to-r from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 text-slate-600 py-3.5 rounded-xl font-semibold text-xs transition-all flex items-center justify-center gap-2 border border-slate-100 hover:border-slate-200 hover:-translate-y-0.5 hover:shadow-md">
-          <i class="fas fa-headset text-[#C8A24A] text-sm"></i> Need Help?
+          class="flex-1 text-center bg-white hover:bg-slate-50 text-slate-600 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 border border-slate-200 hover:border-slate-300 shadow-sm hover:shadow">
+          <i class="fas fa-headset text-[#C8A24A] text-sm"></i> Portal Issue
         </a>
       </div>
 
       <!-- Back -->
-      <button onclick="goBack()" class="inner-back-btn mx-auto mt-1">
-        <i class="fas fa-arrow-left text-xs"></i> Back to Home
+      <button onclick="goBack()" class="w-full py-3 text-xs font-bold text-slate-400 hover:text-slate-600 flex items-center justify-center gap-2 transition-colors">
+        <i class="fas fa-arrow-left"></i> Return to Homepage
       </button>
     </div>
 
     <!-- Trust Badges -->
-    <div class="flex justify-center gap-6 sm:gap-10 mt-10">
-      <div
-        class="flex items-center gap-2 text-[10px] font-bold text-slate-400/60 uppercase tracking-wider hover:text-slate-400 transition">
-        <div class="w-6 h-6 rounded-full bg-slate-100/80 flex items-center justify-center">
-          <i class="fas fa-lock text-[8px]"></i>
-        </div>
-        Encrypted
+    <div class="flex justify-center flex-wrap gap-4 sm:gap-8 mt-12 fade-in" style="animation-delay: 0.2s;">
+      <div class="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest backdrop-blur-sm bg-white/40 px-3 py-1.5 rounded-full border border-white/50">
+        <i class="fas fa-lock text-[#C8A24A]"></i> Bank-Level Security
       </div>
-      <div
-        class="flex items-center gap-2 text-[10px] font-bold text-slate-400/60 uppercase tracking-wider hover:text-slate-400 transition">
-        <div class="w-6 h-6 rounded-full bg-slate-100/80 flex items-center justify-center">
-          <i class="fas fa-shield-halved text-[8px]"></i>
-        </div>
-        Secure
-      </div>
-      <div
-        class="flex items-center gap-2 text-[10px] font-bold text-slate-400/60 uppercase tracking-wider hover:text-slate-400 transition">
-        <div class="w-6 h-6 rounded-full bg-slate-100/80 flex items-center justify-center">
-          <i class="fas fa-user-check text-[8px]"></i>
-        </div>
-        Private
+      <div class="flex items-center gap-2 text-[9px] font-black text-slate-400 uppercase tracking-widest backdrop-blur-sm bg-white/40 px-3 py-1.5 rounded-full border border-white/50">
+        <i class="fas fa-shield-halved text-emerald-500"></i> Privacy First
       </div>
     </div>
   </div>
 
-  <div id="tenant-dash" class="max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-12 hidden relative"></div>
+  <div id="tenant-dash" class="max-w-[72rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 hidden relative z-10 w-full"></div>
 </div>

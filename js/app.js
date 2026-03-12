@@ -1312,6 +1312,9 @@ window.fetchTenantDashboard = async () => {
     );
     const tenantNotifCount = fetchedNotices.length + resolvedComplaints.length;
 
+    const hour = new Date().getHours();
+    const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
+
     dash.innerHTML = `
         <!-- Tenant Notification Bell (floating top-right) -->
         <div class="flex justify-end mb-4">
@@ -1338,15 +1341,21 @@ window.fetchTenantDashboard = async () => {
         ${!t.rentPaid ? renderCountdown("auto") : ""}
 
         <!-- Welcome Header Card -->
-        <div class="green-gradient rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 text-white mb-6 sm:mb-8 relative overflow-hidden">
+        <div class="bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 text-white mb-6 sm:mb-10 relative overflow-hidden shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+          <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+          <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500 rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2"></div>
           <div class="relative z-10">
-            <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center justify-between mb-8">
               <div>
-                <p class="text-white/70 text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-2">${buildings.find((b) => b.id === bid).name}</p>
-                <h2 class="text-4xl sm:text-6xl font-black tracking-tighter leading-none">Room ${rno}</h2>
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-300 border border-white/10">${buildings.find((b) => b.id === bid).name}</span>
+                  <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-white/70 border border-white/10"><i class="far fa-clock mr-1"></i>${greeting}</span>
+                </div>
+                <h2 class="text-5xl sm:text-7xl font-black tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">Room ${rno}</h2>
               </div>
-              <div class="w-14 h-14 sm:w-16 sm:h-16 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                <i class="fas fa-house-user text-2xl sm:text-3xl text-white/80"></i>
+              <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl flex items-center justify-center shadow-2xl relative">
+                <div class="absolute inset-0 bg-emerald-400 rounded-3xl blur opacity-20 hidden sm:block"></div>
+                <i class="fas fa-house-chimney-window text-3xl sm:text-4xl text-white drop-shadow-lg relative z-10"></i>
               </div>
             </div>
             <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 w-fit">
@@ -1365,14 +1374,16 @@ window.fetchTenantDashboard = async () => {
         </div>
 
         <!-- Tenant Profile Card -->
-        <div class="bg-white rounded-2xl border border-slate-100 p-6 sm:p-8 mb-6 sm:mb-8 shadow-sm">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 bg-gradient-to-br from-[#C8A24A] to-[#b8923a] rounded-xl flex items-center justify-center">
-              <i class="fas fa-id-badge text-white text-sm"></i>
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-40 h-40 bg-[#C8A24A]/10 rounded-full blur-[60px]"></div>
+          
+          <div class="flex items-center gap-4 mb-8 relative z-10">
+            <div class="w-12 h-12 bg-gradient-to-br from-[#C8A24A] to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <i class="fas fa-id-badge text-white text-lg"></i>
             </div>
             <div>
-              <p class="text-xs font-black uppercase tracking-widest text-slate-700">My Profile</p>
-              <p class="text-[10px] text-slate-400 font-medium">Your registered details</p>
+              <p class="text-sm font-black uppercase tracking-widest text-slate-800">My Profile</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">Your official registered details</p>
             </div>
           </div>
 
@@ -1490,85 +1501,105 @@ window.fetchTenantDashboard = async () => {
         </div>
 
         <!-- Payment Status Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
 
           <!-- Rent Card -->
-          <div class="bg-white rounded-2xl border ${t.rentPaid ? "border-emerald-100" : "border-rose-100"} p-6 sm:p-8 relative overflow-hidden">
-            <div class="flex items-start justify-between mb-5">
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center ${t.rentPaid ? "bg-emerald-50" : "bg-rose-50"}">
-                <i class="fas ${t.rentPaid ? "fa-circle-check text-emerald-500" : "fa-clock text-rose-500"} text-xl"></i>
+          <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.rentPaid ? "border-emerald-200" : "border-rose-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="absolute -right-10 -top-10 w-40 h-40 ${t.rentPaid ? "bg-emerald-500/10" : "bg-rose-500/10"} rounded-full blur-[40px] pointer-events-none"></div>
+            
+            <div class="flex items-start justify-between mb-8 relative z-10">
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.rentPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-rose-100 to-rose-50 text-rose-600 shadow-rose-200/50"} shadow-lg">
+                <i class="fas ${t.rentPaid ? "fa-circle-check" : "fa-clock"} text-2xl"></i>
               </div>
-              <span class="badge-pro ${t.rentPaid ? "bg-emerald-100 text-emerald-600" : "bg-rose-100 text-rose-600"} text-[10px] px-3 py-1.5">${t.rentPaid ? "PAID" : "DUE"}</span>
+              <span class="${t.rentPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-rose-50 text-rose-600 border border-rose-200"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.rentPaid ? "PAID" : "DUE"}</span>
             </div>
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Monthly Rent</p>
-            <p class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-3">₹${Number(t.rentAmount || 0).toLocaleString("en-IN")}</p>
-            ${!t.rentPaid
+            
+            <div class="relative z-10">
+              <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-home"></i> Monthly Rent</p>
+              <p class="text-4xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-4">₹${Number(t.rentAmount || 0).toLocaleString("en-IN")}</p>
+              ${!t.rentPaid
         ? (() => {
             const pendingRent = (t.pendingPayments || []).find(p => p.type === 'rent' && p.status === 'pending');
             return pendingRent
-              ? `<div class="mt-4 pt-4 border-t border-amber-50">
-                  <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                    <i class="fas fa-hourglass-half text-amber-500 animate-pulse"></i>
+              ? `<div class="mt-6 pt-5 border-t border-amber-100">
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-amber-50/80 border border-amber-200/60 rounded-xl p-4 shadow-inner">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                      <i class="fas fa-hourglass-half text-xs"></i>
+                    </div>
                     <div>
-                      <p class="text-xs font-bold text-amber-700">Payment Under Verification</p>
-                      <p class="text-[10px] text-amber-500 font-medium">UTR: ${pendingRent.utrNumber} • Submitted ${new Date(pendingRent.submittedAt).toLocaleDateString('en-IN')}</p>
+                      <p class="text-xs font-bold text-amber-800">Verification Pending</p>
+                      <p class="text-[10px] text-amber-600/80 font-semibold mt-0.5">UTR: ${pendingRent.utrNumber}</p>
                     </div>
                   </div>
                 </div>`
-              : `<div class="mt-4 pt-4 border-t border-rose-50">
+              : `<div class="mt-6 pt-5 border-t border-rose-100">
                   <button onclick="openUpiPaymentModal('rent', ${Number(t.rentAmount || 0)})"
-                    class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-500 to-rose-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition hover:shadow-lg active:scale-95">
-                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right text-[9px]"></i>
+                    class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white px-5 py-3.5 rounded-xl text-sm font-bold transition-all shadow-[0_8px_16px_rgba(225,29,72,0.25)] hover:shadow-lg active:scale-[0.98] group">
+                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1 ml-1 text-xs"></i>
                   </button>
                 </div>`;
           })()
         : `
-              <p class="text-emerald-500 text-xs font-semibold mt-2"><i class="fas fa-check mr-1"></i> Payment received</p>
+              <div class="mt-6 pt-5 border-t border-emerald-100">
+                <p class="text-emerald-600 text-xs font-bold flex items-center gap-2"><div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center inline-flex"><i class="fas fa-check text-[10px]"></i></div> Payment received successfully</p>
+              </div>
             `
       }
+            </div>
           </div>
 
           <!-- Electricity Card -->
-          <div class="bg-white rounded-2xl border ${t.elecPaid ? "border-emerald-100" : "border-amber-100"} p-6 sm:p-8 relative overflow-hidden">
-            <div class="flex items-start justify-between mb-5">
-              <div class="w-12 h-12 rounded-xl flex items-center justify-center ${t.elecPaid ? "bg-emerald-50" : "bg-amber-50"}">
-                <i class="fas ${t.elecPaid ? "fa-circle-check text-emerald-500" : "fa-bolt text-amber-500"} text-xl"></i>
+          <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.elecPaid ? "border-emerald-200" : "border-amber-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
+            <div class="absolute -right-10 -top-10 w-40 h-40 ${t.elecPaid ? "bg-emerald-500/10" : "bg-amber-500/10"} rounded-full blur-[40px] pointer-events-none"></div>
+
+            <div class="flex items-start justify-between mb-8 relative z-10">
+              <div class="w-14 h-14 rounded-2xl flex items-center justify-center ${t.elecPaid ? "bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 shadow-emerald-200/50" : "bg-gradient-to-br from-amber-100 to-amber-50 text-amber-600 shadow-amber-200/50"} shadow-lg">
+                <i class="fas ${t.elecPaid ? "fa-circle-check" : "fa-bolt"} text-2xl"></i>
               </div>
-              <span class="badge-pro ${t.elecPaid ? "bg-emerald-100 text-emerald-600" : "bg-amber-100 text-amber-600"} text-[10px] px-3 py-1.5">${t.elecPaid ? "SETTLED" : "DUE"}</span>
+              <span class="${t.elecPaid ? "bg-emerald-50 text-emerald-600 border border-emerald-200" : "bg-amber-50 text-amber-600 border border-amber-200"} text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full shadow-sm">${t.elecPaid ? "SETTLED" : "DUE"}</span>
             </div>
-            <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Electricity + Maintenance</p>
-            <p class="text-4xl sm:text-5xl font-black ${t.elecPaid ? "text-slate-900" : "text-amber-500"} tracking-tighter leading-none mb-3">₹${bill.toLocaleString("en-IN")}</p>
-            <div class="flex items-center gap-4 text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-              <span>${units} Units</span>
-              <span>•</span>
-              <span>@₹${num(t.elecRate, 13)}/unit</span>
-              <span>•</span>
-              <span>+₹${num(t.maintCharge, 300)} Maint.</span>
-            </div>
-            ${!t.elecPaid
+            
+            <div class="relative z-10">
+              <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest mb-1.5 flex items-center gap-2"><i class="fas fa-plug"></i> Electricity & Maintenance</p>
+              <p class="text-4xl sm:text-5xl font-black ${t.elecPaid ? "text-slate-900" : "text-amber-500"} tracking-tighter leading-none mb-3">₹${bill.toLocaleString("en-IN")}</p>
+              
+              <div class="flex items-center gap-3 my-4 bg-slate-50/80 px-4 py-2.5 rounded-xl border border-slate-100 w-fit">
+                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div> ${units} Units</div>
+                <div class="w-px h-3 bg-slate-300"></div>
+                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div> ₹${num(t.elecRate, 13)}/unit</div>
+                <div class="w-px h-3 bg-slate-300"></div>
+                <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-purple-400"></div> +₹${num(t.maintCharge, 300)} Maint.</div>
+              </div>
+
+              ${!t.elecPaid
         ? (() => {
             const pendingElec = (t.pendingPayments || []).find(p => p.type === 'electricity' && p.status === 'pending');
             return pendingElec
-              ? `<div class="mt-4 pt-4 border-t border-amber-50">
-                  <div class="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3">
-                    <i class="fas fa-hourglass-half text-amber-500 animate-pulse"></i>
+              ? `<div class="mt-6 pt-5 border-t border-amber-100">
+                  <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-amber-50/80 border border-amber-200/60 rounded-xl p-4 shadow-inner">
+                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center flex-shrink-0 animate-pulse">
+                      <i class="fas fa-hourglass-half text-xs"></i>
+                    </div>
                     <div>
-                      <p class="text-xs font-bold text-amber-700">Payment Under Verification</p>
-                      <p class="text-[10px] text-amber-500 font-medium">UTR: ${pendingElec.utrNumber} • Submitted ${new Date(pendingElec.submittedAt).toLocaleDateString('en-IN')}</p>
+                      <p class="text-xs font-bold text-amber-800">Verification Pending</p>
+                      <p class="text-[10px] text-amber-600/80 font-semibold mt-0.5">UTR: ${pendingElec.utrNumber}</p>
                     </div>
                   </div>
                 </div>`
-              : `<div class="mt-4 pt-4 border-t border-amber-50">
+              : `<div class="mt-6 pt-5 border-t border-amber-100">
                   <button onclick="openUpiPaymentModal('electricity', ${bill})"
-                    class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold transition hover:shadow-lg active:scale-95">
-                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right text-[9px]"></i>
+                    class="w-full inline-flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white px-5 py-3.5 rounded-xl text-sm font-bold transition-all shadow-[0_8px_16px_rgba(245,158,11,0.25)] hover:shadow-lg active:scale-[0.98] group">
+                    <i class="fas fa-qrcode"></i> Pay Now via UPI <i class="fas fa-arrow-right transition-transform group-hover:translate-x-1 ml-1 text-xs"></i>
                   </button>
                 </div>`;
           })()
         : `
-              <p class="text-emerald-500 text-xs font-semibold mt-2"><i class="fas fa-check mr-1"></i> Settled this month</p>
+              <div class="mt-6 pt-5 border-t border-emerald-100">
+                <p class="text-emerald-600 text-xs font-bold flex items-center gap-2"><div class="w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center inline-flex"><i class="fas fa-check text-[10px]"></i></div> Settled for this month</p>
+              </div>
             `
       }
+            </div>
           </div>
         </div>
 
@@ -1603,52 +1634,72 @@ window.fetchTenantDashboard = async () => {
         })()}
 
         <!-- Meter Readings Detail -->
-        <div class="bg-slate-50 rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8">
-          <div class="flex items-center gap-2 mb-4">
-            <i class="fas fa-gauge-high text-[#C8A24A]"></i>
-            <p class="text-xs font-black uppercase tracking-widest text-slate-500">Meter Readings</p>
+        <div class="bg-white/80 backdrop-blur-xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+          <div class="absolute left-0 top-0 w-1.5 h-full bg-gradient-to-b from-[#C8A24A] to-amber-200"></div>
+          <div class="flex items-center gap-4 mb-8 pl-4">
+            <div class="w-12 h-12 bg-amber-50 border border-amber-100/50 rounded-2xl flex items-center justify-center shadow-inner">
+              <i class="fas fa-gauge-high text-amber-500 text-lg"></i>
+            </div>
+            <div>
+              <p class="text-sm font-black uppercase tracking-widest text-slate-800">Meter Readings</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">Current month's usage breakdown</p>
+            </div>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <div class="bg-white rounded-xl p-4 text-center">
-              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Prev Reading</p>
-              <p class="text-xl sm:text-2xl font-black text-slate-700">${num(t.elecLast)}</p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 pl-4">
+            <div class="bg-gradient-to-br from-slate-50 to-white border border-slate-100 rounded-2xl p-5 text-center shadow-sm">
+              <div class="w-8 h-8 rounded-full bg-slate-100 mx-auto mb-3 flex items-center justify-center"><i class="fas fa-history text-slate-400 text-[10px]"></i></div>
+              <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Previous Elec</p>
+              <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">${num(t.elecLast)}</p>
             </div>
-            <div class="bg-white rounded-xl p-4 text-center">
-              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Current</p>
-              <p class="text-xl sm:text-2xl font-black text-slate-700">${num(t.elecCurrent)}</p>
+            <div class="bg-gradient-to-br from-blue-50 to-white border border-blue-100/50 rounded-2xl p-5 text-center shadow-sm relative overflow-hidden">
+              <div class="absolute inset-0 bg-blue-500/5"></div>
+              <div class="w-8 h-8 rounded-full bg-blue-100 mx-auto mb-3 flex items-center justify-center relative"><i class="fas fa-bolt text-blue-500 text-[10px]"></i></div>
+              <p class="text-[9px] font-black uppercase tracking-widest text-blue-500 mb-1 relative">Current Elec</p>
+              <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight relative">${num(t.elecCurrent)}</p>
             </div>
-            <div class="bg-white rounded-xl p-4 text-center">
-              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Inverter Last</p>
-              <p class="text-xl sm:text-2xl font-black text-slate-700">${num(t.invLast)}</p>
+            <div class="bg-gradient-to-br from-slate-50 to-white border border-slate-100 rounded-2xl p-5 text-center shadow-sm">
+               <div class="w-8 h-8 rounded-full bg-slate-100 mx-auto mb-3 flex items-center justify-center"><i class="fas fa-history text-slate-400 text-[10px]"></i></div>
+               <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Inv Last</p>
+               <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight">${num(t.invLast)}</p>
             </div>
-            <div class="bg-white rounded-xl p-4 text-center">
-              <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Inverter Current</p>
-              <p class="text-xl sm:text-2xl font-black text-slate-700">${num(t.invCurrent)}</p>
+            <div class="bg-gradient-to-br from-emerald-50 to-white border border-emerald-100/50 rounded-2xl p-5 text-center shadow-sm relative overflow-hidden">
+              <div class="absolute inset-0 bg-emerald-500/5"></div>
+              <div class="w-8 h-8 rounded-full bg-emerald-100 mx-auto mb-3 flex items-center justify-center relative"><i class="fas fa-battery-full text-emerald-500 text-[10px]"></i></div>
+              <p class="text-[9px] font-black uppercase tracking-widest text-emerald-600 mb-1 relative">Inv Current</p>
+              <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight relative">${num(t.invCurrent)}</p>
             </div>
           </div>
         </div>
 
         <!-- Quick Info Row -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
-          <div class="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 text-center">
-            <i class="fas fa-calendar-check text-[#C8A24A] text-lg mb-2"></i>
-            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Move-in</p>
-            <p class="text-xs sm:text-sm font-black text-slate-700">${t.checkinDate || "N/A"}</p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-10">
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-5 text-center shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-calendar-check text-[#C8A24A] text-[15px]"></i>
+            </div>
+            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Move-in Date</p>
+            <p class="text-sm sm:text-base font-black text-slate-800">${t.checkinDate || "Not Set"}</p>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 text-center">
-            <i class="fas fa-calendar-xmark text-slate-400 text-lg mb-2"></i>
-            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Lease End</p>
-            <p class="text-xs sm:text-sm font-black text-slate-700">${t.agreementEndDate || "N/A"}</p>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-5 text-center shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-calendar-xmark text-slate-500 text-[15px]"></i>
+            </div>
+            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Lease Ends</p>
+            <p class="text-sm sm:text-base font-black text-slate-800">${t.agreementEndDate || "Not Set"}</p>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 text-center">
-            <i class="fas fa-indian-rupee-sign text-emerald-500 text-lg mb-2"></i>
-            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Deposit</p>
-            <p class="text-xs sm:text-sm font-black text-slate-700">₹${Number(t.securityDeposit || 0).toLocaleString("en-IN")}</p>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-5 text-center shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-piggy-bank text-emerald-500 text-[15px]"></i>
+            </div>
+            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Security Dep.</p>
+            <p class="text-sm sm:text-base font-black text-slate-800">₹${Number(t.securityDeposit || 0).toLocaleString("en-IN")}</p>
           </div>
-          <div class="bg-white rounded-2xl border border-slate-100 p-4 sm:p-5 text-center">
-            <i class="fas fa-phone-alt text-blue-500 text-lg mb-2"></i>
-            <p class="text-[9px] font-bold uppercase tracking-wider text-slate-400 mb-1">Contact</p>
-            <p class="text-xs sm:text-sm font-black text-slate-700">${t.phone || "N/A"}</p>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-5 text-center shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-transform hover:-translate-y-1">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mx-auto mb-3">
+              <i class="fas fa-mobile-screen-button text-blue-500 text-[15px]"></i>
+            </div>
+            <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Reg. Phone</p>
+            <p class="text-sm sm:text-base font-black text-slate-800">${t.phone || "Not Set"}</p>
           </div>
         </div>
 
@@ -1661,25 +1712,25 @@ window.fetchTenantDashboard = async () => {
           iconMap[a.name] = a.icon;
         });
         return `
-          <div class="bg-white rounded-2xl border border-emerald-100 p-5 sm:p-7 mb-6 sm:mb-8">
-            <div class="flex items-center gap-2 mb-5">
-              <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                <i class="fas fa-concierge-bell text-emerald-500"></i>
+          <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
+            <div class="flex items-center gap-4 mb-8">
+              <div class="w-12 h-12 bg-indigo-50 border border-indigo-100/50 rounded-2xl flex items-center justify-center shadow-inner">
+                <i class="fas fa-concierge-bell text-indigo-500 text-lg"></i>
               </div>
               <div>
-                <p class="text-xs font-black uppercase tracking-widest text-slate-500">Your Room Amenities</p>
-                <p class="text-[10px] text-slate-400 font-medium">${enabledAmenities.length} amenities included</p>
+                <p class="text-sm font-black uppercase tracking-widest text-slate-800">Your Included Amenities</p>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">${enabledAmenities.length} premium amenities actively provided</p>
               </div>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
               ${enabledAmenities
             .map(
               (a) => `
-                <div class="flex items-center gap-3 bg-emerald-50/60 rounded-xl px-4 py-3 border border-emerald-100">
-                  <div class="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <i class="fas ${iconMap[a.name] || "fa-check"} text-emerald-600 text-xs"></i>
+                <div class="flex items-center gap-3 bg-white border border-slate-100/50 shadow-sm hover:shadow hover:border-indigo-100 rounded-2xl p-4 transition-all hover:-translate-y-1">
+                  <div class="w-10 h-10 bg-indigo-50/80 rounded-xl flex items-center justify-center flex-shrink-0 text-indigo-600">
+                    <i class="fas ${iconMap[a.name] || "fa-check"} text-sm drop-shadow-sm"></i>
                   </div>
-                  <span class="text-sm font-semibold text-slate-700">${a.name}</span>
+                  <span class="text-sm font-bold text-slate-700">${a.name}</span>
                 </div>
               `,
             )
@@ -1691,75 +1742,115 @@ window.fetchTenantDashboard = async () => {
         <!-- Action Buttons -->
 
         <!-- Complaint Form -->
-        <div class="bg-white rounded-2xl border border-slate-100 p-5 sm:p-7 mb-6 sm:mb-8">
-          <div class="flex items-center gap-2 mb-5">
-            <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
-              <i class="fas fa-comment-dots text-rose-500"></i>
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+          <div class="absolute -right-20 -top-20 w-64 h-64 bg-rose-500/5 rounded-full blur-[50px]"></div>
+          
+          <div class="flex items-center gap-4 mb-8 relative z-10">
+            <div class="w-12 h-12 bg-rose-50 border border-rose-100/50 rounded-2xl flex items-center justify-center shadow-inner">
+              <i class="fas fa-comment-dots text-rose-500 text-lg"></i>
             </div>
             <div>
-              <p class="text-xs font-black uppercase tracking-widest text-slate-500">Submit a Complaint</p>
-              <p class="text-[10px] text-slate-400 font-medium">We'll address it as soon as possible</p>
+              <p class="text-sm font-black uppercase tracking-widest text-slate-800">Support & Complaints</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">Report maintenance or service issues instantly</p>
             </div>
           </div>
-          <div class="flex gap-3">
-            <input id="tenant-complaint-input" type="text" placeholder="Describe your issue..." class="flex-1 px-5 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-200">
-            <button onclick="submitTenantComplaint()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold text-sm transition-colors active:scale-95">
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-          ${(t.complaints || []).length
-        ? `
-            <div class="mt-4 space-y-2">
-              <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Your Complaints</p>
-              ${(t.complaints || [])
-          .slice()
-          .reverse()
-          .map(
-            (c) => `
-                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl">
-                  <p class="text-sm font-medium text-slate-700">${c.text}</p>
-                  <span class="text-[9px] font-black uppercase px-2 py-1 rounded-lg ${c.status === "open" ? "bg-amber-100 text-amber-600" : "bg-emerald-100 text-emerald-600"}">${c.status}</span>
+          
+          <div class="relative z-10">
+            <div class="flex flex-col sm:flex-row gap-3 bg-slate-50/80 p-2 sm:p-3 rounded-[1.5rem] border border-slate-100">
+              <div class="flex-1 relative">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <i class="fas fa-pen text-slate-400"></i>
                 </div>
-              `,
-          )
-          .join("")}
+                <input id="tenant-complaint-input" type="text" placeholder="E.g. AC is not cooling properly..." class="w-full pl-11 pr-4 py-3 sm:py-4 bg-white rounded-xl border-none shadow-sm text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-200 placeholder:text-slate-400">
+              </div>
+              <button onclick="submitTenantComplaint()" class="w-full sm:w-auto px-8 py-3 sm:py-4 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:shadow-rose-500/30 active:scale-95 flex items-center justify-center gap-2 group">
+                Submit <i class="fas fa-paper-plane group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform text-xs ml-1"></i>
+              </button>
             </div>
-          `
-        : ""
-      }
+            
+            ${(t.complaints || []).length
+          ? `
+              <div class="mt-8">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="h-px flex-1 bg-slate-200"></div>
+                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Previous Tickets</p>
+                  <div class="h-px flex-1 bg-slate-200"></div>
+                </div>
+                <div class="space-y-3">
+                ${(t.complaints || [])
+            .slice()
+            .reverse()
+            .map(
+              (c) => `
+                  <div class="flex items-center justify-between bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:shadow transition-shadow">
+                    <div class="flex items-center gap-3">
+                       <i class="fas ${c.status === "open" ? "fa-circle-exclamation text-amber-500" : "fa-check-circle text-emerald-500"}"></i>
+                       <p class="text-sm font-bold text-slate-700">${c.text}</p>
+                    </div>
+                    <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${c.status === "open" ? "bg-amber-50 border border-amber-200 text-amber-600 shadow-inner" : "bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-inner"}">${c.status === "open" ? "In Progress" : "Resolved"}</span>
+                  </div>
+                `,
+            )
+            .join("")}
+                </div>
+              </div>
+            `
+          : ""
+        }
+          </div>
         </div>
+
 
         <!-- Payment History -->
         ${(t.paymentHistory || []).length
         ? `
-        <div class="bg-white rounded-2xl border border-slate-100 p-5 sm:p-7 mb-6 sm:mb-8">
-          <div class="flex items-center gap-2 mb-5">
-            <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
-              <i class="fas fa-clock-rotate-left text-blue-500"></i>
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
+          <div class="flex items-center gap-4 mb-8">
+            <div class="w-12 h-12 bg-blue-50 border border-blue-100/50 rounded-2xl flex items-center justify-center shadow-inner">
+              <i class="fas fa-clock-rotate-left text-blue-500 text-lg"></i>
             </div>
             <div>
-              <p class="text-xs font-black uppercase tracking-widest text-slate-500">Payment History</p>
-              <p class="text-[10px] text-slate-400 font-medium">${(t.paymentHistory || []).length} transactions recorded</p>
+              <p class="text-sm font-black uppercase tracking-widest text-slate-800">Payment History</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">${(t.paymentHistory || []).length} transactions recorded</p>
             </div>
           </div>
-          <div class="space-y-2">
+          <div class="space-y-3">
             ${(t.paymentHistory || [])
           .slice()
           .reverse()
           .slice(0, 10)
           .map(
             (p) => `
-              <div class="flex items-center justify-between bg-slate-50 p-3 sm:p-4 rounded-xl">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 ${p.type === "rent" ? "bg-emerald-100" : "bg-amber-100"} rounded-lg flex items-center justify-center">
-                    <i class="fas ${p.type === "rent" ? "fa-indian-rupee-sign text-emerald-500" : "fa-bolt text-amber-500"} text-xs"></i>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-slate-50/50 hover:bg-slate-50 border border-slate-100/50 p-4 sm:p-5 rounded-2xl transition-all group">
+                <div class="flex items-center gap-4 mb-3 sm:mb-0">
+                  <div class="w-10 h-10 ${p.type === "rent" ? "bg-emerald-100/80" : "bg-amber-100/80"} rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm">
+                    <i class="fas ${p.type === "rent" ? "fa-indian-rupee-sign text-emerald-600" : "fa-bolt text-amber-600"}"></i>
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-slate-700 capitalize">${p.type}</p>
-                    <p class="text-[10px] text-slate-400">${p.month || ""} • ${p.paidAt ? new Date(p.paidAt).toLocaleDateString() : ""}</p>
+                    <p class="text-sm font-bold text-slate-800 capitalize">${p.type === 'electricity' ? 'Electricity & Maint.' : 'Rent'}</p>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">${p.month || ""} • ${p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN') : ""}</p>
                   </div>
                 </div>
-                <span class="font-black text-slate-800">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
+                <div class="flex items-center justify-between sm:justify-end gap-5 w-full sm:w-auto border-t sm:border-t-0 border-slate-200/60 sm:border-none pt-3 sm:pt-0 mt-2 sm:mt-0">
+                  <div class="text-left sm:text-right">
+                     <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-0.5">Paid</p>
+                     <span class="text-lg font-black text-slate-900 tracking-tight">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
+                  </div>
+                  ${p.invoiceHtml ? `
+                  <button onclick="window.generateUpiInvoice({ 
+                      tenant: state.tenants['${bid}-${rno}'], 
+                      buildingName: '${buildings.find(b => b.id === bid)?.name || "ANVI STAY"}',
+                      roomNo: '${rno}'
+                    }, {
+                      type: '${p.type}',
+                      amount: ${p.amount},
+                      utrNumber: '${p.utrNumber || "N/A"}',
+                      updatedAt: '${p.paidAt || ""}'
+                    })" class="px-4 py-2 bg-white border border-slate-200 hover:border-blue-300 hover:text-blue-600 rounded-xl text-xs font-bold text-slate-600 transition-all shadow-sm flex items-center gap-2 active:scale-95 group-hover:shadow">
+                    <i class="fas fa-file-invoice"></i> <span class="hidden sm:inline">View</span> Invoice
+                  </button>
+                  ` : ''}
+                </div>
               </div>
             `,
           )
