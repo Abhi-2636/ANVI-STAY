@@ -1615,6 +1615,25 @@ window.fetchTenantDashboard = async () => {
           </button>
         </div>
 
+        <!-- #9: Mini Stats Overview Cards -->
+        <div class="grid grid-cols-3 gap-3 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.25s;">
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-rose-500/10 rounded-full blur-[10px] group-hover:bg-rose-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Outstanding Dues</p>
+            <p class="text-xl sm:text-2xl font-black ${!t.rentPaid || !t.elecPaid ? 'text-rose-500' : 'text-slate-800'} tracking-tight counter-animate" data-val="${Math.round((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0))}">₹0</p>
+          </div>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-amber-500/10 rounded-full blur-[10px] group-hover:bg-amber-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Complaints</p>
+            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${(t.complaints || []).length}">0</p>
+          </div>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-indigo-500/10 rounded-full blur-[10px] group-hover:bg-indigo-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Days Lived</p>
+            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${t.moveInDate ? Math.floor((new Date() - new Date(t.moveInDate)) / (1000 * 60 * 60 * 24)) : 0}">0</p>
+          </div>
+        </div>
+
         <!-- Payment Status Cards -->
         <div id="tenant-payment-status" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.35s;">
 
@@ -1640,14 +1659,27 @@ window.fetchTenantDashboard = async () => {
             const pendingRent = (t.pendingPayments || []).find(p => p.type === 'rent' && p.status === 'pending');
             return pendingRent
               ? `<div class="mt-6 pt-5 border-t border-amber-100">
-                  <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-amber-50/80 border border-amber-200/60 rounded-xl p-4 shadow-inner">
-                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center flex-shrink-0 animate-pulse">
-                      <i class="fas fa-hourglass-half text-xs"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3">Verification Progress</p>
+                  <div class="relative">
+                    <div class="absolute top-3 left-3 right-3 h-0.5 bg-slate-200 z-0"></div>
+                    <div class="absolute top-3 left-3 w-1/2 h-0.5 bg-gradient-to-r from-emerald-400 to-amber-400 z-0"></div>
+                    <div class="flex justify-between relative z-10">
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border-2 border-white shadow-sm"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-slate-500 uppercase">Submitted</p>
+                      </div>
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center border-2 border-white shadow-sm animate-pulse"><i class="fas fa-eye text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-amber-600 uppercase">Reviewing</p>
+                      </div>
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center border-2 border-white shadow-sm"><i class="fas fa-shield-check text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-slate-400 uppercase">Verified</p>
+                      </div>
                     </div>
-                    <div>
-                      <p class="text-xs font-bold text-amber-800">Verification Pending</p>
-                      <p class="text-[10px] text-amber-600/80 font-semibold mt-0.5">UTR: ${pendingRent.utrNumber}</p>
-                    </div>
+                  </div>
+                  <div class="mt-3 bg-amber-50/50 rounded-lg p-3 w-fit">
+                    <p class="text-[9px] text-amber-600 font-semibold"><i class="fas fa-hashtag"></i> UTR: <span class="font-mono text-amber-800">${pendingRent.utrNumber}</span></p>
                   </div>
                 </div>`
               : `<div class="mt-6 pt-5 border-t border-rose-100">
@@ -1708,14 +1740,27 @@ window.fetchTenantDashboard = async () => {
             const pendingElec = (t.pendingPayments || []).find(p => p.type === 'electricity' && p.status === 'pending');
             return pendingElec
               ? `<div class="mt-6 pt-5 border-t border-amber-100">
-                  <div class="flex flex-col sm:flex-row sm:items-center gap-3 bg-amber-50/80 border border-amber-200/60 rounded-xl p-4 shadow-inner">
-                    <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center flex-shrink-0 animate-pulse">
-                      <i class="fas fa-hourglass-half text-xs"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-3">Verification Progress</p>
+                  <div class="relative">
+                    <div class="absolute top-3 left-3 right-3 h-0.5 bg-slate-200 z-0"></div>
+                    <div class="absolute top-3 left-3 w-1/2 h-0.5 bg-gradient-to-r from-emerald-400 to-amber-400 z-0"></div>
+                    <div class="flex justify-between relative z-10">
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center border-2 border-white shadow-sm"><i class="fas fa-check text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-slate-500 uppercase">Submitted</p>
+                      </div>
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center border-2 border-white shadow-sm animate-pulse"><i class="fas fa-eye text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-amber-600 uppercase">Reviewing</p>
+                      </div>
+                      <div class="flex flex-col items-center gap-1.5 w-1/3">
+                        <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center border-2 border-white shadow-sm"><i class="fas fa-shield-check text-[10px]"></i></div>
+                        <p class="text-[8px] font-bold text-slate-400 uppercase">Verified</p>
+                      </div>
                     </div>
-                    <div>
-                      <p class="text-xs font-bold text-amber-800">Verification Pending</p>
-                      <p class="text-[10px] text-amber-600/80 font-semibold mt-0.5">UTR: ${pendingElec.utrNumber}</p>
-                    </div>
+                  </div>
+                  <div class="mt-3 bg-amber-50/50 rounded-lg p-3 w-fit">
+                    <p class="text-[9px] text-amber-600 font-semibold"><i class="fas fa-hashtag"></i> UTR: <span class="font-mono text-amber-800">${pendingElec.utrNumber}</span></p>
                   </div>
                 </div>`
               : `<div class="mt-6 pt-5 border-t border-amber-100">
@@ -1905,25 +1950,53 @@ window.fetchTenantDashboard = async () => {
               <div class="mt-8">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="h-px flex-1 bg-slate-200"></div>
-                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Previous Tickets</p>
+                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Support History</p>
                   <div class="h-px flex-1 bg-slate-200"></div>
                 </div>
-                <div class="space-y-3">
+                <div class="space-y-4">
                 ${(t.complaints || [])
             .slice()
             .reverse()
             .map(
               (c) => `
-                  <div class="flex items-center justify-between bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:shadow transition-shadow">
-                    <div class="flex items-center gap-3">
-                       <i class="fas ${c.status === "open" ? "fa-circle-exclamation text-amber-500" : "fa-check-circle text-emerald-500"}"></i>
-                       <p class="text-sm font-bold text-slate-700">${c.text}</p>
+                  <div class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm hover:shadow transition-shadow group relative overflow-hidden">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 ${c.status === "open" ? "bg-amber-400" : "bg-emerald-400"}"></div>
+                    <div class="flex items-start justify-between mb-4 pl-3">
+                      <div>
+                        <p class="text-xs font-black uppercase tracking-widest ${c.status === "open" ? "text-amber-500" : "text-emerald-500"} mb-1 flex items-center gap-1.5"><i class="fas ${c.status === "open" ? "fa-hammer" : "fa-check-double"}"></i> ${c.status === "open" ? "In Progress" : "Resolved"}</p>
+                        <p class="text-sm font-bold text-slate-700 leading-snug">${c.text}</p>
+                      </div>
                     </div>
-                    <span class="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full ${c.status === "open" ? "bg-amber-50 border border-amber-200 text-amber-600 shadow-inner" : "bg-emerald-50 border border-emerald-200 text-emerald-600 shadow-inner"}">${c.status === "open" ? "In Progress" : "Resolved"}</span>
+                    
+                    <!-- Kanban Visual Tracker -->
+                    <div class="pl-3 mt-4">
+                      <div class="flex items-center gap-0 w-full max-w-sm">
+                        <!-- Step 1: Filed -->
+                        <div class="flex flex-col items-center flex-1 relative">
+                          <div class="w-6 h-6 rounded-full flex items-center justify-center bg-amber-500 text-white z-10 text-[8px] font-black shadow-md shadow-amber-500/20"><i class="fas fa-check"></i></div>
+                          <p class="text-[8px] font-bold text-amber-600 mt-1.5 uppercase tracking-wider text-center">Filed</p>
+                        </div>
+                        
+                        <div class="h-[2px] w-full flex-1 -mx-4 z-0 ${c.status === "open" ? "bg-gradient-to-r from-amber-400 to-slate-200" : "bg-emerald-400"} relative -top-3"></div>
+                        
+                        <!-- Step 2: In Progress -->
+                        <div class="flex flex-col items-center flex-1 relative">
+                          <div class="w-6 h-6 rounded-full flex items-center justify-center ${c.status === "open" ? "bg-blue-500 text-white shadow-md shadow-blue-500/20 animate-pulse" : "bg-emerald-500 text-white"} z-10 text-[8px] font-black"><i class="fas ${c.status === "open" ? "fa-cog animate-spin-slow" : "fa-check"}"></i></div>
+                          <p class="text-[8px] font-bold ${c.status === "open" ? "text-blue-600" : "text-emerald-600"} mt-1.5 uppercase tracking-wider text-center whitespace-nowrap -ml-2">Working On It</p>
+                        </div>
+                        
+                        <div class="h-[2px] w-full flex-1 -mx-2 z-0 ${c.status === "open" ? "bg-slate-200" : "bg-emerald-400"} relative -top-3"></div>
+                        
+                        <!-- Step 3: Resolved -->
+                        <div class="flex flex-col items-center flex-1 relative">
+                          <div class="w-6 h-6 rounded-full flex items-center justify-center ${c.status === "open" ? "bg-slate-100 text-slate-300" : "bg-emerald-500 text-white shadow-md shadow-emerald-500/20"} z-10 text-[8px] font-black"><i class="fas fa-flag-checkered"></i></div>
+                          <p class="text-[8px] font-bold ${c.status === "open" ? "text-slate-400" : "text-emerald-600"} mt-1.5 uppercase tracking-wider text-center">Resolved</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                `,
-            )
-            .join("")}
+                `
+            ).join("")}
                 </div>
               </div>
             `
@@ -1982,28 +2055,61 @@ window.fetchTenantDashboard = async () => {
         : ""
       }
 
-        <!-- Expense Mini-Chart -->
-        ${(() => {
-          const ph = (t.paymentHistory || []).slice(-6);
-          if (ph.length === 0) return '';
-          const maxAmt = Math.max(...ph.map(x => Number(x.amount || 0)));
-          const bars = ph.map((p, i) => {
-            const pct = maxAmt > 0 ? (Number(p.amount || 0) / maxAmt) * 100 : 50;
-            const color = p.type === 'rent' ? 'from-emerald-400 to-emerald-600' : 'from-blue-400 to-indigo-500';
-            const mo = p.month ? p.month.substring(0, 3) : (p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN', { month: 'short' }) : '');
-            return '<div class="flex-1 flex flex-col items-center gap-1 group">' +
-              '<p class="text-[8px] sm:text-[9px] font-black text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">\u20b9' + Number(p.amount || 0).toLocaleString('en-IN') + '</p>' +
-              '<div class="w-full bg-gradient-to-t ' + color + ' rounded-t-lg transition-all duration-700 group-hover:opacity-80 relative overflow-hidden" style="height: ' + Math.max(pct, 10) + '%; animation: barGrow 0.8s ease-out ' + (i * 0.1) + 's both;">' +
-              '<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-t-lg"></div></div>' +
-              '<p class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-wider">' + mo + '</p>' +
-              '<div class="w-1.5 h-1.5 rounded-full ' + (p.type === 'rent' ? 'bg-emerald-400' : 'bg-blue-400') + '"></div></div>';
-          }).join('');
-          return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in" style="animation-delay: 0.6s;">' +
-            '<div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-[60px]"></div>' +
-            '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-column text-blue-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Expense History</p><p class="text-xs text-slate-500 font-medium mt-0.5">Your recent payments at a glance</p></div></div>' +
-            '<div class="flex items-end gap-2 h-32 sm:h-40 relative z-10">' + bars + '</div>' +
-            '<div class="flex items-center justify-center gap-6 mt-4 relative z-10"><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Rent</span><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Electricity</span></div></div>';
-        })()}
+        <!-- Charts Grid: Expense History & Breakdown -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 sm:mb-10">
+          <!-- Expense Mini-Chart -->
+          ${(() => {
+            const ph = (t.paymentHistory || []).slice(-6);
+            if (ph.length === 0) return '';
+            const maxAmt = Math.max(...ph.map(x => Number(x.amount || 0)));
+            const bars = ph.map((p, i) => {
+              const pct = maxAmt > 0 ? (Number(p.amount || 0) / maxAmt) * 100 : 50;
+              const color = p.type === 'rent' ? 'from-emerald-400 to-emerald-600' : 'from-blue-400 to-indigo-500';
+              const mo = p.month ? p.month.substring(0, 3) : (p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN', { month: 'short' }) : '');
+              return '<div class="flex-1 flex flex-col items-center gap-1 group">' +
+                '<p class="text-[8px] sm:text-[9px] font-black text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">\u20b9' + Number(p.amount || 0).toLocaleString('en-IN') + '</p>' +
+                '<div class="w-full bg-gradient-to-t ' + color + ' rounded-t-lg transition-all duration-700 group-hover:opacity-80 relative overflow-hidden" style="height: ' + Math.max(pct, 10) + '%; animation: barGrow 0.8s ease-out ' + (i * 0.1) + 's both;">' +
+                '<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-t-lg"></div></div>' +
+                '<p class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-wider">' + mo + '</p>' +
+                '<div class="w-1.5 h-1.5 rounded-full ' + (p.type === 'rent' ? 'bg-emerald-400' : 'bg-blue-400') + '"></div></div>';
+            }).join('');
+            return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.6s;">' +
+              '<div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-[60px]"></div>' +
+              '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-column text-blue-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Expense History</p><p class="text-xs text-slate-500 font-medium mt-0.5">Your recent payments</p></div></div>' +
+              '<div class="flex items-end gap-2 h-32 relative z-10 w-full">' + bars + '</div>' +
+              '<div class="flex items-center justify-center gap-6 mt-4 relative z-10"><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Rent</span><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Elec. & Maint.</span></div></div>';
+          })()}
+
+          <!-- #20: Where Does My Money Go? -->
+          ${(() => {
+            const rentVal = Number(t.rentAmount || 0);
+            const elecVal = totalElec;
+            const maintVal = totalMaint;
+            const totalSpend = rentVal + elecVal + maintVal;
+            if (totalSpend === 0) return '';
+            
+            const rentPct = Math.round((rentVal / totalSpend) * 100);
+            const elecPct = Math.round((elecVal / totalSpend) * 100);
+            const maintPct = Math.round((maintVal / totalSpend) * 100);
+            
+            const conicStr = `conic-gradient(#10b981 0% ${rentPct}%, #3b82f6 ${rentPct}% ${rentPct+elecPct}%, #f59e0b ${rentPct+elecPct}% 100%)`;
+            
+            return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in h-full" style="animation-delay: 0.7s;">' +
+                   '<div class="absolute top-0 right-0 w-40 h-40 bg-emerald-500/5 rounded-full blur-[60px]"></div>' +
+                   '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-pie text-emerald-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Your Spending</p><p class="text-xs text-slate-500 font-medium mt-0.5">This month&apos;s breakdown</p></div></div>' +
+                   '<div class="flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-6 relative z-10 h-[160px]">' +
+                     '<div class="donut-chart shadow-lg relative flex items-center justify-center flex-shrink-0" style="width: 140px; height: 140px; border-radius: 50%; background: ' + conicStr + ';">' +
+                       '<div class="bg-white rounded-full flex flex-col items-center justify-center shadow-inner" style="width: 100px; height: 100px;"><p class="text-[8px] uppercase font-black tracking-widest text-slate-400">Total</p><p class="text-sm font-black text-slate-800 tracking-tighter">₹' + totalSpend.toLocaleString('en-IN') + '</p></div>' +
+                     '</div>' +
+                     '<div class="space-y-4 w-full sm:w-auto">' +
+                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-emerald-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Rent</p><p class="text-xs font-bold text-slate-800">₹' + rentVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + rentPct + '%)</span></p></div></div>' +
+                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-blue-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Electric</p><p class="text-xs font-bold text-slate-800">₹' + elecVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + elecPct + '%)</span></p></div></div>' +
+                       '<div class="flex items-center gap-3"><div class="w-3 h-3 rounded-full bg-amber-500 shadow-sm"></div><div><p class="text-[9px] font-black uppercase text-slate-500 tracking-wider">Maint.</p><p class="text-xs font-bold text-slate-800">₹' + maintVal.toLocaleString('en-IN') + ' <span class="text-slate-400 font-medium">(' + maintPct + '%)</span></p></div></div>' +
+                     '</div>' +
+                   '</div>' +
+                   '</div>';
+          })()}
+        </div>
 
         <!-- Emergency Contacts -->
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8 text-white">
@@ -2062,6 +2168,10 @@ window.fetchTenantDashboard = async () => {
               <i class="fas fa-power-off text-sm"></i> Logout
             </button>
           </div>
+          <div class="mt-4 flex justify-between items-center px-2">
+            <span class="session-timer"><i class="fas fa-shield-halved text-emerald-500"></i> Secure Session</span>
+            <span class="session-timer" id="session-time-display">00:00</span>
+          </div>
         </div>
       `;
     dash.classList.remove("hidden");
@@ -2111,6 +2221,48 @@ window.fetchTenantDashboard = async () => {
         btn.style.transition = 'transform 0.1s ease';
       });
     });
+    // ── Feature #28: Scroll Progress ──
+    const dashboardContainer = document.documentElement;
+    window.addEventListener('scroll', () => {
+      const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrollProgress = document.getElementById('scroll-progress');
+      if (scrollProgress && scrollTotal > 0) {
+        scrollProgress.style.width = `${(window.scrollY / scrollTotal) * 100}%`;
+      }
+    });
+
+    // ── Feature #39: Session Timer ──
+    let sessionSeconds = 0;
+    const sessionTimerEl = document.getElementById('session-time-display');
+    if (window.tenantSessionInterval) clearInterval(window.tenantSessionInterval);
+    if (sessionTimerEl) {
+      window.tenantSessionInterval = setInterval(() => {
+        sessionSeconds++;
+        const m = Math.floor(sessionSeconds / 60).toString().padStart(2, '0');
+        const s = (sessionSeconds % 60).toString().padStart(2, '0');
+        sessionTimerEl.textContent = `${m}:${s}`;
+      }, 1000);
+    }
+
+    // ── Feature #22: Animated Number Counters ──
+    document.querySelectorAll('.counter-animate').forEach(el => {
+      const target = parseFloat(el.getAttribute('data-val') || 0);
+      const isCurrency = el.textContent.includes('₹');
+      let current = 0;
+      const duration = 1500;
+      const stepTime = 20;
+      const totalSteps = duration / stepTime;
+      const increment = target / totalSteps;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = isCurrency ? '₹' + Math.floor(current).toLocaleString('en-IN') : Math.floor(current);
+      }, stepTime);
+    });
 
     // ── Feature #14: Blur Spotlight on Complaint Focus ──
     const complaintInput = byId('tenant-complaint-input');
@@ -2154,7 +2306,7 @@ window.fetchTenantDashboard = async () => {
 
 // ── UPI Configuration ──
 const UPI_ID = "anvistay@okicici"; // Change this to your actual Google Pay Business UPI ID
-const UPI_QR_IMAGE = "upi-qr.png"; // Path to your QR code image
+const UPI_QR_IMAGE = "assets/img/upi-qr.png"; // Path to your QR code image
 
 // ── Open UPI Payment Modal (Tenant Side) ──
 window.openUpiPaymentModal = (paymentType, amount) => {
@@ -2686,17 +2838,22 @@ window.adminRejectUpiPayment = async (buildingId, roomNo, paymentId) => {
 // ── Generate Invoice After Approval ──
 window.generateUpiInvoice = (room, payment) => {
   const bName = buildings.find((b) => b.id === room.buildingId)?.name || room.buildingId;
-  const now = new Date();
-  const invoiceNo = "INV-" + Date.now().toString(36).toUpperCase();
-  const monthLabel = now.toLocaleString("default", { month: "long", year: "numeric" });
+  const now = new Date(payment.paidAt || payment.submittedAt || Date.now());
+  const invoiceNo = "INV-" + now.getTime().toString(36).toUpperCase();
+  const monthLabel = payment.month || now.toLocaleString("default", { month: "long", year: "numeric" });
 
   const eu = Math.max(0, (room.elecCurrent || 0) - (room.elecLast || 0)) + Math.max(0, (room.invCurrent || 0) - (room.invLast || 0));
   const eb = eu * (room.elecRate || 13);
   const maintCharge = room.maintCharge || 300;
+  const duesAmt = room.otherDues || 0;
 
   // Determine if this is rent or electricity invoice
   const isRent = payment.type === "rent";
   const invoiceAmount = payment.amount || 0;
+
+  const dateStr = now.toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+  const dueDateStr = new Date(now.setDate(now.getDate() + 5)).toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric' });
+  const logoUrl = document.querySelector('link[rel="icon"]')?.href || location.origin + '/logo.png';
 
   const invoiceHTML = `
     <!DOCTYPE html>
@@ -2705,157 +2862,164 @@ window.generateUpiInvoice = (room, payment) => {
       <title>Invoice ${invoiceNo}</title>
       <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, sans-serif; }
-        body { padding: 40px; background: #fff; color: #1a1a1a; }
-        .invoice-container { max-width: 700px; margin: 0 auto; }
-        .hdr { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #1F3D2B; padding-bottom: 24px; margin-bottom: 32px; }
-        .logo { font-size: 32px; font-weight: 900; color: #1F3D2B; letter-spacing: -1px; }
-        .logo span { color: #C8A24A; }
-        .logo-sub { font-size: 11px; color: #999; margin-top: 4px; }
-        .meta { text-align: right; }
-        .meta h2 { font-size: 22px; color: #1F3D2B; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; }
-        .meta p { font-size: 12px; color: #666; line-height: 1.6; }
-        .invoice-no { font-size: 14px !important; font-weight: 800; color: #C8A24A !important; }
-        .section { margin-bottom: 28px; }
-        .section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #999; font-weight: 800; margin-bottom: 12px; }
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .info-item { background: #f8f8f6; padding: 12px 16px; border-radius: 8px; }
-        .info-item label { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: #999; font-weight: 800; display: block; margin-bottom: 4px; }
-        .info-item span { font-size: 14px; font-weight: 700; color: #1a1a1a; }
-        table { width: 100%; border-collapse: collapse; margin-top: 8px; }
-        th, td { padding: 12px 16px; text-align: left; font-size: 13px; }
-        th { background: #f8f8f6; font-weight: 800; font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #888; border-bottom: 2px solid #eee; }
-        td { border-bottom: 1px solid #f0f0f0; }
-        .amount-col { text-align: right; font-weight: 700; }
-        .total-row { background: #1F3D2B; color: white; }
-        .total-row td { border: none; padding: 16px; font-weight: 900; font-size: 16px; }
-        .payment-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; margin-top: 24px; }
-        .payment-box h3 { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #16a34a; font-weight: 800; margin-bottom: 8px; }
-        .payment-box .detail { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
-        .payment-box .detail span:first-child { color: #666; }
-        .payment-box .detail span:last-child { font-weight: 700; color: #1a1a1a; }
-        .status-badge { display: inline-block; background: #16a34a; color: white; padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
-        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; font-size: 10px; color: #999; }
-        .footer p { margin-bottom: 4px; }
-        .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 80px; font-weight: 900; color: rgba(0,0,0,0.03); text-transform: uppercase; letter-spacing: 10px; pointer-events: none; }
+        body { padding: 40px; background: #f8fafc; color: #1a1a1a; display: flex; justify-content: center; }
+        .invoice-box { 
+          background: white; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px; 
+          margin-bottom: 40px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); position: relative; overflow: hidden;
+          width: 100%; max-width: 800px;
+        }
+        .watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 100px; font-weight: 900; color: rgba(16, 185, 129, 0.05); text-transform: uppercase; letter-spacing: 15px; pointer-events: none; z-index: 0; }
+        .accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(90deg, #c8a24a 0%, #080D1A 100%); }
+        .no-print { display: block; text-align: center; margin-top: 24px; margin-bottom: 24px; padding: 20px; background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .no-print button { padding: 14px 40px; background: linear-gradient(to right, #1F3D2B, #2a523a); color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 14px; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; display: inline-flex; align-items: center; gap: 8px;}
+        .no-print button:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(31,61,43,0.3); }
         @media print {
-          body { padding: 20px; }
-          .no-print { display: none; }
+          body { padding: 0; background: white; }
+          .invoice-box { border: none; box-shadow: none; padding: 20px; max-width: 100%; }
+          .no-print { display: none !important; }
         }
       </style>
+      <script src="https://kit.fontawesome.com/fd0cfbc1ef.js" crossorigin="anonymous"></script>
     </head>
     <body>
-      <div class="watermark">PAID</div>
-      <div class="invoice-container">
-        <div class="hdr">
-          <div>
-            <div class="logo">ANVI<span>STAY</span></div>
-            <p class="logo-sub">Student Housing • Law Gate, Phagwara</p>
-            <p class="logo-sub">+91 91422 72776 • anvistay.official@gmail.com</p>
-          </div>
-          <div class="meta">
-            <h2>Invoice</h2>
-            <p class="invoice-no">${invoiceNo}</p>
-            <p>Date: ${now.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</p>
-            <p>Period: ${monthLabel}</p>
-          </div>
+      <div style="width: 100%; max-width: 800px; position: relative;">
+        <div class="no-print">
+          <button onclick="window.print()">
+            <i class="fas fa-print"></i> Download / Print Invoice PDF
+          </button>
         </div>
+        
+        <div class="invoice-box">
+          <div class="watermark"><i class="fas fa-check-circle" style="font-size: 80px; margin-right: 20px;"></i> VERIFIED</div>
+          <div class="accent-bar"></div>
 
-        <div class="section">
-          <p class="section-title">Bill To</p>
-          <div class="info-grid">
-            <div class="info-item">
-              <label>Tenant Name</label>
-              <span>${room.name || "N/A"}</span>
+          <!-- Header -->
+          <div style="display: flex; justify-content: space-between; margin-bottom: 40px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; padding-top: 10px; position: relative; z-index: 10;">
+            <div style="display: flex; gap: 15px; align-items: center;">
+              <img src="${logoUrl}" alt="ANVI STAY LOGO" style="width: 60px; height: 60px; border-radius: 12px; object-fit: cover;">
+              <div>
+                <h1 style="margin: 0 0 4px 0; font-size: 24px; font-weight: 900; color: #0f172a; letter-spacing: -0.5px;">ANVI STAY</h1>
+                <p style="margin: 0; font-size: 13px; color: #64748b;">Law Gate Road, Near LPU Campus<br>Phagwara, Punjab 144411</p>
+                <p style="margin: 4px 0 0 0; font-size: 12px; color: #94a3b8; font-weight: 600;">GSTIN: 03ABCDE1234F1Z5</p>
+              </div>
             </div>
-            <div class="info-item">
-              <label>Phone</label>
-              <span>${room.phone || "N/A"}</span>
-            </div>
-            <div class="info-item">
-              <label>Property</label>
-              <span>${bName}</span>
-            </div>
-            <div class="info-item">
-              <label>Room No.</label>
-              <span>${room.roomNo}</span>
+            <div style="text-align: right;">
+              <h2 style="margin: 0 0 8px 0; font-size: 32px; font-weight: 900; color: #e2e8f0; text-transform: uppercase; letter-spacing: 2px;">INVOICE</h2>
+              <p style="margin: 0; font-size: 13px; font-weight: bold; color: #334155;"># ${invoiceNo}</p>
+              <p style="margin: 4px 0; font-size: 13px; color: #64748b;">Date: ${dateStr}</p>
+              <p style="margin: 0; font-size: 13px; color: #f43f5e; font-weight: bold;">Due Date: ${dueDateStr}</p>
             </div>
           </div>
-        </div>
 
-        <div class="section">
-          <p class="section-title">Invoice Details</p>
-          <table>
+          <!-- Bill To & Property Details -->
+          <div style="display: flex; justify-content: space-between; margin-bottom: 30px; position: relative; z-index: 10;">
+            <div>
+              <h3 style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Billed To</h3>
+              <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 800; color: #0f172a;">${room.name || "N/A"}</p>
+              <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600;">Room No: <span style="background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: #0f172a;">${room.roomNo}</span></p>
+            </div>
+            <div style="text-align: right;">
+              <h3 style="margin: 0 0 8px 0; font-size: 12px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Property</h3>
+              <p style="margin: 0 0 4px 0; font-size: 16px; font-weight: 800; color: #b45309;">${bName}</p>
+              <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600;">Billing Cycle: <span style="color: #0f172a;">${monthLabel}</span></p>
+            </div>
+          </div>
+
+          <!-- Items Table -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; position: relative; z-index: 10;">
             <thead>
               <tr>
-                <th>Description</th>
-                <th>Details</th>
-                <th class="amount-col">Amount</th>
+                <th style="padding: 12px; text-align: left; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; border-top-left-radius: 8px;">Description</th>
+                <th style="padding: 12px; text-align: right; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0;">Details</th>
+                <th style="padding: 12px; text-align: right; background: #f8fafc; color: #475569; font-weight: 700; border-top: 1px solid #e2e8f0; border-bottom: 2px solid #e2e8f0; border-top-right-radius: 8px;">Amount</th>
               </tr>
             </thead>
             <tbody>
               ${isRent ? `
               <tr>
-                <td>Monthly Rent</td>
-                <td>${monthLabel}</td>
-                <td class="amount-col">₹${(room.rentAmount || 0).toLocaleString("en-IN")}</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Monthly Rent</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Standard cycle</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${(room.rentAmount || 0).toLocaleString("en-IN")}</td>
               </tr>
               ` : `
               <tr>
-                <td>Electricity Charges</td>
-                <td>${eu} units × ₹${room.elecRate || 13}/unit</td>
-                <td class="amount-col">₹${eb.toLocaleString("en-IN")}</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">
+                  Electricity Consumed
+                  <div style="font-size: 12px; color: #64748b; font-weight: normal; margin-top: 4px;">Main: ${room.elecLast || 0} → ${room.elecCurrent || 0}<br>Inv: ${room.invLast || 0} → ${room.invCurrent || 0}</div>
+                </td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b; vertical-align: top;">${eu} units @ ₹${room.elecRate || 13}</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold; vertical-align: top;">₹${eb.toLocaleString("en-IN")}</td>
               </tr>
               <tr>
-                <td>Maintenance Charge</td>
-                <td>Monthly</td>
-                <td class="amount-col">₹${maintCharge.toLocaleString("en-IN")}</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Maintenance & Service Charge</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Fixed</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${maintCharge.toLocaleString("en-IN")}</td>
               </tr>
               `}
-              <tr class="total-row">
-                <td colspan="2">TOTAL PAID</td>
-                <td class="amount-col">₹${invoiceAmount.toLocaleString("en-IN")}</td>
+              <tr style="${duesAmt > 0 ? '' : 'display:none;'}">
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; font-weight: 600;">Other Arrears / Dues</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #64748b;">Previous Balances</td>
+                <td style="padding: 16px 12px; border-bottom: 1px solid #f1f5f9; text-align: right; color: #0f172a; font-weight: bold;">₹${duesAmt.toLocaleString("en-IN")}</td>
               </tr>
             </tbody>
           </table>
-        </div>
 
-        <div class="payment-box">
-          <h3>✅ Payment Verified</h3>
-          <div class="detail">
-            <span>Payment Method</span>
-            <span>UPI Transfer</span>
+          <!-- Totals -->
+          <div style="display: flex; justify-content: flex-end; position: relative; z-index: 10;">
+            <div style="width: 350px;">
+              <div style="background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 12px; margin-bottom: 12px;">
+                  <span style="font-weight: bold; color: #334155;">Total Amount</span>
+                  <span style="font-size: 24px; font-weight: 900; color: #16a34a;">₹${invoiceAmount.toLocaleString("en-IN")}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                  <span style="font-size: 13px; color: #64748b;">Amount Paid</span>
+                  <span style="font-size: 14px; font-weight: bold; color: #0f172a;">₹${invoiceAmount.toLocaleString("en-IN")}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-size: 13px; color: #64748b;">Balance Due</span>
+                  <span style="font-size: 14px; font-weight: bold; color: #0f172a;">₹0</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="detail">
-            <span>UTR / Reference No.</span>
-            <span>${payment.utrNumber}</span>
+          
+          <!-- Payment Box (Verified) -->
+          <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 16px; border-radius: 12px; margin-top: 24px; position: relative; z-index: 10;">
+            <h3 style="font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #16a34a; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;"><i class="fas fa-shield-check"></i> Payment Verified</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span style="color: #666;">Method:</span><span style="font-weight: 700; color: #1a1a1a;">UPI Transfer</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span style="color: #666;">UTR No:</span><span style="font-weight: 700; color: #1a1a1a;">${payment.utrNumber || 'N/A'}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span style="color: #666;">Verified On:</span><span style="font-weight: 700; color: #1a1a1a;">${dateStr}</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <span style="color: #666;">Status:</span><span style="display: inline-block; background: #16a34a; color: white; padding: 2px 10px; border-radius: 20px; font-size: 10px; font-weight: 800; text-transform: uppercase;">PAID</span>
+              </div>
+            </div>
           </div>
-          <div class="detail">
-            <span>Payment Date</span>
-            <span>${new Date(payment.submittedAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
-          </div>
-          <div class="detail">
-            <span>Verified On</span>
-            <span>${now.toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</span>
-          </div>
-          <div class="detail">
-            <span>Status</span>
-            <span><span class="status-badge">PAID</span></span>
-          </div>
-        </div>
 
-        <div class="footer">
-          <p><strong>ANVI STAY</strong> • Law Gate, Phagwara – 144411</p>
-          <p>+91 91422 72776 • anvistay.official@gmail.com</p>
-          <p style="margin-top: 8px; font-style: italic;">This is a computer-generated invoice and does not require a signature.</p>
-        </div>
-
-        <div class="no-print" style="text-align: center; margin-top: 24px;">
-          <button onclick="window.print()" style="padding: 14px 40px; background: #1F3D2B; color: white; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; font-size: 14px; letter-spacing: 0.5px;">
-            🖨️ Print / Save as PDF
-          </button>
+          <!-- Footer & Signature -->
+          <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: flex-end; border-top: 2px solid #f1f5f9; padding-top: 20px; position: relative; z-index: 10;">
+            <div style="font-size: 12px; color: #94a3b8;">
+              <p style="margin: 0 0 4px 0; color: #475569; font-weight: bold;">Terms & Conditions</p>
+              <p style="margin: 0 0 2px 0;">1. Subject to Phagwara jurisdiction.</p>
+              <p style="margin: 0;">2. This is a computer-generated invoice and requires no physical signature.</p>
+            </div>
+            <div style="text-align: center; margin-right: 20px;">
+               <div style="border-bottom: 1px dashed #94a3b8; width: 120px; margin-bottom: 8px; height: 30px; transform: rotate(-5deg);">
+                  <!-- Visual placeholder for digital signature -->
+                  <span style="font-family: 'Brush Script MT', cursive; font-size: 24px; color: #c8a24a; opacity: 0.9;">Anvi Stay</span>
+               </div>
+               <p style="margin: 0; font-size: 13px; font-weight: bold; color: #0f172a;">Authorized Signatory</p>
+            </div>
+          </div>
         </div>
       </div>
-      <script>setTimeout(() => window.print(), 800)<\/script>
     </body>
     </html>
   `;
@@ -6965,13 +7129,13 @@ window.requestNotifPermission = async () => {
     toast("🔔 Notifications enabled!");
     new Notification("ANVI STAY", {
       body: "You will now receive important alerts!",
-      icon: "logo.png",
+      icon: "assets/img/logo.png",
     });
   } else toast("Notification permission denied");
 };
 window.sendLocalNotif = (title, body) => {
   if (Notification.permission === "granted") {
-    new Notification(title, { body, icon: "logo.png" });
+    new Notification(title, { body, icon: "assets/img/logo.png" });
   }
 };
 
