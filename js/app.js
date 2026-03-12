@@ -1859,20 +1859,9 @@ window.fetchTenantDashboard = async () => {
                      <p class="text-[9px] font-black uppercase tracking-widest text-emerald-500 mb-0.5">Paid</p>
                      <span class="text-lg font-black text-slate-900 tracking-tight">₹${Number(p.amount || 0).toLocaleString("en-IN")}</span>
                   </div>
-                  ${p.invoiceHtml ? `
-                  <button onclick="window.generateUpiInvoice({ 
-                      tenant: state.tenants['${bid}-${rno}'], 
-                      buildingName: '${buildings.find(b => b.id === bid)?.name || "ANVI STAY"}',
-                      roomNo: '${rno}'
-                    }, {
-                      type: '${p.type}',
-                      amount: ${p.amount},
-                      utrNumber: '${p.utrNumber || "N/A"}',
-                      updatedAt: '${p.paidAt || ""}'
-                    })" class="px-4 py-2 bg-white border border-slate-200 hover:border-blue-300 hover:text-blue-600 rounded-xl text-xs font-bold text-slate-600 transition-all shadow-sm flex items-center gap-2 active:scale-95 group-hover:shadow">
-                    <i class="fas fa-file-invoice"></i> <span class="hidden sm:inline">View</span> Invoice
+                  <button onclick="window.tenantDownloadInvoice('${p.type}', ${p.amount || 0}, '${p.month || ''}', '${p.paidAt || ''}', '${p.utrNumber || ''}')" class="px-4 py-2 bg-white border border-slate-200 hover:border-emerald-300 hover:text-emerald-600 rounded-xl text-xs font-bold text-slate-600 transition-all shadow-sm flex items-center gap-2 active:scale-95 group-hover:shadow">
+                    <i class="fas fa-file-invoice text-emerald-500"></i> <span class="hidden sm:inline">View</span> Invoice
                   </button>
-                  ` : ''}
                 </div>
               </div>
             `,
@@ -2142,6 +2131,27 @@ window.copyUpiId = () => {
       toast("UPI ID copied to clipboard! ✅");
     });
   }
+};
+
+// ── Generic Tenant Download Invoice ──
+window.tenantDownloadInvoice = (type, amount, month, paidAt, utrNumber) => {
+  if (!state.tenantLogin) return;
+  const key = `${state.tenantLogin.bid}-${state.tenantLogin.rno}`;
+  const room = state.tenants[key];
+  if (!room) {
+    toast("Room data not found. Please refresh the page.", 4000);
+    return;
+  }
+  
+  const paymentData = {
+    type: type,
+    amount: amount,
+    month: month,
+    paidAt: paidAt,
+    utrNumber: utrNumber
+  };
+  
+  window.generateUpiInvoice(room, paymentData);
 };
 
 // ── Submit UPI Payment (Tenant) ──
