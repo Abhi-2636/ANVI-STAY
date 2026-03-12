@@ -780,29 +780,37 @@
     </div>
   </section>
 
-  <!-- Testimonials -->
-  <section class="py-16 sm:py-24 bg-white overflow-hidden">
-    <div class="container mx-auto px-6 mb-10 sm:mb-14">
-      <div class="text-center">
-        <p
-          class="text-[10px] font-black uppercase tracking-[0.3em] text-[#C8A24A] mb-3"
-        >
-          What Students Say
-        </p>
-        <h2
-          class="text-[clamp(1.75rem,4.5vw,3rem)] font-black tracking-tighter mb-3"
-        >
-          Trusted by 500+ Students
+  <!-- Premium Testimonials Section -->
+  <section class="py-24 sm:py-32 relative overflow-hidden" style="background: linear-gradient(135deg, #0b1120 0%, #1f3d2b 100%);">
+    <!-- Decorative background blobs -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-[#C8A24A]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-emerald-500/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]"></div>
+
+    <div class="container mx-auto px-6 mb-16 sm:mb-20 relative z-10">
+      <div class="text-center max-w-2xl mx-auto">
+        <div class="inline-flex items-center gap-2 bg-white/5 rounded-full px-5 py-2.5 mb-6 border border-white/10" style="backdrop-filter: blur(12px);">
+          <i class="fas fa-heart text-[#C8A24A] text-[10px] animate-pulse"></i>
+          <span class="text-[11px] font-black uppercase tracking-[0.2em] text-[#C8A24A]">What Students Say</span>
+        </div>
+        <h2 class="text-[clamp(2.5rem,4vw,3.5rem)] font-black tracking-tighter mb-6 text-white leading-[1.1]">
+          Trusted by <span style="background: linear-gradient(135deg, #c8a24a, #e8c94a); -webkit-background-clip: text; background-clip: text; color: transparent;">500+ Students</span>
         </h2>
-        <p class="text-gray-400 text-sm font-medium max-w-md mx-auto">
-          Real experiences from students who chose Anvi Stay for their LPU
-          journey
+        <p class="text-white/50 text-base sm:text-lg font-medium leading-relaxed">
+          Real experiences from LPU students who chose Anvi Stay for their academic journey. Their stories speak louder than our words.
         </p>
       </div>
     </div>
-    <div class="overflow-hidden">
-      <div class="testimonials-track" id="testimonials-track">
-        <!-- Testimonials will be duplicated by JS for infinite scroll -->
+
+    <!-- Edge masks for the scrolling track so it fades out neatly at screen edges -->
+    <div class="relative z-10 w-[95%] mx-auto">
+      <div class="absolute inset-y-0 left-0 w-8 sm:w-24 bg-gradient-to-r from-[#0b1120] to-transparent z-20 pointer-events-none"></div>
+      <div class="absolute inset-y-0 right-0 w-8 sm:w-24 bg-gradient-to-l from-[#1f3d2b] to-transparent z-20 pointer-events-none"></div>
+      
+      <div class="overflow-hidden">
+        <div class="testimonials-track flex gap-6" id="testimonials-track">
+          <!-- Testimonials will be duplicated by JS for infinite scroll -->
+        </div>
       </div>
     </div>
   </section>

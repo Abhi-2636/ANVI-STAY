@@ -6658,25 +6658,25 @@ function renderTestimonials() {
   const cards = testimonialData
     .map(
       (t) => `
-        <div class="testimonial-card relative group hover:-translate-y-2 transition-transform duration-500 hover:shadow-[0_20px_40px_-15px_rgba(200,162,74,0.3)]">
+        <div class="testimonial-card relative group hover:-translate-y-2 transition-all duration-500 hover:shadow-[0_20px_40px_-15px_rgba(200,162,74,0.3)]">
           <!-- Glass quote icon -->
-          <div class="absolute top-4 right-4 text-7xl text-[#C8A24A]/5 font-serif leading-none select-none group-hover:text-[#C8A24A]/10 transition-colors">"</div>
+          <div class="absolute top-4 right-4 text-7xl text-white/[0.03] font-serif leading-none select-none group-hover:text-[#C8A24A]/10 transition-colors">"</div>
           <div class="relative z-10">
             <div class="flex items-center gap-1 mb-4">
-              ${'<i class="fas fa-star text-amber-400 text-xs shadow-sm drop-shadow-[0_0_5px_rgba(251,191,36,0.5)]"></i>'.repeat(t.rating)}
-              ${'<i class="far fa-star text-slate-300 text-xs"></i>'.repeat(5 - t.rating)}
+              ${'<i class="fas fa-star text-[#C8A24A] text-xs shadow-sm drop-shadow-[0_0_5px_rgba(200,162,74,0.5)]"></i>'.repeat(t.rating)}
+              ${'<i class="far fa-star text-white/20 text-xs"></i>'.repeat(5 - t.rating)}
             </div>
-            <p class="text-sm font-medium text-slate-700 leading-relaxed mb-6 italic group-hover:text-slate-900 transition-colors">"${t.text}"</p>
-            <div class="flex items-center gap-3 pt-4 border-t border-slate-100">
-              <div class="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#C8A24A] to-[#e0c06a] flex items-center justify-center text-white shadow-md shadow-[#C8A24A]/30">
-                <span class="font-black text-sm uppercase tracking-wide">${t.name.charAt(0)}</span>
-                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center" title="Verified Resident">
+            <p class="text-sm font-medium text-white/70 leading-relaxed mb-6 italic group-hover:text-white transition-colors">"${t.text}"</p>
+            <div class="flex items-center gap-3 pt-4 border-t border-white/5">
+              <div class="relative w-11 h-11 rounded-full bg-gradient-to-br from-[#111827] to-[#1f2937] flex items-center justify-center text-white border border-white/10 shadow-md shadow-[#C8A24A]/10">
+                <span class="font-black text-sm uppercase tracking-wide text-[#C8A24A]">${t.name.charAt(0)}</span>
+                <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-[#1f2937] rounded-full flex items-center justify-center shadow-lg" title="Verified Resident">
                   <i class="fas fa-check text-[7px] text-white"></i>
                 </div>
               </div>
               <div>
-                <p class="text-[13px] font-black tracking-tight text-slate-900">${t.name}</p>
-                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">${t.course}</p>
+                <p class="text-[13px] font-black tracking-tight text-white/90">${t.name}</p>
+                <p class="text-[10px] font-bold text-[#C8A24A]/80 uppercase tracking-widest">${t.course}</p>
               </div>
             </div>
           </div>

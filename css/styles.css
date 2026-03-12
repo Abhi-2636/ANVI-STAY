@@ -1012,20 +1012,26 @@ body.dark-mode .dark-toggle {
 .testimonial-card {
   min-width: 340px;
   max-width: 380px;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 2rem;
-  border: 1px solid rgba(241, 245, 249, 0.8);
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Dark subtle border */
+  background: rgba(255, 255, 255, 0.03); /* Dark frosted */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   flex-shrink: 0;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.testimonial-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(200, 162, 74, 0.3); /* Gold tint on hover */
 }
 
 body.dark-mode .testimonial-card {
-  background: rgba(30, 41, 59, 0.6);
-  border-color: rgba(51, 65, 85, 0.6);
+  background: rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.05);
 }
 
 .testimonial-stars {
