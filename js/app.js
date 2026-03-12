@@ -1340,7 +1340,27 @@ window.fetchTenantDashboard = async () => {
     const tenantNotifCount = fetchedNotices.length + resolvedComplaints.length;
 
     const hour = new Date().getHours();
-    const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
+    const greeting = hour < 6 ? "Good Night" : hour < 12 ? "Good Morning" : hour < 17 ? "Good Afternoon" : hour < 21 ? "Good Evening" : "Good Night";
+    const greetIcon = hour < 6 ? "fa-moon" : hour < 12 ? "fa-mug-hot" : hour < 17 ? "fa-sun" : hour < 21 ? "fa-cloud-sun" : "fa-moon";
+    const greetGradient = hour < 6 ? "from-indigo-900 via-purple-900 to-slate-900" : hour < 12 ? "from-amber-800 via-orange-900 to-slate-900" : hour < 17 ? "from-sky-800 via-emerald-900 to-slate-900" : hour < 21 ? "from-orange-900 via-rose-900 to-slate-900" : "from-indigo-900 via-purple-900 to-slate-900";
+
+    // Payment streak calculation
+    const rentPayments = (t.paymentHistory || []).filter(p => p.type === 'rent').sort((a, b) => new Date(b.paidAt) - new Date(a.paidAt));
+    let streak = 0;
+    for (const p of rentPayments) {
+      const paidDay = new Date(p.paidAt).getDate();
+      if (paidDay <= 5) streak++; else break;
+    }
+
+    // Days until due
+    const today = new Date();
+    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    const daysLeft = daysInMonth - today.getDate();
+    const dueProgress = Math.min(100, Math.round((today.getDate() / daysInMonth) * 100));
+    const dueColor = dueProgress > 75 ? '#ef4444' : dueProgress > 50 ? '#f59e0b' : '#10b981';
+
+    // DiceBear avatar URL
+    const avatarUrl = `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(t.name || rno)}&backgroundColor=c0aede,d1d4f9,b6e3f4,ffd5dc&radius=50`;
 
     dash.innerHTML = `
         <!-- Tenant Notification Bell (floating top-right) -->
@@ -1361,45 +1381,80 @@ window.fetchTenantDashboard = async () => {
           </div>
         </div>
 
-        <!-- Notices from API -->
-        ${noticesHtml}
+        <!-- Animated Notice Marquee -->
+        ${fetchedNotices.length > 0 ? `
+        <div class="notice-marquee-container mb-6 rounded-2xl overflow-hidden border border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 relative">
+          <div class="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-amber-50 to-transparent z-10 pointer-events-none"></div>
+          <div class="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-orange-50 to-transparent z-10 pointer-events-none"></div>
+          <div class="flex items-center gap-3 px-4 py-3">
+            <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0 z-20">
+              <i class="fas fa-bullhorn text-amber-600 text-xs animate-pulse"></i>
+            </div>
+            <div class="marquee-track overflow-hidden flex-1">
+              <div class="marquee-content">
+                ${fetchedNotices.map(n => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === 'urgent' ? 'text-rose-700' : n.priority === 'warning' ? 'text-amber-700' : 'text-blue-700'}"><i class="fas ${n.priority === 'urgent' ? 'fa-circle-exclamation' : 'fa-circle-info'} text-xs"></i> ${n.text}</span>`).join('')}
+                ${fetchedNotices.map(n => `<span class="inline-flex items-center gap-2 mr-12 text-sm font-bold ${n.priority === 'urgent' ? 'text-rose-700' : n.priority === 'warning' ? 'text-amber-700' : 'text-blue-700'}"><i class="fas ${n.priority === 'urgent' ? 'fa-circle-exclamation' : 'fa-circle-info'} text-xs"></i> ${n.text}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+        ` : ''}
 
         <!-- Rent Due Countdown -->
         ${!t.rentPaid ? renderCountdown("auto") : ""}
 
-        <!-- Welcome Header Card -->
-        <div class="bg-gradient-to-r from-slate-900 via-emerald-900 to-slate-900 rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 text-white mb-6 sm:mb-10 relative overflow-hidden shadow-[0_20px_50px_rgba(16,185,129,0.2)]">
+        <!-- Welcome Header Card (Dynamic Gradient by Time of Day) -->
+        <div class="bg-gradient-to-r ${greetGradient} rounded-[2rem] sm:rounded-[2.5rem] p-8 sm:p-12 text-white mb-6 sm:mb-10 relative overflow-hidden shadow-[0_20px_50px_rgba(16,185,129,0.2)] tilt-card">
           <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
           <div class="absolute top-0 right-0 w-80 h-80 bg-emerald-500 rounded-full blur-[100px] opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-60 h-60 bg-amber-400 rounded-full blur-[80px] opacity-10 translate-y-1/2 -translate-x-1/4"></div>
           <div class="relative z-10">
             <div class="flex items-center justify-between mb-8">
               <div>
-                <div class="flex items-center gap-2 mb-3">
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
                   <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-emerald-300 border border-white/10">${buildings.find((b) => b.id === bid).name}</span>
-                  <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-white/70 border border-white/10"><i class="far fa-clock mr-1"></i>${greeting}</span>
+                  <span class="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-white/70 border border-white/10"><i class="fas ${greetIcon} mr-1"></i>${greeting}</span>
+                  ${streak > 0 ? `<span class="px-3 py-1 bg-gradient-to-r from-orange-500/20 to-red-500/20 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-orange-300 border border-orange-400/20">🔥 ${streak} Month Streak!</span>` : ''}
                 </div>
                 <h2 class="text-5xl sm:text-7xl font-black tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">Room ${rno}</h2>
               </div>
-              <div class="w-16 h-16 sm:w-20 sm:h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl flex items-center justify-center shadow-2xl relative">
-                <div class="absolute inset-0 bg-emerald-400 rounded-3xl blur opacity-20 hidden sm:block"></div>
-                <i class="fas fa-house-chimney-window text-3xl sm:text-4xl text-white drop-shadow-lg relative z-10"></i>
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl overflow-hidden shadow-2xl relative border-2 border-white/20">
+                <img src="${avatarUrl}" alt="avatar" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="absolute inset-0 bg-white/10 backdrop-blur-md rounded-3xl items-center justify-center hidden">
+                  <i class="fas fa-house-chimney-window text-3xl sm:text-4xl text-white drop-shadow-lg"></i>
+                </div>
               </div>
             </div>
-            <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 w-fit relative overflow-hidden group">
-              <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center relative z-10 transition-transform group-hover:scale-110">
-                <i class="fas fa-user text-sm text-white drop-shadow"></i>
+            <div class="flex items-center gap-3 flex-wrap">
+              <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 relative overflow-hidden group">
+                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center relative z-10 transition-transform group-hover:scale-110">
+                  <i class="fas fa-user text-sm text-white drop-shadow"></i>
+                </div>
+                <div class="relative z-10">
+                  <p class="text-white/60 text-[9px] font-bold uppercase tracking-widest flex items-center gap-1">
+                    Resident 
+                    ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<span class="px-1.5 py-0.5 rounded-sm bg-gradient-to-r from-[#C8A24A] to-amber-300 text-slate-900 text-[6px] shadow-[0_0_10px_rgba(200,162,74,0.5)] animate-pulse" title="Super Tenant"><i class="fas fa-crown"></i> SUPER</span>' : ''}
+                  </p>
+                  <p class="text-white font-bold text-sm sm:text-base">${t.name || "Not Set"}</p>
+                </div>
+                ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ''}
               </div>
-              <div class="relative z-10">
-                <p class="text-white/60 text-[9px] font-bold uppercase tracking-widest flex items-center gap-1">
-                  Resident 
-                  ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<span class="px-1.5 py-0.5 rounded-sm bg-gradient-to-r from-[#C8A24A] to-amber-300 text-slate-900 text-[6px] shadow-[0_0_10px_rgba(200,162,74,0.5)] animate-pulse" title="Super Tenant"><i class="fas fa-crown"></i> SUPER</span>' : ''}
-                </p>
-                <p class="text-white font-bold text-sm sm:text-base">${t.name || "Not Set"}</p>
+              ${!t.rentPaid ? `
+              <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-xl px-4 py-3">
+                <div class="relative z-10">
+                  <p class="text-white/50 text-[8px] font-black uppercase tracking-widest">Due Countdown</p>
+                  <div class="flex items-center gap-2 mt-1">
+                    <div class="w-24 sm:w-32 h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div class="h-full rounded-full transition-all duration-1000" style="width: ${dueProgress}%; background: ${dueColor}"></div>
+                    </div>
+                    <span class="text-[10px] font-black" style="color: ${dueColor}">${daysLeft}d left</span>
+                  </div>
+                </div>
               </div>
-              ${(t.paymentHistory || []).filter(p => p.type==="rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ''}
+              ` : ''}
             </div>
           </div>
-          <div class="absolute -right-8 -bottom-8 opacity-[0.06] group-hover:scale-110 group-hover:opacity-[0.08] transition-all duration-700">
+          <div class="absolute -right-8 -bottom-8 opacity-[0.06]">
             <i class="fas fa-house-user text-[14rem] sm:text-[18rem]"></i>
           </div>
         </div>
@@ -1534,28 +1589,34 @@ window.fetchTenantDashboard = async () => {
         </div>
 
         <!-- Quick Actions Grid -->
-        <div class="grid grid-cols-3 gap-3 sm:gap-6 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
-          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+        <div class="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
+          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="magnetic-btn bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
              <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-             <i class="fas fa-wallet text-2xl sm:text-3xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
-             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
+             <i class="fas fa-wallet text-xl sm:text-2xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
           </button>
           
-          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
              <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/5 rounded-full blur-xl transition-all group-hover:bg-blue-500/10"></div>
-             <i class="fas fa-file-invoice-dollar text-2xl sm:text-3xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
+             <i class="fas fa-file-invoice-dollar text-xl sm:text-2xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
           </button>
           
-          <button onclick="window.requestRoomCleaning()" class="bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-4 sm:p-6 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+          <button onclick="window.requestRoomCleaning()" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
              <div class="absolute -right-6 -top-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl transition-all group-hover:bg-emerald-500/10"></div>
-             <i class="fas fa-broom text-2xl sm:text-3xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
-             <span class="text-[10px] sm:text-xs font-black uppercase tracking-wider relative z-10">Housekeeping</span>
+             <i class="fas fa-broom text-xl sm:text-2xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Clean</span>
+          </button>
+
+          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
+             <i class="fas fa-screwdriver-wrench text-xl sm:text-2xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Repair</span>
           </button>
         </div>
 
         <!-- Payment Status Cards -->
-        <div id="tenant-payment-status" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10">
+        <div id="tenant-payment-status" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.35s;">
 
           <!-- Rent Card -->
           <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border ${t.rentPaid ? "border-emerald-200" : "border-rose-200"} p-6 sm:p-10 relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 hover:shadow-xl">
@@ -1624,6 +1685,22 @@ window.fetchTenantDashboard = async () => {
                 <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div> ₹${totalElec.toLocaleString("en-IN")}</div>
                 <div class="w-px h-3 bg-slate-300"></div>
                 <div class="text-[9px] font-black text-slate-500 uppercase flex items-center gap-1.5"><div class="w-1.5 h-1.5 rounded-full bg-orange-500"></div> ₹${totalMaint.toLocaleString("en-IN")} Maint.</div>
+              </div>
+
+              <!-- Split Bill Calculator -->
+              <div class="mt-3">
+                <button onclick="document.getElementById('split-calc').classList.toggle('hidden')" class="text-[9px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors flex items-center gap-1"><i class="fas fa-calculator"></i> Split Bill</button>
+                <div id="split-calc" class="hidden mt-3 bg-slate-50/80 rounded-xl p-4 border border-slate-100 space-y-3">
+                  <div class="flex items-center justify-between text-xs font-bold text-slate-600">
+                    <span>Your Share</span>
+                    <span id="split-pct">50%</span>
+                  </div>
+                  <input type="range" min="10" max="100" value="50" step="10" class="w-full accent-emerald-500" oninput="const v=this.value; document.getElementById('split-pct').textContent=v+'%'; document.getElementById('split-yours').textContent='₹'+(Math.round(${bill}*v/100)).toLocaleString('en-IN'); document.getElementById('split-mate').textContent='₹'+(Math.round(${bill}*(100-v)/100)).toLocaleString('en-IN');" />
+                  <div class="flex justify-between">
+                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">You Pay</p><p id="split-yours" class="text-lg font-black text-emerald-600">₹${Math.round(bill * 0.5).toLocaleString('en-IN')}</p></div>
+                    <div class="text-center"><p class="text-[8px] font-black uppercase text-slate-400">Roommate</p><p id="split-mate" class="text-lg font-black text-blue-600">₹${Math.round(bill * 0.5).toLocaleString('en-IN')}</p></div>
+                  </div>
+                </div>
               </div>
 
               ${!t.elecPaid
@@ -1905,6 +1982,29 @@ window.fetchTenantDashboard = async () => {
         : ""
       }
 
+        <!-- Expense Mini-Chart -->
+        ${(() => {
+          const ph = (t.paymentHistory || []).slice(-6);
+          if (ph.length === 0) return '';
+          const maxAmt = Math.max(...ph.map(x => Number(x.amount || 0)));
+          const bars = ph.map((p, i) => {
+            const pct = maxAmt > 0 ? (Number(p.amount || 0) / maxAmt) * 100 : 50;
+            const color = p.type === 'rent' ? 'from-emerald-400 to-emerald-600' : 'from-blue-400 to-indigo-500';
+            const mo = p.month ? p.month.substring(0, 3) : (p.paidAt ? new Date(p.paidAt).toLocaleDateString('en-IN', { month: 'short' }) : '');
+            return '<div class="flex-1 flex flex-col items-center gap-1 group">' +
+              '<p class="text-[8px] sm:text-[9px] font-black text-slate-400 opacity-0 group-hover:opacity-100 transition-opacity">\u20b9' + Number(p.amount || 0).toLocaleString('en-IN') + '</p>' +
+              '<div class="w-full bg-gradient-to-t ' + color + ' rounded-t-lg transition-all duration-700 group-hover:opacity-80 relative overflow-hidden" style="height: ' + Math.max(pct, 10) + '%; animation: barGrow 0.8s ease-out ' + (i * 0.1) + 's both;">' +
+              '<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 rounded-t-lg"></div></div>' +
+              '<p class="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-wider">' + mo + '</p>' +
+              '<div class="w-1.5 h-1.5 rounded-full ' + (p.type === 'rent' ? 'bg-emerald-400' : 'bg-blue-400') + '"></div></div>';
+          }).join('');
+          return '<div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden fade-in" style="animation-delay: 0.6s;">' +
+            '<div class="absolute top-0 right-0 w-40 h-40 bg-blue-500/5 rounded-full blur-[60px]"></div>' +
+            '<div class="flex items-center gap-3 mb-6 relative z-10"><div class="w-10 h-10 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100/50 rounded-xl flex items-center justify-center shadow-inner"><i class="fas fa-chart-column text-blue-500 text-sm"></i></div><div><p class="text-sm font-black uppercase tracking-widest text-slate-800">Expense History</p><p class="text-xs text-slate-500 font-medium mt-0.5">Your recent payments at a glance</p></div></div>' +
+            '<div class="flex items-end gap-2 h-32 sm:h-40 relative z-10">' + bars + '</div>' +
+            '<div class="flex items-center justify-center gap-6 mt-4 relative z-10"><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-emerald-400"></span> Rent</span><span class="flex items-center gap-1.5 text-[8px] font-black text-slate-400 uppercase"><span class="w-2 h-2 rounded-full bg-blue-400"></span> Electricity</span></div></div>';
+        })()}
+
         <!-- Emergency Contacts -->
         <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-5 sm:p-7 mb-6 sm:mb-8 text-white">
           <div class="flex items-center gap-2 mb-5">
@@ -1968,13 +2068,80 @@ window.fetchTenantDashboard = async () => {
     // Hide the login form
     const loginForm = byId("tenant-login-form");
     if (loginForm) loginForm.classList.add("hidden");
-    // Smooth reveal of dashboard
-    dash.classList.add("fade-in");
-    setTimeout(() => dash.classList.remove("fade-in"), 380);
+    // Cascading reveal animation (Feature #15)
+    dash.classList.add("dashboard-enter");
+    setTimeout(() => dash.classList.remove("dashboard-enter"), 1200);
     dash.scrollIntoView({ behavior: "smooth", block: "start" });
 
     // Populate tenant notification dropdown
     renderTenantNotifs(fetchedNotices, t.complaints);
+
+    // ── Feature #2: Interactive 3D Tilt Effect on Cards ──
+    document.querySelectorAll('.tilt-card, #tenant-payment-status > div').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -4;
+        const rotateY = ((x - centerX) / centerX) * 4;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+        card.style.transition = 'transform 0.1s ease';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        card.style.transition = 'transform 0.4s ease';
+      });
+    });
+
+    // ── Feature #12: Magnetic Buttons ──
+    document.querySelectorAll('.magnetic-btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'translate(0, 0)';
+        btn.style.transition = 'transform 0.3s ease';
+      });
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transition = 'transform 0.1s ease';
+      });
+    });
+
+    // ── Feature #14: Blur Spotlight on Complaint Focus ──
+    const complaintInput = byId('tenant-complaint-input');
+    if (complaintInput) {
+      complaintInput.addEventListener('focus', () => {
+        dash.classList.add('spotlight-active');
+        const section = byId('tenant-complaint-section');
+        if (section) section.classList.add('spotlight-target');
+      });
+      complaintInput.addEventListener('blur', () => {
+        dash.classList.remove('spotlight-active');
+        const section = byId('tenant-complaint-section');
+        if (section) section.classList.remove('spotlight-target');
+      });
+    }
+
+    // ── Feature #4: Pull-to-Refresh (Mobile) ──
+    let touchStartY = 0;
+    let refreshing = false;
+    dash.addEventListener('touchstart', (e) => {
+      if (window.scrollY === 0) touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    dash.addEventListener('touchmove', (e) => {
+      if (refreshing || window.scrollY > 0) return;
+      const diff = e.touches[0].clientY - touchStartY;
+      if (diff > 80) {
+        refreshing = true;
+        toast("🔄 Refreshing your dashboard...", 2000);
+        setTimeout(() => { fetchTenantDashboard(); refreshing = false; }, 1500);
+      }
+    }, { passive: true });
   } catch (err) {
     console.error("[Tenant Login]", err);
     showTenantError("Server unreachable. Make sure the backend is running.");

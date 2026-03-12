@@ -6120,21 +6120,8 @@ body.dark-mode #admin-tab-billing .billing-controls-divider {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
-/* Confetti */
-.confetti {
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background-color: #f00;
-  animation: confettiFall 3s ease-in-out forwards;
-  z-index: 99999;
-  pointer-events: none;
-}
+/* Confetti - see enhanced version below */
 
-@keyframes confettiFall {
-  0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-}
 
 /* Donut Chart */
 .donut-chart {
@@ -6265,3 +6252,143 @@ body {
     display: none;
   }
 }
+
+/* ═══ Notice Marquee ═══ */
+.marquee-track {
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marqueeScroll 25s linear infinite;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.dark .notice-marquee-container {
+  background: linear-gradient(to right, rgba(38, 31, 29, 0.8), rgba(38, 31, 29, 0.6)) !important;
+  border-color: rgba(255, 180, 0, 0.15) !important;
+}
+
+/* ═══ Dashboard Cascading Entry Animation ═══ */
+.dashboard-enter > * {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: cascadeIn 0.5s ease-out forwards;
+}
+
+.dashboard-enter > *:nth-child(1) { animation-delay: 0s; }
+.dashboard-enter > *:nth-child(2) { animation-delay: 0.06s; }
+.dashboard-enter > *:nth-child(3) { animation-delay: 0.12s; }
+.dashboard-enter > *:nth-child(4) { animation-delay: 0.18s; }
+.dashboard-enter > *:nth-child(5) { animation-delay: 0.24s; }
+.dashboard-enter > *:nth-child(6) { animation-delay: 0.30s; }
+.dashboard-enter > *:nth-child(7) { animation-delay: 0.36s; }
+.dashboard-enter > *:nth-child(8) { animation-delay: 0.42s; }
+.dashboard-enter > *:nth-child(9) { animation-delay: 0.48s; }
+.dashboard-enter > *:nth-child(10) { animation-delay: 0.54s; }
+.dashboard-enter > *:nth-child(11) { animation-delay: 0.60s; }
+.dashboard-enter > *:nth-child(12) { animation-delay: 0.66s; }
+
+@keyframes cascadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ═══ Expense Chart Bar Grow ═══ */
+@keyframes barGrow {
+  from {
+    height: 0% !important;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ═══ Spotlight (Blur) Effect ═══ */
+.spotlight-active > *:not(.spotlight-target) {
+  filter: blur(3px);
+  opacity: 0.4;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.spotlight-target {
+  position: relative;
+  z-index: 50;
+  filter: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2), 0 0 40px rgba(16, 185, 129, 0.1);
+  border-radius: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+/* ═══ Confetti Enhancements ═══ */
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  animation: confettiFall 3.5s ease-in-out forwards;
+  z-index: 99999;
+  pointer-events: none;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(-100vh) rotate(0deg) scale(1); opacity: 1; }
+  50% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(1080deg) scale(0.3); opacity: 0; }
+}
+
+/* ═══ 3D Tilt Card Polish ═══ */
+.tilt-card,
+#tenant-payment-status > div {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+/* ═══ Magnetic Button Hover ═══ */
+.magnetic-btn {
+  will-change: transform;
+  cursor: pointer;
+}
+
+/* ═══ Dark Mode: Warm Enhancements for New Components ═══ */
+.dark .bg-emerald-50\/50 { background-color: rgba(38, 31, 29, 0.4) !important; }
+.dark .bg-amber-50 { background-color: rgba(38, 31, 29, 0.5) !important; }
+.dark .bg-rose-50 { background-color: rgba(38, 31, 29, 0.4) !important; }
+.dark .bg-blue-50 { background-color: rgba(38, 31, 29, 0.4) !important; }
+.dark .bg-indigo-50\/50 { background-color: rgba(38, 31, 29, 0.4) !important; }
+.dark .bg-amber-100 { background-color: rgba(245, 158, 11, 0.15) !important; }
+.dark .bg-emerald-100 { background-color: rgba(16, 185, 129, 0.15) !important; }
+.dark .bg-rose-100 { background-color: rgba(244, 63, 94, 0.15) !important; }
+.dark .bg-blue-100 { background-color: rgba(59, 130, 246, 0.15) !important; }
+.dark .border-emerald-100 { border-color: rgba(16, 185, 129, 0.2) !important; }
+.dark .border-amber-100 { border-color: rgba(245, 158, 11, 0.2) !important; }
+.dark .border-rose-100 { border-color: rgba(244, 63, 94, 0.2) !important; }
+.dark .border-blue-100 { border-color: rgba(59, 130, 246, 0.2) !important; }
+.dark .bg-slate-50\/80 { background-color: rgba(38, 31, 29, 0.5) !important; }
+.dark .bg-emerald-50 { background-color: rgba(16, 185, 129, 0.06) !important; }
+.dark .bg-slate-100.hover\:bg-slate-200 { background-color: rgba(38, 31, 29, 0.6) !important; }
+
+/* Range Slider dark mode */
+.dark input[type="range"] {
+  accent-color: #10b981;
+}
+
+/* Warm dark for the gradient backgrounds */
+.dark .from-slate-900 { --tw-gradient-from: #1a1514 !important; }
+.dark .to-slate-800 { --tw-gradient-to: #211b19 !important; }
+.dark .to-slate-900 { --tw-gradient-to: #1a1514 !important; }
