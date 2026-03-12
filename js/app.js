@@ -1914,19 +1914,22 @@ window.fetchTenantDashboard = async () => {
             </a>
           </div>
         </div>
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
-          <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY Support,\n\nI need assistance with the following:\n\n🏠 PG Name: " + (buildings.find((b) => b.id === bid)?.name || bid) + "\n🚪 Room No: " + rno + "\n👤 Tenant: " + (t.name || "N/A") + "\n📱 Phone: " + (t.phone || "N/A") + "\n\nPlease get back to me at the earliest. Thank you!")}" target="_blank" rel="noopener noreferrer"
-            class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-bold text-center transition-colors shadow-lg flex items-center justify-center gap-3 active:scale-[0.98]">
-            <i class="fab fa-whatsapp text-xl"></i> Contact Support
-          </a>
-          <a href="tel:+919142272776"
-            class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-bold text-center transition-colors flex items-center justify-center gap-3 active:scale-[0.98]">
-            <i class="fas fa-phone text-sm"></i> Call Us
-          </a>
-          <button onclick="tenantLogout()"
-            class="flex-1 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-500 hover:text-slate-700 py-4 rounded-2xl font-bold text-center transition-colors flex items-center justify-center gap-3 active:scale-[0.98]">
-            <i class="fas fa-arrow-right-from-bracket text-sm"></i> Logout
-          </button>
+        <!-- Footer Actions -->
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-3 sm:p-4 mb-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)]">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <a href="https://wa.me/919142272776?text=${encodeURIComponent("Hello ANVI STAY Support,\n\nI need assistance with the following:\n\n🏠 PG Name: " + (buildings.find((b) => b.id === bid)?.name || bid) + "\n🚪 Room No: " + rno + "\n👤 Tenant: " + (t.name || "N/A") + "\n📱 Phone: " + (t.phone || "N/A") + "\n\nPlease get back to me at the earliest. Thank you!")}" target="_blank" rel="noopener noreferrer"
+              class="flex-1 bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white py-4 rounded-2xl font-bold text-sm text-center transition-all shadow-md hover:shadow-lg hover:shadow-emerald-500/20 flex items-center justify-center gap-2 active:scale-[0.98]">
+              <i class="fab fa-whatsapp text-lg"></i> Contact Support
+            </a>
+            <a href="tel:+919142272776"
+              class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 py-4 rounded-2xl font-bold text-sm text-center transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
+              <i class="fas fa-phone text-sm"></i> Call Us
+            </a>
+            <button onclick="tenantLogout()"
+              class="flex-1 bg-rose-50 hover:bg-rose-100 border border-rose-100/50 text-rose-600 py-4 rounded-2xl font-bold text-sm text-center transition-all flex items-center justify-center gap-2 active:scale-[0.98]">
+              <i class="fas fa-power-off text-sm"></i> Logout
+            </button>
+          </div>
         </div>
       `;
     dash.classList.remove("hidden");
