@@ -2016,7 +2016,7 @@ window.openUpiPaymentModal = (paymentType, amount) => {
               <p class="text-xs font-black uppercase tracking-widest text-slate-500">Scan QR Code to Pay</p>
             </div>
             <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-4 flex flex-col items-center border border-slate-200">
-              <img src="${UPI_QR_IMAGE}" alt="UPI QR Code" class="w-48 h-48 object-contain rounded-xl mb-3 shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              <img src="/upi-qr.png" alt="UPI QR Code" class="w-48 h-48 object-contain rounded-xl mb-3 shadow-md" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
               <div class="w-48 h-48 bg-white rounded-xl border-2 border-dashed border-slate-300 items-center justify-center text-slate-400 text-center p-4" style="display:none;">
                 <i class="fas fa-qrcode text-4xl mb-2"></i>
                 <p class="text-[10px] font-bold">QR Code</p>
