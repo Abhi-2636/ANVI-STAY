@@ -1436,21 +1436,21 @@
         </p>
       </div>
 
-      <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-8 lg:p-12 border border-slate-100 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-        <!-- Interactive Form -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start" data-aos="fade-up" data-aos-delay="100">
-        <!-- Controls Column -->
-        <div class="lg:col-span-7 bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] p-8 sm:p-10 border border-slate-100">
-          <div class="space-y-10">
+      <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] p-5 sm:p-8 lg:p-12 border border-slate-100 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <!-- Controls Column -->
+          <div class="lg:col-span-7 space-y-8 sm:space-y-10">
             <!-- Property Select -->
             <div>
               <div class="flex items-center justify-between mb-4">
-                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">01. Select Property</label>
-                <span class="text-[10px] font-bold text-[#C8A24A] bg-[#C8A24A]/10 px-2 py-0.5 rounded-md">Step 1 of 2</span>
+                <label class="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">01. Select Property</label>
+                <div class="hidden sm:flex items-center gap-2 text-[10px] font-bold text-[#C8A24A] bg-[#C8A24A]/10 px-2 py-0.5 rounded-md">
+                  <i class="fas fa-check-circle"></i> Selection Active
+                </div>
               </div>
               <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-[#C8A24A]/20 to-amber-500/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
-                <select id="est-room-type" onchange="calculateEstimate()" class="relative w-full appearance-none bg-slate-50 border border-slate-100 text-slate-800 text-base rounded-2xl px-6 py-5 font-bold focus:outline-none focus:ring-4 focus:ring-[#C8A24A]/10 transition-all cursor-pointer">
+                <select id="est-room-type" onchange="calculateEstimate()" class="relative w-full appearance-none bg-slate-50 border border-slate-100 text-slate-800 text-sm sm:text-base rounded-2xl px-5 sm:px-6 py-4 sm:py-5 font-bold focus:outline-none focus:ring-4 focus:ring-[#C8A24A]/10 transition-all cursor-pointer">
                   <option value="12000">SP Bhargav 1 (Premium) — ₹12,000</option>
                   <option value="11500">SP Bhargav 2 (Standard) — ₹11,500</option>
                   <option value="11500">SP Bhargav 3 (Standard) — ₹11,500</option>
@@ -1461,7 +1461,7 @@
                   <option value="7500">NS Pariyal (Student) — ₹7,500</option>
                 </select>
                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-6 text-[#C8A24A]">
-                  <i class="fas fa-house-chimney text-base"></i>
+                  <i class="fas fa-house-chimney text-sm sm:text-base"></i>
                 </div>
               </div>
             </div>
@@ -1469,162 +1469,188 @@
             <!-- Electricity Usage -->
             <div>
               <div class="flex items-center justify-between mb-6">
-                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">02. Monthly Electricity</label>
+                <label class="text-[10px] sm:text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">02. Monthly Electricity</label>
                 <div class="flex items-center gap-2">
-                  <span id="unit-display" class="text-lg font-black text-slate-900">50</span>
+                  <span id="unit-display" class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">50</span>
                   <span class="text-[10px] font-bold text-slate-400">UNITS</span>
                 </div>
               </div>
-              <div class="relative px-2">
+              <div class="relative px-1">
                 <input type="range" id="est-elec-units" min="0" max="500" value="50" oninput="calculateEstimate()" 
-                  class="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#C8A24A]">
-                <div class="flex justify-between mt-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                  <span>Low Usage</span>
-                  <span>Heavy Usage</span>
+                  class="w-full h-2.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#C8A24A]">
+                <div class="flex justify-between mt-5 text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">
+                  <span>Minimal Usage</span>
+                  <span>Average (100u)</span>
+                  <span>High Usage</span>
                 </div>
               </div>
-              <div class="mt-6 flex items-center gap-3 p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50">
-                <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600">
+              <div class="mt-8 flex items-start gap-3 p-4 bg-amber-50/50 rounded-2xl border border-amber-100/50">
+                <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center text-amber-600 flex-shrink-0">
                   <i class="fas fa-bolt-lightning text-xs"></i>
                 </div>
-                <p class="text-[11px] text-amber-800 font-bold leading-tight">
-                  Calculated at ₹13 per unit as per commercial PG norms.
+                <p class="text-[10px] sm:text-[11px] text-amber-800 font-bold leading-relaxed">
+                  Calculated at <span class="text-amber-900 font-black">₹13 per unit</span>. Most students use between 30-100 units depending on AC usage.
                 </p>
               </div>
             </div>
 
             <!-- Fixed Costs -->
-            <div class="pt-6 border-t border-slate-50">
-              <div class="flex items-center justify-between p-5 rounded-2xl bg-emerald-50/30 border border-emerald-100/50">
-                <div class="flex items-center gap-4">
+            <div class="pt-2">
+              <div class="flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-slate-50 border border-slate-100">
+                <div class="flex items-center gap-3 sm:gap-4">
                   <div class="w-10 h-10 rounded-xl bg-white shadow-sm flex items-center justify-center text-emerald-500">
                     <i class="fas fa-screwdriver-wrench text-sm"></i>
                   </div>
                   <div>
-                    <h4 class="text-xs font-black text-slate-900 uppercase">Maintenance Fee</h4>
-                    <p class="text-[10px] text-slate-500 font-bold">Includes Cleaning & Repairs</p>
+                    <h4 class="text-[11px] font-black text-slate-900 uppercase tracking-tight">Maintenance Fee</h4>
+                    <p class="text-[9px] text-slate-500 font-bold">Standard Utility Charge</p>
                   </div>
                 </div>
-                <span class="text-sm font-black text-slate-900">₹300</span>
+                <span class="text-sm sm:text-base font-black text-slate-900">₹300</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Result Column -->
+          <div class="lg:col-span-5 h-full">
+            <div class="sticky top-24 space-y-6">
+              <div class="bg-gradient-to-br from-[#060b18] to-[#121a2f] rounded-[2.5rem] p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl border border-white/5">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[#C8A24A]/10 blur-[80px] rounded-full pointer-events-none"></div>
+                
+                <div class="relative z-10">
+                  <h4 class="text-[9px] font-black uppercase tracking-[0.3em] text-[#C8A24A]/80 mb-8 border-b border-white/5 pb-4">
+                    Monthly Budget Summary
+                  </h4>
+
+                  <!-- Line Items -->
+                  <div class="space-y-5 mb-10">
+                    <div class="flex justify-between items-center group">
+                      <span class="text-sm font-bold text-white/50 group-hover:text-white transition-colors">Base Room Rent</span>
+                      <span id="res-base" class="text-sm font-black tracking-tight tracking-wide">₹12,000</span>
+                    </div>
+                    <div class="flex justify-between items-center group text-emerald-400">
+                      <div class="flex items-center gap-2">
+                        <span class="text-sm font-bold text-white/50 group-hover:text-emerald-400 transition-colors">Electricity</span>
+                        <span id="res-units" class="text-[9px] font-bold bg-emerald-500/20 px-1.5 py-0.5 rounded uppercase">50u</span>
+                      </div>
+                      <span id="res-elec" class="text-sm font-black tracking-wide">₹650</span>
+                    </div>
+                    <div class="flex justify-between items-center group">
+                      <span class="text-sm font-bold text-white/50 group-hover:text-white transition-colors">Maintenance</span>
+                      <span class="text-sm font-black tracking-wide">₹300</span>
+                    </div>
+                  </div>
+
+                  <!-- Grand Total -->
+                  <div class="pt-8 border-t border-white/10">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-3">Total Estimated Stay</p>
+                    <div class="flex items-baseline gap-2">
+                      <span class="text-5xl sm:text-6xl font-black tracking-tighter text-white" id="est-total">₹12,950</span>
+                      <span class="text-[#C8A24A] text-sm font-black uppercase tracking-widest leading-none">INR</span>
+                    </div>
+                    
+                    <!-- Progress Bar Viz -->
+                    <div class="mt-8">
+                      <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden flex">
+                        <div id="bar-rent" class="h-full bg-[#C8A24A] shadow-[0_0_10px_rgba(200,162,74,0.4)] transition-all duration-700" style="width: 70%"></div>
+                        <div id="bar-elec" class="h-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.4)] transition-all duration-700" style="width: 25%"></div>
+                        <div id="bar-maint" class="h-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,0.4)] transition-all duration-700" style="width: 5%"></div>
+                      </div>
+                      <div class="flex flex-wrap gap-x-5 gap-y-3 mt-4">
+                        <div class="flex items-center gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-[#C8A24A]"></span>
+                          <span class="text-[9px] font-black text-slate-500 uppercase tracking-wider">Rent</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                          <span class="text-[9px] font-black text-slate-500 uppercase tracking-wider">Electricity</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
+                          <span class="text-[9px] font-black text-slate-500 uppercase tracking-wider">Maintenance</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Callout (Mobile Optimized) -->
+              <div onclick="window.location.href='https://wa.me/919142272776'" 
+                class="p-5 sm:p-6 bg-slate-50 rounded-[2.5rem] border border-slate-100 flex items-center justify-between group cursor-pointer hover:bg-white hover:shadow-xl transition-all duration-500">
+                <div class="flex items-center gap-4">
+                  <div class="w-12 h-12 rounded-2xl bg-[#060b18] flex items-center justify-center text-white group-hover:bg-[#C8A24A] transition-colors relative">
+                    <div class="absolute inset-0 bg-[#C8A24A]/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <i class="fab fa-whatsapp text-lg relative z-10"></i>
+                  </div>
+                  <div>
+                    <h4 class="text-[11px] font-black text-slate-900 uppercase tracking-tight">Confirm Booking</h4>
+                    <p class="text-[10px] text-slate-500 font-bold">Secure this property today</p>
+                  </div>
+                </div>
+                <div class="w-8 h-8 rounded-full bg-white border border-slate-100 flex items-center justify-center text-slate-300 group-hover:text-[#C8A24A] group-hover:border-[#C8A24A]/30 transition-all">
+                  <i class="fas fa-arrow-right text-[10px]"></i>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Result Column -->
-        <div class="lg:col-span-5 h-full">
-          <div class="sticky top-24 space-y-6">
-            <div class="bg-gradient-to-br from-[#060b18] to-[#121a2f] rounded-[2.5rem] p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl">
-              <!-- Decorative background elements -->
-              <div class="absolute top-0 right-0 w-64 h-64 bg-[#C8A24A]/10 blur-[80px] rounded-full"></div>
-              <div class="absolute bottom-0 left-0 w-32 h-32 bg-blue-600/10 blur-[60px] rounded-full"></div>
-
-              <div class="relative z-10">
-                <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-[#C8A24A]/80 mb-8 border-b border-white/5 pb-4">
-                  Monthly Budget Summary
-                </h4>
-
-                <!-- Line Items -->
-                <div class="space-y-5 mb-10">
-                  <div class="flex justify-between items-center group">
-                    <span class="text-sm font-bold text-white/50 group-hover:text-white transition-colors">Base Room Rent</span>
-                    <span id="res-base" class="text-sm font-black tracking-tight">₹12,000</span>
-                  </div>
-                  <div class="flex justify-between items-center group text-emerald-400">
-                    <div class="flex items-center gap-2">
-                      <span class="text-sm font-bold text-white/50 group-hover:text-emerald-400 transition-colors">Electricity</span>
-                      <span id="res-units" class="text-[10px] font-bold bg-emerald-500/20 px-1.5 py-0.5 rounded uppercase">50u</span>
-                    </div>
-                    <span id="res-elec" class="text-sm font-black tracking-tight">₹650</span>
-                  </div>
-                  <div class="flex justify-between items-center group">
-                    <span class="text-sm font-bold text-white/50 group-hover:text-white transition-colors">Maintenance</span>
-                    <span class="text-sm font-black tracking-tight">₹300</span>
-                  </div>
-                </div>
-
-                <!-- Grand Total -->
-                <div class="pt-8 border-t border-white/10">
-                  <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-2">Total Monthly Budget</p>
-                  <div class="flex items-baseline gap-2">
-                    <span class="text-5xl sm:text-6xl font-black tracking-tighter text-white" id="est-total">₹12,950</span>
-                    <span class="text-slate-500 text-sm font-black uppercase tracking-widest">INR</span>
-                  </div>
-                  <div class="mt-8">
-                    <div class="w-full h-1.5 bg-white/5 rounded-full overflow-hidden flex">
-                      <div id="bar-rent" class="h-full bg-[#C8A24A] transition-all duration-700" style="width: 70%"></div>
-                      <div id="bar-elec" class="h-full bg-emerald-400 transition-all duration-700" style="width: 25%"></div>
-                      <div id="bar-maint" class="h-full bg-blue-400 transition-all duration-700" style="width: 5%"></div>
-                    </div>
-                    <div class="flex gap-4 mt-3">
-                      <div class="flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-[#C8A24A]"></span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">Rent</span>
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">Power</span>
-                      </div>
-                      <div class="flex items-center gap-1.5">
-                        <span class="w-1.5 h-1.5 rounded-full bg-blue-400"></span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase">Service</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Booking Hint -->
-            <div class="p-6 bg-slate-50 rounded-[2rem] border border-slate-100 flex items-center justify-between group cursor-pointer hover:bg-white hover:shadow-xl transition-all duration-500" onclick="window.location.href='https://wa.me/919142272776'">
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-2xl bg-[#1F3D2B] flex items-center justify-center text-white group-hover:bg-[#C8A24A] transition-colors">
-                  <i class="fab fa-whatsapp text-lg"></i>
-                </div>
-                <div>
-                  <h4 class="text-xs font-black text-slate-900 uppercase">Secure this Budget</h4>
-                  <p class="text-[11px] text-slate-500 font-medium">Chat with us to finalize booking</p>
-                </div>
-              </div>
-              <i class="fas fa-chevron-right text-slate-300 group-hover:text-[#C8A24A] group-hover:translate-x-1 transition-all"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Script -->
-      <script>
-        function calculateEstimate() {
-          const baseRent = parseInt(document.getElementById('est-room-type').value) || 0;
-          const units = parseInt(document.getElementById('est-elec-units').value) || 0;
-          const unitRate = 13;
-          const maintenance = 300;
-          
-          const electricityCost = units * unitRate;
-          const total = baseRent + electricityCost + maintenance;
-          
-          // Update Display
-          document.getElementById('unit-display').innerText = units;
-          document.getElementById('res-base').innerText = '₹' + baseRent.toLocaleString('en-IN');
-          document.getElementById('res-elec').innerText = '₹' + electricityCost.toLocaleString('en-IN');
-          document.getElementById('res-units').innerText = units + 'u';
-          document.getElementById('est-total').innerText = '₹' + total.toLocaleString('en-IN');
-          
-          // Update Visualization Bars
-          const rentPct = (baseRent / total) * 100;
-          const elecPct = (electricityCost / total) * 100;
-          const maintPct = (maintenance / total) * 100;
-          
-          document.getElementById('bar-rent').style.width = rentPct + '%';
-          document.getElementById('bar-elec').style.width = elecPct + '%';
-          document.getElementById('bar-maint').style.width = maintPct + '%';
-        }
-        // Initialize
-        calculateEstimate();
-      </script>
       </div>
     </div>
   </section>
+
+  <!-- Script for Estimator Logic -->
+  <script>
+    function calculateEstimate() {
+      const baseRentSelect = document.getElementById('est-room-type');
+      if (!baseRentSelect) return;
+      
+      const baseRent = parseInt(baseRentSelect.value) || 0;
+      const units = parseInt(document.getElementById('est-elec-units').value) || 0;
+      const unitRate = 13;
+      const maintenance = 300;
+      
+      const electricityCost = units * unitRate;
+      const total = baseRent + electricityCost + maintenance;
+      
+      // Update Display Values
+      const unitDisplay = document.getElementById('unit-display');
+      if(unitDisplay) unitDisplay.innerText = units;
+      
+      const resBase = document.getElementById('res-base');
+      if(resBase) resBase.innerText = '₹' + baseRent.toLocaleString('en-IN');
+      
+      const resElec = document.getElementById('res-elec');
+      if(resElec) resElec.innerText = '₹' + electricityCost.toLocaleString('en-IN');
+      
+      const resUnits = document.getElementById('res-units');
+      if(resUnits) resUnits.innerText = units + 'u';
+      
+      const estTotal = document.getElementById('est-total');
+      if(estTotal) estTotal.innerText = '₹' + total.toLocaleString('en-IN');
+      
+      // Update Visualization Bars
+      const totalVal = Math.max(total, 1); // Avoid div by zero
+      const rentPct = (baseRent / totalVal) * 100;
+      const elecPct = (electricityCost / totalVal) * 100;
+      const maintPct = (maintenance / totalVal) * 100;
+      
+      const barRent = document.getElementById('bar-rent');
+      if(barRent) barRent.style.width = rentPct + '%';
+      
+      const barElec = document.getElementById('bar-elec');
+      if(barElec) barElec.style.width = elecPct + '%';
+      
+      const barMaint = document.getElementById('bar-maint');
+      if(barMaint) barMaint.style.width = maintPct + '%';
+    }
+    
+    // Auto-run on load to ensure sync
+    document.addEventListener('DOMContentLoaded', calculateEstimate);
+    // Extra safety trigger 
+    setTimeout(calculateEstimate, 500);
+  </script>
 
   <!-- ═══════════════════════════════════════════════════════════════ -->
   <!-- ATTRACTIVE PREMIUM FOOTER                                      -->
