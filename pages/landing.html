@@ -1439,14 +1439,19 @@
       <div class="bg-white rounded-[2.5rem] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] p-8 lg:p-12 border border-slate-100 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
         <!-- Interactive Form -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-          <!-- Room Type -->
+          <!-- Select Property -->
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Room Type</label>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">Select Property</label>
             <div class="relative">
               <select id="est-room-type" onchange="calculateEstimate()" class="w-full appearance-none bg-slate-50 border border-slate-200 text-slate-800 text-sm rounded-2xl px-5 py-4 font-bold focus:outline-none focus:ring-2 focus:ring-[#C8A24A]/50 focus:border-[#C8A24A] transition-all cursor-pointer">
-                <option value="9000">Single Occupancy (Premium) - ₹9,000</option>
-                <option value="7000" selected>Double Occupancy (Standard) - ₹7,000</option>
-                <option value="6000">Triple Occupancy (Budget) - ₹6,000</option>
+                <option value="12000">SP Bhargav 1 - ₹12,000</option>
+                <option value="11500">SP Bhargav 2 - ₹11,500</option>
+                <option value="11500">SP Bhargav 3 - ₹11,500</option>
+                <option value="9000">Ambey Apartment 1 - ₹9,000</option>
+                <option value="9500">Ambey Apartment 2 - ₹9,500</option>
+                <option value="10000">Comfort Corner - ₹10,000</option>
+                <option value="8500">SKG Apartment - ₹8,500</option>
+                <option value="7500">NS Pariyal - ₹7,500</option>
               </select>
               <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-slate-500">
                 <i class="fas fa-chevron-down text-xs"></i>
@@ -1464,7 +1469,7 @@
                   UNITS
                 </div>
               </div>
-              <p class="text-[10px] text-slate-400 mt-2 ml-1 font-bold italic">* Calculated at ₹10 per unit</p>
+              <p class="text-[10px] text-slate-400 mt-2 ml-1 font-bold italic">* Calculated at ₹13 per unit</p>
             </div>
             
             <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100">
@@ -1487,10 +1492,10 @@
             <div>
               <p class="text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] mb-2">Estimated Monthly Total</p>
               <div class="flex items-baseline gap-2">
-                <span class="text-4xl sm:text-5xl font-black tracking-tight" id="est-total">₹7,800</span>
+                <span class="text-4xl sm:text-5xl font-black tracking-tight" id="est-total">₹12,650</span>
                 <span class="text-slate-400 text-sm font-bold">/ month</span>
               </div>
-              <p class="text-[11px] text-slate-500 mt-2">*Includes Room Rent + Electricity + ₹300 Maintenance.</p>
+              <p class="text-[11px] text-slate-500 mt-2">*Includes Base Rent + Electricity + ₹300 Maintenance.</p>
             </div>
             
             <a href="https://wa.me/919142272776?text=Hi! I checked the rent estimator and I'm interested in booking a room." target="_blank" rel="noopener noreferrer" 
@@ -1505,7 +1510,7 @@
           function calculateEstimate() {
             const baseRent = parseInt(document.getElementById('est-room-type').value) || 0;
             const units = parseInt(document.getElementById('est-elec-units').value) || 0;
-            const unitRate = 10;
+            const unitRate = 13;
             const maintenance = 300;
             
             const electricityCost = units * unitRate;
