@@ -46,8 +46,12 @@ const buildings = [
     name: "SP Bhargav 1",
     rooms: 30,
     rent: "12000",
-    image:
-      "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=800",
+    image: "https://i.postimg.cc/Ssy17GXq/Whats-App-Image-2025-07-08-at-21-47-42-1.jpg",
+    gallery: [
+      "https://i.postimg.cc/Ssy17GXq/Whats-App-Image-2025-07-08-at-21-47-42-1.jpg",
+      "https://i.postimg.cc/qvy1PFy4/Whats-App-Image-2025-07-08-at-21-47-41.jpg",
+      "https://i.postimg.cc/cJTBZGHy/Whats-App-Image-2025-07-08-at-21-47-42.jpg"
+    ],
     type: "Fully Furnished",
     desc: "Our flagship property with 30 spacious rooms across 4 floors. Modern interiors, ample natural light, and a vibrant student community just minutes from LPU campus.",
     facilities: [
@@ -82,8 +86,12 @@ const buildings = [
     name: "SP Bhargav 2",
     rooms: 5,
     rent: "11500",
-    image:
-      "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=800",
+    image: "https://iili.io/qcVcWua.jpg",
+    gallery: [
+      "https://iili.io/qcVcWua.jpg",
+      "https://iili.io/qcV1vcB.jpg",
+      "https://iili.io/qcVhxx1.jpg"
+    ],
     type: "Fully Furnished",
     desc: "A cozy 5-room property offering premium rooms with modern amenities and a quiet study environment.",
     facilities: [
@@ -112,8 +120,12 @@ const buildings = [
     name: "SP Bhargav 3",
     rooms: 5,
     rent: "11500",
-    image:
-      "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800",
+    image: "https://iili.io/qcVcWua.jpg",
+    gallery: [
+      "https://iili.io/qcVcWua.jpg",
+      "https://iili.io/qcV1vcB.jpg",
+      "https://iili.io/qcVhxx1.jpg"
+    ],
     type: "Fully Furnished",
     desc: "Compact and well-maintained 5-room property. Ideal for students who prefer a quieter living space with all essential comforts.",
     facilities: [
@@ -142,8 +154,12 @@ const buildings = [
     name: "Ambey Apartment 1",
     rooms: 11,
     rent: "9000",
-    image:
-      "https://images.unsplash.com/photo-1630694093867-4b947d812bf0?q=80&w=800",
+    image: "https://iili.io/qccZvTJ.jpg",
+    gallery: [
+      "https://iili.io/qccZvTJ.jpg",
+      "https://iili.io/qc05cGa.jpg",
+      "https://iili.io/qc05l6J.jpg"
+    ],
     type: "Semi-Furnished",
     desc: "Affordable and spacious 11-room apartment with comfortable rooms. Great for budget-conscious students who want value for money.",
     facilities: [
@@ -174,8 +190,12 @@ const buildings = [
     name: "Ambey Apartment 2",
     rooms: 7,
     rent: "9500",
-    image:
-      "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=800",
+    image: "https://iili.io/qcEc3Ss.jpg",
+    gallery: [
+      "https://iili.io/qcEc3Ss.jpg",
+      "https://iili.io/qcE00cF.jpg",
+      "https://iili.io/qcE0kSn.jpg"
+    ],
     type: "Semi-Furnished",
     desc: "A 7-room apartment with well-ventilated rooms, all basic facilities, and a friendly atmosphere.",
     facilities: [
@@ -875,6 +895,22 @@ window.openPropertyModal = (buildingId) => {
   byId("pm-image")?.setAttribute("alt", p.name);
   safeSet("pm-name", "textContent", p.name);
   safeSet("pm-rooms-badge", "textContent", `${p.rooms} Rooms`);
+  
+  // Thumbnails
+  const thumbContainer = byId("pm-thumbnails");
+  if (thumbContainer) {
+    if (p.gallery && p.gallery.length > 1) {
+      thumbContainer.innerHTML = p.gallery.map((img, idx) => `
+        <div onclick="window.changePmImage('${img}', this)" 
+             class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg border-2 ${img === p.image ? 'border-[#C8A24A]' : 'border-white/40'} overflow-hidden cursor-pointer hover:border-white transition-all shadow-lg">
+          <img src="${img}" class="w-full h-full object-cover">
+        </div>
+      `).join("");
+    } else {
+      thumbContainer.innerHTML = "";
+    }
+  }
+
   safeSet(
     "pm-rent",
     "innerHTML",
@@ -886,6 +922,25 @@ window.openPropertyModal = (buildingId) => {
     "textContent",
     p.desc || "Comfortable student accommodation near LPU.",
   );
+
+  // Helper function to change image
+  window.changePmImage = (src, el) => {
+    const mainImg = byId("pm-image");
+    if (mainImg) {
+      mainImg.style.opacity = "0";
+      setTimeout(() => {
+        mainImg.src = src;
+        mainImg.style.opacity = "1";
+      }, 150);
+    }
+    // Update border
+    if (el) {
+      el.parentElement.querySelectorAll('div').forEach(d => d.classList.remove('border-[#C8A24A]'));
+      el.parentElement.querySelectorAll('div').forEach(d => d.classList.add('border-white/40'));
+      el.classList.remove('border-white/40');
+      el.classList.add('border-[#C8A24A]');
+    }
+  };
 
   // Facilities
   const facContainer = byId("pm-facilities");
@@ -10331,26 +10386,3 @@ window.recalcFooter = () => {
         </tr>`;
   }
 };
-
-window.calculateEstimate = () => {
-  const roomTypeEl = document.getElementById('est-room-type');
-  const acEl = document.getElementById('est-ac');
-  const foodEl = document.getElementById('est-food');
-  const totalEl = document.getElementById('est-total');
-
-  if (!roomTypeEl || !totalEl) return;
-
-  const baseRent = parseInt(roomTypeEl.value) || 0;
-  const acAddon = (acEl && acEl.checked) ? parseInt(acEl.value) : 0;
-  const foodAddon = (foodEl && foodEl.checked) ? parseInt(foodEl.value) : 0;
-  const total = baseRent + acAddon + foodAddon;
-  
-  totalEl.innerText = '₹' + total.toLocaleString('en-IN');
-};
-
-// Also listen to view changes to initialize estimate if available
-document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    if (window.calculateEstimate) window.calculateEstimate();
-  }, 1000); // Give it time to load HTML includes
-});

@@ -91,7 +91,7 @@ window.openDeveloperPage = () => {
         <div class="flex flex-wrap items-center justify-center gap-3 mb-10">
           <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white text-xs font-bold shadow-sm backdrop-blur-sm"><i class="fas fa-laptop-code text-[#C8A24A]"></i> Full-Stack Developer</span>
           <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white text-xs font-bold shadow-sm backdrop-blur-sm"><i class="fas fa-paint-brush text-blue-400"></i> UI/UX Designer</span>
-          <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white text-xs font-bold shadow-sm backdrop-blur-sm"><i class="fas fa-graduation-cap text-emerald-400"></i> CSE Student, LPU</span>
+          <span class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-white text-xs font-bold shadow-sm backdrop-blur-sm"><i class="fas fa-graduation-cap text-emerald-400"></i> BCA Student, LPU</span>
         </div>
 
         <!-- Social Connect -->
@@ -197,6 +197,98 @@ window.openDeveloperPage = () => {
                   <i class="fas fa-mobile-alt text-3xl text-amber-400 mb-4 block relative z-10 group-hover:scale-110 transition-transform"></i>
                   <h5 class="text-white font-bold mb-1 relative z-10">Cross-Platform</h5>
                   <p class="text-xs text-slate-400 relative z-10">100% Mobile Responsive</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ Another Masterpiece: Heaven Rooms ═══ -->
+      <div class="mb-20 dev-card delay-1">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6 mb-8">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 p-[1px]">
+              <div class="w-full h-full bg-[#020617] rounded-xl flex items-center justify-center">
+                <i class="fas fa-building text-emerald-400"></i>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-2xl font-black text-white tracking-tight">Premium Architecture</h3>
+              <p class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Case Study</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative bg-[#060b18] border border-white/[0.08] rounded-[2.5rem] p-1 shadow-2xl">
+          <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-50 rounded-[2.5rem]"></div>
+          
+          <div class="relative bg-[#0b1120] rounded-[2.25rem] p-8 lg:p-12 overflow-hidden">
+            <!-- Decorative Graphics -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-emerald-500/20 to-transparent opacity-30 rounded-bl-[100px]"></div>
+            <i class="fas fa-quote-right absolute -bottom-10 -right-10 text-[150px] text-white/[0.02]"></i>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+              <!-- Content -->
+              <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-bold text-white mb-6">
+                  <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span> App-Like UX
+                </div>
+                
+                <h4 class="text-4xl font-black text-white mb-2">Heaven Rooms</h4>
+                <p class="text-xl text-emerald-400 font-medium mb-6">Premium Student Accommodation Platform</p>
+                
+                <p class="text-slate-400 leading-relaxed mb-8">
+                  Designed and developed the frontend architecture for Heaven Rooms, a luxury student accommodation service located near Lovely Professional University (LPU). The platform delivers a premium, app-like user experience through modern glassmorphism design, advanced micro-interactions, and robust dynamic filtering capabilities.
+                </p>
+
+                <div class="space-y-4 mb-8">
+                  <div class="flex items-start gap-3">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-blue-400 text-xs"></i></div>
+                    <p class="text-sm text-slate-300"><strong>Dynamic Property Filtering:</strong> Client-side filtering/sorting based on budget, availability, and name without page reloads.</p>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-blue-400 text-xs"></i></div>
+                    <p class="text-sm text-slate-300"><strong>Advanced Micro-Interactions:</strong> Trailing cursors, magnetic CTAs, and a spotlight-tracking effect on components.</p>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <div class="mt-1 w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0"><i class="fas fa-check text-blue-400 text-xs"></i></div>
+                    <p class="text-sm text-slate-300"><strong>Conversion Optimization:</strong> WhatsApp API integration, interactive Swiper sliders, dynamic FAQ, and Maps API.</p>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                  <span class="px-3 py-1.5 rounded-lg bg-[#E34F26]/10 text-[#E34F26] text-xs font-bold">HTML5</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-[#1572B6]/10 text-[#1572B6] text-xs font-bold">Vanilla CSS/JS</span>
+                  <span class="px-3 py-1.5 rounded-lg bg-[#FFD700]/10 text-[#FFD700] text-xs font-bold">Swiper/Lenis.js</span>
+                </div>
+              </div>
+
+              <!-- Visual Representation / Stats -->
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-6 hover:bg-white/[0.05] transition-colors relative overflow-hidden group">
+                  <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <i class="fas fa-magic text-3xl text-blue-400 mb-4 block relative z-10 group-hover:scale-110 transition-transform"></i>
+                  <h5 class="text-white font-bold mb-1 relative z-10">Glassmorphism</h5>
+                  <p class="text-xs text-slate-400 relative z-10">Frosted Glass UI Elements</p>
+                </div>
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-6 hover:bg-white/[0.05] transition-colors relative overflow-hidden group translate-y-6">
+                  <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <i class="fas fa-bolt text-3xl text-emerald-400 mb-4 block relative z-10 group-hover:scale-110 transition-transform"></i>
+                  <h5 class="text-white font-bold mb-1 relative z-10">High Performance</h5>
+                  <p class="text-xs text-slate-400 relative z-10">Smooth Scroll & Animations</p>
+                </div>
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-6 hover:bg-white/[0.05] transition-colors relative overflow-hidden group">
+                  <div class="absolute inset-0 bg-gradient-to-br from-[#C8A24A]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <i class="fas fa-filter text-3xl text-[#C8A24A] mb-4 block relative z-10 group-hover:scale-110 transition-transform"></i>
+                  <h5 class="text-white font-bold mb-1 relative z-10">Smart Filtering</h5>
+                  <p class="text-xs text-slate-400 relative z-10">No-Reload Data Sorting</p>
+                </div>
+                <div class="bg-white/[0.03] border border-white/[0.06] rounded-3xl p-6 hover:bg-white/[0.05] transition-colors relative overflow-hidden group translate-y-6">
+                  <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                  <i class="fas fa-users text-3xl text-purple-400 mb-4 block relative z-10 group-hover:scale-110 transition-transform"></i>
+                  <h5 class="text-white font-bold mb-1 relative z-10">High Impact</h5>
+                  <p class="text-xs text-slate-400 relative z-10">500+ Daily Active Users</p>
                 </div>
               </div>
             </div>
