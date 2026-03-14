@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="margin: 0; padding: 0;">
 
 <head>
   <meta charset="UTF-8" />
@@ -31,7 +31,7 @@
   <!-- PWA -->
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#c8a24a" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="ANVI STAY" />
   <link rel="apple-touch-icon" href="assets/img/logo.png" />
@@ -39,8 +39,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/img/logo.png" />
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Output (Replaced CDN) -->
+  <link rel="stylesheet" href="css/output.css" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
@@ -52,14 +52,30 @@
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-  <!-- Main Styles -->
+  <!-- Custom Styles (Overriding Tailwind) -->
   <link rel="stylesheet" href="css/styles.css" />
 
   <!-- Admin Login Styles -->
   <link rel="stylesheet" href="css/admin-login.css" />
+  <!-- Global Image Fixer -->
+  <script>
+    window.addEventListener('error', function(e) {
+      if (e.target.tagName === 'IMG') {
+        const src = e.target.getAttribute('src');
+        if (src && src.startsWith('photo-')) {
+          e.target.src = 'https://images.unsplash.com/' + src + '?q=80&w=800';
+          return;
+        }
+        // Fallback for completely broken images
+        if (src && !src.includes('logo.png')) {
+          e.target.src = 'https://images.unsplash.com/photo-1522771731470-8ee3c2336829?q=80&w=800';
+        }
+      }
+    }, true);
+  </script>
 </head>
 
-<body>
+<body class="m-0 p-0" style="margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;">
 
   <!-- Global Custom Cursor -->
   <div id="cursor-dot" class="custom-cursor-dot"></div>
@@ -100,15 +116,20 @@
   <!-- Header Navigation (loaded from pages/header.html) -->
   <div id="include-header"></div>
 
-  <!-- Page Views (loaded from pages/*.html) -->
-  <div id="include-landing"></div>
-  <div id="include-about"></div>
-  <div id="include-terms"></div>
-  <div id="include-privacy"></div>
-  <div id="include-tos"></div>
-  <div id="include-tenant"></div>
-  <div id="include-admin-login"></div>
-  <div id="include-landlord"></div>
+  <main style="flex: 1; display: flex; flex-direction: column;">
+    <!-- Page Views (loaded from pages/*.html) -->
+    <div id="include-landing"></div>
+    <div id="include-about"></div>
+    <div id="include-terms"></div>
+    <div id="include-privacy"></div>
+    <div id="include-tos"></div>
+    <div id="include-tenant"></div>
+    <div id="include-admin-login"></div>
+    <div id="include-landlord"></div>
+  </main>
+  
+  <!-- Global Footer -->
+  <div id="include-footer"></div>
 
   <!-- Overlays - Drawer, Contact Modal, Room Detail -->
   <div id="include-overlays"></div>
@@ -134,6 +155,7 @@
       { id: 'include-tenant', src: 'pages/tenant.html' },
       { id: 'include-admin-login', src: 'pages/admin-login.html' },
       { id: 'include-landlord', src: 'pages/landlord.html' },
+      { id: 'include-footer', src: 'pages/footer.html' },
       { id: 'include-overlays', src: 'pages/overlays.html' },
     ];
 

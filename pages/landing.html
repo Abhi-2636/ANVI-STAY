@@ -1,4 +1,4 @@
-<div id="view-landing" class="view-section active">
+<div id="view-landing" class="view-section active w-full m-0 p-0" style="flex: 1; display: flex; flex-direction: column;">
   <!-- Hero -->
   <section
     class="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center text-white overflow-hidden"
@@ -454,226 +454,129 @@
       <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-[220px]"
       >
-        <!-- Large Card: Fully Furnished -->
+        <!-- Large Card: Fully Furnished (Magnetic) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-8 border border-slate-100 overflow-hidden lg:col-span-2 lg:row-span-2 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-slate-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-white rounded-[3rem] p-10 border border-slate-100 overflow-hidden lg:col-span-2 lg:row-span-2 shadow-2xl shadow-slate-200/50 transition-all duration-700 hover:-translate-y-3 hover:shadow-amber-900/10"
         >
-          <div
-            class="absolute right-0 bottom-0 w-64 h-64 bg-amber-100 rounded-full blur-[80px] opacity-0 group-hover:opacity-60 transition-opacity duration-700"
-          ></div>
+          <div class="absolute top-0 right-0 w-80 h-80 bg-amber-500/10 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
           <div class="relative z-10 h-full flex flex-col justify-between">
             <div
-              class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center shadow-sm border border-slate-100 mb-6 group-hover:scale-110 transition-transform duration-500"
+              class="w-20 h-20 bg-amber-50 text-[#C8A24A] rounded-[2rem] flex items-center justify-center text-4xl shadow-sm border border-amber-100 mb-10 group-hover:rotate-[10deg] transition-transform duration-700"
             >
-              <i class="fas fa-couch text-2xl text-[#C8A24A]"></i>
+              <i class="fas fa-couch"></i>
             </div>
             <div>
-              <h4
-                class="text-2xl font-black text-slate-900 mb-3 tracking-tight"
-              >
-                Move-in Ready Luxury
+              <h4 class="text-3xl font-black text-slate-950 mb-4 tracking-tighter">
+                Move-in Ready <br />Luxury
               </h4>
-              <p class="text-slate-500 text-base leading-relaxed max-w-md">
+              <p class="text-slate-500 text-lg font-medium leading-relaxed max-w-md">
                 Premium, fully-furnished rooms designed meticulously with
-                high-quality beds, spacious wardrobes, and dedicated ergonomic
-                study desks.
+                high-quality beds and ergonomic study zones.
               </p>
             </div>
           </div>
           <img
             src="https://images.unsplash.com/photo-1522771731470-8ee3c2336829?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             alt="Furnished Room"
-            class="absolute top-0 right-0 w-full h-full object-cover opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-700 pointer-events-none mix-blend-multiply"
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover opacity-[0.02] group-hover:opacity-[0.08] transition-all duration-1000 pointer-events-none group-hover:scale-110"
           />
         </div>
 
-        <!-- Medium Card: High-Speed Wi-Fi -->
+        <!-- Medium Card: Vibrant Tech (Wi-Fi) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-blue-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-white rounded-[3rem] p-8 border border-slate-100 overflow-hidden shadow-xl shadow-slate-200/50 transition-all duration-700 hover:-translate-y-2 hover:border-blue-200"
         >
-          <div
-            class="absolute right-0 top-0 w-32 h-32 bg-blue-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-          ></div>
+          <div class="absolute -right-12 -top-12 w-48 h-48 bg-blue-500/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
           <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-blue-600 transition-colors"
-            >
-              <i class="fas fa-wifi text-xl text-blue-500"></i>
+            <div class="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-blue-100 group-hover:scale-110 transition-transform">
+              <i class="fas fa-wifi"></i>
             </div>
             <div>
-              <h4 class="text-lg font-bold text-slate-900 mb-2">
-                High-Speed Wi-Fi
-              </h4>
-              <p class="text-slate-500 text-sm leading-relaxed">
-                Enterprise-grade, reliable internet across all corners of the
-                property for uninterrupted studies.
-              </p>
+              <h4 class="text-xl font-extrabold text-slate-900 mb-2 tracking-tight">Enterprise Wi-Fi</h4>
+              <p class="text-slate-500 text-sm font-medium leading-relaxed leading-relaxed">Gigabit speeds across all zones for uninterrupted study sessions.</p>
             </div>
           </div>
         </div>
 
-        <!-- Medium Card: Security -->
+        <!-- Medium Card: Safe Shield (Security) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-red-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-white rounded-[3rem] p-8 border border-slate-100 overflow-hidden shadow-xl shadow-slate-200/50 transition-all duration-700 hover:-translate-y-2 hover:border-emerald-200"
         >
-          <div
-            class="absolute left-0 bottom-0 w-32 h-32 bg-red-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
-          ></div>
+          <div class="absolute -left-12 -bottom-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
           <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-red-600 transition-colors"
-            >
-              <i class="fas fa-shield-halved text-xl text-red-500"></i>
+            <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-emerald-100 group-hover:scale-110 transition-transform">
+              <i class="fas fa-shield-halved"></i>
             </div>
             <div>
-              <h4 class="text-lg font-bold text-slate-900 mb-2">
-                24/7 CCTV Security
-              </h4>
-              <p class="text-slate-500 text-sm leading-relaxed">
-                Continuous surveillance monitoring at all entry points to ensure
-                your complete peace of mind.
-              </p>
+              <h4 class="text-xl font-extrabold text-slate-900 mb-2 tracking-tight">Active Ops Security</h4>
+              <p class="text-slate-500 text-sm font-medium leading-relaxed">24/7 Monitoring and controlled access for total peace of mind.</p>
             </div>
           </div>
         </div>
 
-        <!-- Medium Card: Power Backup -->
+        <!-- Multi-Stacked: Housekeeping & Maint (Wide) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-yellow-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-slate-950 rounded-[3rem] p-10 lg:col-span-2 overflow-hidden shadow-2xl transition-all duration-700 hover:-translate-y-2"
         >
-          <div
-            class="absolute right-0 bottom-0 w-32 h-32 bg-yellow-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
-          ></div>
-          <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-yellow-600 transition-colors"
-            >
-              <i
-                class="fas fa-bolt text-xl text-yellow-500 group-hover:animate-pulse"
-              ></i>
-            </div>
+          <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/40 via-transparent to-transparent"></div>
+          <div class="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-10 items-center h-full">
             <div>
-              <h4 class="text-lg font-bold text-slate-900 mb-2">
-                Power Backup
-              </h4>
-              <p class="text-slate-500 text-sm leading-relaxed">
-                Heavy-duty inverter backups across properties so sudden outages
-                never leave you in the dark.
-              </p>
+               <div class="flex items-center gap-3 mb-8">
+                 <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-emerald-400 border border-white/10">
+                   <i class="fas fa-broom"></i>
+                 </div>
+                 <div class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-amber-400 border border-white/10">
+                   <i class="fas fa-wrench"></i>
+                 </div>
+               </div>
+               <h4 class="text-2xl font-black text-white mb-4 tracking-tighter">Zero Friction <br />Maintenance</h4>
+               <p class="text-slate-400 text-base leading-relaxed">Proactive housekeeping and on-call maintenance teams at your service.</p>
+            </div>
+            <div class="hidden md:block">
+               <div class="p-6 rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-md">
+                  <div class="flex justify-between items-center mb-6">
+                    <span class="text-[10px] font-black uppercase tracking-widest text-[#C8A24A]">Live Metrics</span>
+                    <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-lg text-[8px] font-black uppercase">Active Now</span>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                       <div class="h-full bg-emerald-500 w-[92%]"></div>
+                    </div>
+                    <p class="text-[10px] font-bold text-slate-400">92% Maintenance Score</p>
+                  </div>
+               </div>
             </div>
           </div>
         </div>
 
-        <!-- Medium Card: Fast Maintenance -->
+        <!-- Medium: No Brokerage (Deep Gold) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-purple-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-[#0B1120] rounded-[3rem] p-8 border border-white/5 overflow-hidden shadow-2xl shadow-indigo-950/20 transition-all duration-700 hover:-translate-y-2"
         >
-          <div
-            class="absolute left-0 top-0 w-32 h-32 bg-purple-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
-          ></div>
+          <div class="absolute inset-0 bg-gradient-to-tr from-[#C8A24A]/20 to-transparent"></div>
           <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-purple-600 transition-colors"
-            >
-              <i class="fas fa-wrench text-xl text-purple-500"></i>
+            <div class="w-14 h-14 bg-white/5 text-[#C8A24A] rounded-2xl flex items-center justify-center text-2xl border border-white/10">
+              <i class="fas fa-handshake"></i>
             </div>
             <div>
-              <h4 class="text-lg font-bold text-slate-900 mb-2">
-                Fast Maintenance
-              </h4>
-              <p class="text-slate-500 text-sm leading-relaxed">
-                Dedicated staff to promptly resolve any electrical or plumbing
-                issues you report.
-              </p>
+              <h4 class="text-xl font-black text-white mb-2">Zero Brokerage</h4>
+              <p class="text-slate-400 text-sm leading-relaxed">Direct transparent booking. No hidden middle-men commissions ever.</p>
             </div>
           </div>
         </div>
 
-        <!-- Wide Card: Housekeeping & Amenities -->
+        <!-- Medium: Student Community (Interactive) -->
         <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 sm:p-8 border border-slate-100 overflow-hidden lg:col-span-2 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-emerald-200 transition-all duration-500 hover:-translate-y-1"
+          class="group relative bg-white rounded-[3rem] p-8 border border-slate-100 overflow-hidden shadow-xl shadow-slate-200/50 transition-all duration-700 hover:-translate-y-2 hover:border-pink-200"
         >
-          <div
-            class="absolute top-0 right-0 w-64 h-64 bg-emerald-100 rounded-full blur-[80px] opacity-0 group-hover:opacity-60 transition-opacity duration-700"
-          ></div>
-          <div class="relative z-10 h-full flex flex-col justify-center">
-            <div class="flex items-center gap-4 mb-5">
-              <div
-                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
-              >
-                <i class="fas fa-broom text-xl text-emerald-500"></i>
-              </div>
-              <div
-                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
-              >
-                <i class="fas fa-droplet text-xl text-cyan-500"></i>
-              </div>
-              <div
-                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 flex-shrink-0"
-              >
-                <i class="fas fa-shirt text-xl text-indigo-500"></i>
-              </div>
-            </div>
-            <h4 class="text-xl font-bold text-slate-900 mb-2">
-              Seamless Daily Living
-            </h4>
-            <p
-              class="text-slate-500 text-sm sm:text-base leading-relaxed max-w-lg"
-            >
-              Enjoy meticulous daily housekeeping of common areas, 24/7
-              unlimited RO purified drinking water, and readily accessible
-              on-site laundry facilities. We manage the chores so you don't have
-              to.
-            </p>
-          </div>
-        </div>
-
-        <!-- Medium Card: Student Community -->
-        <div
-          class="group relative bg-[#f8fafc] rounded-[2rem] p-6 border border-slate-100 overflow-hidden shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] hover:shadow-xl hover:border-pink-200 transition-all duration-500 hover:-translate-y-1"
-        >
-          <div
-            class="absolute right-0 top-0 w-32 h-32 bg-pink-100 rounded-full blur-[40px] opacity-0 group-hover:opacity-80 transition-opacity duration-700"
-          ></div>
+          <div class="absolute -right-8 -bottom-8 w-40 h-40 bg-pink-500/5 rounded-full blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
           <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:text-pink-600 transition-colors"
-            >
-              <i
-                class="fas fa-users text-xl text-pink-500 group-hover:scale-110 transition-transform"
-              ></i>
+            <div class="w-14 h-14 bg-pink-50 text-pink-500 rounded-2xl flex items-center justify-center text-2xl shadow-sm border border-pink-100 group-hover:scale-110 transition-transform">
+              <i class="fas fa-users-viewfinder"></i>
             </div>
             <div>
-              <h4 class="text-lg font-bold text-slate-900 mb-2">
-                Vibrant Community
-              </h4>
-              <p class="text-slate-500 text-sm leading-relaxed">
-                Live, collaborate, and grow with a curated community of
-                like-minded LPU students.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Medium Card: No Brokerage -->
-        <div
-          class="group relative bg-slate-900 rounded-[2rem] p-6 border border-slate-800 overflow-hidden shadow-2xl transition-all duration-500 hover:-translate-y-1 hover:shadow-emerald-900/40"
-        >
-          <div
-            class="absolute inset-0 bg-gradient-to-br from-emerald-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"
-          ></div>
-          <div class="relative z-10 h-full flex flex-col justify-between">
-            <div
-              class="w-12 h-12 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700"
-            >
-              <i class="fas fa-handshake text-xl text-emerald-400"></i>
-            </div>
-            <div>
-              <h4 class="text-lg font-bold text-white mb-2">Zero Brokerage</h4>
-              <p class="text-slate-400 text-sm leading-relaxed">
-                Book directly with our management. No hidden fees, no
-                unnecessary middle-men commissions.
-              </p>
+              <h4 class="text-xl font-extrabold text-slate-900 mb-2 tracking-tight">LPU Community</h4>
+              <p class="text-slate-500 text-sm font-medium leading-relaxed">Join a neighborhood of likeminded scholars and innovators.</p>
             </div>
           </div>
         </div>
@@ -690,64 +593,67 @@
     class="py-24 sm:py-32 relative overflow-hidden"
     style="background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%)"
   >
-    <!-- Background Decor -->
-    <div
-      class="absolute inset-0 opacity-[0.03]"
-      style="
-        background-image: radial-gradient(#64748b 1px, transparent 1px);
-        background-size: 32px 32px;
-      "
-    ></div>
-    <div
-      class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-100 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none"
-    ></div>
+    <!-- Deep Premium Background Decor -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-[10%] left-[15%] w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[160px] animate-pulse"></div>
+      <div class="absolute bottom-[10%] right-[15%] w-[600px] h-[600px] bg-[#C8A24A]/10 rounded-full blur-[160px] animate-pulse"></div>
+      <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjAuNSIgZmlsbD0icmdiYSgwLDAsMCwwLjA1KSIvPjwvc3ZnPg==')]"></div>
+    </div>
 
     <div class="container mx-auto px-6 relative z-10 max-w-7xl">
-      <div class="text-center mb-12 sm:mb-20">
-        <div
-          class="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2.5 mb-6 border border-slate-200 shadow-sm shadow-slate-200/50"
-        >
+      <div class="text-center mb-16 sm:mb-24" data-aos="fade-up">
+        <div class="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 mb-6 border border-slate-100 shadow-sm shadow-slate-200/50">
           <i class="fas fa-building text-emerald-600 text-[10px]"></i>
-          <span
-            class="text-[11px] font-black uppercase tracking-[0.2em] text-emerald-700"
-            >Premium Housing</span
-          >
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Managed Portfolio</span>
         </div>
-        <h2
-          class="text-[clamp(2.5rem,5vw,4.5rem)] font-black tracking-tighter mb-4 text-slate-900 leading-none"
-        >
-          Our
-          <span
-            class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent"
-            >Managed</span
-          >
-          Properties
+        <h2 class="text-[clamp(2.5rem,5vw,4.5rem)] font-black tracking-tighter mb-4 text-slate-900 leading-[0.9] overflow-visible">
+          Premium <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-[#C8A24A] to-teal-500">Living Spaces.</span>
         </h2>
-        <p
-          class="text-slate-500 text-base sm:text-lg font-medium max-w-xl mx-auto leading-relaxed"
-        >
-          Handpicked, premium student accommodations near LPU — meticulously
-          designed for unmatched comfort, safety, and convenience.
+        <p class="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+          Curated student housing meticulously designed for unmatched comfort, safety, and academic focus.
         </p>
       </div>
 
-      <!-- Enhanced Search & Filter Bar -->
-      <div
-        class="search-filter-bar bg-white/80 backdrop-blur-xl border border-white p-4 rounded-2xl sm:rounded-full shadow-[0_8px_30px_-12px_rgba(0,0,0,0.1)] mb-12 max-w-4xl mx-auto transition-shadow hover:shadow-[0_12px_40px_-12px_rgba(0,0,0,0.12)]"
-        id="property-search-bar"
-      >
-        <div
-          class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 w-full"
-        >
-          <div
-            class="flex items-center gap-3 flex-1 w-full bg-slate-50/50 px-4 py-3 rounded-xl sm:rounded-full border border-slate-100"
-          >
-            <i class="fas fa-search text-emerald-600"></i>
-            <input
-              type="text"
-              id="search-property"
-              class="w-full bg-transparent border-none text-slate-700 placeholder-slate-400 font-medium text-sm outline-none focus:ring-0"
-              placeholder="Search properties (e.g., Blessing, Royal)..."
+      <!-- Advanced Discovery Hub (Search & Filter) -->
+      <div class="max-w-5xl mx-auto mb-16 px-4" data-aos="zoom-in">
+        <div class="relative group">
+          <!-- Glass Search Dashboard -->
+          <div class="relative z-10 bg-white/80 backdrop-blur-2xl border border-white p-5 sm:p-7 rounded-[3rem] shadow-[0_32px_80px_-20px_rgba(0,0,0,0.12)] transition-shadow hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.15)] overflow-hidden">
+            <!-- Inner Glow -->
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/20 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+            <div class="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
+              <!-- Search Input Hub -->
+              <div class="flex-1 w-full bg-slate-50/80 px-7 py-4 rounded-3xl border border-slate-100 flex items-center gap-5 transition-all focus-within:ring-4 focus-within:ring-emerald-500/10 focus-within:bg-white group/search">
+                <i class="fas fa-search-location text-emerald-600 text-xl group-focus-within/search:scale-110 transition-transform"></i>
+                <input
+                  type="text"
+                  id="search-property"
+                  class="w-full bg-transparent border-none text-slate-800 placeholder-slate-400 font-bold text-base outline-none focus:ring-0"
+                  placeholder="Find your property (e.g. Blessing, Royal)..."
+                />
+                <div class="hidden sm:flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-100">
+                   <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                   <span class="text-[10px] font-black text-emerald-700">LPU HUB</span>
+                </div>
+              </div>
+
+              <!-- Live Status Widget (Desktop Only) -->
+              <div class="hidden lg:flex items-center gap-5 px-6 border-l border-slate-100">
+                 <div class="text-right">
+                    <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Status</p>
+                    <p class="text-[13px] font-bold text-slate-900">4 Rooms Left</p>
+                 </div>
+                 <div class="w-12 h-12 rounded-2xl bg-slate-900 flex items-center justify-center text-white text-lg shadow-xl">
+                   <i class="fas fa-fire-flame-curved text-orange-400 animate-bounce"></i>
+                 </div>
+              </div>
+            </div>
+          </div>
+          <!-- Shadow Decor -->
+          <div class="absolute inset-x-12 -bottom-4 h-12 bg-emerald-500/10 rounded-full blur-[40px] -z-10 group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+        </div>
+      </div>
               oninput="filterProperties()"
             />
           </div>
@@ -1160,443 +1066,255 @@
               Contact Support <i class="fas fa-arrow-right text-sm"></i>
             </a>
           </div>
-        </div>
       </div>
     </div>
   </section>
 
-  <!-- Ultra-Premium Location Map Section -->
-  <section class="py-24 sm:py-32 relative bg-slate-50 overflow-hidden">
-    <!-- Decorative Ambient Background -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section id="contact" class="py-24 sm:py-32 relative overflow-hidden bg-[#fafafa]">
+    <!-- Ambient Background Elements -->
     <div class="absolute inset-0 pointer-events-none">
-      <div
-        class="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-400/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2"
-      ></div>
-      <div
-        class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#C8A24A]/5 rounded-full blur-[120px] translate-y-1/3 -translate-x-1/3"
-      ></div>
-      <div
-        class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMCwwLDAsMC4wMikiLz48L3N2Zz4=')] [mask-image:linear-gradient(to_bottom,white,transparent)] opacity-60"
-      ></div>
+      <div class="absolute top-0 right-0 w-full h-[800px] bg-gradient-to-b from-white via-slate-50 to-transparent"></div>
+      <div class="absolute top-[20%] left-[10%] w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[140px]"></div>
+      <div class="absolute bottom-[20%] right-[10%] w-[600px] h-[600px] bg-[#C8A24A]/5 rounded-full blur-[140px]"></div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="text-center mb-16 sm:mb-20">
-        <div
-          class="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2.5 mb-6 border border-slate-100 shadow-[0_8px_16px_-6px_rgba(0,0,0,0.05)]"
-        >
-          <div
-            class="w-6 h-6 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center"
-          >
-            <i class="fas fa-location-arrow text-[10px] animate-pulse"></i>
-          </div>
-          <span
-            class="text-[11px] font-black uppercase tracking-[0.2em] text-slate-700 pr-2"
-            >Prime Location</span
-          >
+    <div class="container mx-auto px-6 relative z-10 max-w-7xl">
+      <!-- Section Header: The Strategic Hub -->
+      <div class="text-center mb-16 sm:mb-24" data-aos="fade-up">
+        <div class="inline-flex items-center gap-2 bg-white rounded-full px-5 py-2 mb-6 border border-slate-100 shadow-sm">
+           <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Global Presence</span>
         </div>
-
-        <h2
-          class="text-[clamp(2rem,5vw,3.5rem)] font-black tracking-tighter mb-4 text-slate-900 leading-[1.1]"
-        >
-          Heart of the
-          <span
-            class="bg-gradient-to-r from-emerald-600 to-[#C8A24A] bg-clip-text text-transparent"
-            >Student Hub</span
-          >
+        <h2 class="text-[clamp(2.5rem,6vw,5rem)] font-black tracking-tighter text-slate-900 leading-[0.85] mb-8">
+          The Connection <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-[#C8A24A] to-blue-600">Dashboard.</span>
         </h2>
-        <p
-          class="text-slate-500 text-base sm:text-lg font-medium max-w-xl mx-auto leading-relaxed"
-        >
-          Conveniently located at Law Gate, Phagwara. Just minutes away from
-          Lovely Professional University, surrounded by vibrant markets and
-          seamless transport.
+        <p class="text-slate-500 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+          One unified hub for instant support, navigation, and site-tour scheduling.
         </p>
       </div>
 
-      <div
-        class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12 relative"
-      >
-        <!-- Connecting Line background (desktop) -->
-        <div
-          class="hidden lg:block absolute left-[31%] top-1/2 -translate-y-1/2 w-32 h-[2px] bg-gradient-to-r from-transparent via-slate-200 to-transparent"
-        ></div>
-
-        <!-- Left Column: Information Cards -->
-        <div class="w-full lg:w-[32%] flex flex-col space-y-4 relative z-10">
-          <!-- Primary Address Card -->
-          <div
-            class="group relative bg-white rounded-[2rem] p-6 sm:p-8 overflow-hidden shadow-[0_20px_50px_-12px_rgba(0,0,0,0.05)] border border-slate-100/80 transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.1)] hover:-translate-y-1"
-          >
-            <!-- Green top accent bar -->
-            <div
-              class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-500 to-[#C8A24A]"
-            ></div>
-
-            <div
-              class="w-14 h-14 bg-emerald-50/50 rounded-2xl flex items-center justify-center mb-6 border border-emerald-100/50 group-hover:bg-emerald-50 transition-colors"
-            >
-              <i
-                class="fas fa-map-pin text-2xl text-emerald-600 group-hover:scale-110 transition-transform duration-500 group-hover:rotate-12"
-              ></i>
+      <!-- Bento Grid Dashboard -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(180px,auto)]">
+        
+        <!-- Large Action: WhatsApp Connect (Immersive) -->
+        <a href="https://wa.me/919142272776" target="_blank" 
+           class="md:col-span-4 md:row-span-2 group relative overflow-hidden rounded-[3rem] bg-emerald-600 text-white p-10 flex flex-col justify-between shadow-2xl shadow-emerald-500/20 hover:-translate-y-2 transition-all duration-500">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-white/20 transition-colors"></div>
+          <div class="relative z-10">
+            <div class="w-16 h-16 rounded-2.5xl bg-white/10 backdrop-blur-md flex items-center justify-center text-3xl mb-12">
+              <i class="fab fa-whatsapp"></i>
             </div>
-
-            <h4 class="text-2xl font-black mb-3 tracking-tight text-slate-900">
-              Heaven Rooms,<br />Office
-            </h4>
-            <p class="text-slate-500 text-sm leading-relaxed mb-6 font-medium">
-              Near Lovely Professional University,<br />Punjab 144411
-            </p>
-
-            <a
-              href="https://maps.app.goo.gl/h4mnq7J2R5qfe187A"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex w-full justify-center items-center gap-2 bg-slate-900 text-white font-bold text-sm px-4 py-3.5 rounded-xl hover:bg-emerald-600 transition-colors shadow-lg shadow-slate-900/10 group-hover:shadow-emerald-600/20"
-            >
-              Get Directions
-              <i
-                class="fas fa-arrow-right ml-1 transition-transform group-hover:translate-x-1"
-              ></i>
-            </a>
+            <h4 class="text-3xl font-black tracking-tighter leading-none mb-4">Instant <br>WhatsApp Support</h4>
+            <p class="text-emerald-50/70 text-sm font-medium">Average response time: &lt; 2 mins</p>
           </div>
+          <div class="relative z-10 flex items-center gap-3">
+             <div class="flex -space-x-2">
+               <img src="https://ui-avatars.com/api/?name=Team&background=ffffff&color=059669" class="w-8 h-8 rounded-full border-2 border-emerald-600 shadow-lg">
+               <img src="https://ui-avatars.com/api/?name=Support&background=ffffff&color=2563eb" class="w-8 h-8 rounded-full border-2 border-emerald-600 shadow-lg">
+             </div>
+             <span class="text-[10px] font-black uppercase tracking-widest bg-white/20 px-3 py-1.5 rounded-full">Chat Active Now</span>
+          </div>
+        </a>
 
-          <!-- Secondary Quick Facts -->
-          <div class="grid grid-cols-1 gap-4 pt-2">
-            <!-- Walk Card -->
-            <div
-              class="group bg-white rounded-[1.5rem] p-4 flex items-center gap-4 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] border border-slate-100 hover:border-emerald-200 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(16,185,129,0.1)] hover:-translate-y-0.5 cursor-default"
-            >
-              <div
-                class="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300"
-              >
-                <i
-                  class="fas fa-person-walking text-xl group-hover:-rotate-12 transition-transform"
-                ></i>
+        <!-- Feature: Interactive Live Map Hub (Large) -->
+        <div class="md:col-span-8 md:row-span-3 group relative rounded-[3.5rem] bg-white border border-slate-100 p-4 shadow-2xl shadow-slate-200/50 overflow-hidden ring-8 ring-slate-50/50">
+           <!-- Floating Glass Panel -->
+           <div class="absolute top-8 left-8 z-20 flex flex-col gap-3">
+              <div class="bg-white/90 backdrop-blur-xl border border-white px-6 py-4 rounded-[2rem] shadow-2xl flex items-center gap-4">
+                 <div class="w-12 h-12 rounded-full flex items-center justify-center overflow-hidden ring-4 ring-slate-100/50">
+                    <img src="logo.png" class="w-full h-full object-cover">
+                 </div>
+                 <div>
+                    <h5 class="text-sm font-black text-slate-900 leading-none">Anvi Stay HQ</h5>
+                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-1.5">Law Gate, Phagwara</p>
+                 </div>
               </div>
-              <div class="flex-1">
-                <p class="text-slate-900 font-bold text-sm mb-0.5">
-                  5-10 Min Walk
-                </p>
-                <div class="flex items-center gap-1.5">
-                  <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
-                  <p
-                    class="text-[10px] text-slate-500 font-bold uppercase tracking-wider"
-                  >
-                    To LPU Main Gate
-                  </p>
-                </div>
-              </div>
-            </div>
+           </div>
 
-            <!-- Transport Card -->
-            <div
-              class="group bg-white rounded-[1.5rem] p-4 flex items-center gap-4 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] border border-slate-100 hover:border-blue-200 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(59,130,246,0.1)] hover:-translate-y-0.5 cursor-default"
-            >
-              <div
-                class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300"
-              >
-                <i
-                  class="fas fa-car-side text-xl group-hover:translate-x-1 transition-transform"
-                ></i>
-              </div>
-              <div class="flex-1">
-                <p class="text-slate-900 font-bold text-sm mb-0.5">
-                  E-Rickshaws
-                </p>
-                <div class="flex items-center gap-1.5">
-                  <div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                  <p
-                    class="text-[10px] text-slate-500 font-bold uppercase tracking-wider"
-                  >
-                    ₹10-20 Per Ride
-                  </p>
-                </div>
-              </div>
-            </div>
+           <!-- Start Navigation CTA -->
+           <div class="absolute bottom-8 right-8 z-20">
+              <a href="https://maps.app.goo.gl/h4mnq7J2R5qfe187A" target="_blank" 
+                 class="group/btn flex items-center gap-4 bg-slate-950 text-white px-10 py-5 rounded-[2rem] font-black text-xs uppercase tracking-widest hover:bg-emerald-600 transition-all shadow-2xl hover:-translate-y-1">
+                 Navigate <i class="fas fa-location-arrow group-hover/btn:rotate-45 transition-transform duration-300"></i>
+              </a>
+           </div>
 
-            <!-- Market Card -->
-            <div
-              class="group bg-white rounded-[1.5rem] p-4 flex items-center gap-4 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.02)] border border-slate-100 hover:border-amber-200 transition-all duration-300 hover:shadow-[0_8px_20px_-4px_rgba(245,158,11,0.1)] hover:-translate-y-0.5 cursor-default"
-            >
-              <div
-                class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600 group-hover:bg-amber-500 group-hover:text-white transition-colors duration-300"
-              >
-                <i
-                  class="fas fa-store text-xl group-hover:scale-110 transition-transform"
-                ></i>
+           <iframe
+            src="https://maps.google.com/maps?q=HEAVEN%20ROOMS%20OFFICE,%20Law%20Gate&t=&z=17&ie=UTF8&iwloc=&output=embed"
+            width="100%" height="100%" style="border:0; filter: contrast(1.1) saturate(1.2)"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            class="absolute inset-0 w-full h-full rounded-[2.8rem]"></iframe>
+        </div>
+
+        <!-- Medium: Visiting Hours Dashboard -->
+        <div class="md:col-span-4 md:row-span-1 rounded-[3rem] bg-slate-50 border border-slate-200/50 p-8 flex flex-col justify-center hover:bg-white transition-all duration-500 group">
+           <div class="flex items-center gap-5 mb-6">
+              <div class="w-12 h-12 rounded-2xl bg-white text-blue-600 flex items-center justify-center text-xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform">
+                <i class="fas fa-clock-rotate-left"></i>
               </div>
+              <div>
+                <h4 class="text-base font-black text-slate-900">Visiting Hours</h4>
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Office Open Daily</p>
+              </div>
+           </div>
+           <div class="flex items-center gap-4">
               <div class="flex-1">
-                <p class="text-slate-900 font-bold text-sm mb-0.5">
-                  Local Markets
-                </p>
-                <div class="flex items-center gap-1.5">
-                  <div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>
-                  <p
-                    class="text-[10px] text-slate-500 font-bold uppercase tracking-wider"
-                  >
-                    Shops & ATMs Nearby
-                  </p>
-                </div>
+                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Weekdays</p>
+                 <p class="text-sm font-bold text-slate-900">9 AM - 8 PM</p>
               </div>
-            </div>
+              <div class="w-px h-10 bg-slate-200"></div>
+              <div class="flex-1">
+                 <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Sundays</p>
+                 <p class="text-sm font-bold text-slate-900">10 AM - 4 PM</p>
+              </div>
+           </div>
+        </div>
+
+        <!-- Small: Call Support (Glass) -->
+        <a href="tel:+919142272776" 
+           class="md:col-span-2 md:row-span-1 rounded-[2.5rem] bg-white border border-slate-100 p-8 flex flex-col items-center justify-center text-center hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 group">
+           <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4 group-hover:rotate-12 transition-transform">
+             <i class="fas fa-phone-volume"></i>
+           </div>
+           <h5 class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Voice Out</h5>
+           <p class="text-sm font-black text-slate-900 tracking-tight">Call Now</p>
+        </a>
+
+        <!-- Small: QR Guide (Dark) -->
+        <div class="md:col-span-2 md:row-span-1 rounded-[2.5rem] bg-slate-900 text-white p-8 flex flex-col items-center justify-center text-center hover:bg-slate-950 transition-all duration-500 group">
+           <div class="relative mb-4 group-hover:scale-110 transition-transform">
+              <div class="p-2 bg-white rounded-xl shadow-lg ring-4 ring-white/10">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://maps.app.goo.gl/h4mnq7J2R5qfe187A&color=0f172a" class="w-8 h-8">
+              </div>
+              <div class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900"></div>
+           </div>
+           <h5 class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] mb-1">Smart GPS</h5>
+           <p class="text-xs font-black tracking-tight underline-offset-4 underline decoration-[#C8A24A]">Scan 2 Nav</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Advanced Neighbourhood Radar: Standalone Premium Section (Light Theme for Separation) -->
+  <section id="radar" class="w-full relative py-20 lg:py-32 overflow-hidden bg-slate-50/50 border-t border-slate-100 mb-20" data-aos="fade-up">
+    <!-- Premium Ambient Glows -->
+    <div class="absolute inset-0 pointer-events-none">
+      <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px]"></div>
+      <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#C8A24A]/5 rounded-full blur-[120px]"></div>
+    </div>
+    
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="flex flex-col gap-12 lg:gap-20">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 text-center md:text-left">
+          <div class="max-w-2xl mx-auto md:mx-0">
+            <h4 class="text-[10px] font-black text-[#C8A24A] uppercase tracking-[0.5em] mb-6 flex items-center justify-center md:justify-start gap-4">
+              <span class="w-12 h-px bg-[#C8A24A]/30"></span> 
+              Proximity Guide
+              <span class="w-3 h-3 rounded-full bg-[#C8A24A] animate-pulse"></span>
+            </h4>
+            <h3 class="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-tight mb-4">
+              Everything you need, <br>
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-500 to-blue-600">within a heartbeat.</span>
+            </h3>
+          </div>
+          <div class="hidden lg:block pb-5">
+             <div class="px-6 py-3 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500">
+                  <i class="fas fa-satellite-dish animate-bounce"></i>
+                </div>
+                <div>
+                  <p class="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Status</p>
+                  <p class="text-xs font-bold text-slate-900">Live Updates Active</p>
+                </div>
+             </div>
           </div>
         </div>
 
-        <!-- Right Column: Stunning Map Embed container -->
-        <div
-          class="w-full lg:w-[68%] min-h-[450px] lg:min-h-full bg-slate-200/50 rounded-[2.5rem] overflow-hidden relative shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] border-4 border-white group"
-        >
-          <!-- Glass overlay that fades out on map hover to interact -->
-          <div
-            class="absolute inset-0 bg-emerald-900/5 mix-blend-multiply pointer-events-none group-hover:opacity-0 transition-opacity duration-700 z-10"
-          ></div>
-
-          <iframe
-            src="https://maps.google.com/maps?q=HEAVEN%20ROOMS%20OFFICE,%20Law%20Gate&t=&z=17&ie=UTF8&iwloc=&output=embed"
-            width="100%"
-            height="100%"
-            style="border: 0; filter: contrast(1.05) saturate(1.1)"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            title="Heaven Rooms Location Map"
-            class="absolute inset-0 z-0 w-full h-full"
-          ></iframe>
-
-          <!-- Stunning floating badge inside map -->
-          <div
-            class="absolute top-6 left-6 z-20 bg-white/95 backdrop-blur-md border border-white p-3 rounded-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.15)] flex items-center gap-4 transform transition-transform duration-500 group-hover:scale-105 group-hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)]"
-          >
-            <div
-              class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center p-1.5 shadow-inner"
-            >
-              <img
-                src="logo.png"
-                alt="Anvi Stay"
-                class="w-full h-full object-contain"
-              />
+        <!-- Proximity Grid (Light Theme) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 relative z-10 w-full">
+          
+          <!-- Cat 1: Education -->
+          <div class="group/bento relative overflow-hidden p-8 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 text-left">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl mb-8 group-hover/bento:scale-110 transition-transform">
+              <i class="fas fa-graduation-cap"></i>
             </div>
-            <div>
-              <p
-                class="text-slate-900 font-black text-sm uppercase tracking-widest leading-none mb-1"
-              >
-                ANVI STAY
-              </p>
-              <div class="flex items-center gap-1">
-                <div class="flex -space-x-1.5">
-                  <img
-                    src="https://i.pravatar.cc/100?img=5"
-                    class="w-4 h-4 rounded-full border border-white"
-                  />
-                  <img
-                    src="https://i.pravatar.cc/100?img=6"
-                    class="w-4 h-4 rounded-full border border-white"
-                  />
-                </div>
-                <p
-                  class="text-emerald-600 text-[9px] font-bold leading-none ml-1"
-                >
-                  Premium Choice
-                </p>
-              </div>
-            </div>
+            <h5 class="text-xl font-black text-slate-900 mb-6 tracking-wide group-hover/bento:text-emerald-600 transition-colors">Academic Hub</h5>
+            <ul class="space-y-4">
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">LPU Main Gate</span>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-[10px] font-black tracking-wide">500m</span>
+              </li>
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Block 32 / SBR</span>
+                <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-[10px] font-black tracking-wide">1.2km</span>
+              </li>
+            </ul>
           </div>
 
-          <!-- Bottom right interactive pin indicator -->
-          <div
-            class="absolute bottom-6 right-6 z-20 bg-emerald-500 text-white rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-widest shadow-[0_8px_20px_-4px_rgba(16,185,129,0.5)] flex items-center gap-2 pointer-events-none group-hover:opacity-0 transition-opacity duration-300"
-          >
-            <span class="relative flex h-2 w-2">
-              <span
-                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
-              ></span>
-              <span
-                class="relative inline-flex rounded-full h-2 w-2 bg-white"
-              ></span>
-            </span>
-            Interactive Map
+          <!-- Cat 2: Transport -->
+          <div class="group/bento relative overflow-hidden p-8 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 text-left">
+            <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-8 group-hover/bento:scale-110 transition-transform">
+              <i class="fas fa-train-subway"></i>
+            </div>
+            <h5 class="text-xl font-black text-slate-900 mb-6 tracking-wide group-hover/bento:text-blue-600 transition-colors">Connectivity</h5>
+            <ul class="space-y-4">
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Phagwara Jn</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-[10px] font-black tracking-wide">15 Min</span>
+              </li>
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Bus Terminal</span>
+                <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-lg text-[10px] font-black tracking-wide">10 Min</span>
+              </li>
+            </ul>
           </div>
+
+          <!-- Cat 3: Daily Needs -->
+          <div class="group/bento relative overflow-hidden p-8 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 text-left">
+            <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center text-2xl mb-8 group-hover/bento:scale-110 transition-transform">
+              <i class="fas fa-basket-shopping"></i>
+            </div>
+            <h5 class="text-xl font-black text-slate-900 mb-6 tracking-wide group-hover/bento:text-amber-600 transition-colors">Daily Essentials</h5>
+            <ul class="space-y-4">
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Law Gate Mkt</span>
+                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-lg text-[10px] font-black tracking-wide">2 Min</span>
+              </li>
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Banks & ATM</span>
+                <span class="px-3 py-1 bg-amber-100 text-amber-700 rounded-lg text-[10px] font-black tracking-wide">200m</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Cat 4: Health & More -->
+          <div class="group/bento relative overflow-hidden p-8 rounded-[3rem] bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-500 hover:-translate-y-2 text-left">
+            <div class="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-8 group-hover/bento:scale-110 transition-transform">
+              <i class="fas fa-hospital"></i>
+            </div>
+            <h5 class="text-xl font-black text-slate-900 mb-6 tracking-wide group-hover/bento:text-purple-600 transition-colors">Health & Leisure</h5>
+            <ul class="space-y-4">
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">City Hospital</span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-[10px] font-black tracking-wide">12 Min</span>
+              </li>
+              <li class="flex items-center justify-between p-3 -mx-2 rounded-2xl hover:bg-slate-50 transition-colors group/item">
+                <span class="text-sm font-bold text-slate-500 group-hover/item:text-slate-800 transition-colors">Pharmacy</span>
+                <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-lg text-[10px] font-black tracking-wide">100m</span>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </div>
     </div>
   </section>
 
 
-  <footer class="relative bg-[#060b18] text-white overflow-hidden">
-    <!-- Top Gold Accent -->
-    <div class="h-px bg-gradient-to-r from-transparent via-[#C8A24A]/50 to-transparent"></div>
-
-    <!-- Subtle Background Glow -->
-    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#C8A24A]/[0.03] blur-[120px] rounded-full pointer-events-none"></div>
-    <div class="absolute top-[20%] right-0 w-[300px] h-[300px] bg-blue-800/[0.04] blur-[100px] rounded-full pointer-events-none"></div>
-
-    <div class="relative z-10 container mx-auto px-5 sm:px-8">
-
-
-
-      <!-- ── Main Grid ── -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 py-14">
-
-        <!-- COL 1 — Brand (5) -->
-        <div class="lg:col-span-5">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="relative">
-              <div class="absolute -inset-1 bg-[#C8A24A]/20 rounded-full blur-md"></div>
-              <div class="relative w-16 h-16 rounded-full overflow-hidden flex items-center justify-center">
-                <img src="logo.png" alt="ANVI STAY" class="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(200,162,74,0.3)]" loading="lazy" />
-              </div>
-            </div>
-            <div>
-              <h2 class="text-xl font-black tracking-tight leading-none">ANVI <span class="text-[#C8A24A]">STAY</span></h2>
-              <p class="text-[7px] font-bold uppercase tracking-[0.3em] text-slate-500 mt-0.5">Premium Student Housing</p>
-            </div>
-          </div>
-
-          <p class="text-slate-400 text-[13px] leading-relaxed mb-1.5 max-w-sm">
-            The most trusted student accommodation near Lovely Professional University. Fully furnished rooms with modern amenities, 24/7 security, and a community that feels like home.
-          </p>
-          <p class="text-[13px] font-semibold italic mb-6">
-            <span class="text-[#C8A24A]/90">"We Listen, We Care, You Stay"</span>
-          </p>
-
-          <!-- Social Icons -->
-          <div class="flex items-center gap-2 mb-6">
-            <a href="https://www.instagram.com/anvistay" target="_blank" rel="noopener noreferrer" title="Instagram"
-              class="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-gradient-to-br hover:from-purple-600 hover:to-pink-500 hover:border-transparent hover:-translate-y-0.5 transition-all duration-300">
-              <i class="fab fa-instagram text-sm"></i>
-            </a>
-            <a href="https://wa.me/919142272776?text=Hello%20ANVI%20STAY!%0AI%20am%20looking%20for%20a%20room%20near%20LPU." target="_blank" rel="noopener noreferrer" title="WhatsApp"
-              class="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-[#25d366] hover:border-transparent hover:-translate-y-0.5 transition-all duration-300">
-              <i class="fab fa-whatsapp text-sm"></i>
-            </a>
-            <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" title="Facebook"
-              class="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-blue-600 hover:border-transparent hover:-translate-y-0.5 transition-all duration-300">
-              <i class="fab fa-facebook-f text-sm"></i>
-            </a>
-            <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" title="YouTube"
-              class="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-red-600 hover:border-transparent hover:-translate-y-0.5 transition-all duration-300">
-              <i class="fab fa-youtube text-sm"></i>
-            </a>
-            <a href="mailto:anvistay.official@gmail.com" title="Email"
-              class="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-slate-500 hover:text-white hover:bg-[#C8A24A] hover:border-transparent hover:-translate-y-0.5 transition-all duration-300">
-              <i class="fas fa-envelope text-xs"></i>
-            </a>
-          </div>
-
-          <!-- Mini WhatsApp CTA -->
-          <a href="https://wa.me/919142272776?text=Hello%20ANVI%20STAY!%0AI%20am%20looking%20for%20a%20room%20near%20LPU." target="_blank" rel="noopener noreferrer"
-            class="group inline-flex items-center gap-2.5 bg-[#25d366] hover:bg-[#1db954] text-white font-bold text-xs px-5 py-2.5 rounded-lg transition-all duration-200 shadow-[0_4px_16px_-4px_rgba(37,211,102,0.3)] hover:shadow-[0_8px_24px_-4px_rgba(37,211,102,0.4)] hover:-translate-y-0.5">
-            <i class="fab fa-whatsapp text-sm"></i>
-            <span>Book Your Room Now</span>
-            <i class="fas fa-arrow-right text-[9px] opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200"></i>
-          </a>
-        </div>
-
-        <!-- COL 2 — Quick Links + Legal (3) -->
-        <div class="lg:col-span-3">
-          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#C8A24A] mb-5 flex items-center gap-2">
-            <span class="w-6 h-px bg-[#C8A24A]/40"></span> Quick Links
-          </h3>
-          <ul class="space-y-3.5 text-[13px] mb-8">
-            <li><button onclick="switchView('about')" class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 focus:outline-none inline-flex items-center gap-2"><i class="fas fa-chevron-right text-[7px] text-[#C8A24A]/40"></i>About Us</button></li>
-            <li><a href="#services" class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-[7px] text-[#C8A24A]/40"></i>Services & Amenities</a></li>
-            <li><a href="#properties" class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 inline-flex items-center gap-2"><i class="fas fa-chevron-right text-[7px] text-[#C8A24A]/40"></i>Browse Properties</a></li>
-            <li><button onclick="navigateTo('tenant')" class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 focus:outline-none inline-flex items-center gap-2"><i class="fas fa-chevron-right text-[7px] text-[#C8A24A]/40"></i>Student Portal</button></li>
-            <li><button onclick="navigateTo('admin-login')" class="text-slate-400 hover:text-white hover:translate-x-1 transition-all duration-200 focus:outline-none inline-flex items-center gap-2"><i class="fas fa-chevron-right text-[7px] text-[#C8A24A]/40"></i>Owner Access</button></li>
-            <li>
-              <button onclick="openDeveloperPage()" 
-                class="mt-2 group relative px-4 py-2.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-slate-300 hover:text-white hover:bg-[#C8A24A]/10 hover:border-[#C8A24A]/30 transition-all duration-300 focus:outline-none inline-flex items-center gap-2.5 overflow-hidden">
-                <span class="absolute inset-0 bg-gradient-to-r from-[#C8A24A]/0 via-[#C8A24A]/5 to-[#C8A24A]/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
-                <i class="fas fa-code text-[10px] text-[#C8A24A] group-hover:scale-110 transition-transform"></i>
-                <span class="font-bold tracking-tight">Meet the Developer</span>
-              </button>
-            </li>
-          </ul>
-
-          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 mb-4 flex items-center gap-2">
-            <span class="w-4 h-px bg-slate-700"></span> Legal
-          </h3>
-          <ul class="space-y-2.5 text-[13px]">
-            <li><button onclick="switchView('privacy')" class="text-slate-500 hover:text-slate-300 transition-colors duration-200 focus:outline-none">Privacy Policy</button></li>
-            <li><button onclick="switchView('tos')" class="text-slate-500 hover:text-slate-300 transition-colors duration-200 focus:outline-none">Terms of Service</button></li>
-            <li><button onclick="switchView('terms')" class="text-slate-500 hover:text-slate-300 transition-colors duration-200 focus:outline-none">Refund Policy</button></li>
-          </ul>
-        </div>
-
-        <!-- COL 3 — Contact (4) -->
-        <div class="lg:col-span-4">
-          <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-[#C8A24A] mb-5 flex items-center gap-2">
-            <span class="w-6 h-px bg-[#C8A24A]/40"></span> Contact Us
-          </h3>
-
-          <div class="space-y-4 mb-6">
-            <a href="https://maps.google.com/?q=Lovely+Professional+University+Phagwara" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 group hover:translate-x-0.5 transition-all duration-200">
-              <div class="w-8 h-8 rounded-md bg-[#C8A24A]/[0.08] flex items-center justify-center flex-shrink-0 group-hover:bg-[#C8A24A]/[0.15] transition-colors mt-0.5">
-                <i class="fas fa-map-marker-alt text-[#C8A24A] text-[10px]"></i>
-              </div>
-              <div>
-                <p class="text-white text-xs font-bold mb-0.5">Location</p>
-                <p class="text-slate-400 text-[12px] leading-relaxed group-hover:text-slate-300 transition-colors">Near Lovely Professional University,<br/>Phagwara, Punjab 144411</p>
-              </div>
-            </a>
-            <a href="tel:+919142272776" class="flex items-center gap-3 group hover:translate-x-0.5 transition-all duration-200">
-              <div class="w-8 h-8 rounded-md bg-emerald-500/[0.08] flex items-center justify-center flex-shrink-0 group-hover:bg-emerald-500/[0.15] transition-colors">
-                <i class="fas fa-phone-alt text-emerald-400 text-[10px]"></i>
-              </div>
-              <div>
-                <p class="text-white text-xs font-bold mb-0.5">Phone</p>
-                <p class="text-slate-400 text-[12px] group-hover:text-slate-300 transition-colors">+91 91422 72776</p>
-              </div>
-            </a>
-            <a href="mailto:anvistay.official@gmail.com" class="flex items-center gap-3 group hover:translate-x-0.5 transition-all duration-200">
-              <div class="w-8 h-8 rounded-md bg-blue-500/[0.08] flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/[0.15] transition-colors">
-                <i class="fas fa-envelope text-blue-400 text-[10px]"></i>
-              </div>
-              <div>
-                <p class="text-white text-xs font-bold mb-0.5">Email</p>
-                <p class="text-slate-400 text-[12px] group-hover:text-slate-300 transition-colors break-all">anvistay.official@gmail.com</p>
-              </div>
-            </a>
-            <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-md bg-amber-500/[0.08] flex items-center justify-center flex-shrink-0">
-                <i class="fas fa-clock text-amber-400 text-[10px]"></i>
-              </div>
-              <div>
-                <p class="text-white text-xs font-bold mb-0.5">Working Hours</p>
-                <p class="text-slate-400 text-[12px]">Mon – Sun: 9 AM – 9 PM</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ── Bottom Bar ── -->
-      <div class="border-t border-white/[0.05] py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-slate-500 text-[11px] font-semibold tracking-wide text-center sm:text-left flex items-center gap-1.5">
-          <span>© 2026 ANVI STAY — All rights reserved.</span>
-          <span class="hidden sm:inline-block w-1 h-1 rounded-full bg-slate-800"></span>
-          <span class="flex items-center gap-1">
-            Crafted with <i class="fas fa-heart text-[8px] text-rose-500 animate-pulse"></i> by 
-            <span class="text-slate-300 hover:text-[#C8A24A] font-black cursor-pointer transition-colors duration-200 border-b border-white/10 hover:border-[#C8A24A]" onclick="openDeveloperPage()">Abhishek Kumar</span>
-          </span>
-        </p>
-        <button onclick="window.scrollTo({top:0,behavior:'smooth'})" class="text-slate-600 hover:text-[#C8A24A] text-[10px] font-medium tracking-wide transition-colors flex items-center gap-1.5 focus:outline-none">
-          <i class="fas fa-arrow-up text-[8px]"></i> Back to top
-        </button>
-      </div>
-
-    </div>
-  </footer>
-
-
-  <button
-    class="scroll-to-top"
-    id="scroll-to-top-btn"
-    onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-    aria-label="Scroll to top"
-  >
-    <i class="fas fa-arrow-up"></i>
-  </button>
 </div>
