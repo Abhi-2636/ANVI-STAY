@@ -3189,34 +3189,6 @@ window.fetchTenantDashboard = async () => {
         </div>
 
         </div>
-
-        <!-- Quick Actions Grid -->
-        <div class="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
-          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="magnetic-btn bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-             <i class="fas fa-wallet text-xl sm:text-2xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
-          </button>
-          
-          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/5 rounded-full blur-xl transition-all group-hover:bg-blue-500/10"></div>
-             <i class="fas fa-file-invoice-dollar text-xl sm:text-2xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
-          </button>
-          
-          <button onclick="window.requestRoomCleaning()" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl transition-all group-hover:bg-emerald-500/10"></div>
-             <i class="fas fa-broom text-xl sm:text-2xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Clean</span>
-          </button>
-
-          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
-             <i class="fas fa-screwdriver-wrench text-xl sm:text-2xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Repair</span>
-          </button>
-        </div>
-        <div class="mt-8 w-full flex justify-center">
             <button onclick="tenantLogout()" class="px-6 py-3 bg-rose-50 hover:bg-rose-100 border border-rose-100/50 text-rose-600 rounded-2xl font-bold text-sm text-center transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm">
               <i class="fas fa-power-off text-sm"></i> Securely Log Out
             </button>
@@ -3225,8 +3197,10 @@ window.fetchTenantDashboard = async () => {
     }
     const maintenancePage = byId("tenant-maintenance-page");
     const isMaintenanceActive = maintenancePage && !maintenancePage.classList.contains("hidden");
+    const isPayActive = payPage && !payPage.classList.contains("hidden");
+    const isProfileActive = profilePage && !profilePage.classList.contains("hidden");
 
-    if (!isMaintenanceActive) {
+    if (!isMaintenanceActive && !isPayActive && !isProfileActive) {
       dash.classList.remove("hidden");
       // Also ensure parent doesn't have stale dashboard-enter class
       if (dash.parentElement) dash.parentElement.classList.remove("dashboard-enter");
