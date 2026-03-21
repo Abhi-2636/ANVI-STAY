@@ -2454,26 +2454,6 @@ window.fetchTenantDashboard = async () => {
         </div>
 
 
-        <!-- NEW OUTSTANDING DUES SUPER HERO BANNER -->
-        <div class="bg-gradient-to-br from-slate-900 to-black rounded-[2rem] p-8 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.2)] relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6 group">
-          <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700"></div>
-          
-          <div class="relative z-10 w-full sm:w-auto text-center sm:text-left">
-            <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2 flex items-center justify-center sm:justify-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div> Status</p>
-            ${(!t.rentPaid || !t.elecPaid) 
-              ? `<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tighter mb-1">₹${Number((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0)).toLocaleString("en-IN")} <span class="text-rose-400 text-lg">Due</span></h2>
-                 <p class="text-sm font-bold text-slate-400">Total Outstanding Amount</p>`
-              : `<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tighter mb-1">All Clear! 🎉</h2>
-                 <p class="text-sm font-bold text-slate-400">You have zero outstanding dues.</p>`
-            }
-          </div>
-          
-          <div class="relative z-10 w-full sm:w-auto">
-            <button onclick="switchTenantTab('pay')" class="w-full sm:w-auto px-6 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-black text-sm transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
-              <i class="fas fa-wallet text-emerald-500"></i> ${(!t.rentPaid || !t.elecPaid) ? "Pay Now" : "View Receipts"}
-            </button>
-          </div>
-        </div>
 
         <!-- Emergency Contacts -->
         <div class="mt-8 bg-gradient-to-r from-slate-800 to-slate-900 rounded-[2rem] p-6 sm:p-8 text-white relative overflow-hidden">
