@@ -1544,7 +1544,7 @@ window.validateAdmin = async () => {
   }
 
   try {
-    // Faster connection logic for Vercel (no long cold starts)
+    // Connection logic with retry
     let res;
     const MAX_RETRIES = 2;
     const RETRY_DELAY = 1000;
@@ -1597,10 +1597,10 @@ window.validateAdmin = async () => {
     console.error("[Admin Login]", err);
     if (errEl) {
       errEl.textContent =
-        "Server is temporarily unavailable. Please wait a moment and try again.";
+        "Unable to connect to server. Please check your connection and try again.";
       errEl.classList.remove("hidden");
     }
-    toast("Connection error. Server may be starting up.", 4000);
+    toast("Connection error. Please try again.", 4000);
   }
 };
 
@@ -1963,7 +1963,7 @@ window.fetchTenantDashboard = async () => {
       throw new Error('All connection attempts failed. Server may be down.');
     }
     
-    // Hide the "waking up" error message since we got a response
+    // Hide any previous error message since we got a response
     const errEl = byId("tenant-error");
     if (errEl) errEl.classList.add("hidden");
 
@@ -3161,7 +3161,7 @@ window.fetchTenantDashboard = async () => {
     // Provide user-friendly error messages
     let userMsg = 'Unable to connect. Please check your internet and try again.';
     if (err.name === 'AbortError' || err.message?.includes('Failed to fetch') || err.message?.includes('NetworkError') || err.message?.includes('ECONNREFUSED')) {
-      userMsg = 'Server is temporarily unavailable. Our free-tier server may be starting up — please wait 30 seconds and try again.';
+      userMsg = 'Unable to reach the server. Please ensure the backend is running and try again.';
     } else if (err.message) {
       userMsg = `Connection error: ${err.message}`;
     }
