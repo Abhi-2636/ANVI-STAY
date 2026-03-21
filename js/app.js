@@ -2384,8 +2384,8 @@ window.fetchTenantDashboard = async () => {
           </div>
           <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
             <div class="absolute -right-4 -top-4 w-12 h-12 bg-amber-500/10 rounded-full blur-[10px] group-hover:bg-amber-500/20 transition-all"></div>
-            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Total Complaints</p>
-            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${(t.complaints || []).length}">0</p>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Active Requests</p>
+            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${(t.complaints || []).filter(c => c.status !== 'resolved').length}">0</p>
           </div>
           <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
             <div class="absolute -right-4 -top-4 w-12 h-12 bg-indigo-500/10 rounded-full blur-[10px] group-hover:bg-indigo-500/20 transition-all"></div>
@@ -2725,27 +2725,29 @@ window.fetchTenantDashboard = async () => {
               </button>
             </div>
             
-            ${(t.complaints || []).length
+            ${(() => {
+              const activeComplaints = (t.complaints || []).filter(c => c.status !== "resolved");
+              return activeComplaints.length
         ? `
               <div class="mt-10 animate-[fadeInUp_0.4s_ease]">
                 <div class="flex items-center gap-3 mb-6">
                   <div class="h-px flex-1 bg-gradient-to-r from-transparent to-slate-200"></div>
-                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400"><i class="fas fa-history mr-1"></i> Support History</p>
+                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400"><i class="fas fa-history mr-1"></i> Active Requests</p>
                   <div class="h-px flex-1 bg-gradient-to-l from-transparent to-slate-200"></div>
                 </div>
                 <div class="space-y-4">
-                ${(t.complaints || [])
+                ${activeComplaints
           .slice()
           .reverse()
           .map(
             (c) => `
                   <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow transition-shadow group/card relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 ${c.status === "resolved" ? "bg-emerald-400" : (c.status === "in-progress" ? "bg-blue-400" : "bg-amber-400")} transition-colors"></div>
+                    <div class="absolute left-0 top-0 bottom-0 w-1 ${c.status === "in-progress" ? "bg-blue-400" : "bg-amber-400"} transition-colors"></div>
                     <div class="flex items-start justify-between mb-5 pl-2">
                       <div>
-                        <p class="text-[10px] font-black uppercase tracking-widest ${c.status === "resolved" ? "text-emerald-500" : (c.status === "in-progress" ? "text-blue-500" : "text-amber-500")} mb-1.5 flex items-center gap-1.5">
-                          <i class="fas ${c.status === "resolved" ? "fa-check-double" : (c.status === "in-progress" ? "fa-hammer animate-pulse" : "fa-clock")}"></i> 
-                          ${c.status === "resolved" ? "Resolved" : (c.status === "in-progress" ? "Working On It" : "Filed")}
+                        <p class="text-[10px] font-black uppercase tracking-widest ${c.status === "in-progress" ? "text-blue-500" : "text-amber-500"} mb-1.5 flex items-center gap-1.5">
+                          <i class="fas ${c.status === "in-progress" ? "fa-hammer animate-pulse" : "fa-clock"}"></i> 
+                          ${c.status === "in-progress" ? "Working On It" : "Filed"}
                         </p>
                         <p class="text-sm font-bold text-slate-800 leading-snug">${c.text}</p>
                       </div>
@@ -2765,19 +2767,19 @@ window.fetchTenantDashboard = async () => {
                         <!-- Step 2: In Progress -->
                         <div class="flex flex-col items-center relative z-10 w-8">
                           <div class="w-6 h-6 rounded-full flex items-center justify-center ${c.status === "open" ? "bg-slate-100 text-slate-300" : "bg-blue-500 text-white shadow-md shadow-blue-500/20"} text-[8px] font-black transition-transform hover:scale-110 duration-500">
-                            <i class="fas ${c.status === "open" ? "fa-circle text-[4px]" : (c.status === "in-progress" ? "fa-cog animate-spin-slow" : "fa-check")}"></i>
+                            <i class="fas ${c.status === "open" ? "fa-circle text-[4px]" : "fa-cog animate-spin-slow"}"></i>
                           </div>
                           <p class="text-[8px] font-bold ${c.status === "open" ? "text-slate-400" : "text-blue-600"} mt-2 uppercase tracking-wider text-center absolute top-6 w-24 -ml-8 transition-colors">Working</p>
                         </div>
                         
-                        <div class="h-[2px] flex-1 ${c.status === "resolved" ? "bg-gradient-to-r from-blue-400 to-emerald-400" : "bg-slate-100"} transition-all duration-700 ease-in-out"></div>
+                        <div class="h-[2px] flex-1 bg-slate-100 transition-all duration-700 ease-in-out"></div>
                         
-                        <!-- Step 3: Resolved -->
+                        <!-- Step 3: Resolved (pending) -->
                         <div class="flex flex-col items-center relative z-10 w-8">
-                          <div class="w-6 h-6 rounded-full flex items-center justify-center ${c.status === "resolved" ? "bg-emerald-500 text-white shadow-md shadow-emerald-500/30" : "bg-slate-100 text-slate-300"} text-[8px] font-black transition-transform hover:scale-110 duration-500">
-                            <i class="fas ${c.status === "resolved" ? "fa-check-double" : "fa-flag-checkered"}"></i>
+                          <div class="w-6 h-6 rounded-full flex items-center justify-center bg-slate-100 text-slate-300 text-[8px] font-black transition-transform hover:scale-110 duration-500">
+                            <i class="fas fa-flag-checkered"></i>
                           </div>
-                          <p class="text-[8px] font-bold ${c.status === "resolved" ? "text-emerald-600" : "text-slate-400"} mt-2 uppercase tracking-wider text-center absolute top-6 w-16 -ml-4 transition-colors">Resolved</p>
+                          <p class="text-[8px] font-bold text-slate-400 mt-2 uppercase tracking-wider text-center absolute top-6 w-16 -ml-4 transition-colors">Resolved</p>
                         </div>
                       </div>
                       <div class="h-6"></div> <!-- spacer for the absolute position text -->
@@ -2790,7 +2792,7 @@ window.fetchTenantDashboard = async () => {
               </div>
             `
         : ""
-      }
+      })()}
           </div>
         </div>
 
