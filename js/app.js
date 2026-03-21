@@ -1861,7 +1861,8 @@ window.switchTenantTab = (tab) => {
   if (tab === "maintenance") {
     if (dash) dash.classList.add("hidden");
     renderMaintenancePage();
-    if (maintenancePage) maintenancePage.classList.remove("hidden");
+    const currPage = byId("tenant-maintenance-page");
+    if (currPage) currPage.classList.remove("hidden");
     window.scrollTo({ top: 0, behavior: "smooth" });
   } else if (tab === "pay") {
     if (maintenancePage) maintenancePage.classList.add("hidden");
