@@ -2049,11 +2049,11 @@ window.fetchTenantDashboard = async () => {
     } catch (e) {
       // Warning Suppressed
     }
-    // Count tenant notifications (active notices + resolved complaints)
-    const resolvedComplaints = (t.complaints || []).filter(
-      (c) => c.status === "resolved",
+    // Count tenant notifications (active notices + in-progress complaints)
+    const activeComplaints = (t.complaints || []).filter(
+      (c) => c.status === "in-progress",
     );
-    const tenantNotifCount = fetchedNotices.length + resolvedComplaints.length;
+    const tenantNotifCount = fetchedNotices.length + activeComplaints.length;
 
     const hour = new Date().getHours();
     const greeting =
@@ -6796,19 +6796,17 @@ function renderTenantNotifs(notices, complaints) {
     });
   });
 
-  // Resolved/in-progress complaints
+  // Only show in-progress complaints (resolved ones are hidden)
   (complaints || []).forEach((c) => {
     const id = `complaint-${c.id}`;
     if (dismissed.has(id)) return;
-    const isResolved = c.status === "resolved";
-    const isProgress = c.status === "in-progress";
-    if (!isResolved && !isProgress) return;
+    if (c.status !== "in-progress") return;
     items.push({
       id,
-      title: isResolved ? "✅ Complaint Resolved" : "🔧 Complaint In Progress",
+      title: "🔧 Complaint In Progress",
       body: c.text,
-      icon: isResolved ? "fa-circle-check" : "fa-screwdriver-wrench",
-      color: isResolved ? "emerald" : "blue",
+      icon: "fa-screwdriver-wrench",
+      color: "blue",
       time: c.createdAt ? new Date(c.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" }) : "",
     });
   });
