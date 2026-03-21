@@ -2453,54 +2453,181 @@ window.fetchTenantDashboard = async () => {
           </div>
         </div>
 
-
-        <!-- NEW OUTSTANDING DUES SUPER HERO BANNER -->
-        <div class="bg-gradient-to-br from-slate-900 to-black rounded-[2rem] p-8 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.2)] relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-6 group">
-          <div class="absolute -right-20 -top-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-emerald-500/20 transition-all duration-700"></div>
+        <!-- Tenant Profile Card -->
+        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-40 h-40 bg-[#C8A24A]/10 rounded-full blur-[60px]"></div>
           
-          <div class="relative z-10 w-full sm:w-auto text-center sm:text-left">
-            <p class="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2 flex items-center justify-center sm:justify-start gap-2"><div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></div> Status</p>
-            ${(!t.rentPaid || !t.elecPaid) 
-              ? `<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tighter mb-1">₹${Number((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0)).toLocaleString("en-IN")} <span class="text-rose-400 text-lg">Due</span></h2>
-                 <p class="text-sm font-bold text-slate-400">Total Outstanding Amount</p>`
-              : `<h2 class="text-3xl sm:text-4xl font-black text-white tracking-tighter mb-1">All Clear! 🎉</h2>
-                 <p class="text-sm font-bold text-slate-400">You have zero outstanding dues.</p>`
-            }
+          <div class="flex items-center gap-4 mb-8 relative z-10">
+            <div class="w-12 h-12 bg-gradient-to-br from-[#C8A24A] to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20">
+              <i class="fas fa-id-badge text-white text-lg"></i>
+            </div>
+            <div>
+              <p class="text-sm font-black uppercase tracking-widest text-slate-800">My Profile</p>
+              <p class="text-xs text-slate-500 font-medium mt-0.5">Your official registered details</p>
+            </div>
           </div>
+
+          <div class="flex flex-col sm:flex-row gap-6">
+            <!-- Photo -->
+            <div class="flex-shrink-0 flex justify-center sm:justify-start">
+              <div class="w-28 h-36 rounded-xl overflow-hidden shadow-lg border-2 border-slate-100 bg-slate-50 flex items-center justify-center">
+                ${t.photoUrl
+        ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
+        : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
+      }
+              </div>
+            </div>
+
+            <!-- Details -->
+            <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <i class="fas fa-user text-[#C8A24A] text-[10px]"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Full Name</p>
+                </div>
+                <p class="text-base font-bold text-slate-800">${t.name || "Not Set"}</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <i class="fas fa-phone text-emerald-500 text-[10px]"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Mobile No</p>
+                </div>
+                <p class="text-base font-bold text-slate-800">${t.phone || "N/A"}</p>
+              </div>
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <i class="fas fa-id-card text-blue-500 text-[10px]"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">College ID No</p>
+                </div>
+                <p class="text-base font-bold text-slate-800">${t.collegeIdNo || "N/A"}</p>
+              </div>
+              ${t.nationality === "Foreign"
+        ? `
+              <div class="bg-amber-50 rounded-xl p-4 border border-amber-200">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <i class="fas fa-globe text-amber-600 text-[10px]"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-amber-600">Foreign Student</p>
+                </div>
+                <p class="text-[9px] font-bold text-slate-500 mb-0.5">Passport: <span class="text-slate-800 text-sm">${t.passportNo || "N/A"}</span></p>
+                <p class="text-[9px] font-bold text-slate-500">Visa: <span class="text-slate-800 text-sm">${t.visaNo || "N/A"}</span></p>
+              </div>
+              `
+        : `
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <i class="fas fa-fingerprint text-purple-500 text-[10px]"></i>
+                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Aadhaar No</p>
+                </div>
+                <p class="text-base font-bold text-slate-800">${t.aadhaarNo ? t.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
+              </div>
+              `
+      }
+            </div>
+          </div>
+
+          ${t.secondTenant && t.secondTenant.name
+        ? `
+          <!-- 2nd Tenant -->
+          <div class="mt-6 pt-6 border-t border-slate-100">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
+                <i class="fas fa-user-plus text-indigo-500 text-[10px]"></i>
+              </div>
+              <p class="text-[10px] font-black uppercase tracking-widest text-indigo-500">Roommate</p>
+              ${t.secondTenant.nationality === "Foreign" ? '<span class="text-[8px] font-black bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full ml-2">🌍 FOREIGN</span>' : ""}
+            </div>
+            <div class="flex flex-col sm:flex-row gap-5">
+              <div class="flex-shrink-0 flex justify-center sm:justify-start">
+                <div class="w-20 h-26 rounded-lg overflow-hidden shadow border border-indigo-100 bg-indigo-50/50 flex items-center justify-center">
+                  ${t.secondTenant.photoUrl
+          ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
+          : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
+        }
+                </div>
+              </div>
+              <div class="flex-1 grid grid-cols-2 gap-3">
+                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
+                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Name</p>
+                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.name || "N/A"}</p>
+                </div>
+                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
+                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Mobile</p>
+                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.phone || "N/A"}</p>
+                </div>
+                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
+                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">College ID</p>
+                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.collegeIdNo || "N/A"}</p>
+                </div>
+                ${t.secondTenant.nationality === "Foreign"
+          ? `
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                  <p class="text-[8px] font-black uppercase tracking-widest text-amber-600 mb-0.5">Passport / Visa</p>
+                  <p class="text-[10px] font-bold text-slate-800">${t.secondTenant.passportNo || "N/A"} / ${t.secondTenant.visaNo || "N/A"}</p>
+                </div>
+                `
+          : `
+                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
+                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Aadhaar</p>
+                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.aadhaarNo ? t.secondTenant.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
+                </div>
+                `
+        }
+              </div>
+            </div>
+          </div>
+          `
+        : ""
+      }
+        </div>
+
+        </div>
+
+        <!-- Quick Actions Grid -->
+        <div class="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
+          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="magnetic-btn bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+             <i class="fas fa-wallet text-xl sm:text-2xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
+          </button>
           
-          <div class="relative z-10 w-full sm:w-auto">
-            <button onclick="switchTenantTab('pay')" class="w-full sm:w-auto px-6 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-black text-sm transition-all shadow-xl active:scale-95 flex items-center justify-center gap-2">
-              <i class="fas fa-wallet text-emerald-500"></i> ${(!t.rentPaid || !t.elecPaid) ? "Pay Now" : "View Receipts"}
-            </button>
+          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/5 rounded-full blur-xl transition-all group-hover:bg-blue-500/10"></div>
+             <i class="fas fa-file-invoice-dollar text-xl sm:text-2xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
+          </button>
+          
+          <button onclick="window.requestRoomCleaning()" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl transition-all group-hover:bg-emerald-500/10"></div>
+             <i class="fas fa-broom text-xl sm:text-2xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Clean</span>
+          </button>
+
+          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
+             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
+             <i class="fas fa-screwdriver-wrench text-xl sm:text-2xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
+             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Repair</span>
+          </button>
+        </div>
+
+        <!-- #9: Mini Stats Overview Cards -->
+        <div class="grid grid-cols-3 gap-3 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.25s;">
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-rose-500/10 rounded-full blur-[10px] group-hover:bg-rose-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Outstanding Dues</p>
+            <p class="text-xl sm:text-2xl font-black ${!t.rentPaid || !t.elecPaid ? "text-rose-500" : "text-slate-800"} tracking-tight counter-animate" data-val="${Math.round((!t.rentPaid ? Number(t.rentAmount || 0) : 0) + (!t.elecPaid ? totalElec : 0))}">₹0</p>
+          </div>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-amber-500/10 rounded-full blur-[10px] group-hover:bg-amber-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Active Requests</p>
+            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${(t.complaints || []).filter(c => c.status !== 'resolved').length}">0</p>
+          </div>
+          <div class="bg-white/80 backdrop-blur-xl rounded-[1.5rem] border border-white p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.05)] relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-12 h-12 bg-indigo-500/10 rounded-full blur-[10px] group-hover:bg-indigo-500/20 transition-all"></div>
+            <p class="text-[8px] sm:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Days Lived</p>
+            <p class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight counter-animate" data-val="${t.moveInDate ? Math.floor((new Date() - new Date(t.moveInDate)) / (1000 * 60 * 60 * 24)) : 0}">0</p>
           </div>
         </div>
 
-        <!-- Emergency Contacts -->
-        <div class="mt-8 bg-gradient-to-r from-slate-800 to-slate-900 rounded-[2rem] p-6 sm:p-8 text-white relative overflow-hidden">
-          <div class="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-[50px]"></div>
-          <div class="relative z-10">
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"><i class="fas fa-phone-alt mr-1"></i> Quick Connect</p>
-            <p class="text-sm text-slate-300 mb-4">You can reach the admin directly for any serious situations.</p>
-            <a href="https://wa.me/919142272776?text=${encodeURIComponent('Hi Administrator,')}" target="_blank" 
-              class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
-              <i class="fab fa-whatsapp text-lg"></i> Send WhatsApp Message
-            </a>
-          </div>
-        </div>
-      `;
-
-    const payPage = byId("tenant-pay-page");
-    if (payPage) {
-      payPage.innerHTML = `
-        <div class="flex items-center gap-3 mb-6 sm:mb-8 fade-in">
-          <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center shadow-inner">
-            <i class="fas fa-wallet text-xl"></i>
-          </div>
-          <div>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Payments</h2>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">Manage your rent and view invoices</p>
-          </div>
-        </div>
         <!-- Payment Status Cards -->
         <div id="tenant-payment-status" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.35s;">
 
@@ -3047,182 +3174,6 @@ window.fetchTenantDashboard = async () => {
           </div>
         </div>
       `;
-    }
-
-    const profilePage = byId("tenant-profile-page");
-    if (profilePage) {
-      profilePage.innerHTML = `
-        <div class="flex items-center gap-3 mb-6 sm:mb-8 fade-in">
-          <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center shadow-inner">
-            <i class="fas fa-user-circle text-xl"></i>
-          </div>
-          <div>
-            <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">My Profile</h2>
-            <p class="text-xs text-slate-500 font-medium mt-0.5">Your official registered details</p>
-          </div>
-        </div>
-        <!-- Tenant Profile Card -->
-        <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-40 h-40 bg-[#C8A24A]/10 rounded-full blur-[60px]"></div>
-          
-          <div class="flex items-center gap-4 mb-8 relative z-10">
-            <div class="w-12 h-12 bg-gradient-to-br from-[#C8A24A] to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20">
-              <i class="fas fa-id-badge text-white text-lg"></i>
-            </div>
-            <div>
-              <p class="text-sm font-black uppercase tracking-widest text-slate-800">My Profile</p>
-              <p class="text-xs text-slate-500 font-medium mt-0.5">Your official registered details</p>
-            </div>
-          </div>
-
-          <div class="flex flex-col sm:flex-row gap-6">
-            <!-- Photo -->
-            <div class="flex-shrink-0 flex justify-center sm:justify-start">
-              <div class="w-28 h-36 rounded-xl overflow-hidden shadow-lg border-2 border-slate-100 bg-slate-50 flex items-center justify-center">
-                ${t.photoUrl
-        ? `<img src="${t.photoUrl}" class="w-full h-full object-cover" alt="Profile Photo">`
-        : `<div class="text-center"><i class="fas fa-user-circle text-5xl text-slate-300"></i><p class="text-[8px] font-bold text-slate-300 mt-1 uppercase">No Photo</p></div>`
-      }
-              </div>
-            </div>
-
-            <!-- Details -->
-            <div class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <i class="fas fa-user text-[#C8A24A] text-[10px]"></i>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Full Name</p>
-                </div>
-                <p class="text-base font-bold text-slate-800">${t.name || "Not Set"}</p>
-              </div>
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <i class="fas fa-phone text-emerald-500 text-[10px]"></i>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Mobile No</p>
-                </div>
-                <p class="text-base font-bold text-slate-800">${t.phone || "N/A"}</p>
-              </div>
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <i class="fas fa-id-card text-blue-500 text-[10px]"></i>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">College ID No</p>
-                </div>
-                <p class="text-base font-bold text-slate-800">${t.collegeIdNo || "N/A"}</p>
-              </div>
-              ${t.nationality === "Foreign"
-        ? `
-              <div class="bg-amber-50 rounded-xl p-4 border border-amber-200">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <i class="fas fa-globe text-amber-600 text-[10px]"></i>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-amber-600">Foreign Student</p>
-                </div>
-                <p class="text-[9px] font-bold text-slate-500 mb-0.5">Passport: <span class="text-slate-800 text-sm">${t.passportNo || "N/A"}</span></p>
-                <p class="text-[9px] font-bold text-slate-500">Visa: <span class="text-slate-800 text-sm">${t.visaNo || "N/A"}</span></p>
-              </div>
-              `
-        : `
-              <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                <div class="flex items-center gap-2 mb-1.5">
-                  <i class="fas fa-fingerprint text-purple-500 text-[10px]"></i>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-slate-400">Aadhaar No</p>
-                </div>
-                <p class="text-base font-bold text-slate-800">${t.aadhaarNo ? t.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
-              </div>
-              `
-      }
-            </div>
-          </div>
-
-          ${t.secondTenant && t.secondTenant.name
-        ? `
-          <!-- 2nd Tenant -->
-          <div class="mt-6 pt-6 border-t border-slate-100">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <i class="fas fa-user-plus text-indigo-500 text-[10px]"></i>
-              </div>
-              <p class="text-[10px] font-black uppercase tracking-widest text-indigo-500">Roommate</p>
-              ${t.secondTenant.nationality === "Foreign" ? '<span class="text-[8px] font-black bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full ml-2">🌍 FOREIGN</span>' : ""}
-            </div>
-            <div class="flex flex-col sm:flex-row gap-5">
-              <div class="flex-shrink-0 flex justify-center sm:justify-start">
-                <div class="w-20 h-26 rounded-lg overflow-hidden shadow border border-indigo-100 bg-indigo-50/50 flex items-center justify-center">
-                  ${t.secondTenant.photoUrl
-          ? `<img src="${t.secondTenant.photoUrl}" class="w-full h-full object-cover" alt="2nd Tenant Photo">`
-          : `<i class="fas fa-user-circle text-3xl text-indigo-200"></i>`
-        }
-                </div>
-              </div>
-              <div class="flex-1 grid grid-cols-2 gap-3">
-                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
-                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Name</p>
-                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.name || "N/A"}</p>
-                </div>
-                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
-                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Mobile</p>
-                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.phone || "N/A"}</p>
-                </div>
-                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
-                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">College ID</p>
-                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.collegeIdNo || "N/A"}</p>
-                </div>
-                ${t.secondTenant.nationality === "Foreign"
-          ? `
-                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
-                  <p class="text-[8px] font-black uppercase tracking-widest text-amber-600 mb-0.5">Passport / Visa</p>
-                  <p class="text-[10px] font-bold text-slate-800">${t.secondTenant.passportNo || "N/A"} / ${t.secondTenant.visaNo || "N/A"}</p>
-                </div>
-                `
-          : `
-                <div class="bg-indigo-50/50 rounded-lg p-3 border border-indigo-100">
-                  <p class="text-[8px] font-black uppercase tracking-widest text-indigo-400 mb-0.5">Aadhaar</p>
-                  <p class="text-sm font-bold text-slate-800">${t.secondTenant.aadhaarNo ? t.secondTenant.aadhaarNo.replace(/(\d{4})(\d{4})(\d{4})/, "$1 $2 $3") : "N/A"}</p>
-                </div>
-                `
-        }
-              </div>
-            </div>
-          </div>
-          `
-        : ""
-      }
-        </div>
-
-        </div>
-
-        <!-- Quick Actions Grid -->
-        <div class="grid grid-cols-4 gap-2 sm:gap-4 mb-6 sm:mb-10 fade-in" style="animation-delay: 0.2s;">
-          <button onclick="document.getElementById('tenant-payment-status').scrollIntoView({behavior: 'smooth', block: 'start'})" class="magnetic-btn bg-gradient-to-br from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.5)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-             <i class="fas fa-wallet text-xl sm:text-2xl mb-1 relative z-10 drop-shadow-sm group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Pay Now</span>
-          </button>
-          
-          <button onclick="const el = document.getElementById('tenant-payment-history'); if(el) el.scrollIntoView({behavior: 'smooth', block: 'start'}); else alert('No payment receipts found yet.');" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-blue-500/5 rounded-full blur-xl transition-all group-hover:bg-blue-500/10"></div>
-             <i class="fas fa-file-invoice-dollar text-xl sm:text-2xl text-blue-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Receipts</span>
-          </button>
-          
-          <button onclick="window.requestRoomCleaning()" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-emerald-500/5 rounded-full blur-xl transition-all group-hover:bg-emerald-500/10"></div>
-             <i class="fas fa-broom text-xl sm:text-2xl text-emerald-500 mb-1 relative z-10 group-hover:scale-110 transition-transform hover:rotate-12"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Clean</span>
-          </button>
-
-          <button onclick="document.getElementById('tenant-complaint-section').scrollIntoView({behavior: 'smooth', block: 'center'}); setTimeout(() => document.getElementById('tenant-complaint-input').focus(), 600);" class="magnetic-btn bg-white/80 backdrop-blur-xl hover:bg-white border border-white text-slate-700 rounded-[1.5rem] p-3 sm:p-5 flex flex-col items-center justify-center gap-2 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] transition-all hover:-translate-y-1 group relative overflow-hidden">
-             <div class="absolute -right-6 -top-6 w-20 h-20 bg-rose-500/5 rounded-full blur-xl transition-all group-hover:bg-rose-500/10"></div>
-             <i class="fas fa-screwdriver-wrench text-xl sm:text-2xl text-rose-500 mb-1 relative z-10 group-hover:scale-110 transition-transform"></i>
-             <span class="text-[9px] sm:text-xs font-black uppercase tracking-wider relative z-10">Repair</span>
-          </button>
-        </div>
-        <div class="mt-8 w-full flex justify-center">
-            <button onclick="tenantLogout()" class="px-6 py-3 bg-rose-50 hover:bg-rose-100 border border-rose-100/50 text-rose-600 rounded-2xl font-bold text-sm text-center transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-sm">
-              <i class="fas fa-power-off text-sm"></i> Securely Log Out
-            </button>
-        </div>
-      `;
-    }
     const maintenancePage = byId("tenant-maintenance-page");
     const isMaintenanceActive = maintenancePage && !maintenancePage.classList.contains("hidden");
 
