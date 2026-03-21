@@ -2018,7 +2018,32 @@ function renderMaintenancePage() {
         <p class="text-lg font-black text-slate-700 mb-1">All Clear!</p>
         <p class="text-sm text-slate-500">You have no active maintenance requests.</p>
       </div>
+      </div>
     `}
+
+    <!-- Resolved History -->
+    ${allComplaints.filter(c => c.status === "resolved").length ? `
+      <div class="mb-6 mt-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent to-slate-200"></div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-slate-400"><i class="fas fa-check-double mr-1"></i> Resolved History</p>
+          <div class="h-px flex-1 bg-gradient-to-l from-transparent to-slate-200"></div>
+        </div>
+        <div class="space-y-3">
+          ${allComplaints.filter(c => c.status === "resolved").slice().reverse().map(c => `
+            <div class="bg-emerald-50/50 border border-emerald-100 p-4 rounded-2xl flex gap-3 items-start opacity-80 hover:opacity-100 transition-opacity">
+              <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-check text-emerald-600 text-[10px]"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-slate-700 leading-snug">${c.text}</p>
+                ${c.createdAt ? `<p class="text-[9px] font-medium text-slate-400 mt-1"><i class="far fa-calendar-check mr-1"></i>${new Date(c.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</p>` : ""}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    ` : ""}
 
     <!-- Emergency Contact -->
     <div class="mt-8 bg-gradient-to-r from-slate-800 to-slate-900 rounded-[2rem] p-6 sm:p-8 text-white relative overflow-hidden">
@@ -2045,6 +2070,17 @@ window.submitTenantComplaint = async (btn) => {
   if (!state.tenantLogin) {
     toast("Session expired. Please login again.");
     return;
+  }
+
+  // Prevent Duplicate Active Complaints
+  const key = `${state.tenantLogin.bid}-${state.tenantLogin.rno}`;
+  const t = state.tenants[key];
+  if (t && t.complaints) {
+    const isDuplicate = t.complaints.some(c => c.status !== "resolved" && c.text.toLowerCase() === text.toLowerCase());
+    if (isDuplicate) {
+      toast("⚠️ You already have an active request for this specific issue.", 4000);
+      return;
+    }
   }
 
   // Visual loading state
