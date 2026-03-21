@@ -3135,18 +3135,24 @@ window.fetchTenantDashboard = async () => {
           </div>
         </div>
       `;
-    dash.classList.remove("hidden");
-    // Also ensure parent doesn't have stale dashboard-enter class
-    if (dash.parentElement) dash.parentElement.classList.remove("dashboard-enter");
-    // Hide the login form
+    const maintenancePage = byId("tenant-maintenance-page");
+    const isMaintenanceActive = maintenancePage && !maintenancePage.classList.contains("hidden");
+
+    if (!isMaintenanceActive) {
+      dash.classList.remove("hidden");
+      // Also ensure parent doesn't have stale dashboard-enter class
+      if (dash.parentElement) dash.parentElement.classList.remove("dashboard-enter");
+      // Cascading reveal animation (Feature #15)
+      // Remove first to force re-trigger, then re-add
+      dash.classList.remove("dashboard-enter");
+      void dash.offsetWidth; // Force reflow to restart animation
+      dash.classList.add("dashboard-enter");
+      setTimeout(() => dash.classList.remove("dashboard-enter"), 1200);
+      dash.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    
+    // Hide the login form in all cases
     if (loginForm) loginForm.classList.add("hidden");
-    // Cascading reveal animation (Feature #15)
-    // Remove first to force re-trigger, then re-add
-    dash.classList.remove("dashboard-enter");
-    void dash.offsetWidth; // Force reflow to restart animation
-    dash.classList.add("dashboard-enter");
-    setTimeout(() => dash.classList.remove("dashboard-enter"), 1200);
-    dash.scrollIntoView({ behavior: "smooth", block: "start" });
 
     // Populate tenant notification dropdown
     renderTenantNotifs(fetchedNotices, t.complaints);
