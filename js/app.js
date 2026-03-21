@@ -1844,6 +1844,196 @@ window.tenantLogout = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
+// ═══ Tenant Tab Navigation ═══
+window.switchTenantTab = (tab) => {
+  const dash = byId("tenant-dash");
+  const maintenancePage = byId("tenant-maintenance-page");
+  const nav = byId("mobile-bottom-nav");
+
+  // Update nav active state
+  if (nav) {
+    nav.querySelectorAll(".nav-item").forEach(item => {
+      item.classList.remove("active");
+      if (item.dataset.tab === tab) item.classList.add("active");
+    });
+  }
+
+  if (tab === "maintenance") {
+    if (dash) dash.classList.add("hidden");
+    renderMaintenancePage();
+    if (maintenancePage) maintenancePage.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } else if (tab === "pay") {
+    if (maintenancePage) maintenancePage.classList.add("hidden");
+    if (dash) dash.classList.remove("hidden");
+    const paySection = byId("tenant-payment-status");
+    if (paySection) paySection.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else if (tab === "profile") {
+    if (maintenancePage) maintenancePage.classList.add("hidden");
+    if (dash) dash.classList.remove("hidden");
+    const profileSection = byId("tenant-profile-card");
+    if (profileSection) profileSection.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else {
+    // Home
+    if (maintenancePage) maintenancePage.classList.add("hidden");
+    if (dash) dash.classList.remove("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+};
+
+// ═══ Render Maintenance Page ═══
+function renderMaintenancePage() {
+  let page = byId("tenant-maintenance-page");
+  if (!page) {
+    page = document.createElement("div");
+    page.id = "tenant-maintenance-page";
+    page.className = "max-w-[72rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 hidden relative z-10 w-full mb-16 sm:mb-0";
+    const dash = byId("tenant-dash");
+    if (dash) dash.parentElement.insertBefore(page, dash.nextSibling);
+  }
+
+  const login = state.tenantLogin;
+  if (!login) return;
+  const key = `${login.bid}-${login.rno}`;
+  const t = state.tenants[key];
+  if (!t) return;
+
+  const allComplaints = t.complaints || [];
+  const activeComplaints = allComplaints.filter(c => c.status !== "resolved");
+  const openCount = allComplaints.filter(c => c.status === "open").length;
+  const progressCount = allComplaints.filter(c => c.status === "in-progress").length;
+
+  page.innerHTML = `
+    <!-- Back to Dashboard -->
+    <button onclick="switchTenantTab('home')" class="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-emerald-600 mb-6 transition-colors group">
+      <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Dashboard
+    </button>
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <div class="flex items-center gap-4 mb-2">
+        <div class="w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+          <i class="fas fa-tools text-white text-xl"></i>
+        </div>
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Maintenance</h2>
+          <p class="text-xs text-slate-500 font-medium mt-0.5">Report issues & track your requests</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-3 gap-3 mb-8">
+      <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white p-4 text-center shadow-sm">
+        <p class="text-2xl font-black text-amber-500">${openCount}</p>
+        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Open</p>
+      </div>
+      <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white p-4 text-center shadow-sm">
+        <p class="text-2xl font-black text-blue-500">${progressCount}</p>
+        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">In Progress</p>
+      </div>
+      <div class="bg-white/80 backdrop-blur-xl rounded-2xl border border-white p-4 text-center shadow-sm">
+        <p class="text-2xl font-black text-emerald-500">${allComplaints.filter(c => c.status === "resolved").length}</p>
+        <p class="text-[9px] font-black uppercase tracking-widest text-slate-400 mt-1">Resolved</p>
+      </div>
+    </div>
+
+    <!-- Submit New Request -->
+    <div class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 mb-8 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden">
+      <div class="absolute -right-20 -top-20 w-64 h-64 bg-rose-500/5 rounded-full blur-[50px]"></div>
+      
+      <div class="flex items-center gap-3 mb-6 relative z-10">
+        <div class="w-10 h-10 bg-rose-50 border border-rose-100/50 rounded-xl flex items-center justify-center">
+          <i class="fas fa-plus text-rose-500"></i>
+        </div>
+        <div>
+          <p class="text-sm font-black text-slate-800">New Request</p>
+          <p class="text-[10px] text-slate-500 font-medium">Describe the issue you're facing</p>
+        </div>
+      </div>
+      
+      <div class="relative z-10">
+        <div class="flex flex-col sm:flex-row gap-3 bg-white p-2 sm:p-2.5 rounded-[1.5rem] border border-slate-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus-within:ring-2 focus-within:ring-rose-100 transition-all">
+          <div class="flex-1 relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <i class="fas fa-pen text-slate-400"></i>
+            </div>
+            <input id="tenant-complaint-input" type="text" placeholder="E.g. AC is not cooling properly..." class="w-full pl-11 pr-4 py-3.5 sm:py-4 bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none placeholder:text-slate-400">
+          </div>
+          <button id="tenant-complaint-btn" onclick="submitTenantComplaint(this)" class="w-full sm:w-auto px-8 py-3.5 sm:py-4 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:shadow-rose-500/30 active:scale-95 flex items-center justify-center gap-2">
+            <span>Submit</span> <i class="fas fa-paper-plane text-xs ml-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Issue Buttons -->
+      <div class="mt-5 flex flex-wrap gap-2 relative z-10">
+        ${["🔧 Plumbing", "❄️ AC Issue", "💡 Electrical", "🚿 Water", "🧹 Cleaning", "🔒 Lock/Door"].map(issue => `
+          <button onclick="document.getElementById('tenant-complaint-input').value='${issue.slice(2).trim()} issue in my room'; document.getElementById('tenant-complaint-input').focus();" 
+            class="px-3 py-1.5 bg-slate-50 hover:bg-rose-50 border border-slate-100 hover:border-rose-200 rounded-full text-[11px] font-bold text-slate-600 hover:text-rose-600 transition-all active:scale-95">${issue}</button>
+        `).join("")}
+      </div>
+    </div>
+
+    <!-- Active Requests -->
+    ${activeComplaints.length ? `
+      <div class="mb-6">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="h-px flex-1 bg-gradient-to-r from-transparent to-slate-200"></div>
+          <p class="text-[10px] font-black uppercase tracking-widest text-slate-400"><i class="fas fa-spinner fa-spin mr-1"></i> Active Requests (${activeComplaints.length})</p>
+          <div class="h-px flex-1 bg-gradient-to-l from-transparent to-slate-200"></div>
+        </div>
+        <div class="space-y-4">
+          ${activeComplaints.slice().reverse().map(c => `
+            <div class="bg-white/80 backdrop-blur-xl border border-white p-5 sm:p-6 rounded-2xl shadow-sm hover:shadow-md transition-all relative overflow-hidden">
+              <div class="absolute left-0 top-0 bottom-0 w-1.5 ${c.status === "in-progress" ? "bg-blue-400" : "bg-amber-400"} rounded-r"></div>
+              <div class="pl-3">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${c.status === "in-progress" ? "bg-blue-50 text-blue-600 border border-blue-100" : "bg-amber-50 text-amber-600 border border-amber-100"}">
+                    <i class="fas ${c.status === "in-progress" ? "fa-hammer animate-pulse" : "fa-clock"}"></i>
+                    ${c.status === "in-progress" ? "In Progress" : "Open"}
+                  </span>
+                  ${c.createdAt ? `<span class="text-[10px] text-slate-400 font-medium"><i class="far fa-clock mr-1"></i>${new Date(c.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}</span>` : ""}
+                </div>
+                <p class="text-sm font-bold text-slate-800 leading-relaxed">${c.text}</p>
+                
+                <!-- Progress Bar -->
+                <div class="mt-4 flex items-center gap-2">
+                  <div class="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full rounded-full transition-all duration-1000 ${c.status === "in-progress" ? "bg-gradient-to-r from-amber-400 to-blue-500 w-2/3" : "bg-amber-400 w-1/3"}"></div>
+                  </div>
+                  <span class="text-[9px] font-black text-slate-400 uppercase">${c.status === "in-progress" ? "66%" : "33%"}</span>
+                </div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    ` : `
+      <div class="bg-white/60 backdrop-blur-xl rounded-[2rem] border border-white/80 p-12 text-center shadow-sm">
+        <div class="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-5">
+          <i class="fas fa-check-circle text-emerald-400 text-3xl"></i>
+        </div>
+        <p class="text-lg font-black text-slate-700 mb-1">All Clear!</p>
+        <p class="text-sm text-slate-500">You have no active maintenance requests.</p>
+      </div>
+    `}
+
+    <!-- Emergency Contact -->
+    <div class="mt-8 bg-gradient-to-r from-slate-800 to-slate-900 rounded-[2rem] p-6 sm:p-8 text-white relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-[50px]"></div>
+      <div class="relative z-10">
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"><i class="fas fa-phone-alt mr-1"></i> Emergency?</p>
+        <p class="text-sm text-slate-300 mb-4">For urgent issues like water leaks, electrical hazards, or lock problems — contact us immediately.</p>
+        <a href="https://wa.me/919142272776?text=🚨 URGENT: I need immediate maintenance help!%0A%0ARoom: ${login.rno}%0ABuilding: ${login.bid}%0A%0AIssue: " target="_blank" 
+          class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
+          <i class="fab fa-whatsapp text-lg"></i> Emergency WhatsApp
+        </a>
+      </div>
+    </div>
+  `;
+}
+
 window.submitTenantComplaint = async (btn) => {
   const inputEl = byId("tenant-complaint-input");
   const text = inputEl?.value?.trim();
@@ -1873,10 +2063,15 @@ window.submitTenantComplaint = async (btn) => {
     });
     const result = await res.json();
     if (result.success) {
-      toast("Complaint submitted!");
+      toast("✅ Complaint submitted successfully!");
       if (inputEl) inputEl.value = ""; // Clear input
-      // Refresh dashboard to show the new complaint
-      fetchTenantDashboard();
+      // Refresh data and re-render maintenance page
+      fetchTenantDashboard().then(() => {
+        const maintenancePage = byId("tenant-maintenance-page");
+        if (maintenancePage && !maintenancePage.classList.contains("hidden")) {
+          renderMaintenancePage();
+        }
+      });
     } else {
       toast(result.message || "Failed to submit complaint.", 4000);
     }
@@ -2698,101 +2893,28 @@ window.fetchTenantDashboard = async () => {
 
         <!-- Action Buttons -->
 
-        <!-- Complaint Form -->
-        <div id="tenant-complaint-section" class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-10 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] relative overflow-hidden transition-all duration-300 hover:shadow-[0_20px_40px_-10px_rgba(244,63,94,0.1)] group">
-          <div class="absolute -right-20 -top-20 w-64 h-64 bg-rose-500/5 rounded-full blur-[50px] transition-transform duration-[2s] group-hover:scale-110"></div>
-          
-          <div class="flex items-center gap-4 mb-8 relative z-10">
-            <div class="w-12 h-12 bg-rose-50 border border-rose-100/50 rounded-2xl flex items-center justify-center shadow-inner group-hover:bg-rose-100 transition-colors">
-              <i class="fas fa-comment-dots text-rose-500 text-lg"></i>
-            </div>
-            <div>
-              <p class="text-sm font-black uppercase tracking-widest text-slate-800">Support & Complaints</p>
-              <p class="text-xs text-slate-500 font-medium mt-0.5">Report maintenance or service issues instantly</p>
-            </div>
-          </div>
-          
-          <div class="relative z-10">
-            <div class="flex flex-col sm:flex-row gap-3 bg-white p-2 sm:p-2.5 rounded-[1.5rem] border border-slate-100 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)] focus-within:ring-2 focus-within:ring-rose-100 transition-all">
-              <div class="flex-1 relative">
-                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <i class="fas fa-pen text-slate-400"></i>
-                </div>
-                <input id="tenant-complaint-input" type="text" placeholder="E.g. AC is not cooling properly..." class="w-full pl-11 pr-4 py-3.5 sm:py-4 bg-transparent border-none text-sm font-medium text-slate-800 focus:outline-none placeholder:text-slate-400">
+        <!-- Maintenance Quick Link -->
+        <div onclick="switchTenantTab('maintenance')" class="bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white p-6 sm:p-8 mb-6 sm:mb-10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.05)] cursor-pointer hover:shadow-[0_20px_40px_-10px_rgba(244,63,94,0.1)] transition-all group active:scale-[0.98]">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 bg-gradient-to-br from-rose-500 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform">
+                <i class="fas fa-tools text-white text-xl"></i>
               </div>
-              <button id="tenant-complaint-btn" onclick="submitTenantComplaint(this)" class="w-full sm:w-auto px-8 py-3.5 sm:py-4 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-xl font-bold text-sm transition-all shadow-md hover:shadow-lg hover:shadow-rose-500/30 active:scale-95 flex items-center justify-center gap-2">
-                <span>Submit</span> <i class="fas fa-paper-plane text-xs ml-1 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"></i>
-              </button>
-            </div>
-            
-            ${(() => {
-              const activeComplaints = (t.complaints || []).filter(c => c.status !== "resolved");
-              return activeComplaints.length
-        ? `
-              <div class="mt-10 animate-[fadeInUp_0.4s_ease]">
-                <div class="flex items-center gap-3 mb-6">
-                  <div class="h-px flex-1 bg-gradient-to-r from-transparent to-slate-200"></div>
-                  <p class="text-[10px] font-black uppercase tracking-widest text-slate-400"><i class="fas fa-history mr-1"></i> Active Requests</p>
-                  <div class="h-px flex-1 bg-gradient-to-l from-transparent to-slate-200"></div>
-                </div>
-                <div class="space-y-4">
-                ${activeComplaints
-          .slice()
-          .reverse()
-          .map(
-            (c) => `
-                  <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow transition-shadow group/card relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-1 ${c.status === "in-progress" ? "bg-blue-400" : "bg-amber-400"} transition-colors"></div>
-                    <div class="flex items-start justify-between mb-5 pl-2">
-                      <div>
-                        <p class="text-[10px] font-black uppercase tracking-widest ${c.status === "in-progress" ? "text-blue-500" : "text-amber-500"} mb-1.5 flex items-center gap-1.5">
-                          <i class="fas ${c.status === "in-progress" ? "fa-hammer animate-pulse" : "fa-clock"}"></i> 
-                          ${c.status === "in-progress" ? "Working On It" : "Filed"}
-                        </p>
-                        <p class="text-sm font-bold text-slate-800 leading-snug">${c.text}</p>
-                      </div>
-                    </div>
-                    
-                    <!-- Premium Kanban Visual Tracker -->
-                    <div class="pl-2 mt-4 pt-4 border-t border-slate-50 border-dashed">
-                      <div class="flex items-center w-full max-w-sm mx-auto">
-                        <!-- Step 1: Filed -->
-                        <div class="flex flex-col items-center relative z-10 w-8">
-                          <div class="w-6 h-6 rounded-full flex items-center justify-center bg-amber-500 text-white text-[8px] font-black shadow-md shadow-amber-500/20 transition-transform hover:scale-110"><i class="fas fa-check"></i></div>
-                          <p class="text-[8px] font-bold text-amber-600 mt-2 uppercase tracking-wider text-center absolute top-6 w-16 -ml-4">Filed</p>
-                        </div>
-                        
-                        <div class="h-[2px] flex-1 ${c.status !== "open" ? "bg-gradient-to-r from-amber-400 to-blue-400" : "bg-slate-100"} transition-all duration-700 ease-in-out"></div>
-                        
-                        <!-- Step 2: In Progress -->
-                        <div class="flex flex-col items-center relative z-10 w-8">
-                          <div class="w-6 h-6 rounded-full flex items-center justify-center ${c.status === "open" ? "bg-slate-100 text-slate-300" : "bg-blue-500 text-white shadow-md shadow-blue-500/20"} text-[8px] font-black transition-transform hover:scale-110 duration-500">
-                            <i class="fas ${c.status === "open" ? "fa-circle text-[4px]" : "fa-cog animate-spin-slow"}"></i>
-                          </div>
-                          <p class="text-[8px] font-bold ${c.status === "open" ? "text-slate-400" : "text-blue-600"} mt-2 uppercase tracking-wider text-center absolute top-6 w-24 -ml-8 transition-colors">Working</p>
-                        </div>
-                        
-                        <div class="h-[2px] flex-1 bg-slate-100 transition-all duration-700 ease-in-out"></div>
-                        
-                        <!-- Step 3: Resolved (pending) -->
-                        <div class="flex flex-col items-center relative z-10 w-8">
-                          <div class="w-6 h-6 rounded-full flex items-center justify-center bg-slate-100 text-slate-300 text-[8px] font-black transition-transform hover:scale-110 duration-500">
-                            <i class="fas fa-flag-checkered"></i>
-                          </div>
-                          <p class="text-[8px] font-bold text-slate-400 mt-2 uppercase tracking-wider text-center absolute top-6 w-16 -ml-4 transition-colors">Resolved</p>
-                        </div>
-                      </div>
-                      <div class="h-6"></div> <!-- spacer for the absolute position text -->
-                    </div>
-                  </div>
-                `,
-          )
-          .join("")}
-                </div>
+              <div>
+                <p class="text-sm font-black text-slate-800 tracking-tight">Maintenance & Support</p>
+                <p class="text-xs text-slate-500 font-medium mt-0.5">${(() => {
+                  const active = (t.complaints || []).filter(c => c.status !== "resolved").length;
+                  return active > 0 ? active + " active request" + (active > 1 ? "s" : "") : "Report issues & track requests";
+                })()}</p>
               </div>
-            `
-        : ""
-      })()}
+            </div>
+            <div class="flex items-center gap-2">
+              ${(() => {
+                const active = (t.complaints || []).filter(c => c.status !== "resolved").length;
+                return active > 0 ? '<span class="w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center text-[10px] font-black">' + active + '</span>' : '';
+              })()}
+              <i class="fas fa-chevron-right text-slate-300 group-hover:text-rose-500 group-hover:translate-x-1 transition-all"></i>
+            </div>
           </div>
         </div>
 

@@ -163,9 +163,9 @@
   <div id="tenant-dash" class="max-w-[72rem] mx-auto px-4 sm:px-6 py-8 sm:py-12 hidden relative z-10 w-full mb-16 sm:mb-0"></div>
   
   <div id="mobile-bottom-nav" class="mobile-bottom-nav hidden">
-    <a href="#" onclick="window.scrollTo({top:0, behavior:'smooth'}); return false;" class="nav-item active"><i class="fas fa-home"></i><span>Home</span></a>
-    <a href="#tenant-payment-status" class="nav-item"><i class="fas fa-wallet"></i><span>Pay</span></a>
-    <a href="#tenant-complaint-section" class="nav-item"><i class="fas fa-headset"></i><span>Support</span></a>
-    <a href="#tenant-profile-card" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    <a href="#" onclick="switchTenantTab('home'); return false;" class="nav-item active" data-tab="home"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" onclick="switchTenantTab('maintenance'); return false;" class="nav-item" data-tab="maintenance"><i class="fas fa-wrench"></i><span>Maintenance</span></a>
+    <a href="#" onclick="switchTenantTab('pay'); return false;" class="nav-item" data-tab="pay"><i class="fas fa-wallet"></i><span>Pay</span></a>
+    <a href="#" onclick="switchTenantTab('profile'); return false;" class="nav-item" data-tab="profile"><i class="fas fa-user"></i><span>Profile</span></a>
   </div>
 </div>
