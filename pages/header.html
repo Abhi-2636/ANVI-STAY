@@ -1,0 +1,115 @@
+<!-- Header Navigation -->
+<header id="main-header"
+  class="main-header bg-white/98 backdrop-blur-xl sticky top-0 z-50 border-b border-slate-100/80">
+  <nav class="container mx-auto px-6 py-3.5 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <a href="javascript:void(0)" class="flex items-center gap-3" onclick="navigateTo('landing')" aria-label="Home">
+        <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center overflow-hidden transition-transform hover:scale-105 duration-300">
+          <img src="assets/img/logo.png" alt="ANVI STAY Logo" class="w-full h-full object-cover" onerror="this.src='logo.png'"/>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-none">ANVI STAY</span>
+          <span class="text-[8px] sm:text-[9px] uppercase tracking-[0.15em] text-slate-400 font-bold mt-0.5">Student
+            Housing</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Desktop actions -->
+    <div id="nav-desktop-links" class="hidden md:flex items-center gap-2 lg:gap-3">
+      <a href="#services" data-nav="services" class="nav-link">
+        <i class="fas fa-concierge-bell text-xs text-[#C8A24A]" aria-hidden="true"></i>
+        Services
+      </a>
+      <a href="#properties" data-nav="rooms" class="nav-link">
+        <i class="fas fa-door-open text-xs text-[#C8A24A]" aria-hidden="true"></i>
+        Rooms
+      </a>
+      <div class="portal-dropdown" data-nav="portal">
+        <button class="portal-trigger">
+          <i class="fas fa-right-to-bracket text-xs text-[#C8A24A]" aria-hidden="true"></i>
+          Portal
+          <i class="fas fa-chevron-down chevron"></i>
+        </button>
+        <div class="portal-menu">
+          <button onclick="navigateTo('tenant')" class="portal-option" data-nav="tenant">
+            <div class="po-icon bg-[#F4EFE6] text-[#C8A24A]">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="po-info">
+              Tenant Portal
+              <small>Room access & rent info</small>
+            </div>
+          </button>
+          <button onclick="navigateTo('admin-login')" class="portal-option" data-nav="admin">
+            <div class="po-icon bg-slate-100 text-slate-600">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="po-info">
+              Admin Access
+              <small>Owner command panel</small>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div class="w-px h-6 bg-slate-200 mx-1 hidden lg:block"></div>
+      <button id="dark-mode-toggle" class="dark-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+        <i class="fas fa-moon" id="dark-mode-icon"></i>
+      </button>
+      <div class="portal-dropdown">
+        <button class="nav-cta">
+          💬 Contact Us
+          <i class="fas fa-chevron-down text-[8px] opacity-70"></i>
+        </button>
+        <div class="portal-menu" style="min-width: 260px">
+          <a href="https://wa.me/919142272776?text=Hello%20ANVI%20STAY!%0A%0AI%20am%20looking%20for%20a%20room%20near%20LPU.%0A%0APlease%20share%20details%20about%3A%0A%E2%80%A2%20Available%20rooms%20%26%20rent%0A%E2%80%A2%20Facilities%20%26%20amenities%0A%E2%80%A2%20Move-in%20dates%0A%E2%80%A2%20Security%20deposit%0A%0AThank%20you!"
+            target="_blank" rel="noopener noreferrer" class="portal-option">
+            <div class="po-icon bg-green-50 text-green-500">
+              <i class="fab fa-whatsapp text-lg"></i>
+            </div>
+            <div class="po-info">
+              🟢 WhatsApp
+              <small>Chat with us instantly</small>
+            </div>
+          </a>
+          <a href="https://instagram.com/anvistay" target="_blank" rel="noopener noreferrer" class="portal-option">
+            <div class="po-icon bg-pink-50 text-pink-500">
+              <i class="fab fa-instagram text-lg"></i>
+            </div>
+            <div class="po-info">
+              📸 Instagram
+              <small>Follow us @anvistay</small>
+            </div>
+          </a>
+          <a href="#contact" class="portal-option" onclick="closeAllMenus()">
+            <div class="po-icon bg-amber-50 text-amber-600">
+              <i class="fas fa-paper-plane text-sm"></i>
+            </div>
+            <div class="po-info">
+              ✉️ Send a Message
+              <small>Get a callback within 2 hours</small>
+            </div>
+          </a>
+          <a href="mailto:anvistay.official@gmail.com" class="portal-option">
+            <div class="po-icon bg-blue-50 text-blue-500">
+              <i class="fas fa-envelope text-sm"></i>
+            </div>
+            <div class="po-info">
+              📬 Direct Email
+              <small>anvistay.official@gmail.com</small>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Button (Inside Header) -->
+    <button id="mobile-menu-btn" onclick="toggleMobileMenu(this)"
+      class="md:hidden w-11 h-11 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center justify-center gap-1.5 active:scale-95 transition-all duration-300 z-[2000]"
+      aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="ham-line line-1" style="display: block; width: 22px; height: 2px; background: #1e293b; border-radius: 2px;"></span>
+      <span class="ham-line line-2" style="display: block; width: 22px; height: 2px; background: #1e293b; border-radius: 2px;"></span>
+      <span class="ham-line line-3" style="display: block; width: 22px; height: 2px; background: #1e293b; border-radius: 2px;"></span>
+    </button>
+  </nav>
+</header>

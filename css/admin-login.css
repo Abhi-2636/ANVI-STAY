@@ -1,0 +1,34 @@
+      @keyframes adminPulseRing {
+
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+
+        50% {
+          transform: scale(1.1);
+          opacity: 0.4;
+        }
+      }
+
+      @keyframes float1 {
+
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+
+        25% {
+          transform: translateY(-20px) translateX(10px);
+        }
+
+        75% {
+          transform: translateY(15px) translateX(-8px);
+        }
+      }
+
+      #view-admin-login input::placeholder {
+        color: rgba(255, 255, 255, 0.18);
+        font-weight: 600;
+      }

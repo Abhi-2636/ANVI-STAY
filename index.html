@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" style="margin: 0; padding: 0;">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anvi Stay - We Listen, We Care, You Stay | Student Housing near LPU</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description"
+    content="ANVI STAY provides premium student housing near LPU. Fully furnished PGs with Wi-Fi, security, housekeeping, and more. We Listen, We Care, You Stay." />
+  <meta name="keywords"
+    content="ANVI STAY, PG near LPU, student housing, paying guest, LPU accommodation, furnished rooms, Phagwara PG" />
+  <meta name="author" content="ANVI STAY" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://anvistay.com/" />
+  <meta property="og:title" content="ANVI STAY – Premium Student Housing near LPU" />
+  <meta property="og:description"
+    content="We Listen, We Care, You Stay. Fully furnished PG accommodations near LPU campus with Wi-Fi, CCTV, housekeeping and more." />
+  <meta property="og:image" content="assets/img/logo.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:title" content="ANVI STAY – Student Housing near LPU" />
+  <meta property="twitter:description"
+    content="Premium PG accommodations for students near LPU. Furnished rooms, Wi-Fi, security, and more." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#c8a24a" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="ANVI STAY" />
+  <link rel="apple-touch-icon" href="assets/img/logo.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/img/logo.png" />
+
+  <!-- Tailwind Output (Replaced CDN) -->
+  <link rel="stylesheet" href="css/output.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- Custom Styles (Overriding Tailwind) -->
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Admin Login Styles -->
+  <link rel="stylesheet" href="css/admin-login.css" />
+  <!-- Global Image Fixer -->
+  <script>
+    window.addEventListener('error', function (e) {
+      if (e.target.tagName === 'IMG') {
+        const src = e.target.getAttribute('src');
+        if (src && src.startsWith('photo-')) {
+          e.target.src = 'https://images.unsplash.com/' + src + '?q=80&w=800';
+          return;
+        }
+        // Fallback for completely broken images
+        if (src && !src.includes('logo.png')) {
+          e.target.src = 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?q=80&w=800';
+        }
+      }
+    }, true);
+  </script>
+</head>
+
+<body class="m-0 p-0"
+  style="margin: 0; padding: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;">
+
+  <!-- Global Custom Cursor -->
+  <div id="cursor-dot" class="custom-cursor-dot"></div>
+  <div id="cursor-ring" class="custom-cursor-ring"></div>
+
+  <!-- Premium Preloader -->
+  <div id="preloader"
+    class="fixed inset-0 bg-white z-[9999] flex flex-col items-center justify-center transition-all duration-700">
+    <div class="relative flex flex-col items-center">
+      <!-- Animated Logo Ring -->
+      <div class="w-24 h-24 mb-6 relative flex items-center justify-center">
+        <svg class="absolute inset-0 w-full h-full animate-[spin_4s_linear_infinite]" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#f8fafc" stroke-width="2" />
+          <circle cx="50" cy="50" r="48" fill="none" stroke="#C8A24A" stroke-width="3" stroke-dasharray="100 200"
+            stroke-linecap="round" />
+        </svg>
+        <svg class="absolute inset-0 w-full h-full animate-[spin_3s_linear_infinite_reverse]" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#f8fafc" stroke-width="1" />
+          <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="50 250"
+            stroke-linecap="round" />
+        </svg>
+        <img src="assets/img/logo.png" alt="Logo" class="w-12 h-12 relative z-10 animate-pulse-slow object-contain"
+          onerror="this.src='logo.png'; this.onerror=function(){this.style.display='none'; document.getElementById('preloader-fallback-icon').style.display='block';}" />
+        <i class="fas fa-building text-3xl text-[#C8A24A] relative z-10" style="display: none;"
+          id="preloader-fallback-icon"></i>
+      </div>
+      <script>
+        document.querySelector('#preloader img').addEventListener('error', function () {
+          document.getElementById('preloader-fallback-icon').style.display = 'block';
+        });
+      </script>
+
+      <h2 class="text-3xl font-black text-[#C8A24A] tracking-tighter fade-in-up">ANVI STAY</h2>
+      <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em] mt-3 fade-in-up"
+        style="animation-delay: 0.2s">We Listen • We Care • You Stay</p>
+
+      <!-- Loading Bar -->
+      <div class="w-48 h-1 bg-slate-100 rounded-full mt-8 overflow-hidden fade-in-up" style="animation-delay: 0.4s">
+        <div class="h-full bg-gradient-to-r from-[#C8A24A] to-emerald-400 rounded-full animate-progress-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation (loaded from pages/header.html) -->
+  <div id="include-header"></div>
+
+  <main class="w-full flex flex-col min-h-screen">
+    <!-- Page Views (loaded from pages/*.html) -->
+    <div id="include-landing"></div>
+    <div id="include-about"></div>
+    <div id="include-terms"></div>
+    <div id="include-privacy"></div>
+    <div id="include-tos"></div>
+    <div id="include-tenant"></div>
+    <div id="include-admin-login"></div>
+    <div id="include-landlord"></div>
+  </main>
+
+  <!-- Global Footer -->
+  <div id="include-footer"></div>
+
+  <!-- Overlays - Drawer, Contact Modal, Room Detail -->
+  <div id="include-overlays"></div>
+
+  <!-- Glassmorphic Global Toast -->
+  <div id="toast"
+    class="fixed bottom-6 right-6 sm:bottom-10 sm:right-10 z-[99999] opacity-0 pointer-events-none transition-all duration-500 translate-y-10 flex flex-col gap-3">
+    <!-- Toasts will be injected here -->
+  </div>
+
+  <!-- HTML Include Loader -->
+  <script>
+    // Load all HTML partials then initialize the app
+    const includes = [
+      { id: 'include-header', src: 'pages/header.html' },
+      { id: 'include-landing', src: 'pages/landing.html' },
+      { id: 'include-about', src: 'pages/about.html' },
+      { id: 'include-terms', src: 'pages/terms.html' },
+      { id: 'include-privacy', src: 'pages/privacy.html' },
+      { id: 'include-tos', src: 'pages/tos.html' },
+      { id: 'include-tenant', src: 'pages/tenant.html' },
+      { id: 'include-admin-login', src: 'pages/admin-login.html' },
+      { id: 'include-landlord', src: 'pages/landlord.html' },
+      { id: 'include-footer', src: 'pages/footer.html' },
+      { id: 'include-overlays', src: 'pages/overlays.html' },
+    ];
+
+    async function loadIncludes() {
+      const promises = includes.map(async ({ id, src }) => {
+        try {
+          const resp = await fetch(src);
+          if (!resp.ok) throw new Error(`Failed to load ${src}: ${resp.status}`);
+          const html = await resp.text();
+          const el = document.getElementById(id);
+          if (el) {
+            el.outerHTML = html;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      await Promise.all(promises);
+
+      // After all HTML is loaded, load the main app script
+      const appScript = document.createElement('script');
+      appScript.type = 'module';
+      appScript.src = 'js/app.js?v=' + new Date().getTime();
+      document.body.appendChild(appScript);
+
+      // Developer profile page
+      const devScript = document.createElement('script');
+      devScript.src = 'js/developer.js';
+      document.body.appendChild(devScript);
+    }
+
+    loadIncludes();
+  </script>
+
+  <!-- Register Service Worker for PWA -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('[SW] Registered:', reg.scope))
+          .catch(err => console.warn('[SW] Registration failed:', err));
+      });
+    }
+  </script>
+
+  <!-- Preloader logic & Safe Hide -->
+  <script>
+    function forceHidePreloader() {
+      const pr = document.getElementById("preloader");
+      if (pr) {
+        // Circular clip-path reveal animation
+        pr.style.clipPath = 'circle(150% at 50% 50%)';
+        setTimeout(() => {
+          pr.style.clipPath = 'circle(0% at 50% 50%)';
+          pr.style.opacity = '0';
+        }, 50);
+
+        setTimeout(() => {
+          try { pr.remove(); } catch (e) { }
+        }, 800);
+      }
+    }
+    window.addEventListener("load", () => {
+      setTimeout(forceHidePreloader, 1500); // Give the new animation time to play
+    });
+    setTimeout(forceHidePreloader, 4000); // Failsafe
+    window.addEventListener("error", forceHidePreloader);
+    window.addEventListener("unhandledrejection", forceHidePreloader);
+  </script>
+
+</body>
+
+</html>
