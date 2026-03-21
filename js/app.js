@@ -9190,47 +9190,7 @@ window.fetchTenantDashboard = async function () {
   const dash = byId("tenant-dash");
   if (!dash || dash.classList.contains("hidden")) return;
 
-  // #9: Insert Quick Actions after the welcome card
-  const welcomeCard = dash.querySelector(".welcome-card-ref");
-  if (welcomeCard && !dash.querySelector("#tenant-quick-actions")) {
-    const quickActionsHtml = `
-      <div id="tenant-quick-actions" class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 sm:mb-8">
-        <button onclick="document.querySelector('#tenant-complaint-section')?.scrollIntoView({behavior:'smooth'})"
-          class="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all group">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-rose-50 to-rose-100 flex items-center justify-center group-hover:scale-110 transition">
-            <i class="fas fa-wrench text-rose-500"></i>
-          </div>
-          <p class="text-xs font-black text-slate-700">Request</p>
-          <p class="text-[9px] font-bold text-slate-400">Maintenance</p>
-        </button>
-        <button onclick="document.querySelector('#tenant-billing-section')?.scrollIntoView({behavior:'smooth'})"
-          class="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all group">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center group-hover:scale-110 transition">
-            <i class="fas fa-indian-rupee-sign text-emerald-500"></i>
-          </div>
-          <p class="text-xs font-black text-slate-700">Pay Rent</p>
-          <p class="text-[9px] font-bold text-slate-400">View Bills</p>
-        </button>
-        <button onclick="document.querySelector('#tenant-payment-timeline')?.scrollIntoView({behavior:'smooth'})"
-          class="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all group">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-violet-50 to-violet-100 flex items-center justify-center group-hover:scale-110 transition">
-            <i class="fas fa-receipt text-violet-500"></i>
-          </div>
-          <p class="text-xs font-black text-slate-700">Receipts</p>
-          <p class="text-[9px] font-bold text-slate-400">History</p>
-        </button>
-        <a href="https://wa.me/919142272776" target="_blank" rel="noopener noreferrer"
-          class="bg-white border border-slate-100 rounded-2xl p-4 sm:p-5 text-center hover:shadow-lg hover:-translate-y-1 transition-all group no-underline">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center group-hover:scale-110 transition">
-            <i class="fab fa-whatsapp text-green-500 text-lg"></i>
-          </div>
-          <p class="text-xs font-black text-slate-700">Support</p>
-          <p class="text-[9px] font-bold text-slate-400">WhatsApp</p>
-        </a>
-      </div>
-    `;
-    welcomeCard.insertAdjacentHTML("afterend", quickActionsHtml);
-  }
+  // #9: Quick Actions removed per user request
 
   // #10: Add Payment Timeline
   const billingSection = dash
