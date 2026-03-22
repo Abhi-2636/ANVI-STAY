@@ -2347,11 +2347,6 @@ window.fetchTenantDashboard = async () => {
     const dueColor =
       dueProgress > 75 ? "#ef4444" : dueProgress > 50 ? "#f59e0b" : "#10b981";
 
-    // Next rent date (Due by the 5th of each month, billing cycle resets on 20th)
-    const dueMonth = today.getDate() >= 20 ? today.getMonth() + 1 : today.getMonth();
-    const nextRentDate = new Date(today.getFullYear(), dueMonth, 5);
-    const nextRentStr = nextRentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
-
     // DiceBear avatar URL
     const avatarUrl = `https://api.dicebear.com/7.x/thumbs/svg?seed=${encodeURIComponent(t.name || rno)}&backgroundColor=c0aede,d1d4f9,b6e3f4,ffd5dc&radius=50`;
 
@@ -2434,15 +2429,6 @@ window.fetchTenantDashboard = async () => {
                   <p class="text-white font-bold text-sm sm:text-base">${t.name || "Not Set"}</p>
                 </div>
                 ${(t.paymentHistory || []).filter((p) => p.type === "rent").length >= 3 ? '<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>' : ""}
-              </div>
-              <div class="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5">
-                <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-                  <i class="fas fa-calendar-check text-indigo-300 text-sm"></i>
-                </div>
-                <div>
-                  <p class="text-[9px] font-black uppercase tracking-widest text-indigo-200">Next Rent Date</p>
-                  <p class="text-sm font-bold text-white">${nextRentStr}</p>
-                </div>
               </div>
               ${!t.rentPaid
         ? `
