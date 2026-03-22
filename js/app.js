@@ -739,13 +739,16 @@ function initRouting() {
     return;
   } 
   
-  // 2. If we have a saved tenant login and no specific non-tenant route, auto-login tenant
-  if (savedTenantLogin && (!route || route === "tenant" || route === "landing")) {
+  // 2. If we have a saved tenant login, auto-login but stay on landing by default
+  if (savedTenantLogin) {
     try {
       state.tenantLogin = JSON.parse(savedTenantLogin);
-      switchView("tenant");
-      fetchTenantDashboard(); // Trigger actual data fetch
-      return;
+      fetchTenantDashboard(); // Background fetch
+      if (route === "tenant") {
+        switchView("tenant");
+        return;
+      }
+      // Stay on landing/current route
     } catch (e) {
       localStorage.removeItem("anvi_tenant_login");
     }
@@ -2215,32 +2218,16 @@ window.fetchTenantDashboard = async () => {
       return;
     }
 
-    // ── Success! Now show skeleton while we render the dashboard ──
+    // ── Success! Now hide login and go to main home page ──
     if (loginForm && !state.tenantLogin) {
       loginForm.classList.add("hidden");
-      // Force home tab state (feature request: login always goes to home)
+      toast("✅ Welcome back! You are now logged in.", 3000);
+      
+      // Auto-switch to home tab of dashboard for whenever they do open it
       switchTenantTab("home");
-      dash.classList.remove("hidden");
-      if (bottomNav) bottomNav.classList.remove("hidden");
-      dash.classList.add("dashboard-enter");
-
-      dash.innerHTML = `
-        <div class="space-y-6 sm:space-y-10">
-          <div class="flex justify-end mb-4"><div class="w-12 h-12 rounded-xl skeleton-box"></div></div>
-          <div class="h-40 sm:h-56 rounded-[2rem] sm:rounded-[2.5rem] w-full skeleton-box"></div>
-          <div class="h-64 sm:h-80 rounded-[2rem] w-full skeleton-box"></div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
-            <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
-            <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
-            <div class="h-28 sm:h-36 rounded-2xl skeleton-box"></div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="h-[400px] rounded-[2rem] skeleton-box"></div>
-            <div class="h-[400px] rounded-[2rem] skeleton-box"></div>
-          </div>
-        </div>
-      `;
+      
+      // Feature Req: Redirect to main home page after login
+      switchView("landing");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
