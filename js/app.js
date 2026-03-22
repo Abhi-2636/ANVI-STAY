@@ -1836,6 +1836,12 @@ window.tenantLogout = () => {
     if (dash.parentElement) dash.parentElement.classList.remove("dashboard-enter");
     dash.innerHTML = "";
   }
+  // Also hide sub-pages
+  ["tenant-maintenance-page", "tenant-pay-page", "tenant-profile-page"].forEach(id => {
+    const el = byId(id);
+    if (el) { el.classList.add("hidden"); el.innerHTML = ""; }
+  });
+
   if (loginForm) {
     loginForm.classList.remove("hidden");
   }
@@ -2212,6 +2218,8 @@ window.fetchTenantDashboard = async () => {
     // ── Success! Now show skeleton while we render the dashboard ──
     if (loginForm && !state.tenantLogin) {
       loginForm.classList.add("hidden");
+      // Force home tab state (feature request: login always goes to home)
+      switchTenantTab("home");
       dash.classList.remove("hidden");
       if (bottomNav) bottomNav.classList.remove("hidden");
       dash.classList.add("dashboard-enter");
@@ -2467,20 +2475,6 @@ window.fetchTenantDashboard = async () => {
           </div>
         </div>
 
-
-
-        <!-- Emergency Contacts -->
-        <div class="mt-8 bg-gradient-to-r from-slate-800 to-slate-900 rounded-[2rem] p-6 sm:p-8 text-white relative overflow-hidden">
-          <div class="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-[50px]"></div>
-          <div class="relative z-10">
-            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"><i class="fas fa-phone-alt mr-1"></i> Quick Connect</p>
-            <p class="text-sm text-slate-300 mb-4">You can reach the admin directly for any serious situations.</p>
-            <a href="https://wa.me/919142272776?text=${encodeURIComponent('Hi Administrator,')}" target="_blank" 
-              class="inline-flex items-center gap-2 px-5 py-3 bg-emerald-500 hover:bg-emerald-600 rounded-xl font-bold text-sm transition-all shadow-lg shadow-emerald-500/20 active:scale-95">
-              <i class="fab fa-whatsapp text-lg"></i> Send WhatsApp Message
-            </a>
-          </div>
-        </div>
       `;
 
     const payPage = byId("tenant-pay-page");
