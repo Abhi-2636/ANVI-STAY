@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ANVI STAY – Project Presentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c8a24a;--gold2:#e8c94a;--emerald:#10b981;--navy:#0b1120;--navy2:#111827;
+  --slate:#1e293b;--slate2:#334155;--muted:#94a3b8;--white:#f1f5f9;
+  --red:#ef4444;--blue:#6366f1;
+}
+html,body{height:100%;overflow:hidden;font-family:'Poppins',sans-serif;background:var(--navy);color:var(--white)}
+
+/* ── SLIDE CONTAINER ── */
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px;opacity:0;pointer-events:none;transition:opacity .5s ease,transform .5s ease;transform:translateX(60px)}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-60px)}
+
+/* ── NAV ── */
+.nav{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;z-index:100;background:rgba(30,41,59,.8);backdrop-filter:blur(12px);border:1px solid rgba(200,162,74,.2);border-radius:50px;padding:12px 24px}
+.nav button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:6px 12px;border-radius:20px;transition:.2s;font-family:'Poppins',sans-serif}
+.nav button:hover{color:var(--gold);background:rgba(200,162,74,.1)}
+.slide-num{color:var(--gold);font-weight:700;font-size:14px;min-width:60px;text-align:center}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--emerald));transition:width .4s ease;z-index:200}
+.slide-counter{position:fixed;top:16px;right:24px;color:var(--muted);font-size:13px;z-index:100}
+
+/* ── TYPOGRAPHY ── */
+.slide-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,52px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;text-align:center}
+.slide-subtitle{color:var(--muted);font-size:clamp(13px,1.5vw,17px);text-align:center;margin-bottom:32px;font-weight:300}
+.section-badge{display:inline-block;background:linear-gradient(135deg,rgba(200,162,74,.15),rgba(200,162,74,.05));border:1px solid rgba(200,162,74,.3);color:var(--gold);font-size:11px;font-weight:700;letter-spacing:2px;padding:4px 14px;border-radius:20px;margin-bottom:16px;text-transform:uppercase}
+
+/* ── BACKGROUNDS ── */
+.bg-grid{background-image:linear-gradient(rgba(200,162,74,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(200,162,74,.03) 1px,transparent 1px);background-size:40px 40px}
+.bg-glow::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(200,162,74,.06),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+
+/* ── CARDS ── */
+.card{background:rgba(30,41,59,.6);border:1px solid rgba(200,162,74,.12);border-radius:16px;padding:20px;backdrop-filter:blur(8px)}
+.card-gold{border-color:rgba(200,162,74,.4);background:rgba(200,162,74,.05)}
+.card-emerald{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.05)}
+.card-red{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.05)}
+.card-blue{border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.05)}
+
+/* ── GRID UTILS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%}
+.grid-4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;width:100%}
+
+/* ── TAGS / BADGES ── */
+.tag{display:inline-block;background:rgba(200,162,74,.15);border:1px solid rgba(200,162,74,.3);color:var(--gold);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+.tag-green{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3);color:var(--emerald)}
+.tag-blue{background:rgba(99,102,241,.15);border-color:rgba(99,102,241,.3);color:#818cf8}
+.tag-red{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.3);color:#f87171}
+
+/* ── MERMAID ── */
+.mermaid-wrap{background:rgba(15,23,42,.8);border:1px solid rgba(200,162,74,.15);border-radius:12px;padding:20px;width:100%;overflow:auto}
+.mermaid{font-size:11px!important}
+
+/* ── CODE BLOCK ── */
+pre{background:rgba(15,23,42,.9);border:1px solid rgba(200,162,74,.2);border-radius:12px;padding:20px;font-family:'JetBrains Mono',monospace;font-size:12px;overflow:auto;color:#e2e8f0;line-height:1.6;width:100%}
+pre .c{color:#64748b}
+pre .k{color:#c8a24a}
+pre .s{color:#10b981}
+pre .n{color:#818cf8}
+
+/* ── TABLE ── */
+.table-wrap{width:100%;overflow:auto;max-height:380px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:rgba(200,162,74,.1);color:var(--gold);padding:10px 12px;text-align:left;font-weight:700;border-bottom:1px solid rgba(200,162,74,.2)}
+td{padding:8px 12px;border-bottom:1px solid rgba(200,162,74,.06);color:var(--white);vertical-align:top}
+tr:hover td{background:rgba(200,162,74,.04)}
+
+/* ── FLOW ITEM ── */
+.flow-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:10px;background:rgba(30,41,59,.4);border:1px solid rgba(200,162,74,.08)}
+.flow-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#000;font-weight:900;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── STAT ── */
+.stat{text-align:center;padding:20px}
+.stat-num{font-family:'Playfair Display',serif;font-size:clamp(32px,4vw,52px);font-weight:900;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{color:var(--muted);font-size:13px;margin-top:4px}
+
+/* ── ICON ── */
+.icon{font-size:24px;margin-bottom:8px}
+
+/* ── TIMELINE ── */
+.timeline{display:flex;flex-direction:column;gap:0;width:100%}
+.timeline-item{display:flex;gap:16px;position:relative;padding-bottom:16px}
+.timeline-item:not(:last-child)::before{content:'';position:absolute;left:15px;top:32px;width:2px;height:calc(100% - 16px);background:linear-gradient(180deg,var(--gold),rgba(200,162,74,.1))}
+.timeline-dot{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.timeline-content{flex:1}
+
+/* ── FILE TREE ── */
+.tree{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:2;background:rgba(15,23,42,.9);border:1px solid rgba(200,162,74,.15);border-radius:12px;padding:20px;overflow:auto;max-height:420px}
+.tree .dir{color:var(--gold);font-weight:700}
+.tree .file{color:#94a3b8}
+.tree .file.js{color:#10b981}
+.tree .file.html{color:#f59e0b}
+.tree .file.json{color:#818cf8}
+.tree .file.css{color:#38bdf8}
+.tree .file.md{color:#e879f9}
+.tree .comment{color:#475569;font-style:italic}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.pulse{animation:pulse 2s infinite}
+.float{animation:float 3s ease-in-out infinite}
+
+/* ── KBD ── */
+kbd{display:inline-block;background:rgba(30,41,59,.8);border:1px solid rgba(200,162,74,.3);border-radius:6px;padding:2px 8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="slide-counter" id="counter">1 / 25</div>
+
+<div class="deck" id="deck">
+
+<!-- ████ SLIDE 1: TITLE ████ -->
+<div class="slide active bg-grid bg-glow" id="s1">
+  <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 30% 20%,rgba(200,162,74,.08),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(16,185,129,.06),transparent 60%)"></div>
+  <div style="position:relative;text-align:center;max-width:800px">
+    <div style="width:80px;height:80px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px;box-shadow:0 0 40px rgba(200,162,74,.3)">🏠</div>
+    <div class="section-badge">Student Housing Platform</div>
+    <h1 class="slide-title" style="font-size:clamp(40px,6vw,72px);margin-top:8px">ANVI STAY</h1>
+    <p style="color:var(--gold);font-style:italic;font-size:18px;margin-bottom:24px">"We Listen, We Care, You Stay"</p>
+    <p style="color:var(--muted);font-size:15px;max-width:560px;margin:0 auto 32px;line-height:1.7">A Next-Generation Full-Stack PG Management Platform for Student Housing near Lovely Professional University, Phagwara</p>
+    <div class="grid-4" style="max-width:640px;margin:0 auto">
+      <div class="card" style="text-align:center;padding:14px"><div style="font-size:20px">🏠</div><div style="font-size:11px;color:var(--muted);margin-top:4px">90+ Rooms</div></div>
+      <div class="card" style="text-align:center;padding:14px"><div style="font-size:20px">🏢</div><div style="font-size:11px;color:var(--muted);margin-top:4px">9 Buildings</div></div>
+      <div class="card" style="text-align:center;padding:14px"><div style="font-size:20px">🎓</div><div style="font-size:11px;color:var(--muted);margin-top:4px">500+ Students</div></div>
+      <div class="card" style="text-align:center;padding:14px"><div style="font-size:20px">📅</div><div style="font-size:11px;color:var(--muted);margin-top:4px">4+ Years</div></div>
+    </div>
+    <p style="color:var(--slate2);font-size:12px;margin-top:28px">Developed by <span style="color:var(--gold);font-weight:600">Abhishek Kumar</span> &nbsp;·&nbsp; HTML · Tailwind · JS · Node.js · Express · MongoDB</p>
+  </div>
+</div>
+
+<!-- ████ SLIDE 2: PROBLEM ████ -->
+<div class="slide bg-grid" id="s2">
+  <div class="section-badge">The Problem</div>
+  <h2 class="slide-title">What's Broken in Student Housing?</h2>
+  <p class="slide-subtitle">6 critical pain points faced by students & landlords near LPU</p>
+  <div class="grid-3" style="max-width:900px">
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">❌</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">No Central Platform</div><div style="color:var(--muted);font-size:12px">Students waste days visiting random PGs with no verified listings</div></div>
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">💸</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">Cash-Only Rent</div><div style="color:var(--muted);font-size:12px">Manual collection, no receipts, no records — revenue leakage</div></div>
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">🙈</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">Zero Transparency</div><div style="color:var(--muted);font-size:12px">Tenants blind to their dues, electricity charges, payment history</div></div>
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">🗂️</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">Lost Complaints</div><div style="color:var(--muted);font-size:12px">Maintenance reported verbally, forgotten, never resolved</div></div>
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">📄</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">Paper Agreements</div><div style="color:var(--muted);font-size:12px">No digital contracts, easily disputed or misplaced</div></div>
+    <div class="card card-red"><div style="font-size:24px;margin-bottom:8px">📊</div><div style="font-weight:700;color:#f87171;font-size:14px;margin-bottom:6px">Landlord Chaos</div><div style="color:var(--muted);font-size:12px">90+ rooms across 9 buildings managed via outdated spreadsheets</div></div>
+  </div>
+</div>
+
+<!-- ████ SLIDE 3: SOLUTION ████ -->
+<div class="slide bg-grid" id="s3">
+  <div class="section-badge">The Solution</div>
+  <h2 class="slide-title">ANVI STAY — One Platform, Everything Solved</h2>
+  <p class="slide-subtitle">Digital ecosystem for students and landlords</p>
+  <div class="grid-2" style="max-width:900px;gap:24px">
+    <div class="card card-gold">
+      <div style="font-weight:700;color:var(--gold);margin-bottom:14px;font-size:15px">👤 For Students / Tenants</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> Browse verified properties online</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> Submit UPI payments with screenshot</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> File complaints with photo evidence</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> Sign agreements digitally</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> View full payment history</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> Register guests from portal</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> Install as mobile app (PWA)</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--emerald)">✅</span> WhatsApp instant connect</div>
+      </div>
+    </div>
+    <div class="card card-emerald">
+      <div style="font-weight:700;color:var(--emerald);margin-bottom:14px;font-size:15px">👔 For Landlords / Admins</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Centralized multi-building dashboard</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Automated monthly billing generation</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> UPI payment verification one-click</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Revenue analytics & forecasting</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Maintenance ticket management</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Digital agreement lifecycle</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> WhatsApp auto-reminders & receipts</div>
+        <div style="display:flex;gap:8px;align-items:center;font-size:13px"><span style="color:var(--gold)">✅</span> Immutable audit trail</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ SLIDE 4: TECH STACK ████ -->
+<div class="slide bg-grid" id="s4">
+  <div class="section-badge">Technology Stack</div>
+  <h2 class="slide-title">What Powers ANVI STAY</h2>
+  <p class="slide-subtitle">20+ production-grade libraries across 5 layers</p>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:900px;width:100%">
+    <div class="card" style="display:flex;align-items:center;gap:16px">
+      <div class="tag">Frontend</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="tag tag-blue">HTML5</span><span class="tag tag-blue">Tailwind CSS</span><span class="tag tag-blue">Vanilla JS ES6</span><span class="tag tag-blue">Font Awesome</span><span class="tag tag-blue">Google Fonts</span><span class="tag tag-blue">Service Worker (PWA)</span>
+      </div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:16px">
+      <div class="tag">Backend</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="tag tag-green">Node.js ≥18</span><span class="tag tag-green">Express.js 4.x</span><span class="tag tag-green">Mongoose 8.x</span><span class="tag tag-green">Nodemailer</span><span class="tag tag-green">Node-Cron</span><span class="tag tag-green">Multer</span>
+      </div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:16px">
+      <div class="tag">Database</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="tag tag-green">MongoDB Atlas</span><span class="tag" style="background:rgba(200,162,74,.1);border-color:rgba(200,162,74,.3);color:var(--gold)">13 Collections</span>
+      </div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:16px">
+      <div class="tag tag-red">Security</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="tag tag-red">Helmet</span><span class="tag tag-red">CORS</span><span class="tag tag-red">express-rate-limit</span><span class="tag tag-red">mongo-sanitize</span><span class="tag tag-red">xss-clean</span><span class="tag tag-red">hpp</span><span class="tag tag-red">bcryptjs</span><span class="tag tag-red">JWT</span><span class="tag tag-red">CryptoJS AES</span><span class="tag tag-red">Speakeasy 2FA</span>
+      </div>
+    </div>
+    <div class="card" style="display:flex;align-items:center;gap:16px">
+      <div class="tag tag-blue">Docs/DevOps</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <span class="tag tag-blue">Swagger OpenAPI 3.0</span><span class="tag tag-blue">Git + GitHub</span><span class="tag tag-blue">Vercel</span><span class="tag tag-blue">Nodemon</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ SLIDE 5: CODE STRUCTURE ████ -->
+<div class="slide bg-grid" id="s5">
+  <div class="section-badge">Code Structure</div>
+  <h2 class="slide-title">Project Directory Structure</h2>
+  <p class="slide-subtitle">Full-stack monorepo with clean separation of concerns</p>
+  <div class="grid-2" style="max-width:960px;gap:20px;align-items:start">
+    <div class="tree">
+<span class="dir">📁 ANVI STAY/  <span class="comment"># Root</span></span>
+<span class="file html">├── INDEX.HTML       <span class="comment"># SPA shell</span></span>
+<span class="file js">├── sw.js            <span class="comment"># Service Worker</span></span>
+<span class="file json">├── manifest.json    <span class="comment"># PWA config</span></span>
+<span class="file js">├── tailwind.config.js</span>
+<span class="dir">├── 📁 pages/        <span class="comment"># HTML partials (13)</span></span>
+<span class="file html">│   ├── landing.html <span class="comment"># 72KB hero page</span></span>
+<span class="file html">│   ├── landlord.html<span class="comment"># 71KB admin dash</span></span>
+<span class="file html">│   ├── overlays.html<span class="comment"># 54KB modals</span></span>
+<span class="file html">│   ├── tenant.html  <span class="comment"># tenant portal</span></span>
+<span class="file html">│   ├── admin-login.html</span>
+<span class="file html">│   ├── header.html  footer.html</span>
+<span class="file html">│   └── about terms privacy tos</span>
+<span class="dir">├── 📁 js/           <span class="comment"># Frontend JS</span></span>
+<span class="file js">│   ├── app.js       <span class="comment"># 508KB bundle</span></span>
+<span class="file js">│   ├── developer.js <span class="comment"># 33KB</span></span>
+<span class="file js">│   ├── 📁 admin/   <span class="comment"># admin modules</span></span>
+<span class="file js">│   ├── 📁 tenant/  <span class="comment"># tenant modules</span></span>
+<span class="file js">│   └── 📁 utils/   <span class="comment"># shared utils</span></span>
+<span class="dir">└── 📁 css/          <span class="comment"># Stylesheets</span></span>
+<span class="file css">    ├── styles.css   <span class="comment"># 158KB custom</span></span>
+<span class="file css">    └── output.css   <span class="comment"># 235KB Tailwind</span></span>
+    </div>
+    <div class="tree">
+<span class="dir">📁 backend/      <span class="comment"># Node.js API</span></span>
+<span class="file js">├── server.js    <span class="comment"># Entry (294 lines)</span></span>
+<span class="file js">├── cronJobs.js  <span class="comment"># 3 auto tasks</span></span>
+<span class="file js">├── seed.js      <span class="comment"># DB seeder</span></span>
+<span class="file json">├── package.json <span class="comment"># 20+ deps</span></span>
+<span class="dir">├── 📁 models/   <span class="comment"># Mongoose (13)</span></span>
+<span class="file js">│   ├── Room.js       <span class="comment"># 30+ fields</span></span>
+<span class="file js">│   ├── Admin.js      <span class="comment"># 2FA + JIT</span></span>
+<span class="file js">│   ├── Billing.js    Booking.js</span>
+<span class="file js">│   ├── Maintenance.js Agreement.js</span>
+<span class="file js">│   ├── Housekeeping.js Notice.js</span>
+<span class="file js">│   ├── Visitor.js  Guest.js</span>
+<span class="file js">│   ├── AuditLog.js Config.js</span>
+<span class="file js">│   └── BlacklistedIP.js</span>
+<span class="dir">├── 📁 controllers/ <span class="comment"># Business Logic</span></span>
+<span class="file js">│   ├── roomController.js  <span class="comment"># 38KB</span></span>
+<span class="file js">│   ├── adminController.js <span class="comment"># 16KB</span></span>
+<span class="file js">│   ├── emailController.js <span class="comment"># 4 templates</span></span>
+<span class="file js">│   └── 10 more controllers</span>
+<span class="dir">├── 📁 routes/   <span class="comment"># Express routes (13)</span></span>
+<span class="dir">├── 📁 middleware/</span>
+<span class="file js">│   ├── auth.js      <span class="comment"># JWT + JIT</span></span>
+<span class="file js">│   └── ipBlacklist.js</span>
+<span class="dir">└── 📁 utils/</span>
+<span class="file js">    └── whatsapp.js  <span class="comment"># WA integration</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ████ SLIDE 6: ARCHITECTURE ████ -->
+<div class="slide bg-grid" id="s6">
+  <div class="section-badge">System Architecture</div>
+  <h2 class="slide-title">How Everything Connects</h2>
+  <p class="slide-subtitle">Request lifecycle from browser to database</p>
+  <div style="max-width:900px;width:100%">
+    <div class="mermaid-wrap">
+      <div class="mermaid">
+graph LR
+    FE["🖥️ Frontend PWA<br/>HTML + Tailwind + JS"]
+    SW["⚙️ Service Worker<br/>Offline Cache"]
+    SEC["🛡️ Security Middleware Stack<br/>Helmet→CORS→Sanitize→XSS→HPP→IPBlack→RateLimit"]
+    API["🔌 Express REST API<br/>50+ Endpoints / 13 Routes"]
+    DB["🗄️ MongoDB Atlas<br/>13 Collections"]
+    EXT["📱 WhatsApp API<br/>📧 Nodemailer SMTP<br/>🤖 Cron Jobs"]
+
+    FE -->|"Bearer JWT"| SEC
+    SW -.->|"Cache"| FE
+    SEC --> API
+    API --> DB
+    API --> EXT
+      </div>
+    </div>
+    <div class="grid-4" style="margin-top:16px">
+      <div class="card" style="text-align:center;padding:12px"><div style="color:var(--blue);font-size:18px">🖥️</div><div style="font-size:11px;font-weight:700;color:var(--white)">PWA Frontend</div><div style="font-size:10px;color:var(--muted)">HTML · Tailwind · JS</div></div>
+      <div class="card" style="text-align:center;padding:12px"><div style="color:var(--red);font-size:18px">🛡️</div><div style="font-size:11px;font-weight:700;color:var(--white)">7-Layer Security</div><div style="font-size:10px;color:var(--muted)">Every request filtered</div></div>
+      <div class="card" style="text-align:center;padding:12px"><div style="color:var(--gold);font-size:18px">⚙️</div><div style="font-size:11px;font-weight:700;color:var(--white)">Express API</div><div style="font-size:10px;color:var(--muted)">Node.js · 50+ endpoints</div></div>
+      <div class="card" style="text-align:center;padding:12px"><div style="color:var(--emerald);font-size:18px">🗄️</div><div style="font-size:11px;font-weight:700;color:var(--white)">MongoDB Atlas</div><div style="font-size:10px;color:var(--muted)">13 collections · Cloud</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ SLIDE 7: DATABASE ████ -->
+<div class="slide bg-grid" id="s7">
+  <div class="section-badge">Database Design</div>
+  <h2 class="slide-title">13 Collections — Every Detail Captured</h2>
+  <p class="slide-subtitle">MongoDB schema design covering every aspect of PG management</p>
+  <div class="grid-2" style="max-width:940px;gap:20px">
+    <div>
+      <p style="color:var(--gold);font-size:12px;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px">Core Collections</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--gold);font-weight:700;font-size:13px">rooms</span><span style="color:var(--muted);font-size:11px;margin-left:8px">30+ fields, encrypted PII</span></div><span class="tag">Core Entity</span></div>
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--white);font-weight:600;font-size:13px">admins</span><span style="color:var(--muted);font-size:11px;margin-left:8px">2FA, JIT, session control</span></div><span class="tag tag-red">Auth</span></div>
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--white);font-weight:600;font-size:13px">billings</span><span style="color:var(--muted);font-size:11px;margin-left:8px">Monthly auto-generated</span></div><span class="tag tag-green">Finance</span></div>
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--white);font-weight:600;font-size:13px">maintenances</span><span style="color:var(--muted);font-size:11px;margin-left:8px">Cross-building tickets</span></div><span class="tag tag-green">Ops</span></div>
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--white);font-weight:600;font-size:13px">agreements</span><span style="color:var(--muted);font-size:11px;margin-left:8px">E-signature lifecycle</span></div><span class="tag tag-blue">Legal</span></div>
+        <div class="card" style="padding:10px 14px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:var(--white);font-weight:600;font-size:13px">auditlogs</span><span style="color:var(--muted);font-size:11px;margin-left:8px">Immutable, every action</span></div><span class="tag tag-red">Audit</span></div>
+      </div>
+    </div>
+    <div>
+      <p style="color:var(--gold);font-size:12px;font-weight:700;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px">Room Schema Highlights</p>
+      <pre style="font-size:11px;line-height:1.7"><span class="c">// Room.js — 30+ fields grouped:</span>
+<span class="k">Identity:</span>   buildingId, roomNo <span class="c">(compound PK)</span>
+<span class="k">Status:</span>     Vacant | Occupied | Booked
+<span class="k">Tenant:</span>     name, phone, nationality
+<span class="k">Encrypted:</span>  <span class="s">aadhaarNo</span>, <span class="s">passportNo</span> <span class="c">(AES-256)</span>
+<span class="k">Finance:</span>    rentAmount, securityDeposit
+<span class="k">Payments:</span>   pendingPayments[], paymentHistory[]
+<span class="k">Electricity:</span>elecCurrent/Last, invCurrent/Last
+<span class="k">Documents:</span>  aadhaarUrl, universityIdUrl
+<span class="k">Tickets:</span>    maintenance tickets[]
+<span class="k">Complaints:</span> tenant complaints[]
+<span class="k">Clearance:</span>  billsCleared, keysReturned...
+<span class="k">History:</span>    tenantHistory[] <span class="c">(soft archive)</span></pre>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <div class="card" style="padding:8px 12px;display:flex;justify-content:space-between;align-items:center;width:100%"><span style="color:var(--muted);font-size:11px">bookings, housekeepings, visitors, guests, notices, configs, blacklistedips</span><span class="tag">+7 more</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<nav class="nav">
+  <button onclick="go(-1)">← Prev</button>
+  <span class="slide-num" id="slideNum">1 / 25</span>
+  <button onclick="go(1)">Next →</button>
+</nav>
+
+<script>
+mermaid.initialize({startOnLoad:true,theme:'dark',themeVariables:{primaryColor:'#c8a24a',primaryTextColor:'#f1f5f9',primaryBorderColor:'#c8a24a',lineColor:'#94a3b8',secondaryColor:'#1e293b',tertiaryColor:'#0b1120',background:'#0b1120',mainBkg:'#1e293b',nodeBorder:'#c8a24a',clusterBkg:'#111827',titleColor:'#c8a24a',edgeLabelBackground:'#1e293b',attributeBackgroundColorEven:'#111827',attributeBackgroundColorOdd:'#1e293b'}});
+
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+function go(d){
+  slides[cur].classList.remove('active');
+  slides[cur].classList.add('exit');
+  setTimeout(()=>slides[cur].classList.remove('exit'),500);
+  cur=Math.max(0,Math.min(total-1,cur+d));
+  slides[cur].classList.add('active');
+  document.getElementById('slideNum').textContent=(cur+1)+' / '+total;
+  document.getElementById('counter').textContent=(cur+1)+' / '+total;
+  document.getElementById('progress').style.width=((cur+1)/total*100)+'%';
+  mermaid.run({nodes:slides[cur].querySelectorAll('.mermaid')});
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'||e.key===' ')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+document.getElementById('progress').style.width=(1/total*100)+'%';
+</script>
+</body>
+</html>
