@@ -812,60 +812,69 @@ const viewNames = {
 };
 
 window.switchView = (v, fromPopstate = false) => {
-  if (v === "admin-login" && localStorage.getItem("anvi_admin_token")) {
-    v = "landlord";
-  }
-  
-  state.view = v;
-  
-  // Hide all sections
-  document.querySelectorAll(".view-section").forEach((s) => {
-    s.classList.remove("active");
-    // Fallback: manually set display if class toggle isn't enough
-    s.style.display = "none";
-  });
-
-  // Toggle Footer visibility
-  const isPortal = ["tenant", "admin-login", "landlord"].includes(v);
-  const footer = byId("main-footer");
-  if (footer) {
-      footer.style.display = isPortal ? "none" : "block";
-  }
-
-  const target = byId(`view-${v}`);
-  if (target) {
-    target.classList.add("active");
-    // Resolve display property (flex for landing, block for others)
-    if (v === 'landing') {
-        target.style.display = "flex";
-    } else {
-        target.style.display = "block";
+  const performSwitch = () => {
+    if (v === "admin-login" && localStorage.getItem("anvi_admin_token")) {
+      v = "landlord";
     }
     
-    animateView(`view-${v}`);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    console.warn(`[Anvi Stay] View target "view-${v}" not found.`);
-  }
-  
-  // View specific initializations
-  if (v === "landlord") {
-    loadRoomsFromAPI();
-    loadAdminNotices();
-    renderLTabs();
-    renderLandlordGrid();
-    startNotifPolling();
-    updateAdminTopbarDate();
-  }
-  if (v !== "landlord") stopNotifPolling();
-  if (v === "tenant") populateTenantSelectors();
+    state.view = v;
+    
+    // Hide all sections
+    document.querySelectorAll(".view-section").forEach((s) => {
+      s.classList.remove("active");
+      s.style.display = "none";
+    });
 
-  // History API
-  if (!fromPopstate) {
-    if (viewHistory[viewHistory.length - 1] !== v) viewHistory.push(v);
-    history.pushState({ view: v }, "", `#${v}`);
+    // Toggle Footer visibility
+    const isPortal = ["tenant", "admin-login", "landlord"].includes(v);
+    const footer = byId("main-footer");
+    if (footer) {
+        footer.style.display = isPortal ? "none" : "block";
+    }
+
+    const target = byId(`view-${v}`);
+    if (target) {
+      target.classList.add("active");
+      if (v === 'landing') {
+          target.style.display = "flex";
+      } else {
+          target.style.display = "block";
+      }
+      
+      animateView(`view-${v}`);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      console.warn(`[Anvi Stay] View target "view-${v}" not found.`);
+    }
+
+    // View specific initializations
+    if (v === "landlord") {
+      if (typeof loadRoomsFromAPI === "function") loadRoomsFromAPI();
+      if (typeof loadAdminNotices === "function") loadAdminNotices();
+      if (typeof renderLTabs === "function") renderLTabs();
+      if (typeof renderLandlordGrid === "function") renderLandlordGrid();
+      if (typeof startNotifPolling === "function") startNotifPolling();
+      if (typeof updateAdminTopbarDate === "function") updateAdminTopbarDate();
+    }
+    if (v !== "landlord" && typeof stopNotifPolling === "function") stopNotifPolling();
+    if (v === "tenant" && typeof populateTenantSelectors === "function") populateTenantSelectors();
+
+    // History API
+    if (!fromPopstate) {
+      if (typeof viewHistory !== 'undefined' && viewHistory[viewHistory.length - 1] !== v) {
+          viewHistory.push(v);
+      }
+      history.pushState({ view: v }, "", v === "landing" ? "#" : `#${v}`);
+    }
+    
+    updateNavState();
+  };
+
+  if (window.safeSwitchView) {
+    window.safeSwitchView(v, performSwitch);
+  } else {
+    performSwitch();
   }
-  updateNavState();
 };
 
 window.goBack = () => {

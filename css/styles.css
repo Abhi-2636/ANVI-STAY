@@ -7368,3 +7368,78 @@ body.dark-mode .kinetic-text {
   scroll-snap-align: center;
   scroll-snap-stop: always;
 }
+
+/* -------- Ultra-Smooth UX Enhancements -------- */
+
+/* --- Advanced Reveal on Scroll --- */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.reveal-init.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Spatial Card Perspective --- */
+.property-card, .spatial-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform-style: preserve-3d;
+}
+
+.spatial-card:hover {
+  box-shadow: 0 40px 100px -20px rgba(200, 162, 74, 0.15);
+}
+
+/* --- Smooth Momentum Hover Effects --- */
+.magnetic-btn {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+/* --- Modern Glassmorphic Backdrop --- */
+.glass-premium {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* --- View Transitions API Support --- */
+::view-transition-group(root) {
+  animation-duration: 0.5s;
+}
+
+::view-transition-old(root) {
+  animation: 0.5s cubic-bezier(0.16, 1, 0.3, 1) both fade-out, 0.5s cubic-bezier(0.16, 1, 0.3, 1) both slide-to-left;
+}
+
+::view-transition-new(root) {
+  animation: 0.5s cubic-bezier(0.16, 1, 0.3, 1) both fade-in, 0.5s cubic-bezier(0.16, 1, 0.3, 1) both slide-from-right;
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}

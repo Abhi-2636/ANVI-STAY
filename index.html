@@ -186,10 +186,15 @@
       appScript.src = 'js/app.js?v=' + new Date().getTime();
       document.body.appendChild(appScript);
 
-      // Developer profile page
+      // Developers profile page
       const devScript = document.createElement('script');
       devScript.src = 'js/developer.js';
       document.body.appendChild(devScript);
+
+      // Ultra Smooth UX
+      const smoothScript = document.createElement('script');
+      smoothScript.src = 'js/smooth-ux.js?v=' + new Date().getTime();
+      document.body.appendChild(smoothScript);
     }
 
     loadIncludes();
